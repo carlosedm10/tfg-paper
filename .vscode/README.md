@@ -4,15 +4,17 @@ This workspace is designed for writing and managing a LaTeX-based thesis. Here's
 
 ## Getting Started
 
-1. **Structure**
+1. **Use the Workspace**
+   - Open the personalized vscode-workspace config file that you should open for keeping all smooth 😉
+   - Install all of the recommended extensions
+   - Compile main.tex
+
+2. **Structure**
    - The cover of the paper is in `cover.tex`
    - The main thesis document is located in `main.tex`
    - Images and figures go in the `images/` directory
    - Bibliography is managed in `bibliography.bib`
-   - If you use too many abreviations, there is the `capitals.tex` file
-
-2. **Use the Workspace**
-   - There is a personalized vscode-workspace config file that you should open for keeping all smooth 😉
+   - If you use too many abbreviations, there is the `capitals.tex` file
 
 3. **Version Control**
    - The `.gitignore` file is configured to exclude LaTeX build artifacts
