@@ -53,15 +53,20 @@
         "comments": "on",
         "strings": "on",
         "other": "on"
-      }
+      },
+      "editor.formatOnSave": true,
+      "editor.defaultFormatter": "nickfode.latex-formatter",
+
     },
 
     // LaTeX Workshop settings
-    // "latex-workshop.latex.outDir": "../root",  // Direct build output to "root"
     "latex-workshop.latex.outDir": "./",
-    "latex-workshop.latex.auxDir": "./",
     "latex-workshop.latex.autoBuild.run": "onSave",
     "latex-workshop.view.pdf.viewer": "tab",
+    "latex-workshop.view.pdf.external.viewer.command": "",
+    "latex-workshop.view.pdf.external.viewer.args": [],
+    "latex-workshop.view.pdf.external.synctex.command": "",
+    "latex-workshop.view.pdf.external.synctex.args": [],
     "latex-workshop.latex.recipes": [
       {
         "name": "latexmk 🔁",
@@ -91,7 +96,8 @@
       "tamasfe.even-better-toml",              // Extra config formats
       "mechatroner.rainbow-csv",               // CSV highlighting
       "foxundermoon.shell-format",             // Shell script formatter
-      "donjayamanne.githistory"                // Git visual history
+      "donjayamanne.githistory",
+      "nickfode.latex-formatter" // Git visual history
     ]
   }
 }

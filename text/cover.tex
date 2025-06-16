@@ -7,39 +7,45 @@
 
 % Logos at top
 \node at ($(current page.north)+(-6.37cm,-1.8cm)$) 
-  {\includegraphics[scale=0.495]{images/logos/TFG UPV Principal Negro.pdf}};
+  {\includegraphics[scale=0.495]{images/logos/Logo UPV.pdf}};
+  
+\node at ($(current page.north)+(0cm,-1.8cm)$) 
+  {\includegraphics[scale=0.08]{images/logos/Logo ADE.pdf}};
+
 \node at ($(current page.north)+(6.7cm,-1.77cm)$) 
-  {\includegraphics[trim=11.8cm 10.8cm 11.5cm 8.05cm,clip,width=0.233\textwidth]{images/logos/TFG Telecom VLC 2018.pdf}};
+  {\includegraphics[trim=11.8cm 10.8cm 11.5cm 8.05cm,clip,width=0.233\textwidth]{images/logos/Logo ETSIT.pdf}};
 
 % titulo
 \node[anchor=center] at ($(current page.center)!0.35!(current page.north)+(0cm,0)$) (titulo)
   {\begin{minipage}{1.05\textwidth}\begin{center}\Large\textbf{\uppercase{\titulo}}\end{center}\end{minipage}};
 
+
+
+% Author and Tutors
+\node[anchor=east] at ($(current page.east)+(-2cm,-0.8cm)$) {\bfseries Author: \autor};
+\node[anchor=east] at ($(current page.east)+(-2cm,-1.55cm)$) (tutor) {\bfseries Tutor: \tutorA};
+\node[anchor=east] at ($(current page.east)+(-2cm,-2.3cm)$) {\bfseries \ifthenelse{\equal{\tutorB}{}}{}{Tutor: \tutorB}};
+\node[anchor=east] at ($(current page.east)+(-2cm,-3.05cm)$) {\bfseries \ifthenelse{\equal{\tutorC}{}}{}{Extern Co-Tutor: \tutorC}};
+\node[anchor=east] at ($(current page.east)+(-2cm,-3.8cm)$) {\bfseries Course: \curso};
+
+
+% Schools block
+\node[coordinate] at ($(titulo.south)!(tutor.north)!(titulo.south)$) (tutornorte){};
+\node at ($(titulo.south)!0.54!(tutornorte)$) 
+  {\begin{minipage}{\textwidth}\begin{center}\large\textbf{Trabajo Fin de Grado Integrado \\
+    Grado en Administración y Dirección de Empresas
+    \\Grado en Ingeniería de Tecnologías y Servicios de Telecomunicación
+    }\end{center}\end{minipage}};
+
 % Degree and university text block
-\node[anchor=north west] at  ($(current page.center)+(-1.45cm,-5.6cm)$) (){\parbox{0.59\textwidth}{%
+\node[anchor=north west] at  ($(current page.center)+(-1.45cm,-9cm)$) (){\parbox{0.59\textwidth}{%
 \tolerance=1%
 \emergencystretch=\maxdimen%
 \hyphenpenalty=10000%
 \hbadness=10000%
-\normalsize\rmfamily Trabajo Fin de Grado presentado en la Escuela Técnica 
-Superior  de  Ingeniería  de  Telecomunicación  de  la 
-Universitat  Politècnica  de  València, para  la  obtención 
-del Doble Título de Graduado en Adiminstración y Dirección de Empresas e Ingeniería de Tecnologías y 
-Servicios de Telecomunicación\\
+\normalsize\rmfamily 
 \ \\
-Curso \curso\\
-\ \\
-València, \fecha}};
-
-% Tutors
-\node[anchor=center] at ($(current page.center)+(0cm,-0.8cm)$) (tutor) {\bfseries Co-Tutor: \tutorA};
-\node[anchor=center] at ($(current page.center)+(0cm,-1.55cm)$) {\bfseries \ifthenelse{\equal{\tutorB}{}}{}{Co-Tutor: \tutorB}};
-\node[anchor=center] at ($(current page.center)+(0cm,-2.3cm)$) {\bfseries \ifthenelse{\equal{\tutorC}{}}{}{Co-Tutor: \tutorC}};
-
-% Author (placed between titulo and tutor)
-\node[coordinate] at ($(titulo.south)!(tutor.north)!(titulo.south)$) (tutornorte){};
-\node at ($(titulo.south)!0.54!(tutornorte)$) 
-  {\begin{minipage}{\textwidth}\begin{center}\large\textbf{\autor}\end{center}\end{minipage}};
+Valencia, \fecha}};
 
 % Contact info block at bottom left
 \node[opacity=1,anchor=south west,scale=0.9] at ($(current page.south west)+(1.9,1.825)$)
