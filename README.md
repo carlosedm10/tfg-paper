@@ -5,7 +5,7 @@ This workspace is designed for writing and managing a LaTeX-based thesis. Here's
 ## Getting Started
 
 1. **Use the Workspace**
-   - Open the personalized vscode-workspace config file that you should open for keeping all smooth 😉
+   - Open the personalized vscode-workspace config file for keeping all smooth 😉
    - Install all of the recommended extensions
    - Compile main.tex
 
