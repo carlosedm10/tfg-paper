@@ -82,7 +82,7 @@ To my parents.
 \noindent This intrinsic value is defined by numerous experts and renowned investors, including Benjamin Graham, Warren Buffett, and Pat Dorsey [II]; and many Stock’s Index such as IBEX-35 or MSCI, as a company’s ability to adapt to an ever-changing environment while adding value to the market and establishing barriers to entry for competitors—commonly known as economic moats.
 \vspace{0.5cm}
 
-\noindent Measuring these moats is challenging due to the difficulty of quantifying certain variables, such as brand strength and market influence. However, over the long term, these intangible factors translate into tangible financial data, reflected in a company’s balance sheet, income statement, and cash flow statement; that when exposed to the public market share creates a need to buy or sell the stocks, altering the companies profitability. So from now on, this economic moats will be called alpha, following the common literature. 
+\noindent Measuring these moats is challenging due to the difficulty of quantifying certain variables, such as brand strength and market influence. However, over the long term, these intangible factors translate into tangible financial data, reflected in a company’s balance sheet, income statement, and cash flow statement; that when exposed to the public market share creates a need to buy or sell the stocks, altering the companies profitability. So from now on, this economic moats will be called \textit{alpha}, following the common literature. 
 
 \section{Tweenvest's Scores}
 Following this approach, Tweenvest developed its four main scores based on key focus areas that investors have to consider before making any decision:
@@ -321,7 +321,7 @@ These ratios measure a company's ability to meet short-term obligations with its
 
 \section{Problems with the current approach}
 
-\noindent In the context of this thesis, we have to explain the need to make a systematic review of the scores to check wether the simplifications and hypotheses assumed by the financial consensus truly show a company’s ability to create alpha over time or not.
+\noindent In the context of this thesis, we have to explain the need to make a systematic review of the scores to check wether the simplifications and hypotheses assumed by the financial consensus truly show a company’s ability to create \textit{alpha} over time or not.
 
 
 \subsection{Unquantified Variables}
@@ -369,17 +369,14 @@ These ratios measure a company's ability to meet short-term obligations with its
 \noindent Markets are "fluctuating entities", so static metrics can become problematic when underlying trends change. A clear example is the rise of artificial intelligence and the surge in stock prices of companies involved in the production and development of the necessary technologies.
 
 
-\vspace{0.5cm}
-\noindent For all of these reasons, we need to check if the scores actually represent an objective and accurate view of the company's ability to generate alpha, and propose changes to the current algorithm if needed.
-
 
 % ############################### OBJECTIVES #######################
 \chapter{Objectives}
 
-\noindent The main objective of this thesis is to check if the scores actually represent an objective and accurate view of the company's ability to generate alpha, and propose changes to the current algorithm if needed. To do this, we need to follow multiple steps:
+\noindent The main objective of this thesis is to check if the scores actually represent an objective and accurate view of the company's ability to generate \textit{alpha} for different time frames, and propose changes to the current algorithm if needed. To do this, we need to follow multiple steps:
 
 \begin{enumerate}
-  \item \textbf{Data Collection}: Modify Tweenvest's database architecture to enable historical score storage and retrieval and create the datasets for the analysis.
+  \item \textbf{System Architecture Enhancement}: Modify Tweenvest's database architecture to enable historical score storage and retrieval and create the datasets for the analysis.
   \item \textbf{Data Curation}: Clean and preprocess the collected data to ensure consistency and reliability, handling missing values and outliers appropriately.
   \item \textbf{Exploratory Analysis}: Process and analyze the data to check if the distributions and correlations between variables, looking for early on patterns to later compare and use for the modeling.
   \item \textbf{Predictive Modeling}: Develop a multiple predictive models to check what is the best way to use the scores for multiple investment strategies.
@@ -388,9 +385,24 @@ These ratios measure a company's ability to meet short-term obligations with its
 
 
 % ############################### METHODOLOGY #######################
-\chapter{Methodology}
+\chapter{Methodology \& Theoretical Framework}
 
+\section{Code Review}
+% Explaining here the methodolgy used to develop the code
 
+\section{Data consistency}
+
+\section{Outlier Detection}
+
+\section{Linear Models}
+\subsection{Linear Regression}
+\subsection{Time Series Models}
+\section{Non-linear Models}
+\subsection{Generalized Additive Models}
+\subsection{Neural Networks}
+
+\section{Enhaced Models}
+% Explaining here the theoretical framework used to develop the code
 
 
 
