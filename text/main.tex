@@ -11,13 +11,26 @@
 % Cover page placeholder
 \input{cover} 
 
+% Abstract/Resumen
 \newpage
 \thispagestyle{empty}\ \\
 \newpage
 \thispagestyle{empty}
 
 \section*{Abstract}
-\noindent Write here a short abstract (between 150 and 200 words).
+\noindent This study investigates the effectiveness of a factor-investing methodology developed by Tweenvest, leveraging a proprietary algorithm grounded in fundamental financial analysis. The algorithm scores companies across four key factors: Quality, Growth, Value, and Dividends.
+
+\vspace{0.5cm}
+
+\noindent The research aims to evaluate the profitability of investment strategies based on these scores over multiple horizons from 2020 to 2025. A comprehensive dataset was constructed, integrating factor scores with additional variables such as sector and geographic region, standardized for currency and timeframes.
+
+\vspace{0.5cm}
+
+\noindent Statistical analyses will explore relationships between these factors and returns, identifying optimal investment periods. Subsequently, predictive modeling—including econometric regressions, time series models (ARIMAX, Prophet), and recurrent neural networks—will be applied to assess the translation of these factors into market performance.
+
+\vspace{0.5cm}
+
+\noindent The study incorporates an interdisciplinary approach, combining financial theory and econometrics with advanced programming, data engineering, and artificial intelligence. This integration bridges Business Management and Telecommunications Engineering, offering insights into the practical application of Tweenvest's scoring algorithm and contributing to the advancement of financial technology analytics.
 
 \newpage
 \thispagestyle{empty}
@@ -27,6 +40,7 @@ To my parents.
 \end{flushright}
 \vfill\vfill
 
+% Table of Contents
 \newpage
 \thispagestyle{empty}
 \ \\
@@ -35,6 +49,7 @@ To my parents.
 \tableofcontents
 \newpage
 
+% List of Figures and Tables
 \addtocontents{lof}{\protect\thispagestyle{empty}}
 \addtocontents{lof}{\protect\pagestyle{empty}}
 \listoffigures
@@ -49,8 +64,9 @@ To my parents.
 \input{capitals}
 
 % Start of content
-\thispagestyle{empty}
-\setcounter{page}{-2}
+\clearpage
+\pagenumbering{roman}
+\setcounter{page}{1}
 \addtocontents{toc}{\protect\thispagestyle{empty}}
 
 \part{Main Report}
