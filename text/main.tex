@@ -8,10 +8,9 @@
 \renewcommand{\listtablename}{List of Tables} 
 \renewcommand{\tablename}{Table} 
 
-% Cover page placeholder
+% ############################### COVER PAGE #######################
 \input{cover} 
-
-% Abstract/Resumen
+% ############################### ABSTRACT ###############################
 \newpage
 \thispagestyle{empty}\ \\
 \newpage
@@ -22,16 +21,18 @@
 
 \vspace{0.5cm}
 
-\noindent The research aims to evaluate the profitability of investment strategies based on these scores over multiple horizons from 2020 to 2025. A comprehensive dataset was constructed, integrating factor scores with additional variables such as sector and geographic region, standardized for currency and timeframes.
+\noindent The research aims to evaluate the profitability of investment strategies based on these scores over multiple profitability horizons from 1 month to five years. A comprehensive dataset was constructed, integrating factor scores with additional variables such as sector and geographic region, standardized for currency and timeframes.
 
 \vspace{0.5cm}
 
-\noindent Statistical analyses will explore relationships between these factors and returns, identifying optimal investment periods. Subsequently, predictive modeling—including econometric regressions, time series models (ARIMAX, Prophet), and recurrent neural networks—will be applied to assess the translation of these factors into market performance.
+\noindent Statistical analyses will explore relationships between these factors and returns, identifying optimal investment periods. Subsequently, predictive modeling—including econometric regressions, time series models, and neural networks—will be applied to assess the translation of these factors into market performance.
 
 \vspace{0.5cm}
 
 \noindent The study incorporates an interdisciplinary approach, combining financial theory and econometrics with advanced programming, data engineering, and artificial intelligence. This integration bridges Business Management and Telecommunications Engineering, offering insights into the practical application of Tweenvest's scoring algorithm and contributing to the advancement of financial technology analytics.
 
+
+% ############################### DEDICATION #######################
 \newpage
 \thispagestyle{empty}
 \vfill
@@ -40,7 +41,7 @@ To my parents.
 \end{flushright}
 \vfill\vfill
 
-% Table of Contents
+% ############################### TABLE OF CONTENTS #######################
 \newpage
 \thispagestyle{empty}
 \ \\
@@ -49,7 +50,7 @@ To my parents.
 \tableofcontents
 \newpage
 
-% List of Figures and Tables
+% ############################### LIST OF FIGURES AND TABLES #######################
 \addtocontents{lof}{\protect\thispagestyle{empty}}
 \addtocontents{lof}{\protect\pagestyle{empty}}
 \listoffigures
@@ -60,41 +61,357 @@ To my parents.
 \listoftables
 \newpage
 
-% Acronyms / Capitalized terms
+% ############################### ACRONYMS / CAPITALIZED TERMS #######################
 \input{capitals}
 
-% Start of content
+% ############################### START OF CONTENT #######################
 \clearpage
-\pagenumbering{roman}
+\pagenumbering{arabic}
 \setcounter{page}{1}
 \addtocontents{toc}{\protect\thispagestyle{empty}}
 
 \part{Main Report}
 
-\chapter{Introduction}
-% Your introduction here
+% ############################### INTRODUCTION #######################
+\chapter{Introduction to Fundamental Analysis}
+\section{Definition}
 
-\chapter{Literature Review}
-% Contextual research
+\noindent Fundamental Analysis is a methodology used to evaluate the intrinsic value of a company, asset, or market by analyzing various economic, financial, and qualitative and quantitative factors. Unlike technical analysis, which focuses on price movements and chart patterns, fundamental analysis seeks to determine an asset’s “true value” to identify investment opportunities that may be undervalued or overvalued in the market.
+\vspace{0.5cm}
 
+\noindent This intrinsic value is defined by numerous experts and renowned investors, including Benjamin Graham, Warren Buffett, and Pat Dorsey [II]; and many Stock’s Index such as IBEX-35 or MSCI, as a company’s ability to adapt to an ever-changing environment while adding value to the market and establishing barriers to entry for competitors—commonly known as economic moats.
+\vspace{0.5cm}
+
+\noindent Measuring these moats is challenging due to the difficulty of quantifying certain variables, such as brand strength and market influence. However, over the long term, these intangible factors translate into tangible financial data, reflected in a company’s balance sheet, income statement, and cash flow statement; that when exposed to the public market share creates a need to buy or sell the stocks, altering the companies profitability. So from now on, this economic moats will be called alpha, following the common literature. 
+
+\section{Tweenvest's Scores}
+Following this approach, Tweenvest developed its four main scores based on key focus areas that investors have to consider before making any decision:
+\begin{itemize}
+    \item Profitability
+    \item Financial Health
+    \item Predictability
+    \item Consistent Growth
+    \item Entrance Moment
+    \item Dividends Payed
+\end{itemize}
+
+\subsection{Quality}
+
+\noindent This Tweenvest's score is approached in a similar way that many successful investors would, distinguishing on three main categories: \textbf{profitability}, \textbf{financial health}, and \textbf{predictability}. Each of them includes inside of them multiple financial ratios that take account of different relevant data within the company's reports.
+
+\vspace{0.5cm}
+\noindent To understand the complexity of this score, we need to look at each category separately. Starting with \textbf{profitability} we can separate:
+
+\subsubsection{Profitability Margins}
+These are essential for understanding how a company is managing its costs and generating profits from its revenues.
+\begin{itemize}
+    \item \textbf{Net margin}: Represents net profit as a percentage of total sales, indicates a company's efficiency in generating profits after accounting for all expenses, taxes, and costs. A high net margin suggests that the company has good cost control and strong pricing power in the market.
+    
+    \item \textbf{Operating margin}: Measures operating profit (EBIT) as a percentage of total sales, providing a clear view of the profitability of a company's core operations, excluding interest and taxes. This metric is fundamental for evaluating a company's operational efficiency.
+    
+    \item \textbf{EBITDA margin}: Removes the effects of capital structure and accounting policies, offering a clear view of the company's pure operational profitability.
+    
+    \item \textbf{Gross margin}: Focuses on revenues after deducting the cost of goods sold, is a key measure of production efficiency and a company's ability to manage its direct costs.
+\end{itemize}
+
+\subsubsection{Performance Ratios}
+These are used to measure the overall performance of the company.
+\begin{itemize}
+    \item \textbf{ROA (Return on Assets)}: Measures how efficiently a company converts its assets into profits. This is especially important in capital-intensive sectors, where efficient asset management can make a significant difference in profitability.
+    
+    \item \textbf{ROE (Return on Equity)}: Focuses on the profits generated per dollar of equity invested by shareholders. This ratio is crucial for evaluating a company's overall profitability from the shareholders' perspective. It is an especially valuable metric for investors seeking to maximize their returns on equity investment.
+    
+    \item \textbf{ROIC (Return on Invested Capital)}: Focuses on the return generated by all the funds invested in the company, including both shareholders' equity and debt. It is a comprehensive measure of a company's ability to generate value from all its sources of financing.
+    
+    \item \textbf{ROCE (Return on Capital Employed)}: Measures the funds used to finance operations, regardless of the source. This ratio is useful for comparing the efficiency of companies with different capital structures, as it focuses on total capital employed rather than just equity.
+\end{itemize}
+
+\noindent Also, to not only look at actives Tweenvest uses the cash generated to calculate: \textbf{CROIC} (Cash Return on Invested Capital), \textbf{CROCE} (Cash Return on Capital Employed), \textbf{OCF/Sales}, and \textbf{FCF/Sales}. And lastly it takes account also the Owner's income to calculate: \textbf{Owner's Income/Sales}, \textbf{Owner's CROIC} and \textbf{Owner's CROCE}.
+
+\vspace{0.5cm}
+\noindent Continuing with the financial health, we need to analyze the company’s debt in multiple aspects:
+
+\subsubsection{Leverage Ratios}
+These ratios assess how much a company relies on debt to finance its assets and operations. They are essential for evaluating financial risk and long-term solvency.
+\begin{itemize}
+    \item \textbf{Financial Leverage} (Total Assets / Equity): Measures the proportion of a company's assets that are financed by shareholder equity. A higher ratio suggests the company is using more debt relative to equity, indicating greater financial risk but also potential return amplification through leverage.
+    
+    \item \textbf{Total Debt/Assets}: Indicates what portion of the company's assets is financed through debt. A lower ratio implies a more conservative capital structure, while a higher one may indicate increased risk if the company becomes over-leveraged.
+    
+    \item \textbf{Total Debt/Capital}: Measures the share of total capital (debt + equity) that comes from debt. This ratio is useful for understanding how dependent the company is on borrowed funds compared to its overall capital base.
+    
+    \item \textbf{Total Debt/Equity}: Compares the company's total debt to its shareholder equity. It provides insight into the balance between debt and equity financing. A high ratio may signal financial risk, but also the potential for higher returns if debt is managed well.
+\end{itemize}
+
+\subsubsection{Debt Coverage Ratios}
+These metrics evaluate a company's ability to cover its debt using its earnings or cash flow. They reflect the sustainability of a company's debt in relation to its operational performance.
+
+\begin{itemize}
+    \item \textbf{Net Debt/EBIT}: Shows how many years it would take for a company to repay its net debt using EBIT (Earnings Before Interest and Taxes).
+    
+    \item \textbf{Net Debt/EBITDA}: Similar to the above, but adds back depreciation and amortization. This gives a more cash-focused view of a company's ability to handle its debt load, and is especially useful for comparing companies in capital-intensive industries.
+    
+    \item \textbf{Net Debt/FCF}: Evaluates how many years of free cash flow would be needed to pay off net debt. Since FCF includes investment needs, this ratio gives a more conservative view of debt sustainability.
+    
+    \item \textbf{Net Debt/Owner's Income}: Compares net debt to the income available to equity holders (after all operating and investing costs).
+\end{itemize}
+
+\subsubsection{Interest Coverage Ratios}
+These ratios measure how easily a company can meet its interest payments on outstanding debt — critical for assessing short-term debt service capability.
+
+\begin{itemize}
+    \item \textbf{EBIT/Interest}: Indicates how many times a company can cover its interest expenses with its operating income.
+    
+    \item \textbf{EBITDA/Interest}: Similar to the above, but adds back depreciation and amortization. This gives a clearer picture of available cash earnings before fixed financial obligations, ideal for heavily asset-based businesses.
+    
+    \item \textbf{FCF/Interest}: Since FCF considers investment needs, this is a stringent test of how much real, discretionary cash is available for debt servicing.
+    
+    \item \textbf{Owner Earnings/Interest}: Evaluates a company's ability to meet interest payments based on the earnings effectively attributable to shareholders. It accounts for operational cash flow minus necessary capital expenditures.
+\end{itemize}
+
+\subsubsection{Liquidity Ratios}
+These ratios measure a company's ability to meet short-term obligations with its short-term assets. They are essential for evaluating near-term financial health and risk of insolvency.
+
+\begin{itemize}
+    \item \textbf{Current Ratio} (Current Assets / Current Liabilities): Shows whether a company has enough assets to cover its short-term liabilities. A value above 1 is generally considered healthy, though excessively high values may imply inefficiency.
+    
+    \item \textbf{Quick Ratio} ((Current Assets - Inventory) / Current Liabilities): A more stringent version of the current ratio that excludes inventory, which may not be easily liquidated. It's useful in assessing true short-term liquidity.
+    
+    \item \textbf{Cash Ratio} (Cash and Equivalents / Current Liabilities): The most conservative liquidity metric, focusing only on cash and equivalents. It shows the immediate solvency of a company in a worst-case scenario.
+    
+    \item \textbf{OCF Ratio} (Operating Cash Flow / Current Liabilities): Assesses how well the company's operational cash flows can cover its current obligations. This offers a realistic view of liquidity since it's based on actual cash generation rather than accounting figures.
+\end{itemize}
+
+\subsubsection{Predictability}
+
+\noindent And finally, for the quality score we need to look at the company’s predictability. This is achieved by trying to fit values related to the company’s success —such as Sales— to a exponential curve, which is supported by large financial literature.
+
+\vspace{0.5cm}
+\noindent After calculating all of this ratios, Tweenvest compares them to the sectors’ median and interpolates it to create a single score for each ratio and then aggregates them all using personalized weights to create the final Quality Score, which is then showed to the clients:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/tweenvest/quality score.png}
+    \caption{Tweenvest's Quality Score}
+    \label{fig:quality_score}
+\end{figure}
+
+\subsection{Growth}
+\noindent The Growth Score evaluates a company's historical growth across multiple key metrics, comparing them to industry standards. This comprehensive approach ensures a balanced assessment of growth across different aspects of the business.
+
+\subsubsection{Revenue \& Profitability Growth}
+\begin{itemize}
+    \item \textbf{Sales}: Measures growth in core revenue streams
+    \item \textbf{EBITDA}: Captures growth in operational cash-generating ability before non-cash and financing impacts
+    \item \textbf{Operating Income}: Reflects growth in profit from core business operations
+    \item \textbf{Net Income}: Includes all income sources, showing overall profitability growth
+\end{itemize}
+
+\subsubsection{Cash Flow Growth}
+\begin{itemize}
+    \item \textbf{Operating Cash Flow}: Measures growth in cash generation from operations
+    \item \textbf{Simple FCF}: A straightforward proxy for available cash after essential investments
+    \item \textbf{Levered/Unlevered FCF}: Provide detailed views of free cash flow with and without debt impact
+    \item \textbf{Owner Earnings}: Useful for volatile capex cases, emphasizing cash available to shareholders
+\end{itemize}
+
+\subsubsection{Capital Base Expansion}
+\begin{itemize}
+    \item \textbf{Total Assets}: Indicates expansion in overall asset base
+    \item \textbf{Equity}: Reflects growth in shareholders' claim on the business
+    \item \textbf{Tangible Book Value}: Highlights growth in physical net assets, excluding intangibles
+    \item \textbf{Invested Capital}: Captures total capital being put to productive use
+    \item \textbf{Capital Employed}: A broader measure of capital supporting business operations
+\end{itemize}
+
+\subsubsection{Per-Share Value Growth}
+\begin{itemize}
+    \item \textbf{Diluted EPS}: Tracks per-share earnings growth, accounting for dilution effects
+    \item \textbf{Diluted Shares}: Included to track share count changes, ensuring EPS growth isn't artificially inflated by buybacks or dilution
+    \item \textbf{Ordinary DPS}: Tracks the growth of shareholder payouts, a proxy for confidence in future earnings
+\end{itemize}
+
+\vspace{0.5cm}
+\noindent To compute the Growth Score, Tweenvest calculates 10-year, 5-year, and 3-year averages and then interpolates the growth rate to industry standards. This approach reinforces the long-term investment philosophy, giving lasting growing companies a better score.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/tweenvest/growth score.png}
+    \caption{Tweenvest's Growth Score}
+    \label{fig:growth_score}
+\end{figure}
+
+\subsection{Valuation}
+\noindent The Valuation Score measures how attractively a company is priced relative to its fundamentals such as earnings, cash flow, sales, and dividends. This is critical for investors following value investing principles, where the goal is to buy quality companies for less than their intrinsic worth. The algorithm evaluates a series of valuation multiples—both price-based and enterprise value-based—and dividend yield.
+
+\subsubsection{Price-Based Multiples}
+\begin{itemize}
+    \item \textbf{P/E} (Market Cap / Adjusted TTM Earnings): Measures how much investors are willing to pay per dollar of earnings
+    \item \textbf{P/S} (Market Cap / TTM Revenue): Useful when earnings are volatile; shows valuation relative to sales
+    \item \textbf{P/CF} (Market Cap / TTM Operating Cash Flow): Reflects valuation relative to cash-generating ability
+    \item \textbf{P/B} (Market Cap / Tangible Equity): Especially relevant for asset-heavy sectors like banks or industrials
+\end{itemize}
+
+\subsubsection{Enterprise Value-Based Multiples}
+\begin{itemize}
+    \item \textbf{EV/Sales} (Enterprise Value / TTM Revenue)
+    \item \textbf{EV/EBITDA} (Enterprise Value / TTM EBITDA)
+    \item \textbf{EV/EBIT} (Enterprise Value / TTM EBIT)
+    \item \textbf{EV/FCF} (Enterprise Value / TTM Free Cash Flow)
+\end{itemize}
+
+\subsubsection{Yield-Based Valuation}
+\begin{itemize}
+    \item \textbf{Dividend Yield (\%)} (Dividend per Share / Price per Share)
+\end{itemize}
+
+\vspace{0.5cm}
+\noindent Each of these ratios is compared to multiple historical statistics and sectoral benchmarks to create individual scores and then average them.
+
+\vspace{0.5cm}
+\noindent \textbf{Note:}
+\begin{itemize}
+    \item Market Cap = Share Price × Total Outstanding Shares
+    \item Enterprise Value = Market Capitalization + Total Debt - Cash + Marketable Securities
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/tweenvest/value score.png}
+    \caption{Tweenvest's Value Score}
+    \label{fig:valuation_score}
+\end{figure}
+
+
+\subsection{Dividend}
+\noindent When analyzing Tweenvest most common investors profile, we see a high tendency to dividend investment.
+
+\vspace{0.5cm}
+\noindent The Dividend Score measures the attractiveness, reliability, and growth potential of a company's dividend payments. It helps investors assess whether the dividend is both rewarding today and sustainable for tomorrow—a key concern for many users of the platform that are income-focused and long-term investors using mainly dividends as their principal concern. And it is built from three primary components:
+
+\subsubsection{Safety}
+\begin{itemize}
+    \item \textbf{Payout Ratio EPS} (DPS / Diluted EPS): Shows if dividends are covered by accounting earnings
+    \item \textbf{Payout Ratio FCF} (DPS / Free Cash Flow per Share): Shows if dividends are funded by real cash generation
+    \item \textbf{Payout Ratio Owner Earnings} (DPS / Owner Earnings per Share): A conservative test of sustainability (excludes CAPEX)
+\end{itemize}
+
+\subsubsection{Growth}
+\noindent Measures how consistently and strongly the dividend has grown over time.
+\begin{itemize}
+    \item \textbf{Ordinary DPS CAGR}: 3-Year, 5-Year, 10-Year growth rates
+\end{itemize}
+
+\subsubsection{Yield}
+\noindent This evaluates the attractiveness of the dividend today relative to the company's historical averages and sector benchmarks.
+\begin{itemize}
+    \item \textbf{Dividend Yield} (DPS / Price per Share): Represents how much income an investor receives annually from dividends
+\end{itemize}
+
+\vspace{0.5cm}
+\noindent These components are individually scored weighted and interpolated against industry benchmarks to form a composite score. Finally, the algorithm adjusts this score based on how many years the dividend has been maintained or increased, rewarding consistency.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/tweenvest/dividend score.png}
+    \caption{Tweenvest's Dividend Score}
+    \label{fig:dividend_score}
+\end{figure}
+
+
+\section{Problems with the current approach}
+
+\noindent In the context of this thesis, we have to explain the need to make a systematic review of the scores to check wether the simplifications and hypotheses assumed by the financial consensus truly show a company’s ability to create alpha over time or not.
+
+
+\subsection{Unquantified Variables}
+\noindent Since the current model only includes variables found in a company's financial statements, there is a significant amount of relevant information being left out, for example:
+
+\begin{itemize}
+    \item The \textbf{perceived differentiation of a product} is one such element that may not be properly captured by traditional financial analysis. A trusted brand or strong reputation can allow a company to charge premium prices and build customer loyalty, generating extraordinary long-term profits. For instance, brands like Tiffany or Rolex have high perceived value that justifies elevated prices—something that cannot be easily quantified using standard financial metrics such as profit margins or return on capital.
+
+    \item Additionally, strategies such as \textbf{cost leadership} and offering products at lower prices can provide a significant competitive advantage that is not always directly reflected in financial data.
+
+    \item Companies may also establish \textbf{barriers to entry} and \textbf{high switching costs} for customers, making it more difficult for them to move to competitors. These strategies may involve investments in technology, patents, or simply building long-term customer and employees relationships.
+\end{itemize}
+
+\noindent To properly measure these variables, a more exhaustive analysis of each company would be required, pulling from multiple secondary information sources such as news articles, conference transcripts, customer blogs, competitive product reviews, and more. This task is far more difficult to automate via code, as it would require multimodal AI techniques—thus, it will fall outside the scope of this work.
+
+\subsection{Emergent Effects in Complex Systems}
+
+\noindent In complex systems like financial markets, network effects emerge, making most relations between variables not be linear or stationary, adding noise to actual reliable data behind it:
+
+\begin{itemize}
+    \item \textbf{Herd behavior} is a network effect where investors tend to follow the actions of others rather than rely on their own analysis. This can amplify market movements, both upward and downward. Herd behavior can lead to speculative bubbles and abrupt corrections when collective expectations shift.
+
+    \item \textbf{Feedback loops} are another network effect where market participants’ actions reinforce existing market behavior. For example, rising asset prices may attract more investors, which in turn drives prices even higher. This type of positive feedback can cause price escalation that becomes detached from underlying fundamentals. Conversely, negative feedback can occur during a sell-off, where falling prices trigger more selling, further accelerating the decline.
+    \item \textbf{Macro-level influences} are another crucial factor where broader structural changes—such as political decisions, economic policies, technological shifts, or industry-wide trends—can significantly impact market behavior. These larger forces often operate beyond the scope of individual company analysis and can create ripple effects throughout the entire market ecosystem.
+\end{itemize}
+
+\subsection{Linearity and Stationarity}
+
+\subsubsection{Non-linearity}
+\noindent The relationships between financial variables are often non-linear, meaning that changes in one variable may not result in proportional changes in another. For example:
+
+\begin{itemize}
+    \item \textbf{Economies of scale} can create non-linear relationships between production volume and costs. As a company grows, it may experience decreasing marginal costs due to better resource utilization, bulk purchasing discounts, or spreading fixed costs over larger output.
+    
+    \item \textbf{Market saturation} can lead to diminishing returns on marketing spend or R\&D investments. Initial investments might yield significant returns, but as the market becomes saturated, additional spending may produce smaller incremental benefits.
+    
+    \item \textbf{Competitive dynamics} can create threshold effects where small changes in market share or pricing can trigger significant shifts in competitive position or profitability.
+\end{itemize}
+
+\subsubsection{Trends}
+
+\noindent Traditionally, standard growth ratios have been used, based on the assumption that in competitive markets, when a new business model or opportunity emerges with above-average margins, entrepreneurs quickly move in to capitalize on it—eventually saturating the opportunity and driving margins back down to average levels over time. But what happens when there is a significant shift in trend? 
+
+\vspace{0.5cm}
+\noindent Markets are "fluctuating entities", so static metrics can become problematic when underlying trends change. A clear example is the rise of artificial intelligence and the surge in stock prices of companies involved in the production and development of the necessary technologies.
+
+
+\vspace{0.5cm}
+\noindent For all of these reasons, we need to check if the scores actually represent an objective and accurate view of the company's ability to generate alpha, and propose changes to the current algorithm if needed.
+
+
+% ############################### OBJECTIVES #######################
+\chapter{Objectives}
+
+\noindent The main objective of this thesis is to check if the scores actually represent an objective and accurate view of the company's ability to generate alpha, and propose changes to the current algorithm if needed. To do this, we need to follow multiple steps:
+
+\begin{enumerate}
+    \item \textbf{Data Collection}: Update Tweenvest's code for being able to calculate the scores with the historical data.
+    \item \textbf{Data Processing}: Clean and preprocess the collected data to ensure consistency and reliability, handling missing values and outliers appropriately.
+    \item \textbf{Descriptive Analysis}: Process and analyze the data to check if the distributions and correlations between variables, looking for early on patterns to later compare and use for the modeling.
+    \item \textbf{Algorithms Development}: Develop the a series of predictive models to check what is the best way to use the scores for multiple investment strategies.
+    \item \textbf{Backtesting}: Backtest the algorithms to check they are able to generate \textit{alpha}.
+\end{enumerate}
+
+
+% ############################### METHODOLOGY #######################
 \chapter{Methodology}
-% Methodological description
 
-\chapter{Results}
+
+
+
+
+% ############################### DEVELOPMENT AND RESULTS #######################
+\chapter{Development and Results}
 % Your results
 
+% ############################### DISCUSSION #######################
 \chapter{Discussion}
 % Analysis and interpretation
 
+% ############################### CONCLUSION #######################
 \chapter{Conclusion}
 % Summary and conclusions
 
-% Bibliography
+% ############################### BIBLIOGRAPHY #######################
 \printbibliography[heading=bibintoc, title=Bibliography]
 \label{sec:biblio}
 \newpage
 
-% Appendices
+% ############################### APPENDICES #######################
 \part{Appendices}
 \def\thechapter{\Alph{chapter}}
 \makeatletter
