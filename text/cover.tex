@@ -1,0 +1,60 @@
+\thispagestyle{empty}
+\usetikzlibrary{calc}
+
+
+\begin{tikzpicture}[overlay,remember picture]
+\fill[fill=white] (current page.south west) rectangle ($(current page.south east)+(0,4cm)$);
+
+% Logos at top
+\node at ($(current page.north)+(-6.37cm,-1.8cm)$) 
+  {\includegraphics[scale=0.495]{images/logos/TFG UPV Principal Negro.pdf}};
+\node at ($(current page.north)+(6.7cm,-1.77cm)$) 
+  {\includegraphics[trim=11.8cm 10.8cm 11.5cm 8.05cm,clip,width=0.233\textwidth]{images/logos/TFG Telecom VLC 2018.pdf}};
+
+% titulo
+\node[anchor=center] at ($(current page.center)!0.35!(current page.north)+(0cm,0)$) (titulo)
+  {\begin{minipage}{1.05\textwidth}\begin{center}\Large\textbf{\uppercase{\titulo}}\end{center}\end{minipage}};
+
+% Degree and university text block
+\node[anchor=north west] at  ($(current page.center)+(-1.45cm,-5.6cm)$) (){\parbox{0.59\textwidth}{%
+\tolerance=1%
+\emergencystretch=\maxdimen%
+\hyphenpenalty=10000%
+\hbadness=10000%
+\normalsize\rmfamily Trabajo Fin de Grado presentado en la Escuela Técnica 
+Superior  de  Ingeniería  de  Telecomunicación  de  la 
+Universitat  Politècnica  de  València, para  la  obtención 
+del Doble Título de Graduado en Adiminstración y Dirección de Empresas e Ingeniería de Tecnologías y 
+Servicios de Telecomunicación\\
+\ \\
+Curso \curso\\
+\ \\
+València, \fecha}};
+
+% Tutors
+\node[anchor=center] at ($(current page.center)+(0cm,-0.8cm)$) (tutor) {\bfseries Co-Tutor: \tutorA};
+\node[anchor=center] at ($(current page.center)+(0cm,-1.55cm)$) {\bfseries \ifthenelse{\equal{\tutorB}{}}{}{Co-Tutor: \tutorB}};
+\node[anchor=center] at ($(current page.center)+(0cm,-2.3cm)$) {\bfseries \ifthenelse{\equal{\tutorC}{}}{}{Co-Tutor: \tutorC}};
+
+% Author (placed between titulo and tutor)
+\node[coordinate] at ($(titulo.south)!(tutor.north)!(titulo.south)$) (tutornorte){};
+\node at ($(titulo.south)!0.54!(tutornorte)$) 
+  {\begin{minipage}{\textwidth}\begin{center}\large\textbf{\autor}\end{center}\end{minipage}};
+
+% Contact info block at bottom left
+\node[opacity=1,anchor=south west,scale=0.9] at ($(current page.south west)+(1.9,1.825)$)
+  {\parbox{0.75\textwidth}{%
+\scriptsize{\fontfamily{phv}\selectfont
+Escuela Técnica Superior de Ingeniería de Telecomunicación\\[0.5mm]
+Universitat Politècnica de València\\[0.5mm]
+Edificio 4D. Camino de Vera, s/n, 46022 Valencia\\[0.5mm]
+Tel. +34 96 387 71 90, ext. 77190\\[1.25mm]
+\resizebox{3.15cm}{2.5mm}{\arialbold \href{http://www.etsit.upv.es}{www.etsit.upv.es}}}}};
+
+% Extra logos at bottom right
+\node[opacity=1,anchor=south east] at ($(current page.south east)+(-2,1.34)$)
+  {\includegraphics[scale=0.16]{images/logos/Extra Logos TFG.png}};
+
+\end{tikzpicture}
+
+\newpage

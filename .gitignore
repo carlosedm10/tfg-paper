@@ -1,0 +1,41 @@
+# LaTeX build files
+*.aux
+*.log
+*.out
+*.toc
+*.synctex.gz
+*.bbl
+*.blg
+*.fls
+*.fdb_latexmk
+*.dvi
+
+*.lof
+*.lot
+*.idx
+*.ilg
+*.ind
+*.bcf
+*.run.xml
+
+# LaTeX temporary files
+*.tmp
+*.bak
+*.swp
+*~
+
+# LaTeX generated directories
+auto/
+
+
+# OS generated files
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+
+# Images
+*/images/

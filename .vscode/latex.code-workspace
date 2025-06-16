@@ -1,0 +1,97 @@
+{
+  "folders": [
+    {
+      "path": ".",
+      "name": "root"
+    },
+    {
+      "path": "../text",
+      "name": "text"
+    }
+  ],
+  "settings": {
+    // Hide LaTeX build clutter from view
+    "files.exclude": {
+      "**/*.aux": true,
+      "**/*.xml": true,
+      "**/*.bcf": true,
+      "**/*.lof": true,
+      "**/*.lot": true,
+      "**/*.log": true,
+      "**/*.out": true,
+      "**/*.fdb_latexmk": true,
+      "**/*.fls": true,
+      "**/*.toc": true,
+      "**/*.synctex.gz": true,
+      "**/*.bbl": true,
+      "**/*.blg": true,
+      "**/node_modules": true,
+      "**/.cache": true
+    },
+    "search.exclude": {
+      "**/node_modules": true,
+      "**/.cache": true,
+      "**/*.aux": true,
+      "**/*.log": true,
+      "**/*.out": true,
+      "**/*.toc": true,
+      "**/*.synctex.gz": true,
+      "**/*.bbl": true,
+      "**/*.blg": true
+    },
+    "terminal.integrated.cwd": "${workspaceFolder:text}",
+
+    // Editor behavior
+    "editor.tabSize": 2,
+    "editor.rulers": [80],
+    "editor.formatOnSave": true,
+
+    // Language-specific overrides
+    "[latex]": {
+      "editor.wordWrap": "on",
+      "editor.quickSuggestions": {
+        "comments": "on",
+        "strings": "on",
+        "other": "on"
+      }
+    },
+
+    // LaTeX Workshop settings
+    // "latex-workshop.latex.outDir": "../root",  // Direct build output to "root"
+    "latex-workshop.latex.outDir": "./",
+    "latex-workshop.latex.auxDir": "./",
+    "latex-workshop.latex.autoBuild.run": "onSave",
+    "latex-workshop.view.pdf.viewer": "tab",
+    "latex-workshop.latex.recipes": [
+      {
+        "name": "latexmk 🔁",
+        "tools": ["latexmk"]
+      }
+    ],
+    "latex-workshop.latex.tools": [
+      {
+        "name": "latexmk",
+        "command": "latexmk",
+        "args": [
+          "-pdf",
+          "-interaction=nonstopmode",
+          "-synctex=1",
+          "-output-directory=./",
+          "%DOC%"
+        ]
+      }
+    ]
+  },
+  "extensions": {
+    "recommendations": [
+      "james-yu.latex-workshop",               // Core LaTeX tools
+      "streetsidesoftware.code-spell-checker", // Spell checker
+      "mikestead.dotenv",                      // .env support (if used)
+      "vscode-icons-team.vscode-icons",        // Icons for folders/files
+      "tamasfe.even-better-toml",              // Extra config formats
+      "mechatroner.rainbow-csv",               // CSV highlighting
+      "foxundermoon.shell-format",             // Shell script formatter
+      "donjayamanne.githistory"                // Git visual history
+    ]
+  }
+}

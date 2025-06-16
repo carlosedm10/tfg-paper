@@ -1,0 +1,63 @@
+% settings.tex — LaTeX preamble configuration for TFG paper in English
+
+\usepackage[utf8]{inputenc}      % Encoding
+\usepackage[T1]{fontenc}         % Font encoding
+\usepackage[english]{babel}      % Language support
+\usepackage[a4paper, margin=2.5cm]{geometry}  % Page size and margins
+\usepackage{setspace}            % Line spacing
+\usepackage{graphicx}            % Include images
+\usepackage{amsmath, amssymb}    % Math packages
+\usepackage{float}               % Improved float control
+\usepackage{booktabs}            % Professional tables
+\usepackage{hyperref}            % Hyperlinks in TOC, etc.
+\usepackage{color, xcolor}       % Colors
+\usepackage{lscape}              % Landscape pages
+\usepackage{longtable}           % Tables spanning multiple pages
+\usepackage{fancyhdr}            % Header/footer customization
+\usepackage{titlesec}            % titulo formatting
+\usepackage{caption}             % Caption formatting
+\usepackage{biblatex}            % Bibliography handling
+\usepackage{csquotes}            % Required by biblatex
+\usepackage{tikz}                % For the cover page
+\usepackage{ifthen}              % For the cover page
+
+% Load bibliography file
+\addbibresource{bibliography.bib}
+
+% Section color
+\definecolor{azul}{rgb}{0.1,0.2,0.4}
+
+% Header/Footer styling
+\pagestyle{fancy}
+\fancyhf{}
+\fancyhead[LE,RO]{\thepage}
+\fancyhead[LO]{\leftmark}
+\fancyhead[RE]{\rightmark}
+\renewcommand{\headrulewidth}{0.4pt}
+\renewcommand{\headrule}{\hbox to\headwidth{\color{azul}\leaders\hrule height \headrulewidth\hfill}}
+\setlength{\headheight}{23.11996pt}
+\newcommand{\arialbold}{\fontfamily{phv}\fontseries{b}\selectfont}
+
+% Captions
+\captionsetup{labelfont=bf, font=small}
+
+% Section styling
+\titleformat{\section}
+  {\color{azul}\normalfont\Large\bfseries}
+  {\thesection}{1em}{}
+
+\titleformat{\subsection}
+  {\color{azul}\normalfont\large\bfseries}
+  {\thesubsection}{1em}{}
+
+% Metadata (centralized definitions)
+\newcommand{\titulo}{Evaluating Score-Investing Methodologies:
+A Systematic Review of Tweenvest’s Algorithm for Long-Term Stock Investing Using Descriptive Analytics and Predictive Modeling.
+}
+\newcommand{\tutorA}{Joaquín Martínez Minaya}
+\newcommand{\tutorB}{Alberto Albiol Colmener} 
+\newcommand{\tutorC}{José Tatay Sangüesa} 
+\newcommand{\curso}{2024-2025}
+\newcommand{\autor}{Carlos Eduardo Domínguez Martínez}
+\newcommand{\fecha}{June 2025}
+

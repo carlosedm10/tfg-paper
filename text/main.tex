@@ -1,0 +1,91 @@
+\documentclass[11pt,english,a4paper,hidelinks]{book}
+\input{settings}
+
+% Add bibliography configuration
+\addbibresource{bibliography.bib}
+
+\begin{document}
+\renewcommand{\listtablename}{List of Tables} 
+\renewcommand{\tablename}{Table} 
+
+% Cover page placeholder
+\input{cover} 
+
+\newpage
+\thispagestyle{empty}\ \\
+\newpage
+\thispagestyle{empty}
+
+\section*{Abstract}
+\noindent Write here a short abstract (between 150 and 200 words).
+
+\newpage
+\thispagestyle{empty}
+\vfill
+\begin{flushright}
+To my parents.
+\end{flushright}
+\vfill\vfill
+
+\newpage
+\thispagestyle{empty}
+\ \\
+\addtocontents{toc}{\protect\thispagestyle{empty}}
+\addtocontents{toc}{\protect\pagestyle{empty}}
+\tableofcontents
+\newpage
+
+\addtocontents{lof}{\protect\thispagestyle{empty}}
+\addtocontents{lof}{\protect\pagestyle{empty}}
+\listoffigures
+\newpage
+
+\addtocontents{lot}{\protect\thispagestyle{empty}}
+\addtocontents{lot}{\protect\pagestyle{empty}}
+\listoftables
+\newpage
+
+% Acronyms / Capitalized terms
+\input{capitals}
+
+% Start of content
+\thispagestyle{empty}
+\setcounter{page}{-2}
+\addtocontents{toc}{\protect\thispagestyle{empty}}
+
+\part{Main Report}
+
+\chapter{Introduction}
+% Your introduction here
+
+\chapter{Literature Review}
+% Contextual research
+
+\chapter{Methodology}
+% Methodological description
+
+\chapter{Results}
+% Your results
+
+\chapter{Discussion}
+% Analysis and interpretation
+
+\chapter{Conclusion}
+% Summary and conclusions
+
+% Bibliography
+\printbibliography[heading=bibintoc, title=Bibliography]
+\label{sec:biblio}
+\newpage
+
+% Appendices
+\part{Appendices}
+\def\thechapter{\Alph{chapter}}
+\makeatletter
+\renewcommand{\@chapapp}{Appendix}
+\makeatother
+
+\chapter{Additional Listings}
+Example appendix content.
+
+\end{document}
