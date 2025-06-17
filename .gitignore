@@ -9,7 +9,8 @@
 *.fls
 *.fdb_latexmk
 *.dvi
-
+*.glo
+*.ist
 *.lof
 *.lot
 *.idx

@@ -76,13 +76,13 @@ To my parents.
 \chapter{Introduction to Fundamental Analysis}
 \section{Definition}
 
-\noindent Fundamental Analysis is a methodology used to evaluate the intrinsic value of a company, asset, or market by analyzing various economic, financial, and qualitative and quantitative factors. Unlike technical analysis, which focuses on price movements and chart patterns, fundamental analysis seeks to determine an asset’s “true value” to identify investment opportunities that may be undervalued or overvalued in the market.
+\noindent Fundamental Analysis is a methodology used to evaluate the intrinsic value of a company, asset, or market by analyzing various economic, financial, and qualitative and quantitative factors. Unlike technical analysis, which focuses on price movements and chart patterns, fundamental analysis seeks to determine an asset's "true value" to identify investment opportunities that may be undervalued or overvalued in the market.
 \vspace{0.5cm}
 
-\noindent This intrinsic value is defined by numerous experts and renowned investors, including Benjamin Graham, Warren Buffett, and Pat Dorsey [II]; and many Stock’s Index such as IBEX-35 or MSCI, as a company’s ability to adapt to an ever-changing environment while adding value to the market and establishing barriers to entry for competitors—commonly known as economic moats.
+\noindent This intrinsic value is defined by numerous experts and renowned investors, including Benjamin Graham, Warren Buffett, and Pat Dorsey [II]; and many Stock's Index such as IBEX-35 or MSCI, as a company's ability to adapt to an ever-changing environment while adding value to the market and establishing barriers to entry for competitors—commonly known as economic moats.
 \vspace{0.5cm}
 
-\noindent Measuring these moats is challenging due to the difficulty of quantifying certain variables, such as brand strength and market influence. However, over the long term, these intangible factors translate into tangible financial data, reflected in a company’s balance sheet, income statement, and cash flow statement; that when exposed to the public market share creates a need to buy or sell the stocks, altering the companies profitability. So from now on, this economic moats will be called \textit{alpha}, following the common literature. 
+\noindent Measuring these moats is challenging due to the difficulty of quantifying certain variables, such as brand strength and market influence. However, over the long term, these intangible factors translate into tangible financial data, reflected in a company's balance sheet, income statement, and cash flow statement; that when exposed to the public market share creates a need to buy or sell the stocks, altering the companies profitability. So from now on, this economic moats will be called \textit{alpha}, following the common literature. 
 
 \section{Tweenvest's Scores}
 Following this approach, Tweenvest developed its four main scores based on key focus areas that investors have to consider before making any decision:
@@ -129,7 +129,7 @@ These are used to measure the overall performance of the company.
 \noindent Also, to not only look at actives Tweenvest uses the cash generated to calculate: \textbf{CROIC} (Cash Return on Invested Capital), \textbf{CROCE} (Cash Return on Capital Employed), \textbf{OCF/Sales}, and \textbf{FCF/Sales}. And lastly it takes account also the Owner's income to calculate: \textbf{Owner's Income/Sales}, \textbf{Owner's CROIC} and \textbf{Owner's CROCE}.
 
 \vspace{0.5cm}
-\noindent Continuing with the financial health, we need to analyze the company’s debt in multiple aspects:
+\noindent Continuing with the financial health, we need to analyze the company's debt in multiple aspects:
 
 \subsubsection{Leverage Ratios}
 These ratios assess how much a company relies on debt to finance its assets and operations. They are essential for evaluating financial risk and long-term solvency.
@@ -184,10 +184,10 @@ These ratios measure a company's ability to meet short-term obligations with its
 
 \subsubsection{Predictability}
 
-\noindent And finally, for the quality score we need to look at the company’s predictability. This is achieved by trying to fit values related to the company’s success —such as Sales— to a exponential curve, which is supported by large financial literature.
+\noindent And finally, for the quality score we need to look at the company's predictability. This is achieved by trying to fit values related to the company's success —such as Sales— to a exponential curve, which is supported by large financial literature.
 
 \vspace{0.5cm}
-\noindent After calculating all of this ratios, Tweenvest compares them to the sectors’ median and interpolates it to create a single score for each ratio and then aggregates them all using personalized weights to create the final Quality Score, which is then showed to the clients:
+\noindent After calculating all of this ratios, Tweenvest compares them to the sectors' median and interpolates it to create a single score for each ratio and then aggregates them all using personalized weights to create the final Quality Score, which is then showed to the clients:
 
 \begin{figure}[H]
     \centering
@@ -321,7 +321,7 @@ These ratios measure a company's ability to meet short-term obligations with its
 
 \section{Problems with the current approach}
 
-\noindent In the context of this thesis, we have to explain the need to make a systematic review of the scores to check wether the simplifications and hypotheses assumed by the financial consensus truly show a company’s ability to create \textit{alpha} over time or not.
+\noindent In the context of this thesis, we have to explain the need to make a systematic review of the scores to check wether the simplifications and hypotheses assumed by the financial consensus truly show a company's ability to create \textit{alpha} over time or not.
 
 
 \subsection{Unquantified Variables}
@@ -344,7 +344,7 @@ These ratios measure a company's ability to meet short-term obligations with its
 \begin{itemize}
     \item \textbf{Herd behavior} is a network effect where investors tend to follow the actions of others rather than rely on their own analysis. This can amplify market movements, both upward and downward. Herd behavior can lead to speculative bubbles and abrupt corrections when collective expectations shift.
 
-    \item \textbf{Feedback loops} are another network effect where market participants’ actions reinforce existing market behavior. For example, rising asset prices may attract more investors, which in turn drives prices even higher. This type of positive feedback can cause price escalation that becomes detached from underlying fundamentals. Conversely, negative feedback can occur during a sell-off, where falling prices trigger more selling, further accelerating the decline.
+    \item \textbf{Feedback loops} are another network effect where market participants' actions reinforce existing market behavior. For example, rising asset prices may attract more investors, which in turn drives prices even higher. This type of positive feedback can cause price escalation that becomes detached from underlying fundamentals. Conversely, negative feedback can occur during a sell-off, where falling prices trigger more selling, further accelerating the decline.
     \item \textbf{Macro-level influences} are another crucial factor where broader structural changes—such as political decisions, economic policies, technological shifts, or industry-wide trends—can significantly impact market behavior. These larger forces often operate beyond the scope of individual company analysis and can create ripple effects throughout the entire market ecosystem.
 \end{itemize}
 
@@ -415,55 +415,211 @@ Once we have our final dataset, we need to inspect it and make sure it is consis
 % \vspace{0.5cm}
 % \noindent As we will explain later on, many of the models follow the premises of normal distribution.
 
-\subsection{Outlier Detection}
+\section{Outlier Detection}
 
-As the models were being trained with raw data, we saw the need to implement some outlier detection to avoid the models to be trained with data that is not representative of the real world.
+Anomalies are data patterns that have different data characteristics from normal
+instances. The ability to detect anomalies has significant relevance, since anomalies often provide critical and actionable information in many different contexts.
 
-\subsubsection{Inter Quartile Range}
+\vspace{0.5cm}
+\noindent For example, anomalies in credit card transactions could signify fraudulent use of
+credit cards. An unusual computer network traffic pattern could stand for an
+unauthorised access.
 
-Just by using the IQR simple method, we saw a significant improvement in the models. Since there are extreme cases that were creating biases in the models.
 
-\subsubsection{Isolation Forest}
+\subsection{Inter Quartile Range}
 
-Since we know that the data is not normally distributed, and there are representative non-linear relationships between the proffits. We decided to use random forests to detect the outliers.
+Given a univariate dataset, the Interquartile Rule identifies outliers based on the interquartile range (IQR). The steps are as follows:
 
-This method consists in:
+\begin{enumerate}
+    \item Compute the first quartile ($Q_1$), which is the 25th percentile of the data.
+    \item Compute the third quartile ($Q_3$), which is the 75th percentile of the data.
+    \item Calculate the interquartile range:
+    \[
+        \text{IQR} = Q_3 - Q_1
+    \]
+    \item Define the lower and upper bounds for non-outlier values following the 1.5 rule:
+    \[
+        \text{Lower bound} = Q_1 - 1.5 \times \text{IQR}
+    \]
+    \[
+        \text{Upper bound} = Q_3 + 1.5 \times \text{IQR}
+    \]
+    \item Any data point $x$ is considered an outlier if:
+    \[
+        x < Q_1 - 1.5 \times \text{IQR} \quad \text{or} \quad x > Q_3 + 1.5 \times \text{IQR}
+    \]
+\end{enumerate}
 
-% Here we will use some paraphrasing from the original paper
+\noindent As we can see this is a very simple and intuitive method, but it has some limitations:
 
-\subsubsection{Single Vector Machine}
+\begin{table}[h!]
+    \centering
+    \begin{tabular}{|p{7cm}|p{7cm}|}
+    \hline
+    \textbf{Advantages} & \textbf{Limitations} \\
+    \hline
+    Simple to compute and interpret. & Not suitable for multivariate data with correlated features. \\
+    \hline
+    Non-parametric. & May misclassify values in skewed distributions as outliers. \\
+    \hline
+    Robust to extreme values, since it relies on percentiles rather than the mean. & Fixed multiplier is arbitrary and may need tuning for each dataset. \\
+    \hline
+    \end{tabular}
+    \caption{Advantages and Limitations of the Interquartile Rule}
+    \end{table}
+    
 
-After looking at many studies in finance, we decided to also use the Single Vector Machine to detect the outliers.
+\subsection{Single Vector Machine}
 
-This method consists in:
+\noindent Support Vector Machines (SVMs) represent a robust class of supervised learning algorithms that can be effectively adapted for anomaly detection tasks. This algorithm establishes itself on the premise that the majority of real-world data is inherently normal. Where the goal is to define a boundary encapsulating the normal instances in the feature space, thereby creating a region of familiarity. 
 
-% Here we will use some paraphrasing from the original paper
+\vspace{0.5cm}
+\noindent To capture the bases of the scikit-learn implementation \textcite{scikit2025oneclasssvm} used in this work, the principle idea is to find a sphere, of minimum volume, containing all the training samples. This sphere, described by its center c and its radius r, is obtained by solving the constrained optimization problem: \cite{zineb2012simple}
+\begin{equation}
+\min_{r,c} r^2 \quad \text{subject to} \quad \|\Phi(x_i) - c\|^2 \leq r^2 \quad \text{for} \quad i = 1, 2, \ldots, n
+\end{equation}
 
-\subsubsection{Local Outlier Factor}
+\vspace{0.5cm}
+\noindent This boundary is strategically positioned to maximize the margin around the normal data points, allowing for a clear delineation between what is considered ordinary and what may be deemed unusual. This emphasis on margin maximization is akin to creating a safety buffer around the normal instances, fortifying the model against the influence of potential outliers or anomalies.
 
-For a more fitted method, we also used the Local Outlier Factor to detect the outliers.
+\vspace{0.5cm}
+\noindent In summary, this method has the following characteristics:
 
-This method consists in:
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|p{7cm}|p{7cm}|}
+        \hline
+        \textbf{Pros} & \textbf{Cons} \\
+            \hline
+            Effective for high-dimensional data and complex boundaries. & Sensitive to the choice of kernel and hyperparameters (e.g., $\nu$, $\gamma$). \\
+            \hline
+            Works well when the training set contains mostly or only normal instances. & Computationally intensive, especially on large datasets. \\
+            \hline
+            Can capture nonlinear patterns using kernels (e.g., RBF kernel). & Difficult to interpret or explain the decision function. \\
+            \hline
+            No need for labeled data from the outlier class. & -- \\
+            \hline
+            Solid theoretical foundation and widely supported in machine learning libraries. & -- \\
+        \hline
+    \end{tabular}
+    \caption{Pros and Cons of One-Class SVM for Outlier Detection}
+\end{table}
+    
+    
+\subsection{Isolation Forest}
 
-% Here we will use some paraphrasing from the original paper
+As we are seeing in this small fraction of outlier detection methodologies, most of the existing anomaly detection approaches are based on the premise of normal distributions, then identify anomalies as those that do not conform to the normal profile.
 
-\subsubsection{Multimodal Outlier Detection}
+\noindent As it is explained in the original paper \textcite{liu2012isolation}, the Isolation Forest algorithm constructs multiple isolation binarytrees (iTrees) from the dataset, where anomalies are identified as data points that exhibit shorter average path lengths across these trees. The algorithm's configuration involves three key parameters:
+\begin{itemize}
+    \item The number of trees to generate
+    \item The size of the subsample
+    \item The maximum tree height during the assessment phase
+\end{itemize}
 
-There is a big controversy in the field about the best method to detect the outliers, thats why I decided to create a multi-modal method to detect the outliers that combines the results of the different methods.
+
+\noindent Lets consider a dataset $X = \{x_1, \dots, x_n\}$ containing $n$ points in $d$-dimensional space, and a subset $X' \subset X$. An Isolation Tree (iTree) is constructed as follows:
+
+\begin{itemize}
+    \item Each node $T$ in the tree is either:
+    \begin{itemize}
+        \item An external node (leaf) with no children, or
+        \item An internal node with exactly two children ($T_l$ and $T_r$) and a test condition
+    \end{itemize}
+    \item The test condition at each internal node consists of:
+    \begin{itemize}
+        \item A randomly selected attribute $q$
+        \item A split value $p$
+        \item A test $q < p$ that determines whether a point goes to $T_l$ or $T_r$
+    \end{itemize}
+\end{itemize}
+
+\noindent The tree construction process recursively partitions $X'$ by randomly selecting attributes and split values until either:
+\begin{itemize}
+    \item The node contains only one instance, or
+    \item All instances at the node have identical values
+\end{itemize}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/code/outliers/IF.jpeg}
+    \caption{Visualization of how Isolation Forest works.}
+    \label{fig:isolation_forest}
+\end{figure}
+
+\noindent As we can see in Figure \ref{fig:isolation_forest}, once the iTree is fully constructed, each point $x_i \in X$ is isolated at a leaf node. The path length $h(x_i)$ of a point $x_i$ is defined as the number of edges traversed from the root to its leaf node. Points with shorter path lengths are considered more likely to be anomalies, as they require fewer splits to be isolated from the rest of the data.
+
+\noindent This method works very good in most cases, but it has also its own limitations
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|p{7cm}|p{7cm}|}
+    \hline
+    \textbf{Pros} & \textbf{Cons} \\
+    \hline
+    Efficient and scalable to large datasets due to its tree-based structure. & Less effective for detecting local outliers in densely clustered regions. \\
+    \hline
+    Non-parametric: does not assume any data distribution. & Performance can vary with the choice of parameters like number of estimators and subsample size. \\
+    \hline
+    Naturally handles high-dimensional data. & Not suitable for detecting subtle anomalies that closely resemble normal data. \\
+    \hline
+    Requires little preprocessing (no need for feature scaling). & Interpretation of results is less intuitive compared to statistical methods. \\
+    \hline
+    Robust to irrelevant features due to random sub-sampling. & May struggle with data that has complex, non-isolated outlier structures. \\
+    \hline
+    \end{tabular}
+    \caption{Pros and Cons of the Isolation Forest Method for Outlier Detection}
+\end{table}
+
+\subsection{Local Outlier Factor}
+
+Since we are looking at outliers from the perspective of correlations between the different response variables to see which companies don't behave naturally. We also checked on the Local Outlier Factor (LOF) for being based on hyper-plane densities of data.
+
+\vspace{0.5cm}
+\noindent The algorithm measures the local deviation of the density of a given sample with respect to its neighbors. It is local in that the anomaly score depends on how isolated the object is with respect to the surrounding neighborhood. More precisely, locality is given by k-nearest neighbors, whose distance is used to estimate the local density. By comparing the local density of a sample to the local densities of its neighbors, one can identify samples that have a substantially lower density than their neighbors. These are considered outliers. \textcite{breunig2000lof}
+
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|p{7cm}|p{7cm}|}
+    \hline
+    \textbf{Pros} & \textbf{Cons} \\
+    \hline
+    Can detect outliers relative to their local neighborhood, allowing it to identify context-specific anomalies. & LOF scores are relative and lack a universal interpretation threshold for outliers. \\
+    \hline
+    Effective in datasets with varying densities — unlike global methods, it can recognize outliers near dense clusters. & Sensitivity to parameter selection (e.g., number of neighbors) can affect performance and consistency. \\
+    \hline
+    Works well across domains, such as network intrusion detection or classification tasks. & Interpretation of LOF scores can vary significantly between datasets or even within a dataset. \\
+    \hline
+    Applicable in any domain where a dissimilarity measure is defined, not limited to vector spaces. & Not inherently scalable to very large datasets without approximation or optimization. \\
+    \hline
+    Easily generalizable and adaptable for use in spatial data, temporal data, and network structures. & Difficult to determine a consistent threshold for what constitutes an outlier. \\
+    \hline
+    \end{tabular}
+    \caption{Pros and Cons of the Local Outlier Factor (LOF) Method}
+\end{table}
+    
+\subsection{Multimodal Outlier Detection}
+
+There is a big controversy in the field about the best method to detect the outliers, since they can vary depending on the methodology used.
+
+\vspace{0.5cm}
+\noindent After reading some aggregative methods such as \textcite{abro2020stacking}, I decided to create a multi-modal method myself, that combines the results of the different methods to get a more robust result.
+
+
 
 \vspace{0.5cm}
 \noindent This method consists in only deleting the common outliers between the different methods, assuring that the data excluded is only formed by \textit{true outliers}.
 
 % ############################### PREPROCESSING #######################
-\subsection{Data Transformation}
+\section{Data Transformation}
 
 To ensure a robust and well-performing model, it is often necessary to preprocess the data by transforming it into a format more suitable for learning algorithms—while preserving the ability to revert it back to its original scale if needed. In many practical cases, rather than analyzing the precise distribution of each variable, we simply standardize the data by centering each feature (subtracting the mean) and scaling it (dividing by the standard deviation), provided the feature is not constant.
 
 \vspace{0.5cm}
 \noindent This step is particularly important because many components of machine learning models—such as the RBF kernel in Support Vector Machines or the regularization terms (L1 and L2) in linear models—implicitly assume that features are centered around zero and have comparable variances. Without this adjustment, features with significantly larger variances could dominate the optimization process, leading the model to underweight or ignore more informative but lower-variance features.
 
-\subsubsection{Stansdar Scale}
-When trainning the neural networks, it is really important to standardize the data. We can easily use the StandardScaler from the scikit-learn library that uses the transformation of a feature \(x_i\) is calculated as:
+\subsection{Standard Scaler}
+When training the neural networks, it is really important to standardize the data. We can easily use the StandardScaler from the scikit-learn library that uses the transformation of a feature \(x_i\) is calculated as:
 
 \begin{equation}
 z_i = \frac{x_i - \mu}{\sigma}
@@ -473,14 +629,12 @@ z_i = \frac{x_i - \mu}{\sigma}
 
 
 
-\subsubsection{Gaussian Transformation}
+\subsection{Gaussian Transformation}
 
-In numerous modeling applications, having normally distributed features is advantageous. Power transformations represent a set of parametric, monotonic functions that are an extension of the Box-Cox transformation, designed to convert data from various distributions into approximately Gaussian distributions, thereby reducing variance fluctuations and decreasing distribution asymmetry. These family of transformations are also reversible, so we can easily transform the data back to its original space when needed.
+In numerous modeling applications, having normally distributed features is advantageous. Power transformations represent a set of parametric, monotonic functions that are an extension of the Box-Cox transformation. They are designed to convert data from various distributions into approximately Gaussian distributions, thereby reducing variance fluctuations and decreasing distribution asymmetry. These family of transformations are also reversible, so we can easily transform the data back to its original space when needed.
 
 \vspace{0.5cm}
-\noindent We finally decided to use the Yeo-Johnson transformation since it allows for negative values.
-
-
+\noindent We finally decided to use the Yeo-Johnson transformation because it allows for negative values and it is reversible.
 
 \begin{equation}
 x_i^{(\lambda)} =
