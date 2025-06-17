@@ -387,22 +387,252 @@ These ratios measure a company's ability to meet short-term obligations with its
 % ############################### METHODOLOGY #######################
 \chapter{Methodology \& Theoretical Framework}
 
-\section{Code Review}
-% Explaining here the methodolgy used to develop the code
+\section{Architecture and Database}
+\subsection{Code practices}
+Since the code that needs to be changed is used daily in a production environment by Tweenvest, it is important to follow some practices to ensure the code is easy to understand, maintain, and to avoid introducing new bugs.
 
-\section{Data consistency}
+\begin{itemize}
+  \item \textbf{Understanding the code}: Before starting to work on the code, it is important to understand the codebase and the purpose of the code. For this, it is recommended to use some tools like flux diagrams, code comments, and documentation. As it will be shown later on.
+  \item \textbf{Testing}: Every function and class should have unit tests that cover all possible scenarios for not introducing new bugs.
+  \item \textbf{Logging}: After each feature is implemented, it is important to analyze the logs to check if the feature is working as expected, and to see if there are any possible optimizations to be made in the queries to improve the performance.
+  \item \textbf{Code review}: Whenever all of this is done, the code needs to be reviewed and approved by the team to be merged into the main branch.
+\end{itemize}
 
-\section{Outlier Detection}
+\subsection{Data creation}
 
-\section{Linear Models}
-\subsection{Linear Regression}
-\subsection{Time Series Models}
-\section{Non-linear Models}
-\subsection{Generalized Additive Models}
+%TODO
+
+\subsection{Data storage}
+
+%TODO
+
+\section{Preprocessing}
+
+%TODO
+
+Once we have our final dataset, we need to inspect it and make sure it is consistent and ready to be used for the modeling.
+
+% \vspace{0.5cm}
+% \noindent As we will explain later on, many of the models follow the premises of normal distribution.
+
+\subsection{Outlier Detection}
+
+As the models were being trained with raw data, we saw the need to implement some outlier detection to avoid the models to be trained with data that is not representative of the real world.
+
+\subsubsection{Inter Quartile Range}
+
+Just by using the IQR simple method, we saw a significant improvement in the models. Since there are extreme cases that were creating biases in the models.
+
+\subsubsection{Isolation Forest}
+
+Since we know that the data is not normally distributed, and there are representative non-linear relationships between the proffits. We decided to use random forests to detect the outliers.
+
+This method consists in:
+
+% Here we will use some paraphrasing from the original paper
+
+\subsubsection{Single Vector Machine}
+
+After looking at many studies in finance, we decided to also use the Single Vector Machine to detect the outliers.
+
+This method consists in:
+
+% Here we will use some paraphrasing from the original paper
+
+\subsubsection{Local Outlier Factor}
+
+For a more fitted method, we also used the Local Outlier Factor to detect the outliers.
+
+This method consists in:
+
+% Here we will use some paraphrasing from the original paper
+
+\subsubsection{Multimodal Outlier Detection}
+
+There is a big controversy in the field about the best method to detect the outliers, thats why I decided to create a multi-modal method to detect the outliers that combines the results of the different methods.
+
+\vspace{0.5cm}
+\noindent This method consists in only deleting the common outliers between the different methods, assuring that the data excluded is only formed by \textit{true outliers}.
+
+% ############################### PREPROCESSING #######################
+\subsection{Data Transformation}
+
+To ensure a robust and well-performing model, it is often necessary to preprocess the data by transforming it into a format more suitable for learning algorithms—while preserving the ability to revert it back to its original scale if needed. In many practical cases, rather than analyzing the precise distribution of each variable, we simply standardize the data by centering each feature (subtracting the mean) and scaling it (dividing by the standard deviation), provided the feature is not constant.
+
+\vspace{0.5cm}
+\noindent This step is particularly important because many components of machine learning models—such as the RBF kernel in Support Vector Machines or the regularization terms (L1 and L2) in linear models—implicitly assume that features are centered around zero and have comparable variances. Without this adjustment, features with significantly larger variances could dominate the optimization process, leading the model to underweight or ignore more informative but lower-variance features.
+
+\subsubsection{Stansdar Scale}
+When trainning the neural networks, it is really important to standardize the data. We can easily use the StandardScaler from the scikit-learn library that uses the transformation of a feature \(x_i\) is calculated as:
+
+\begin{equation}
+z_i = \frac{x_i - \mu}{\sigma}
+\end{equation}
+
+\noindent where \(\mu\) is the mean of the feature and \(\sigma\) is its standard deviation. This transformation results in a distribution with a mean of 0 and a standard deviation of 1.
+
+
+
+\subsubsection{Gaussian Transformation}
+
+In numerous modeling applications, having normally distributed features is advantageous. Power transformations represent a set of parametric, monotonic functions that are an extension of the Box-Cox transformation, designed to convert data from various distributions into approximately Gaussian distributions, thereby reducing variance fluctuations and decreasing distribution asymmetry. These family of transformations are also reversible, so we can easily transform the data back to its original space when needed.
+
+\vspace{0.5cm}
+\noindent We finally decided to use the Yeo-Johnson transformation since it allows for negative values.
+
+
+
+\begin{equation}
+x_i^{(\lambda)} =
+\begin{cases}
+\frac{[(x_i + 1)^\lambda - 1]}{\lambda}, & \text{if } x_i \geq 0, \lambda \neq 0 \\
+\ln(x_i + 1), & \text{if } x_i \geq 0, \lambda = 0 \\
+-\frac{[(-x_i + 1)^{2 - \lambda} - 1]}{2 - \lambda}, & \text{if } x_i < 0, \lambda \neq 2 \\
+-\ln(-x_i + 1), & \text{if } x_i < 0, \lambda = 2
+\end{cases}
+\end{equation}
+
+\noindent Where \(\lambda\) is a power parameter that helps minimize the skewness of the data. And since we have already deleted extreme outliers, the final distribution shouldn't be too distorted.
+
+\vspace{0.5cm}
+
+\noindent Here are some exammples of the transformations for different distributions:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/code/transformations/yeo-johnson.png}
+    \caption{Yeo-Johnson Transformations examples}
+    \label{fig:yeo-johnson}
+\end{figure}
+
+% ############################### PREDICTIVE MODELS #######################
+\section{Predictive Models}
+The main objective of this thesis is to check if the scores have any relation with the future profits of the companies. For doing this in the most generalized way, instead of creating a portfolio following some subjective criteria on the scores, markets and other variables, we will use predictive modeling to check for the actual relationships between the response variables and the predictive ones.
+
+\vspace{0.5cm}
+\noindent As a first approach, we will be creating a set of models that separate the scores and the different returns. 
+
+\subsubsection{Response Variables}
+We will use different profits that from know one will be representad as \(P_i\) for each time horizon: \(i \in \{1 \text{ month}, 3 \text{ months}, 6 \text{ months}, 1 \text{ year}, 2 \text{ years}, 5 \text{ years}\}\)
+
+\subsubsection{Explanatory Variables}
+For being able to train the models, we have different variable categories:
+
+\begin{itemize}
+    \item \textbf{Main variables}, these are numerical variables from \textbf{Tweenvest's Scores}, that are in the range of 0 to 100: \(S_j\) where   \(j \in \{\text{ Quality; Value; Dividend; Growth}\}\)
+    \item \textbf{Dummy variables}, these are boolean variables that allow us to separate the companies by:
+    \begin{itemize}
+        \item \textbf{Industry}: \(I_k\) where \(k \in \{\text{Financials; Healthcare; etc.}\}\)
+        \item \textbf{Region}: \(R_l\) where \(l \in \{\text{Europe; North America; etc.}\}\)
+    \end{itemize}
+    \item \textbf{Market Variables}, these are numeric variables that represent the companies \textit{"size"} using the: \textbf{Market Cap} and \textbf{Volume}.
+\end{itemize}
+
+\subsection{Regression Models}
+
+To create the econometrical models, we want to be able to understand the actual relationship between the response variables and the explanatory ones. For this we started with the creation of multiple regression models.
+
+\subsubsection{Linear Regression}
+
+As for the first models, we created a series of linear regression models for each factor score that
+includes the interactions between the dummy variables and the score used in each model.
+
+\begin{equation}
+    \hat{P_i}=\beta_0+\beta_1 \cdot S_j + 
+\sum_{n=2}^{N}\beta_{n}\cdot D_n + S_j \cdot \sum_{m=N+1}^{M}\beta_{m}\cdot D_m
+\end{equation}
+
+\noindent where:
+\begin{itemize}
+    \item \(P_i\) is the estimated profit for each time horizon \(i\)
+    \item \(S_j\) is the score for each factor \(j\)
+    \item \(D_{n,m}\) are the dummy variables for the industry and region, where \(D_{n,m} := I_k \cup R_l\)
+    \item \(\beta\) are the coefficients that weight each variable.
+\end{itemize}
+
+\noindent For fitting the models, we will also apply a backward selection to remove the variables that are not statistically significant, using the \textbf{p-value} as the criterion.
+
+\subsubsection{Generalized Additive Models}
+
+Because the relationships between the variables are not linear, we also used the Generalized Additive Models (GAM) to check if they are able to capture the non-linear relationships between the variables.
+
+\vspace{0.5cm}
+\noindent According to \textcite{pygam2018}, GAMs are smooth semi-parametric models that can capture non-linear relationships between variables. They take the form:
+
+\begin{equation}
+    g(\mathbb{E}[y|X]) = \beta_0 + f_1(X_1) + f_2(X_2,X_3) + \dots + f_M(X_N)
+\end{equation}
+
+\noindent where:
+\begin{itemize}
+    \item \(X^T = [X_1, X_2, \dots, X_N]\) are the independent variables
+    \item \(y\) is the dependent variable.
+    \item \(g()\) is the link function that relates the predictor variables to the expected value of the dependent variable.
+    \item \(f_i()\) are feature functions built using penalized B-splines, which automatically model non-linear relationships without requiring manual transformation of variables.
+\end{itemize}
+
+\noindent In our case, we will use pyGAMs LinearGAM since it gives a Normal error distribution, and an identity link.
+
+\subsection{Time Series}
+In the stock market, the prices of the stocks are not independent of each other, they are correlated in the time series and they also have memory on past behavior of the company. This is what is known as \textbf{Momentum}, so companies that have a good past performance are more likely to have a good future performance, and vice versa.
+
+\vspace{0.5cm}
+\noindent For this reason, we contemplated two possibilities:
+
+\subsubsection{ARIMA Models}
+To take account the profit tendency, we implemented a ARIMA model to improve the regression models performance by using the residues of the already fitted model:
+
+\begin{equation}
+    P_i = \hat{P_i} + {\varepsilon_i} \quad \longleftrightarrow \quad {\varepsilon_i} \sim ARIMA_i(p,d,q)
+\end{equation}
+
+\noindent The ARIMA model is defined as:
+
+\begin{equation}
+    \phi_i(B_i)(1 - B_i)^{d_i} \varepsilon_i^t = \theta_i(B_i) \eta_i^t
+    \end{equation}
+    
+    \noindent where for each $i$ profit:
+    \begin{itemize}
+      \item $\varepsilon_i^t$ is the residual at time $t$.
+      \item $\eta_i^t$ is a white noise error term (innovation).
+      \item $B_i$ is the backshift operator, such that $B \varepsilon_i^t = \varepsilon_i^{t-1}$.
+      \item $\phi_i(B) = 1 - \phi_{i1} B - \phi_{i2} B^2 - \dots - \phi_{ip} B^p$ is the autoregressive (AR) polynomial.
+      \item $\theta_i(B) = 1 + \theta_{i1} B + \theta_{i2} B^2 + \dots + \theta_{iq} B^q$ is the moving average (MA) polynomial.
+      \item $d_i$ is the order of differencing.
+    \end{itemize}
+    
+
+
+\subsubsection{Windowed Models}
+And for capturing possible memory of the companies behavior in different aspects, we also will implement a windowed model that will use the last \(n\) scores statistical properties to predict future profits.
+
+\vspace{0.5cm}
+\noindent So for each score \(j\), we will calculate the average and the standard deviation of the scores over the last \(w\) periods. Let \(S_j^t\) be the score at time \(t\), then for a window of size \(w\):
+
+\begin{equation}
+    \bar{S}_j^w = \frac{1}{w} \sum_{i=t-w+1}^{t} S_j^i
+\end{equation}
+
+\noindent where:
+\begin{itemize}
+    \item \(\bar{S}_j^w\) is the average score over window \(w\) for score \(j\)
+    \item \(w\) can be 3 or 6 months, 1 or 2 years.
+    \item \(t\) is the current time point
+    \item \(j\) represents the different scores (Quality, Growth, Value, Dividends)
+\end{itemize}
+
+\noindent We will also calculate the standard deviation of the scores over the same window:
+
+\begin{equation}
+    \sigma_j^w = \sqrt{\frac{1}{w} \sum_{i=t-w+1}^{t} (S_j^i - \bar{S}_j^w)^2}
+\end{equation}
+
+\noindent These statistical measures will be used as additional features in our predictive models to capture the temporal behavior of each score.
+
 \subsection{Neural Networks}
 
-\section{Enhaced Models}
-% Explaining here the theoretical framework used to develop the code
+Finally, for trying to capture the non-linear relationships between all the available variables, including the windowed statistical properties, we will use the Neural Networks.
 
 
 

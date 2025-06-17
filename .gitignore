@@ -17,6 +17,7 @@
 *.ind
 *.bcf
 *.run.xml
+*.bbl-SAVE-ERROR
 
 # LaTeX temporary files
 *.tmp
