@@ -410,10 +410,73 @@ Since the code that needs to be changed is used daily in a production environmen
 
 %TODO
 
-Once we have our final dataset, we need to inspect it and make sure it is consistent and ready to be used for the modeling.
+Once we have our raw dataset, we need to inspect it and make sure it is consistent and ready to be used for the modeling. This part is really important to avoid any bias in the modeling process and to only use the data that is actually relevant for the analysis.
+
+\noindent 
 
 % \vspace{0.5cm}
 % \noindent As we will explain later on, many of the models follow the premises of normal distribution.
+
+\subsection{Data Consistency}
+
+Since all of our data is coming from a data provider that uses OCR as one of their tools whenever they don't have the data in a structured format, for this reason we need to be very restrictive with the data that we use. Also, as we mentioned before, some of our algorithms for calculating the scores use long term data such as 10 year growths rates. Which means that all of the companies that stopped existing or that were acquired by other companies will create null scores. 
+
+\vspace{0.5cm}
+\noindent This is one of the biggest \textbf{limitations of the current approach}: we will be missing the data of companies that stopped existing or that were acquired by other companies, if they didn't exist for 10 or more years.
+
+\vspace{0.5cm}
+\noindent Also, we chose to set all of the Dividend null scores to 0, since this score is null whenever the company doesn't pay dividends. We need to check if this score is relevant for long term profitability, so we can't exclude it from the analysis whenever it's null.
+
+
+% ############################### PREPROCESSING #######################
+\subsection{Data Transformation}
+
+To ensure a robust and well-performing model, it is often necessary to preprocess the data by transforming it into a format more suitable for learning algorithms—while preserving the ability to revert it back to its original scale if needed. In many practical cases, rather than analyzing the precise distribution of each variable, we simply standardize the data by centering each feature (subtracting the mean) and scaling it (dividing by the standard deviation), provided the feature is not constant.
+
+\vspace{0.5cm}
+\noindent This step is particularly important because many components of machine learning models—such as the RBF kernel in Support Vector Machines or the regularization terms (L1 and L2) in linear models—implicitly assume that features are centered around zero and have comparable variances. Without this adjustment, features with significantly larger variances could dominate the optimization process, leading the model to underweight or ignore more informative but lower-variance features.
+
+\subsubsection{Standard Scaler}
+When training the neural networks, it is really important to standardize the data. We can easily use the StandardScaler from the scikit-learn library that uses the transformation of a feature \(x_i\) is calculated as:
+
+\begin{equation}
+z_i = \frac{x_i - \mu}{\sigma}
+\end{equation}
+
+\noindent where \(\mu\) is the mean of the feature and \(\sigma\) is its standard deviation. This transformation results in a distribution with a mean of 0 and a standard deviation of 1.
+
+
+
+\subsubsection{Gaussian Transformation}
+
+In numerous modeling applications, having normally distributed features is advantageous. Power transformations represent a set of parametric, monotonic functions that are an extension of the Box-Cox transformation. They are designed to convert data from various distributions into approximately Gaussian distributions, thereby reducing variance fluctuations and decreasing distribution asymmetry. These family of transformations are also reversible, so we can easily transform the data back to its original space when needed.
+
+\vspace{0.5cm}
+\noindent We finally decided to use the Yeo-Johnson transformation because it allows for negative values and it is reversible.
+
+\begin{equation}
+x_i^{(\lambda)} =
+\begin{cases}
+\frac{[(x_i + 1)^\lambda - 1]}{\lambda}, & \text{if } x_i \geq 0, \lambda \neq 0 \\
+\ln(x_i + 1), & \text{if } x_i \geq 0, \lambda = 0 \\
+-\frac{[(-x_i + 1)^{2 - \lambda} - 1]}{2 - \lambda}, & \text{if } x_i < 0, \lambda \neq 2 \\
+-\ln(-x_i + 1), & \text{if } x_i < 0, \lambda = 2
+\end{cases}
+\end{equation}
+
+\noindent Where \(\lambda\) is a power parameter that helps minimize the skewness of the data. And since we have already deleted extreme outliers, the final distribution shouldn't be too distorted.
+
+\vspace{0.5cm}
+
+\noindent Here are some exammples of the transformations for different distributions:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/code/transformations/yeo-johnson.png}
+    \caption{Yeo-Johnson Transformations examples}
+    \label{fig:yeo-johnson}
+\end{figure}
+
 
 \section{Outlier Detection}
 
@@ -598,66 +661,24 @@ Since we are looking at outliers from the perspective of correlations between th
     \caption{Pros and Cons of the Local Outlier Factor (LOF) Method}
 \end{table}
     
-\subsection{Multimodal Outlier Detection}
+\subsection{Multi Criteria Outlier Detection}
 
 There is a big controversy in the field about the best method to detect the outliers, since they can vary depending on the methodology used.
 
 \vspace{0.5cm}
 \noindent After reading some aggregative methods such as \textcite{abro2020stacking}, I decided to create a multi-modal method myself, that combines the results of the different methods to get a more robust result.
 
-
-
-\vspace{0.5cm}
-\noindent This method consists in only deleting the common outliers between the different methods, assuring that the data excluded is only formed by \textit{true outliers}.
-
-% ############################### PREPROCESSING #######################
-\section{Data Transformation}
-
-To ensure a robust and well-performing model, it is often necessary to preprocess the data by transforming it into a format more suitable for learning algorithms—while preserving the ability to revert it back to its original scale if needed. In many practical cases, rather than analyzing the precise distribution of each variable, we simply standardize the data by centering each feature (subtracting the mean) and scaling it (dividing by the standard deviation), provided the feature is not constant.
-
-\vspace{0.5cm}
-\noindent This step is particularly important because many components of machine learning models—such as the RBF kernel in Support Vector Machines or the regularization terms (L1 and L2) in linear models—implicitly assume that features are centered around zero and have comparable variances. Without this adjustment, features with significantly larger variances could dominate the optimization process, leading the model to underweight or ignore more informative but lower-variance features.
-
-\subsection{Standard Scaler}
-When training the neural networks, it is really important to standardize the data. We can easily use the StandardScaler from the scikit-learn library that uses the transformation of a feature \(x_i\) is calculated as:
-
-\begin{equation}
-z_i = \frac{x_i - \mu}{\sigma}
-\end{equation}
-
-\noindent where \(\mu\) is the mean of the feature and \(\sigma\) is its standard deviation. This transformation results in a distribution with a mean of 0 and a standard deviation of 1.
-
-
-
-\subsection{Gaussian Transformation}
-
-In numerous modeling applications, having normally distributed features is advantageous. Power transformations represent a set of parametric, monotonic functions that are an extension of the Box-Cox transformation. They are designed to convert data from various distributions into approximately Gaussian distributions, thereby reducing variance fluctuations and decreasing distribution asymmetry. These family of transformations are also reversible, so we can easily transform the data back to its original space when needed.
-
-\vspace{0.5cm}
-\noindent We finally decided to use the Yeo-Johnson transformation because it allows for negative values and it is reversible.
-
-\begin{equation}
-x_i^{(\lambda)} =
-\begin{cases}
-\frac{[(x_i + 1)^\lambda - 1]}{\lambda}, & \text{if } x_i \geq 0, \lambda \neq 0 \\
-\ln(x_i + 1), & \text{if } x_i \geq 0, \lambda = 0 \\
--\frac{[(-x_i + 1)^{2 - \lambda} - 1]}{2 - \lambda}, & \text{if } x_i < 0, \lambda \neq 2 \\
--\ln(-x_i + 1), & \text{if } x_i < 0, \lambda = 2
-\end{cases}
-\end{equation}
-
-\noindent Where \(\lambda\) is a power parameter that helps minimize the skewness of the data. And since we have already deleted extreme outliers, the final distribution shouldn't be too distorted.
-
-\vspace{0.5cm}
-
-\noindent Here are some exammples of the transformations for different distributions:
-
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\textwidth]{images/code/transformations/yeo-johnson.png}
-    \caption{Yeo-Johnson Transformations examples}
-    \label{fig:yeo-johnson}
+    \includegraphics[width=0.8\textwidth]{images/code/outliers/multimodal.png}
+    \caption{Multi Criteria Outlier Detection Method}
+    \label{fig:multimodal}
 \end{figure}
+
+
+\vspace{0.5cm}
+\noindent This method consists in homogenizing the variables with a common data transformation so it is Normal. To make sure that the final data isn't being transformed we copy the original dataset earlyer. Then we use multiple methods to detect the differente outliers and then we make the intersection to get the common outliers between all of them. After this process we have tagged the orinal dataset rows, assuring that the data that will be excluded is only formed by \textit{true outliers}.
+
 
 % ############################### PREDICTIVE MODELS #######################
 \section{Predictive Models}
@@ -792,7 +813,250 @@ Finally, for trying to capture the non-linear relationships between all the avai
 
 % ############################### DEVELOPMENT AND RESULTS #######################
 \chapter{Development and Results}
-% Your results
+
+\section{Creation of the Dataset}
+
+\noindent We have understood the nature of the data, explained the bases of how the scores are calculated, and the code methodologies we will be using. Now we need to create a proper dataset.
+
+\vspace{0.5cm}
+% TODO: add the capitals for DB
+\noindent At the current moment of beginning this work, Tweenvest kept a large DB (database) of most of the needed information for creating the dataset. This includes all of the price histories, historical currency multipliers to dollar, dividends payed per stock… but when it came to the scores we had a traceability problem.
+
+\vspace{0.5cm}
+\noindent For optimizing the costs and structure of the DB, Tweenvest chose to only save the latest score for each company and overwriting it each day when calculating the newest on, which led to the first main task.
+
+\subsection{Updating Tweenvest Code}
+
+After locating where the score calculators are called, we have to understand the code's architecture and the relationships between the different database models to see exactly what needs to be changed. Tweenvest uses Django as the main backend's technology to handle a relational database with PostgreSQL, this is due to the nature of the financial data where one the information is related to another.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/tweenvest/general architecture.png}
+    \caption{General Tweenvest's Architecture}
+    \label{fig:general_architecture}
+\end{figure}
+
+\noindent As we can see, there are two different actions occurring at the same time. For one side we have all of the requests coming from the users interactions, and for the other hand the programmed jobs that need to be executed every day to update all of the financial information of the stocks, or necessary actions such as sending emails to get authentication pins.
+
+\vspace{0.5cm}
+\noindent Since we are changing the data logic for calculating and storing historical data of the factor scores, we need to assure that the systems capabilities don't exceed the platforms needs, and that the changes don't affect the normal calculation of the factor scores, so we need to look at the code corresponding to the factor scores.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/tweenvest/scores schema.png}
+    \caption{Scores Calculations Code Schema}
+    \label{fig:general_architecture}
+\end{figure}
+
+\noindent With this schema we have simplified the logic behind several functions related to the calculations of each factor score. Quickly we realize that we have modify the queries to include an extra filter, \textit{calculation\_date} to get models related to the score at any time, this way we can set it as today whenever we are just calculating the current ones.
+
+\vspace{0.5cm}
+\noindent Following the propagation schema, the root change comes from the functions \textit{calculate\_scores}, \textit{get\_indexes\_information} and \textit{get\_quality\_ratios\_by\_index}, these are the ones used by the production cron jobs to calculate the factor scores daily so we set it to None for normal use and then added date as a secondary option. This helps us create very readable logic to adapt the filters to both scenarios, for example in the value score:
+
+\begin{lstlisting}[language=Python]
+if calculation_date is None:
+    calculation_date = date.today()
+    filters = {
+        "stock": stock,
+        "date__gte": calculation_date - relativedelta(years=10),
+    }
+else:
+    filters = {
+        "stock": stock,
+        "date__gte": calculation_date - relativedelta(years=10),
+        "date__lte": calculation_date,
+    }
+phs = (
+    PriceHistory.objects.filter(**filters)
+)
+\end{lstlisting}
+
+\noindent The main change for this part of the code was to add a date filter to get only data "lower than or equal" to the calculation date. This may seem a bad approximation, but it has to be done this way due to the nature of the data; most of the financial data come from annual, semestral, and quarterly reports, except to the price history that is updated daily.
+
+\vspace{0.5cm}
+\noindent Along the way of analyzing the code's structure we made some adjustments to simplify the legibility:
+\begin{itemize}
+    \item Renaming functions whenever they are internal methods or generic auxiliary methods called by different functions.
+    \item Externalizing mocking functions that help create fake models and data for unit testing.
+    \item Homogenize the code's structure, field types, to help with readability and keeping a standard order along the backend and frontend.
+\end{itemize}
+
+\vspace{0.5cm}
+\noindent Another very important part of these updating procedure was to adapt the current unit tests to make sure that the original code still behaves as expected, and creating new ones to check that the changes calculates the factor scores properly.
+
+\subsection{Designing new Jobs}
+
+Once all tests have passed and the team had approved the changes, the next step is to create scripts —from now on, \textit{jobs}—to populate the current DB with the historic factor scores while maintaining the servers performance in normal levels. For this we had to update a basic method, \textit{bulk\_create\_or\_update},  used many times through the whole backend and add a new conditioning so it can handle conflicts depending if the models are empty or not. After reading the official Django documentation, we saw that in current versions they had included new fields to its original method "\textit{bulk\_create}", so we had to update Django and make sure it didn't introduce any unwanted issues.
+
+\vspace{0.5cm}
+\noindent We decided to create three different jobs for enqueue them and being able to separate the calculations, this way we can restart them in case something broke during the process. And when choosing how to approach the server management, we used the following hierarchy:
+
+\begin{enumerate}
+    \item Seven workers for primary daily jobs from different API data integration
+    \item One dedicated worker for guaranteeing email sendings, and 6 prioritized shared workers
+    \item Four shared workers with lower priority, except for 1 which is set higher than email.
+\end{enumerate}
+
+\vspace{0.5cm}
+\noindent A crucial part of this code was replicability, equal distribution through different sectors, and mostly to assure that the companies existed during enough time for the factor scores to calculate the 10 years averages.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/tweenvest/Historical Jobs First Iteration.png}
+    \caption{Historical Jobs First Iteration}
+    \label{fig:historical_jobs_first_iteration}
+\end{figure}
+
+\noindent During the first small test it worked in local, but when tested with the production DB we started to see important issues with how the functions where designed due to the large amount of data being processed:
+\begin{itemize}
+    \item Passing incorrect arguments between jobs—such as entire lists of stock objects—led to the REDIS database reaching its maximum storage capacity.
+    \item Jobs ran out of time.
+\end{itemize}
+
+
+\noindent We then changed the day range logic to enqueue a \textit{calculate\_index\_scores\_task} for each day, so the job didn't have to calculate all of the index data for the dates at all at once. Also, we modified the args to only uses models identifiers "id" to reduce the REDIS memory used. The complete implementation of this job can be found in Appendix \ref{app:historical_scores_job}.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/tweenvest/Historical Jobs Final Version.png}
+    \caption{Historical Jobs Final Version}
+    \label{fig:historical_jobs_final_version}
+\end{figure}
+
+\subsection{Telemetry Tracing}
+Finally we had a functional jobs for calculating the scores, and ran the first calculation for a dataset of 1.500 stocks. After the first jobs finished we quickly realized that they were taking too much time to process, and saw a disproportionate amount of queries to the DB so we started a process to check on where was the bottleneck using telemetry tracing tools.
+
+\vspace{0.5cm}
+\noindent To do so, we had to inspect each method and function that is used through the calculations of the factor scores. Luckily we had just recently implemented DataDog which is a software that provides monitoring and analytics for applications and infrastructure, offering real-time metrics, event monitoring, and end-to-end tracing.
+
+\vspace{0.5cm}
+\noindent To apply the tracer, we simply had to add a specific decorator before each method and set up the environment for being able to trace not only production launched jobs, but also development tests.
+
+\vspace{0.5cm}
+\noindent Here's an example of how the tracer was implemented in the quality score calculation:
+
+\begin{lstlisting}[language=Python, caption=Telemetry Tracing Implementation]
+from opentelemetry import trace
+
+tracer = trace.get_tracer(__name__)
+
+@tracer.start_as_current_span("compute_quality_score")
+def compute_quality_score(
+    stock: "Stock",
+    index_quality_ratios: Dict[str, IndexRatio],
+    calculation_date: date | None,
+) -> tuple[dict, dict]:
+    ...
+    return final_score
+\end{lstlisting}
+
+\noindent We clearly saw an excess of queries to the DB when calculating each score, and tried to reduce them by looking for a simple fault in the logic of the queries. Similar issues had been resolved before by adding a \textit{select\_related} in the queries. To clarify what this does, here is the definition with a simple use-case:
+
+\vspace{0.5cm}
+\noindent ``Returns a QuerySet that will follow foreign-key relationships, selecting additional related-object data when it executes its query. This is a performance booster which results in a single more complex query but means later use of foreign-key relationships won't require database queries.'' -- \textcite{django2025queryset}.
+
+\vspace{0.5cm}
+\noindent So in Django, \textit{select\_related()} and \textit{prefetch\_related()} are designed to stop the deluge of database queries that are caused by accessing related objects. \textit{select\_related()} ``follows'' foreign-key relationships, selecting additional related-object data when it executes its query. \textit{prefetch\_related()} does a separate lookup for each relationship and does the ``joining'' in Python.
+
+\vspace{0.5cm}
+\noindent One uses \textit{select\_related} when the object that you're going to be selecting is a single object, so \textit{OneToOneField} or a \textit{ForeignKey}.
+
+\vspace{0.5cm}
+\noindent But after many attempts, and due to the lack of time left to just calculate the factor scores, we had to leave this "minor issue" unsolved and change the strategy to solve the calculation time. Which led to the realization that we were sharing most of the servers power with the normal usage of the platform, and for the normal calculations times (3-4h) didn't matter because we do them daily after market hours, but that didn't work for calculating 5 or more years at once, even with only calculating one score per month.
+
+\subsection{Dedicated Server Deployment}
+\noindent We made the decision to establish a dedicated server for this thesis, equipped with enhanced computational power to facilitate the calculations and data fitting. After thorough research, we opted for Hetzner servers due to their exceptional quality-price ratio.
+
+\vspace{0.5cm}
+\noindent Deploying the project in a scalable and reproducible environment involved several structured steps, encompassing server provisioning, secure remote access configuration using SSH, and initializing the containerized application deployment via Docker, with the application codebase managed through GitHub.
+
+\vspace{0.5cm}
+\noindent After all of the setup was done, we saw amazing performance improvements going from 15-minute calculation times for index statistics to 8 seconds. Finally, we could launch the factor scores historical calculations, so we created two subsets of 1,500 random companies each with the factor scores calculated for the 1st day of the month for the following periods: 2015-2020 and 2020-2025, which took a total of 3 hours.
+
+\vspace{0.5cm}
+\noindent Now that we have filled the DB with the necessary factor scores for the study, we ran a big calculation to get all of the possible factor scores for the +100,000 companies, which took several days.
+
+\subsection{Aggregating the data}
+
+For being able to continue, we need to create the final dataset with all the necessary data for later on doing the analysis and developing the predictive models, so we created a simple algorithm with this logic:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/tweenvest/First Data Aggregation Schema.png}
+    \caption{First Data Aggregation Schema}
+    \label{fig:first_data_aggregation_schema}
+\end{figure}
+
+\noindent Once we had the final csv file we noticed that we had too many empty values for profits, the problem was because many of the days calculated were on the weekend. So there was no price history for them, but that wasn't the only thing to take account. Since the companies belong to multiple countries, the holidays were causing another major loss in the information. To fix this in a general way we implemented an internal method for estimating price histories if it didn't exist for the wanted date. The complete implementation of this data export and price estimation process can be found in Appendix \ref{app:data_export_job}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\textwidth]{images/tweenvest/Final Data Aggregation Schema.png}
+    \caption{Final Data Aggregation Schema}
+    \label{fig:final_data_aggregation_schema}
+\end{figure}
+
+\noindent This can be done due to the fact that we are only looking for long term profitabilities, so we can \textbf{approximate the price} on a day "x" by interpolating the price on "x-y" and "x+z" weighted by how close they are to the original day "x" with a maximum distance from "x" of 15 days. This reduced significantly the amount of missing values.
+
+\subsection{Datasets Creation}
+
+For this work, we are going to attack the main objective from multiple perspectives. First we are going to make a descriptive analysis to understand the data, and then we will propose different models to see if there are any relationships between the scores factors and long term profitabilities.
+
+\vspace{0.5cm}
+\noindent When creating the datasets, we made two different approaches:
+
+
+\begin{figure}[H]
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/code/descriptive analysis/1st Dataset.png}
+        \caption{1st Dataset}
+        \label{fig:1st_dataset}
+    \end{minipage}
+    \hfill
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/code/descriptive analysis/2nd Dataset.png}
+        \caption{2nd Dataset}
+        \label{fig:2nd_dataset}
+    \end{minipage}
+\end{figure}
+
+\noindent For the 1st one, we calculated the scores for the range 2020-2025 and then related them to the profits obtained until the specified date. So, for example, the date 1-1-2021, we would link the explanatory variables to the 2 years’ profitability obtained until that date: 
+
+\begin{equation}
+    Profit(\%) = \frac{P_{1\text{-}1\text{-}2021} - P_{1\text{-}1\text{-}2019} + D_{\text{acc}}}{P_{1\text{-}1\text{-}2019}}
+\end{equation}
+
+\noindent Which interprets to how earlier profits have influenced on the explanatory variables. This will give us valuable information later on, but we actually want the opposite. So we created the second dataset where we will be looking at the future profits based on current explanatory variables.
+
+
+\vspace{0.5cm}
+\noindent For the 2nd one, we calculated the scores for the range 2015-2020 and then related them to the profits obtained until the specified date. So, for example, the date 1-1-2021, we would link the explanatory variables to the 2 years’ profitability that will be obtained in the future: 
+
+\begin{equation}
+    Profit(\%) = \frac{P_{1\text{-}1\text{-}2023} - P_{1\text{-}1\text{-}2021} + D_{\text{acc}}}{P_{1\text{-}1\text{-}2021}}
+\end{equation}
+
+\noindent This approach is what we actually want to use for the predictive models, so we will be using the 2nd dataset for the rest of the analysis.
+
+\section{Descriptive Analysis}
+
+\subsection{Preprocessing the Data}
+
+To begin, we looked at the data structure and saw that about 50\% of growth scores were empty. This turned on many alerts from problems with the algorithm, because compared to the rest of the variables there was a significant differences, their absence was only around 8\%. But after digging into the data we realized that it was due to the fact that many companies stop sending reports or selling but keep existing, so we decided to deleted these companies from our dataset because they aren't behaving as a "normal company", and those companies could create a bias in the models. On the other hand, we set all of NaN values of dividend scores as equal to 0 because Tweenvest's algorithm doesn't give a score if the company doesn't pay dividends, but in the study this data is very valuable to see  it if that score is that related to profitability.
+
+\vspace{0.5cm}
+\noindent Once we did those small adjustments on the dataset, we ended up with the following distributions:
+
+
+\vspace{0.5cm}
+\noindent The complete implementation of this preprocessing process can be found in Appendix \ref{app:preprocessing_job}.
+
+
+\subsection{Correlations}
+
+\subsection{Correlations}
+
+\subsection{Correlations}
 
 % ############################### DISCUSSION #######################
 \chapter{Discussion}
@@ -815,6 +1079,280 @@ Finally, for trying to capture the non-linear relationships between all the avai
 \makeatother
 
 \chapter{Additional Listings}
-Example appendix content.
+
+\section{Historical Scores Job Implementation}
+\label{app:historical_scores_job}
+
+\noindent The following code shows the complete implementation of the historical scores job that was used to populate the database with historical factor scores data:
+
+\begin{lstlisting}[language=Python, caption=Historical Scores Job Implementation]
+@job("historical_scores", timeout="3h")
+def enqueue_calculate_index_scores_task(
+    start_date: datetime.date,
+    end_date: datetime.date,
+    index_names: list[str] | None = None,
+    region_names: list[str] | None = None,
+    total_stocks: int | None = None,
+    seed: float | None = None,
+    daily: bool = False,
+):
+    logger.info(
+        "[H1] Starting enqueue_year_tasks from %s to %s",
+        start_date,
+        end_date,
+    )
+
+    days = get_range_from_dates(
+        start_date,
+        end_date,
+        delta=relativedelta(days=1) if daily else relativedelta(months=1),
+    )
+    days.reverse()
+
+    if not index_names:
+        index_names = list(
+            Index.objects.exclude(name__in=[Index.INDEX_ALL, "Other"])
+            .only("name")
+            .values_list("name", flat=True)
+        )
+    logger.info("[H1] Enqueuing tasks for %s indexes", len(index_names))
+
+    stocks_per_index = (
+        int(total_stocks / len(index_names)) if total_stocks else None
+    )
+
+    stock_count = 0
+    total_stocks_dict = {}
+    for index_name in index_names:
+        stock_ids = get_stock_ids_for_index(
+            index_name,
+            stocks_per_index,
+            start_date,
+            end_date,
+            seed,
+            region_names,
+        )
+        if not stock_ids:
+            raise ValueError(
+                f"[H1] No stocks found for index '{index_name}' after {start_date}"
+            )
+        total_stocks_dict[index_name] = stock_ids
+        for day in days:
+            calculate_index_scores_task.delay(
+                index_name=index_name,
+                day=day,
+                stock_ids=stock_ids,
+            )
+
+        stock_count += len(stock_ids)
+
+    logger.info(
+        "[H1] Enqueued days %s for stocks:%s .", len(days), stock_count
+    )
+
+    return {
+        "stocks_processed": stock_count,
+        "days": len(days),
+        "total_stocks": total_stocks_dict,
+    }
+\end{lstlisting}
+
+\noindent This job function is responsible for:
+\begin{itemize}
+    \item Accepting date ranges and configuration parameters for historical score calculation
+    \item Generating a list of dates to process (either daily or monthly intervals)
+    \item Retrieving stock IDs for each index based on the specified criteria
+    \item Enqueuing individual calculation tasks for each day and index combination
+    \item Providing detailed logging and return statistics about the processing
+\end{itemize}
+
+\section{Data Export Job Implementation}
+\label{app:data_export_job}
+
+\noindent The following code shows the complete implementation of the data export job that was used to create the final dataset, including the price estimation for missing values due to weekends and holidays:
+
+\begin{lstlisting}[language=Python, caption=Data Export Job Implementation]
+def export_factors_and_pricehistory_task(
+    stocks_id: list[int],
+    start_date: datetime.date,
+    end_date: datetime.date,
+    export_name: str,
+    daily: bool = False,
+):
+    """
+    Export FactorScore, PriceHistory y rentabilidades a CSV sin cargar todo en memoria.
+    """
+    start_time = time.perf_counter()
+    print("Starting CSV export...")
+
+    periods = {
+        "profit_1m": relativedelta(months=1),
+        "profit_3m": relativedelta(months=3),
+        "profit_6m": relativedelta(months=6),
+        "profit_1y": relativedelta(years=1),
+        "profit_2y": relativedelta(years=2),
+        "profit_5y": relativedelta(years=5),
+    }
+
+    factor_fields = [
+        "stock__ticker",
+        "stock__share_type__company__name",
+        "stock__share_type__company__industry__industry_group__sector__name",
+        "stock__share_type__company__country__region",
+        "date",
+        "quality",
+        "growth",
+        "value",
+        "dividend",
+    ]
+    price_fields = ["market_cap_usd", "volume"]
+
+    days = get_range_from_dates(
+        start_date,
+        end_date,
+        delta=relativedelta(days=1) if daily else relativedelta(months=1),
+    )
+    days.reverse()
+
+    profitability_fields = list(periods.keys())
+    export_fields = factor_fields + price_fields + profitability_fields
+    missing_prices = 0
+    missing_factors = 0
+    fs_path = f"api/factors/data_exports/{export_name}.csv"
+    with open(fs_path, mode="w", newline="", encoding="utf-8") as f:
+        writer = csv.DictWriter(f, fieldnames=export_fields)
+        writer.writeheader()
+
+        for stock_id in tqdm(stocks_id, desc="Stocks"):
+
+            price_qs = PriceHistory.objects.filter(
+                stock__id=stock_id,
+                date__range=(
+                    start_date,
+                    end_date + relativedelta(years=5),
+                ),
+            ).values("date", "close_price", "market_cap", "volume", "fx_mult")
+            price_lookup_stock = {
+                (stock_id, ph["date"]): ph
+                for ph in price_qs
+                if ph["fx_mult"] is not None
+            }
+
+            dividend_qs_stock = DividendHistory.objects.filter(
+                stock__id=stock_id,
+                ex_dividend_date__range=(start_date, end_date),
+            ).values("ex_dividend_date", "adjusted_dividend", "fx_mult")
+            dividend_lookup = {
+                (stock_id, dh["ex_dividend_date"]): (
+                    float(dh["adjusted_dividend"]) * float(dh["fx_mult"])
+                )
+                for dh in dividend_qs_stock
+                if dh["fx_mult"] is not None
+            }
+            fs_qs_stock = (
+                FactorScore.objects.filter(stock_id=stock_id, date__in=days)
+                .select_related(
+                    "stock__share_type__company__industry__industry_group__sector",
+                    "stock__share_type__company__country",
+                )
+                .values(*factor_fields)
+            )
+
+            fs_lookup = {(stock_id, fs["date"]): fs for fs in fs_qs_stock}
+
+            for day in days:
+                factor = fs_lookup.get((stock_id, day))
+                if not factor:
+                    missing_factors += 1
+                    continue
+                day = factor["date"]
+                price_day = day
+                while price_day.weekday() >= 5:
+                    price_day -= datetime.timedelta(days=1)
+
+                price = price_lookup_stock.get((stock_id, price_day))
+                if not price or price["close_price"] is None:
+                    price = _calculate_existing_prices(
+                        price_day, price_lookup_stock, stock_id
+                    )
+                    if not price:
+                        missing_prices += 1
+                        continue
+
+                try:
+                    market_cap_usd = (
+                        float(price.get("market_cap", 0) or 0)
+                        * price["fx_mult"]
+                    )
+                except Exception:
+                    market_cap_usd = None
+                try:
+                    volume = (
+                        float(price.get("volume", 0) or 0) * price["fx_mult"]
+                    )
+                except Exception:
+                    volume = None
+
+                if price["close_price"] is None or price["fx_mult"] is None:
+                    continue
+                close_now_usd = float(price["close_price"]) * price["fx_mult"]
+
+                profitabilities = {}
+                for field, delta in periods.items():
+                    future_date = day + delta
+                    while future_date.weekday() >= 5:
+                        future_date -= datetime.timedelta(days=1)
+
+                    future_price = price_lookup_stock.get(
+                        (stock_id, future_date)
+                    )
+                    if not future_price or future_price["close_price"] is None:
+                        future_price = _calculate_existing_prices(
+                            future_date, price_lookup_stock, stock_id
+                        )
+                        if not future_price:
+                            profitabilities[field] = None
+                            missing_prices += 1
+                            continue
+
+                    close_future_usd = float(
+                        future_price["close_price"]
+                    ) * float(future_price["fx_mult"])
+                    if close_future_usd == 0:
+                        profitabilities[field] = None
+                        missing_prices += 1
+                        continue
+                    # Dividend sum
+                    dividend_sum = sum(
+                        v
+                        for (s_id, ex_div_date), v in dividend_lookup.items()
+                        if s_id == stock_id
+                        and day <= ex_div_date < future_date
+                    )
+                    profitabilities[field] = (
+                        close_future_usd + dividend_sum - close_now_usd
+                    ) / close_now_usd
+
+                row = {**factor}
+                row["market_cap_usd"] = market_cap_usd
+                row["volume"] = volume
+                row.update(profitabilities)
+                writer.writerow(row)
+
+    elapsed = time.perf_counter() - start_time
+    print(f"Exportado a {fs_path} en {elapsed:.2f}s")
+    print("MISSING PRICES:", missing_prices)
+    print("MISSING FACTOR SCORES:", missing_factors)
+\end{lstlisting}
+
+\noindent This job function is responsible for:
+\begin{itemize}
+    \item Exporting factor scores, price history and profitability data to CSV without loading everything into memory
+    \item Handling missing price data due to weekends and holidays by estimating prices from nearby dates
+    \item Converting all monetary values to USD using appropriate exchange rates
+    \item Calculating profitability for different time periods (1m, 3m, 6m, 1y, 2y, 5y)
+    \item Including dividend payments in profitability calculations
+    \item Tracking and reporting missing data points for both prices and factor scores
+\end{itemize}
 
 \end{document}

@@ -21,6 +21,34 @@
 \usepackage{csquotes}            % Required by biblatex
 \usepackage{tikz}                % For the cover page
 \usepackage{ifthen}              % For the cover page
+\usepackage{listings}            % For code listings
+\usepackage{xcolor}              % For syntax highlighting
+
+% Configure listings for Python-like VSCode white theme
+\lstset{
+    basicstyle=\ttfamily\small\color{black},
+    keywordstyle=\color{blue!70!black},
+    commentstyle=\color{green!50!black},
+    stringstyle=\color{red!70!black},
+    numberstyle=\color{gray!60},
+    numbers=left,
+    numbersep=2pt,
+    frame=single,
+    framerule=0.4pt,
+    rulecolor=\color{gray!40},
+    breaklines=true,
+    showstringspaces=false,
+    tabsize=4,
+    backgroundcolor=\color{gray!5},
+    xleftmargin=10pt,
+    xrightmargin=10pt,
+    framexleftmargin=10pt,
+    framexrightmargin=10pt,
+    linewidth=\textwidth,
+    captionpos=b,
+    aboveskip=10pt,
+    belowskip=10pt
+}
 
 % Load bibliography file
 \addbibresource{bibliography.bib}
