@@ -11,8 +11,8 @@
 % ############################### COVER PAGE #######################
 \input{cover} 
 % ############################### ABSTRACT ###############################
-\newpage
-\thispagestyle{empty}\ \\
+% \newpage
+% \thispagestyle{empty}\ \\
 \newpage
 \thispagestyle{empty}
 
@@ -42,9 +42,9 @@ To my parents.
 \vfill\vfill
 
 % ############################### TABLE OF CONTENTS #######################
-\newpage
-\thispagestyle{empty}
-\ \\
+% \newpage
+% \thispagestyle{empty}
+% \ \\
 \addtocontents{toc}{\protect\thispagestyle{empty}}
 \addtocontents{toc}{\protect\pagestyle{empty}}
 \tableofcontents
@@ -79,7 +79,7 @@ To my parents.
 \noindent Fundamental Analysis is a methodology used to evaluate the intrinsic value of a company, asset, or market by analyzing various economic, financial, qualitative and quantitative factors. Unlike technical analysis, which focuses on price movements and chart patterns, fundamental analysis seeks to determine an asset's "true value" to identify investment opportunities that may be undervalued or overvalued in the market.
 
 \vspace{0.5cm}
-\noindent This intrinsic value is defined by numerous experts and renowned investors—such as Benjamin Graham, Warren Buffett, and Pat Dorsey \cite{dorsey2011five}—as a company’s ability to adapt to an ever-changing environment, create value in the market, and establish barriers to entry for competitors, commonly referred to as \textit{economic moats}.
+\noindent This intrinsic value is defined by numerous experts and renowned investors—such as Benjamin Graham, Warren Buffett, and Pat Dorsey \cite{dorsey2011five}—as a company's ability to adapt to an ever-changing environment, create value in the market, and establish barriers to entry for competitors, commonly referred to as \textit{economic moats}.
 
 \vspace{0.5cm}
 \noindent Measuring these moats is challenging due to the difficulty of quantifying certain variables, such as brand strength and market influence. However, over the long term, these intangible factors translate into tangible financial data, reflected in a company's balance sheet, income statement, and cash flow statement; that when exposed to the public market share creates a need to buy or sell the stocks, altering the companies profitability. So from now on, this economic moats will be called \textit{alpha}, following the common literature . 
@@ -399,42 +399,54 @@ Knowing the possible problems shown with the current approach, Tweenvest has the
 % ############################### METHODOLOGY #######################
 \chapter{Methodology \& Theoretical Framework}
 
-\section{Architecture and Database}
-\subsection{Code practices}
+\section{Code practices}
 Since the code that needs to be changed is used in a production environment by Tweenvest, it is important to follow some \textit{good practices} to ensure the code is easy to understand, maintain, and to avoid introducing new bugs.
 
 \begin{itemize}
   \item \textbf{Understanding and Documenting}: Before starting to work on the code, it is important to understand the codebase and the purpose of the code. For this, it is recommended to use some tools like flux diagrams, code comments, and documentation. As it will be shown later on.
-  \item \textbf{Testing}: To ensure proper functionality, every function and class should have unit tests that cover all possible scenarios.
-  \item \textbf{Logging}: After each feature is implemented, it is important to analyze the actual performance with its logs to check if the feature is working as expected, and to see if there are any possible optimizations to be made in the queries.
-  \item \textbf{Code review}: Whenever all of this is done, the code needs to be reviewed and approved by the team in \textit{Github} to be merged into the main branch.
+  \item \textbf{Testing}: To ensure proper functionality, every function and class should have unit tests that cover all possible scenarios. These tests are run automatically by the CI/CD pipeline.
+  \item \textbf{Pair code review}: After completing the previous steps, the code undergoes a pair code review process, where at least one other team member reviews and approves the changes in \textit{Github} before merging into the main branch.
+  \item \textbf{Logging}: After each feature is implemented, it is important to analyze the actual performance in the production environment by looking at its logs to check if the feature is working as expected, and to look for any possible optimizations to be made.
 \end{itemize}
 
 \section{Preprocessing}
 
-Once we have our raw dataset, we need to inspect it and make sure it is consistent and ready to be used for the modeling. This part is really important to avoid any bias in the modeling process and to only use the data that is actually relevant for the analysis.
+Once we have created our raw dataset, we need to inspect it and make sure it is consistent and ready to be used for the modeling. This part is really important to avoid any bias in the modeling process and to only use the data that is actually relevant for the analysis.
 
 \subsection{Data Consistency}
 
-Since all of the data is coming from a data provider that uses OCR as one of their tools whenever they don't have the data in a structured format, we need to be very restrictive with the data used. Also, as we mentioned before, some of the algorithms for calculating the scores use long-term data such as 10 year growths rates. Which means that all of the companies that stopped existing or that were acquired by other companies will have null scores. 
+Since all of the data is coming from a data provider that uses OCR as one of their tools whenever they don't have the data in a structured format, we need to be very restrictive with the data used. Also, as we mentioned before, some of the algorithms for calculating the scores use long-term data such as 10 year growths rates.
 
 \vspace{0.5cm}
 \noindent This is one of the biggest \textbf{limitations to the study}: we will be missing the data of companies that stopped existing or that were acquired by other companies, if they didn't exist for 10 or more years.
 
 \vspace{0.5cm}
-\noindent Additionally, we chose to assign a value of 0 to all null Dividend scores, as a null value indicates that the company does not pay dividends. This decision was made to ensure that the Dividend score remains part of the analysis when evaluating its relevance to long-term profitability, rather than being excluded due to missing values.
+\noindent For inspecting the data, we will use the \textit{pandas} \cite{pandas2024}, \textit{matplotlib} \cite{matplotlib2025doc}, and \textit{seaborn} \cite{seaborn2024}, which are powerful tools for data manipulation and analysis. The focus will be on the following aspects:
+\begin{itemize}
+  \item \textbf{Data Distributions}: We need to make sure that the data is distributed in a way that is suitable for the modeling.
+  \item \textbf{Missing Values}: We need to check if there are any missing values in the data.
+  \item \textbf{Variable Correlations}: We also have to see if there are any correlations between the variables. For this, we will use the correlation matrix defined as:
+  \begin{equation}
+    \rho_{X,Y} = \frac{\text{Cov}(X,Y)}{\sigma_X \sigma_Y}
+  \end{equation}
+  where \(\text{Cov}(X,Y)\) is the covariance between the variables \(X\) and \(Y\), \(\sigma_X\) is the standard deviation of \(X\), and \(\sigma_Y\) is the standard deviation of \(Y\). This matrix will be created with a custom heatmap function (see Appendix~\ref{app:custom_functions}).
+  \item \textbf{Data Patterns}: We need to check if there are any visible data patterns between the variables. To address this, we will use a custom \textit{pairplot} function from \textit{seaborn}, which is a powerful tool for data visualization and exploration  depending on the type of variable (see Appendix~\ref{app:custom_functions}).
+\end{itemize}
+
+\vspace{0.5cm}
+\noindent Additionally, we decided to assign a value of 0 to all null Dividend scores, as a null value indicates that the company does not pay dividends. This choice was made to ensure that the Dividend score remains part of the analysis when evaluating its relevance to long-term profitability, rather than being excluded due to missing values.
 
 
 % ############################### PREPROCESSING #######################
 \subsection{Data Transformation}
 
-To ensure a robust and well-performing model, it is often necessary to transform the data into a format more suitable for learning algorithms—while preserving the ability to revert it back to its original scale if needed. 
+To ensure a robust and well-performing model, it is often necessary to transform the data into a format more suitable for learning algorithms, with the obligatory condition of being able to revert it back to its original scale when needed. 
 
 \vspace{0.5cm}
 \noindent This step is particularly important because many components of machine learning models—such as the RBF kernel in Support Vector Machines or the regularization terms (L1 and L2) in linear models—implicitly assume that features are centered around zero and have comparable variances. Without this adjustment, features with significantly larger variances could dominate the optimization process, leading the model to underweight or ignore more informative but lower-variance features.
 
 \subsubsection{Standard Scaler}
-When training the neural networks, it is really important to standardize the data. We can easily use the StandardScaler from the scikit-learn library that uses the transformation of a feature \(x_i\) is calculated as:
+When training the neural networks, it is really important to standardize the data. We can easily use the \textit{StandardScaler} from the \textit{scikit-learn} library that transforms a feature \(x_i\) with the following formula:
 
 \begin{equation}
 z_i = \frac{x_i - \mu}{\sigma}
@@ -446,10 +458,10 @@ z_i = \frac{x_i - \mu}{\sigma}
 
 \subsubsection{Gaussian Transformation}
 
-In numerous modeling applications, having normally distributed features is advantageous. \textbf{Power transformations} represent a set of parametric, monotonic functions that are an extension of the Box-Cox transformation. They are designed to convert data from various distributions into approximately Gaussian distributions, thereby reducing variance fluctuations and decreasing distribution asymmetry. These family of transformations are also reversible, so we can easily transform the data back to its original space when needed.
+In numerous modeling applications, having normally distributed features is advantageous. \textbf{Power transformations} represent a set of parametric, monotonic functions that are an extension of the Box-Cox transformation. They are designed to convert data from various distributions into approximately Gaussian distributions, thereby reducing variance fluctuations and decreasing distribution asymmetry. 
 
 \vspace{0.5cm}
-\noindent We finally decided to use the \textbf{Yeo-Johnson transformation} because it allows for negative values and it is reversible.
+\noindent We decided to use the \textbf{Yeo-Johnson transformation} because it allows for negative values and it is reversible.
 
 \begin{equation}
 x_i^{(\lambda)} =
@@ -478,7 +490,7 @@ x_i^{(\lambda)} =
 \section{Outlier Detection}
 
 Anomalies are data patterns that have different data characteristics from normal
-instances. The ability to detect anomalies has significant relevance, since anomalies often provide critical and actionable information in many different contexts.
+instances. The ability to detect anomalies has significant relevance since often provide critical and actionable information in many different contexts.
 
 \vspace{0.5cm}
 \noindent For example, anomalies in credit card transactions could signify fraudulent use of
@@ -506,7 +518,7 @@ Given a univariate dataset, the Interquartile Rule identifies outliers based on 
     \]
     \item Any data point $x$ is considered an outlier if:
     \[
-        x < Q_1 - 1.5 \times \text{IQR} \quad \text{or} \quad x > Q_3 + 1.5 \times \text{IQR}
+        x < \text{Lower bound} \quad \text{or} \quad x > \text{Upper bound}
     \]
 \end{enumerate}
 
@@ -516,7 +528,7 @@ Given a univariate dataset, the Interquartile Rule identifies outliers based on 
     \centering
     \begin{tabular}{|p{7cm}|p{7cm}|}
     \hline
-    \textbf{Advantages} & \textbf{Limitations} \\
+    \textbf{Pros} & \textbf{Cons} \\
     \hline
     Simple to compute and interpret. & Not suitable for multivariate data with correlated features. \\
     \hline
@@ -525,17 +537,17 @@ Given a univariate dataset, the Interquartile Rule identifies outliers based on 
     Robust to extreme values, since it relies on percentiles rather than the mean. & Fixed multiplier is arbitrary and may need tuning for each dataset. \\
     \hline
     \end{tabular}
-    \caption{Advantages and Limitations of the Interquartile Rule}
+    \caption{Pros and Cons of the Interquartile Rule}
 \end{table}
 
 \noindent Even though this method is simple to compute and interpret, it is not suitable for multivariate data with correlated features, and that's where the rest of the methods come into play.
 
 \subsection{Single Vector Machine}
 
-\noindent Support Vector Machines (SVMs) represent a robust class of supervised learning algorithms that can be effectively adapted for anomaly detection tasks. This algorithm establishes itself on the premise that the majority of real-world data is inherently normal. Where the goal is to define a boundary encapsulating the normal instances in the feature space, thereby creating a region of familiarity. 
+\noindent Support Vector Machines (SVMs) represent a robust class of unsupervised learning algorithms that can be effectively adapted for anomaly detection tasks. This algorithm establishes itself on the premise that the majority of real-world data is inherently normal. Where the goal is to define a boundary encapsulating the normal instances in the feature space, thereby creating a region of familiarity. 
 
 \vspace{0.5cm}
-\noindent To capture the bases of the scikit-learn implementation \textcite{scikit2025oneclasssvm} used in this work, the principle idea is to find a sphere, of minimum volume, containing all the training samples. This sphere, described by its center c and its radius r, is obtained by solving the constrained optimization problem: \cite{zineb2012simple}
+\noindent To capture the bases of the \textit{scikit-learn} implementation \cite{scikit2025oneclasssvm} used in this work, we can say that the main idea is to find a minimum volume sphere that contain all the training samples. This sphere, described by its center \(c\) and its radius \(r\), is obtained by solving the constrained optimization problem: \cite{zineb2012simple}
 \begin{equation}
 \min_{r,c} r^2 \quad \text{subject to} \quad \|\Phi(x_i) - c\|^2 \leq r^2 \quad \text{for} \quad i = 1, 2, \ldots, n
 \end{equation}
@@ -571,14 +583,10 @@ Given a univariate dataset, the Interquartile Rule identifies outliers based on 
 
 As we are seeing in this small fraction of outlier detection methodologies, most of the existing anomaly detection approaches are based on the premise of normal distributions, then identify anomalies as those that do not conform to the normal profile.
 
-\noindent As it is explained in the original paper \textcite{liu2012isolation}, the Isolation Forest algorithm constructs multiple isolation binarytrees (iTrees) from the dataset, where anomalies are identified as data points that exhibit shorter average path lengths across these trees. The algorithm's configuration involves three key parameters:
-\begin{itemize}
-    \item The number of trees to generate
-    \item The size of the subsample
-    \item The maximum tree height during the assessment phase
-\end{itemize}
+\vspace{0.5cm}
+\noindent But to solve this issue we can use the Isolation Forest algorithm, which is explained in the original paper \textcite{liu2012isolation}. The algorithm constructs multiple isolation binarytrees (iTrees) from the dataset, where anomalies are identified as data points that exhibit shorter average path lengths across these trees.
 
-
+\vspace{0.5cm}
 \noindent Lets consider a dataset $X = \{x_1, \dots, x_n\}$ containing $n$ points in $d$-dimensional space, and a subset $X' \subset X$. An Isolation Tree (iTree) is constructed as follows:
 
 \begin{itemize}
@@ -609,7 +617,7 @@ As we are seeing in this small fraction of outlier detection methodologies, most
 
 \noindent As we can see in Figure \ref{fig:isolation_forest}, once the iTree is fully constructed, each point $x_i \in X$ is isolated at a leaf node. The path length $h(x_i)$ of a point $x_i$ is defined as the number of edges traversed from the root to its leaf node. Points with shorter path lengths are considered more likely to be anomalies, as they require fewer splits to be isolated from the rest of the data.
 
-\noindent This method works very good in most cases, but it has also its own limitations
+\noindent This method works very good in most cases, but it has also its own limitations:
 
 \begin{table}[H]
     \centering
@@ -623,9 +631,9 @@ As we are seeing in this small fraction of outlier detection methodologies, most
     \hline
     Naturally handles high-dimensional data. & Not suitable for detecting subtle anomalies that closely resemble normal data. \\
     \hline
-    Requires little preprocessing (no need for feature scaling). & Interpretation of results is less intuitive compared to statistical methods. \\
+    Requires little preprocessing (no need for feature scaling). & -- \\
     \hline
-    Robust to irrelevant features due to random sub-sampling. & May struggle with data that has complex, non-isolated outlier structures. \\
+    Robust to irrelevant features due to random sub-sampling. & -- \\
     \hline
     \end{tabular}
     \caption{Pros and Cons of the Isolation Forest Method for Outlier Detection}
@@ -649,51 +657,56 @@ Since we are looking at outliers from the perspective of correlations between th
     \hline
     Effective in datasets with varying densities — unlike global methods, it can recognize outliers near dense clusters. & Sensitivity to parameter selection (e.g., number of neighbors) can affect performance and consistency. \\
     \hline
-    Works well across domains, such as network intrusion detection or classification tasks. & Interpretation of LOF scores can vary significantly between datasets or even within a dataset. \\
-    \hline
     Applicable in any domain where a dissimilarity measure is defined, not limited to vector spaces. & Not inherently scalable to very large datasets without approximation or optimization. \\
     \hline
-    Easily generalizable and adaptable for use in spatial data, temporal data, and network structures. & Difficult to determine a consistent threshold for what constitutes an outlier. \\
+    Works well across domains, such as network intrusion detection or classification tasks. & -- \\
+
+    \hline
+    Easily generalizable and adaptable for use in spatial data, temporal data, and network structures. & -- \\
     \hline
     \end{tabular}
     \caption{Pros and Cons of the Local Outlier Factor (LOF) Method}
 \end{table}
     
-\subsection{Multi Criteria Outlier Detection}
+\subsection{Multi-Criteria Outlier Detection}
 
-There is a big controversy in the field about the best method to detect the outliers, since they can vary depending on the methodology used.
+There is a big controversy in the field about the best method to detect the outliers, since the results can vary a lot depending on the algorithm used.
 
 \vspace{0.5cm}
-\noindent After reading some aggregative methods such as \textcite{abro2020stacking}, I decided to create a multi-modal method myself, that combines the results of the different methods to get a more robust result.
+\noindent So to attempt to fix this issue, after reading some aggregative methods such as \textcite{abro2020stacking}, we created a multi-modal method that combines the results of the different methods to get a more robust result.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\textwidth]{images/code/outliers/multimodal.png}
-    \caption{Multi Criteria Outlier Detection Method}
+    \includegraphics[width=1\textwidth]{images/code/outliers/multimodal.png}
+    \caption{Multi-Criteria Outlier Detection Method}
     \label{fig:multimodal}
 \end{figure}
 
 
 \vspace{0.5cm}
-\noindent This method consists in homogenizing the variables with a common data transformation so it is Normal. To make sure that the final data isn't being transformed we copy the original dataset earlyer. Then we use multiple methods to detect the differente outliers and then we make the intersection to get the common outliers between all of them. After this process we have tagged the orinal dataset rows, assuring that the data that will be excluded is only formed by \textit{true outliers}.
+\noindent As shown in the Figure \ref{fig:multimodal}, this starts by homogenizing the variables distribution with a common data transformation so they are more Normal, but to make sure that the final data isn't being transformed we copy the original dataset earlier. After this, we use multiple methods to detect the different outliers and then we make the intersection between them to get the common outliers. By the end of this process we have tagged the original dataset rows, assuring that the data that will be excluded is only formed by \textit{"true outliers"}.
+
+%TODO: maybe move this to the results section
+\vspace{0.5cm}
+\noindent We noticed that since this method is very restrictive, we have to set a threshold multiplier to the original dataset to get the final outliers. So for example, a 20\% threshold would only exclude around 4\% of the original dataset because of the intersection of all the methods makes it very restrictive. Here we \textbf{propose for future work} to fine tune the different thresholds for each method to get a more robust result.
 
 
 % ############################### PREDICTIVE MODELS #######################
 \section{Predictive Models}
-The main objective of this thesis is to check if the scores have any relation with the future profits of the companies. For doing this in the most generalized way, instead of creating a portfolio following some subjective criteria on the scores, markets and other variables, we will use predictive modeling to check for the actual relationships between the response variables and the predictive ones.
+The main objective of this thesis is to check if the scores have any relation with the future profits of the companies. For doing this in the most generalized way, instead of creating a portfolio following some subjective criteria on the scores, markets and other variables, we used predictive modeling to check for the actual relationships between the response variables and the explanatory ones.
 
 \vspace{0.5cm}
-\noindent As a first approach, we will be creating a set of models that separate the scores and the different returns. 
+\noindent As a first approach, we created a set of models that separate the scores and the different returns. 
 
 \subsubsection{Response Variables}
-We will use different profits that from know one will be representad as \(P_i\) for each time horizon: \(i \in \{1 \text{ month}, 3 \text{ months}, 6 \text{ months}, 1 \text{ year}, 2 \text{ years}, 5 \text{ years}\}\)
+To help users understand how to use the scores depending on their investment horizon, we used different profits that from know one will be representad as \(P_i\) for each time horizon: \(i \in \{1 \text{ month}; 3 \text{ months}; 6 \text{ months}; 1 \text{ year}; 2 \text{ years}; 5 \text{ years}\}\)
 
 \subsubsection{Explanatory Variables}
 For being able to train the models, we have different variable categories:
 
 \begin{itemize}
     \item \textbf{Main variables}, these are numerical variables from \textbf{Tweenvest's Scores}, that are in the range of 0 to 100: \(S_j\) where   \(j \in \{\text{ Quality; Value; Dividend; Growth}\}\)
-    \item \textbf{Dummy variables}, these are boolean variables that allow us to separate the companies by:
+    \item \textbf{Dummy variables}, these are boolean variables that allow us to tag the companies by:
     \begin{itemize}
         \item \textbf{Industry}: \(I_k\) where \(k \in \{\text{Financials; Healthcare; etc.}\}\)
         \item \textbf{Region}: \(R_l\) where \(l \in \{\text{Europe; North America; etc.}\}\)
@@ -723,11 +736,11 @@ includes the interactions between the dummy variables and the score used in each
     \item \(\beta\) are the coefficients that weight each variable.
 \end{itemize}
 
-\noindent For fitting the models, we will also apply a backward selection to remove the variables that are not statistically significant, using the \textbf{p-value} as the criterion.
+\noindent For fitting the models, we also applied a backward selection to remove the variables that are not statistically significant, using the \textbf{p-value} criterion.
 
 \subsubsection{Generalized Additive Models}
 
-Because the relationships between the variables are not linear, we also used the Generalized Additive Models (GAM) to check if they are able to capture the non-linear relationships between the variables.
+Because the relationships between the variables are not linear, we also used the Generalized Additive Models (GAM) to check if they were able to capture the non-linear relationships between the variables.
 
 \vspace{0.5cm}
 \noindent According to \textcite{pygam2018}, GAMs are smooth semi-parametric models that can capture non-linear relationships between variables. They take the form:
@@ -741,10 +754,10 @@ Because the relationships between the variables are not linear, we also used the
     \item \(X^T = [X_1, X_2, \dots, X_N]\) are the independent variables
     \item \(y\) is the dependent variable.
     \item \(g()\) is the link function that relates the predictor variables to the expected value of the dependent variable.
-    \item \(f_i()\) are feature functions built using penalized B-splines, which automatically model non-linear relationships without requiring manual transformation of variables.
+    \item \(f_m()\) are feature functions built using penalized B-splines, which automatically model non-linear relationships without requiring manual transformation of variables.
 \end{itemize}
 
-\noindent In our case, we will use pyGAMs LinearGAM since it gives a Normal error distribution, and an identity link.
+\noindent In our case, we used pyGAMs LinearGAM since the model gives a Normal error distribution, and an identity link.
 
 \subsection{Time Series}
 In the stock market, the prices of the stocks are not independent of each other, they are correlated in the time series and they also have memory on past behavior of the company. This is what is known as \textbf{Momentum}, so companies that have a good past performance are more likely to have a good future performance, and vice versa.
@@ -753,7 +766,7 @@ In the stock market, the prices of the stocks are not independent of each other,
 \noindent For this reason, we contemplated two possibilities:
 
 \subsubsection{ARIMA Models}
-To take account the profit tendency, we implemented a ARIMA model to improve the regression models performance by using the residues of the already fitted model:
+To take account the profit tendency, we implemented ARIMA models to improve the regression models performance by using the residues of the already fitted model:
 
 \begin{equation}
     P_i = \hat{P_i} + {\varepsilon_i} \quad \longleftrightarrow \quad {\varepsilon_i} \sim ARIMA_i(p,d,q)
@@ -767,38 +780,37 @@ To take account the profit tendency, we implemented a ARIMA model to improve the
     
     \noindent where for each $i$ profit:
     \begin{itemize}
-      \item $\varepsilon_i^t$ is the residual at time $t$.
-      \item $\eta_i^t$ is a white noise error term (innovation).
-      \item $B_i$ is the backshift operator, such that $B \varepsilon_i^t = \varepsilon_i^{t-1}$.
-      \item $\phi_i(B) = 1 - \phi_{i1} B - \phi_{i2} B^2 - \dots - \phi_{ip} B^p$ is the autoregressive (AR) polynomial.
-      \item $\theta_i(B) = 1 + \theta_{i1} B + \theta_{i2} B^2 + \dots + \theta_{iq} B^q$ is the moving average (MA) polynomial.
-      \item $d_i$ is the order of differencing.
+      \item \(\varepsilon_i^t\) is the residual at time \(t\).
+      \item \(\eta_i^t\) is a white noise error term (innovation).
+      \item \(B_i\) is the backshift operator, such that \(B \varepsilon_i^t = \varepsilon_i^{t-1}\).
+      \item \(\phi_i(B) = 1 - \phi_{i1} B - \phi_{i2} B^2 - \dots - \phi_{ip} B^p\) is the autoregressive (AR) polynomial.
+      \item \(\theta_i(B) = 1 + \theta_{i1} B + \theta_{i2} B^2 + \dots + \theta_{iq} B^q\) is the moving average (MA) polynomial.
+      \item \(d_i\) is the order of differencing.
     \end{itemize}
     
 
 
 \subsubsection{Windowed Models}
-And for capturing possible memory of the companies behavior in different aspects, we also will implement a windowed model that will use the last \(n\) scores statistical properties to predict future profits.
+And for capturing possible memory of the companies behavior in different aspects, we also implemented windowed models that used the last \(N\) scores statistical properties to predict future profits.
 
 \vspace{0.5cm}
-\noindent So for each score \(j\), we will calculate the average and the standard deviation of the scores over the last \(w\) periods. Let \(S_j^t\) be the score at time \(t\), then for a window of size \(w\):
+\noindent So for each score \(j\), we will calculate the average and the standard deviation of the scores over the last \(N\) periods. Let \(S_j^t\) be the score at time \(t\), then for a window of size \(N\):
 
 \begin{equation}
-    \bar{S}_j^w = \frac{1}{w} \sum_{i=t-w+1}^{t} S_j^i
+    \bar{S}_j^N = \frac{1}{N} \sum_{i=t-N+1}^{t} S_j^i
 \end{equation}
 
 \noindent where:
 \begin{itemize}
-    \item \(\bar{S}_j^w\) is the average score over window \(w\) for score \(j\)
-    \item \(w\) can be 3 or 6 months, 1 or 2 years.
+    \item \(\bar{S}_j^N\) is the average score over window \(N\) for score \(j\)
+    \item \(N\) can be 3 months, 6 months, 1 year, or 2 years.
     \item \(t\) is the current time point
-    \item \(j\) represents the different scores (Quality, Growth, Value, Dividends)
 \end{itemize}
 
-\noindent We will also calculate the standard deviation of the scores over the same window:
+\noindent For adding also the deviation from the average, we also calculated the standard deviation of the scores over the same window:
 
 \begin{equation}
-    \sigma_j^w = \sqrt{\frac{1}{w} \sum_{i=t-w+1}^{t} (S_j^i - \bar{S}_j^w)^2}
+    \sigma_j^N = \sqrt{\frac{1}{N} \sum_{i=t-N+1}^{t} (S_j^i - \bar{S}_j^N)^2}
 \end{equation}
 
 \noindent These statistical measures will be used as additional features in our predictive models to capture the temporal behavior of each score.
@@ -814,14 +826,14 @@ Finally, for trying to capture the non-linear relationships between all the avai
 
 \section{Creation of the Dataset}
 
-\noindent We have understood the nature of the data, explained the bases of how the scores are calculated, and the code methodologies we will be using. Now we need to create a proper dataset.
+% \noindent We have understood the nature of the data, explained the bases of how the scores are calculated, and the code methodologies we will be using. Now we need to create a proper dataset.
 
-\vspace{0.5cm}
+% \vspace{0.5cm}
 % TODO: add the capitals for DB
-\noindent At the current moment of beginning this work, Tweenvest kept a large DB (database) of most of the needed information for creating the dataset. This includes all of the price histories, historical currency multipliers to dollar, dividends payed per stock… but when it came to the scores we had a traceability problem.
+\noindent At the current moment of beginning this work, Tweenvest kept a large DB of most of the needed information for creating the dataset. This included all of the price histories, historical currency multipliers to dollar, dividends payed per stock… but when it came to the scores we had a traceability problem.
 
 \vspace{0.5cm}
-\noindent For optimizing the costs and structure of the DB, Tweenvest chose to only save the latest score for each company and overwriting it each day when calculating the newest on, which led to the first main task.
+\noindent For optimizing the costs and structure of the DB, Tweenvest chose to only save the latest score for each company and overwriting it each day when calculating the newest one, which led to the first main task.
 
 \subsection{Updating Tweenvest Code}
 
@@ -829,7 +841,7 @@ After locating where the score calculators are called, we have to understand the
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\textwidth]{images/tweenvest/general architecture.png}
+    \includegraphics[width=1\textwidth]{images/tweenvest/general architecture.png}
     \caption{General Tweenvest's Architecture}
     \label{fig:general_architecture}
 \end{figure}
@@ -837,21 +849,32 @@ After locating where the score calculators are called, we have to understand the
 \noindent As we can see, there are two different actions occurring at the same time. For one side we have all of the requests coming from the users interactions, and for the other hand the programmed jobs that need to be executed every day to update all of the financial information of the stocks, or necessary actions such as sending emails to get authentication pins.
 
 \vspace{0.5cm}
-\noindent Since we are changing the data logic for calculating and storing historical data of the factor scores, we need to assure that the systems capabilities don't exceed the platforms needs, and that the changes don't affect the normal calculation of the factor scores, so we need to look at the code corresponding to the factor scores.
+\noindent Since we are changing the data logic for calculating and storing historical data of the factor scores, we need to assure that the systems capabilities don't exceed the platforms needs, and that the changes don't affect the normal calculation of the factor scores, so we had to look at the code corresponding to the factor scores.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\textwidth]{images/tweenvest/scores schema.png}
+    \includegraphics[width=1\textwidth]{images/tweenvest/scores schema.png}
     \caption{Scores Calculations Code Schema}
-    \label{fig:general_architecture}
+    \label{fig:scores_schema}
 \end{figure}
 
-\noindent With this schema we have simplified the logic behind several functions related to the calculations of each factor score. Quickly we realize that we have modify the queries to include an extra filter, \textit{calculation\_date} to get models related to the score at any time, this way we can set it as today whenever we are just calculating the current ones.
+\noindent With this schema we have simplified the logic behind several functions related to the calculations of each factor score. Quickly we realized that we had to modify the queries to include an extra filter, \textit{calculation\_date} to get models related to the score at any time, this way we can set it as "today" whenever we are just calculating the current ones.
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{images/tweenvest/Propagation Schema.png}
+    \caption{\textit{calculation\_date} Field Propagation Schema}
+    \label{fig:propagation_schema}
+\end{figure}
 
 \vspace{0.5cm}
-\noindent Following the propagation schema, the root change comes from the functions \textit{calculate\_scores}, \textit{get\_indexes\_information} and \textit{get\_quality\_ratios\_by\_index}, these are the ones used by the production cron jobs to calculate the factor scores daily so we set it to None for normal use and then added date as a secondary option. This helps us create very readable logic to adapt the filters to both scenarios, for example in the value score:
+\noindent Following the propagation schema in Figure \ref{fig:propagation_schema}, the root change comes from the functions \textit{calculate\_scores}, \textit{get\_indexes\_information} and \textit{get\_quality\_ratios\_by\_index}. These are the ones used by the production cron jobs to calculate the factor scores daily, so for a normal function call we set the \textit{calculation\_date} to None and whenever we want to calculate the scores for a specific date we set it to the desired date. 
 
-\begin{lstlisting}[language=Python]
+\vspace{0.5cm}
+\noindent This helped us create very readable logic to adapt the filters to both scenarios, for example in the value score shown in Listing \ref{lst:value_score_filtering}:
+
+\begin{lstlisting}[language=Python, caption={Value Score Filtering}, label={lst:value_score_filtering}]
 if calculation_date is None:
     calculation_date = date.today()
     filters = {
@@ -869,7 +892,7 @@ phs = (
 )
 \end{lstlisting}
 
-\noindent The main change for this part of the code was to add a date filter to get only data "lower than or equal" to the calculation date. This may seem a bad approximation, but it has to be done this way due to the nature of the data; most of the financial data come from annual, semestral, and quarterly reports, except to the price history that is updated daily.
+\noindent So as we can observe, the main change for this part of the code was to add a date filter to get only data "lower than or equal" to the \textit{calculation\_date}. This may seem a bad approximation, but it has to be done this way due to the nature of the data: most of the financial data come from annual, semestral, and quarterly reports, except to the price history that is updated daily.
 
 \vspace{0.5cm}
 \noindent Along the way of analyzing the code's structure we made some adjustments to simplify the legibility:
@@ -880,15 +903,14 @@ phs = (
 \end{itemize}
 
 \vspace{0.5cm}
-\noindent Another very important part of these updating procedure was to adapt the current unit tests to make sure that the original code still behaves as expected, and creating new ones to check that the changes calculates the factor scores properly.
+\noindent Another very important part of these updating procedure was to adapt the current unit tests to make sure that the original code still behaved as expected, and creating new ones to check that the changes calculated the factor scores properly.
 
 \subsection{Designing new Jobs}
 
-Once all tests have passed and the team had approved the changes, the next step is to create scripts —from now on, \textit{jobs}—to populate the current DB with the historic factor scores while maintaining the servers performance in normal levels. For this we had to update a basic method, \textit{bulk\_create\_or\_update},  used many times through the whole backend and add a new conditioning so it can handle conflicts depending if the models are empty or not. After reading the official Django documentation, we saw that in current versions they had included new fields to its original method "\textit{bulk\_create}", so we had to update Django and make sure it didn't introduce any unwanted issues.
+Once all tests have passed and the team had approved the changes, the next step was to create scripts —from now on, \textit{jobs}—to populate the current DB with the historic factor scores while maintaining the servers performance in normal levels. For this, we had to update a basic method, \textit{bulk\_create\_or\_update}, used many times through the whole codebase and add a new conditioning so it can handle conflicts depending if the models are empty or not. After reading the official Django \textcite{django2025queryset}, we saw that in newest versions they had included new fields to its original method \textit{bulk\_create}, so we had to update the Django version in our Docker machine and make sure this didn't introduce any unwanted issues.
 
 \vspace{0.5cm}
-\noindent We decided to create three different jobs for enqueue them and being able to separate the calculations, this way we can restart them in case something broke during the process. And when choosing how to approach the server management, we used the following hierarchy:
-
+\noindent After this was implemented, we decided to create three different jobs for enqueueing the tasks and being able to separate the calculations. This way we could restart them in case something broke during the process (see Appendix \ref{app:historical_scores_job}). Also, we had to manage the server resources, so for assuring the platform's performance, we used the following hierarchy:
 \begin{enumerate}
     \item Seven workers for primary daily jobs from different API data integration
     \item One dedicated worker for guaranteeing email sendings, and 6 prioritized shared workers
@@ -949,7 +971,7 @@ def compute_quality_score(
 \noindent We clearly saw an excess of queries to the DB when calculating each score, and tried to reduce them by looking for a simple fault in the logic of the queries. Similar issues had been resolved before by adding a \textit{select\_related} in the queries. To clarify what this does, here is the definition with a simple use-case:
 
 \vspace{0.5cm}
-\noindent ``Returns a QuerySet that will follow foreign-key relationships, selecting additional related-object data when it executes its query. This is a performance booster which results in a single more complex query but means later use of foreign-key relationships won't require database queries.'' -- \textcite{django2025queryset}.
+\noindent ``Returns a QuerySet that will follow foreign-key relationships, selecting additional related-object data when it executes its query. This is a performance booster which results in a single more complex query but means later use of foreign-key relationships won't require database queries.'' -- \textcite{django2025selectrelated}.
 
 \vspace{0.5cm}
 \noindent So in Django, \textit{select\_related()} and \textit{prefetch\_related()} are designed to stop the deluge of database queries that are caused by accessing related objects. \textit{select\_related()} ``follows'' foreign-key relationships, selecting additional related-object data when it executes its query. \textit{prefetch\_related()} does a separate lookup for each relationship and does the ``joining'' in Python.
@@ -1018,7 +1040,7 @@ For this work, we are going to attack the main objective from multiple perspecti
     \end{minipage}
 \end{figure}
 
-\noindent For the 1st one, we calculated the scores for the range 2020-2025 and then related them to the profits obtained until the specified date. So, for example, the date 1-1-2021, we would link the explanatory variables to the 2 years’ profitability obtained until that date: 
+\noindent For the 1st one, we calculated the scores for the range 2020-2025 and then related them to the profits obtained until the specified date. So, for example, the date 1-1-2021, we would link the explanatory variables to the 2 years' profitability obtained until that date: 
 
 \begin{equation}
     Profit(\%) = \frac{P_{1\text{-}1\text{-}2021} - P_{1\text{-}1\text{-}2019} + D_{\text{acc}}}{P_{1\text{-}1\text{-}2019}}
@@ -1028,7 +1050,7 @@ For this work, we are going to attack the main objective from multiple perspecti
 
 
 \vspace{0.5cm}
-\noindent For the 2nd one, we calculated the scores for the range 2015-2020 and then related them to the profits obtained until the specified date. So, for example, the date 1-1-2021, we would link the explanatory variables to the 2 years’ profitability that will be obtained in the future: 
+\noindent For the 2nd one, we calculated the scores for the range 2015-2020 and then related them to the profits obtained until the specified date. So, for example, the date 1-1-2021, we would link the explanatory variables to the 2 years' profitability that will be obtained in the future: 
 
 \begin{equation}
     Profit(\%) = \frac{P_{1\text{-}1\text{-}2023} - P_{1\text{-}1\text{-}2021} + D_{\text{acc}}}{P_{1\text{-}1\text{-}2021}}
@@ -1064,19 +1086,21 @@ To begin, we looked at the data structure and saw that about 50\% of growth scor
 
 % ############################### APPENDICES #######################
 \part{Appendices}
-\def\thechapter{\Alph{chapter}}
+% \def\thechapter{\Alph{chapter}}
 \makeatletter
 \renewcommand{\@chapapp}{Appendix}
 \makeatother
 
-\chapter{Additional Listings}
-
+\chapter{Code Listings}
+% -------------------------- Scores Calculation Job --------------------------
 \section{Historical Scores Job Implementation}
 \label{app:historical_scores_job}
 
-\noindent The following code shows the complete implementation of the historical scores job that was used to populate the database with historical factor scores data:
+\noindent The following code snippets shows the complete implementation of the historical scores job that was used to populate the database with historical factor scores data:
 
-\begin{lstlisting}[language=Python, caption=Historical Scores Job Implementation]
+\subsection{Enqueueing Historical Scores Job}
+
+\begin{lstlisting}[language=Python, caption=Enqueueing Historical Scores Job, label={lst:enqueue_calculate_index_scores_task}]
 @job("historical_scores", timeout="3h")
 def enqueue_calculate_index_scores_task(
     start_date: datetime.date,
@@ -1157,6 +1181,263 @@ def enqueue_calculate_index_scores_task(
     \item Providing detailed logging and return statistics about the processing
 \end{itemize}
 
+\subsection{Calculate Index Scores Data}
+\begin{lstlisting}[language=Python, caption=Calculate Index Scores Data, label={lst:calculate_index_scores_task}]
+
+@job("historical_scores", timeout="45m")
+def calculate_index_scores_task(
+    index_name: str,
+    day: datetime.date,
+    stock_ids: list[int],
+):
+    start_time = time.perf_counter()
+    logger.info(
+        "[H2] Calculating index",
+        extra={
+            "index": index_name,
+            "day": day,
+            "stocks": len(stock_ids),
+        },
+    )
+
+    # ---------------- Index calculation ----------------- #
+    index_stats = get_indexes_information(
+        index_names=[index_name], calculation_date=day
+    )
+    index_quality = get_quality_ratios_by_index(
+        index_names=[index_name], calculation_date=day
+    )
+    stats = index_stats.get(index_name)
+    quality = index_quality.get(index_name)
+
+    # ----------------------------------------------------- #
+    if (
+        not stats
+        or not quality
+        or all(value is None for value in quality.values())
+        or all(
+            value is np.nan
+            for stat in stats.values()
+            for value in stat.values()
+        )
+    ):
+        raise RuntimeError(
+            f"[H2] Missing index data for {index_name} on {day},  stats: {stats}, quality: {quality}"
+        )
+
+    calculate_stocks_scores_task.delay(
+        day=day,
+        stats=stats,
+        quality=quality,
+        stock_ids=stock_ids,
+    )
+    return {
+        "index_calculated": index_name,
+        "total_time": time.perf_counter() - start_time,
+    }
+\end{lstlisting}
+
+\noindent This job function is responsible for:
+\begin{itemize}
+    \item Calculating all the necessary index stats data
+    \item Enqueuing the calculation of the stocks scores for the given index and date
+    \item Providing detailed logging and return statistics about the processing
+\end{itemize}
+
+\subsection{Calculate Stocks Scores Task}
+\begin{lstlisting}[language=Python, caption=Calculate Stocks Scores Task, label={lst:calculate_stocks_scores_task}]
+@tracer.start_as_current_span("calculate_stocks_scores_task")
+@job("historical_scores", timeout="4h")
+def calculate_stocks_scores_task(
+    day: datetime.date,
+    stats: dict,
+    quality: dict,
+    stock_ids: list[int],
+):
+    """
+    Job 3: For each stock, calculate scores and bulk save.
+    """
+    start_time = time.perf_counter()
+    logger.info(
+        "[H3] Calculating scores",
+        extra={"day": day, "stocks": len(stock_ids)},
+    )
+
+    if not stock_ids:
+        return {
+            "stocks_processed": 0,
+        }
+    # Select related for trying to avoid multiple queries to the DB
+    stocks = Stock.objects.filter(id__in=stock_ids).select_related(
+        "share_type",
+        "share_type__company",
+        "share_type__company__industry",
+        "share_type__company__industry__industry_group",
+        "share_type__company__industry__industry_group__sector",
+    )
+    factor_scores = []
+    for stock in stocks:
+        score = calculate_scores(
+            stock,
+            stats,
+            quality,
+            calculation_date=day,
+            bulk_create_or_update=True,
+        )
+        if not score:
+            logger.warning(
+                "[H3] No score for calculated",
+                extra={"stock_id": stock.pk, "day": day, "score": score},
+            )
+            continue  # Not as important as the others, need to check errors in DataDog
+        factor_scores.append(score)
+
+    bulk_create_or_update(
+        model=FactorScore,
+        object_list=factor_scores,
+        unique_fields=["stock", "date"],
+        update_fields=["quality", "growth", "value", "dividend"],
+    )
+
+    return {
+        "stocks_processed": len(stock_ids),
+        "total_time": time.perf_counter() - start_time,
+        "time_per_stock": (time.perf_counter() - start_time) / len(stock_ids),
+    }
+    
+\end{lstlisting}
+
+\noindent This job function is responsible for:
+\begin{itemize}
+    \item Calculating the factor scores for each stock in the given index and date
+    \item Bulk saving the factor scores for the given index and date
+    \item Providing detailed logging and return statistics about the processing
+\end{itemize}
+
+\section{Workers Management}
+
+In this section we have 2 different configurations for the workers management, since we had to switch servers.
+
+\subsection{Tweenvest's Production Server}
+\begin{lstlisting}[language={}, caption=Production Workers Management, label={lst:tweenvest_production_workers_management}]
+[program:worker1]
+command=python manage.py rqworker internal_tasks ciq_priority fmp_priority ciq indices_partial indices_full historical_scores fmp emails --with-scheduler
+directory=/app
+autostart=true
+autorestart=true
+redirect_stderr=true
+stdout_logfile=/dev/fd/1
+stdout_logfile_maxbytes=0
+environment = SERVICE_NAME="tweenvest-worker"
+
+[program:worker2]
+command=python manage.py rqworker internal_tasks ciq_priority fmp_priority ciq indices_partial indices_full historical_scores fmp emails --with-scheduler
+autostart=true
+directory=/app
+autorestart=true
+redirect_stderr=true
+stdout_logfile=/dev/fd/1
+stdout_logfile_maxbytes=0
+environment = SERVICE_NAME="tweenvest-worker"
+
+[program:worker3]
+command=python manage.py rqworker internal_tasks ciq_priority fmp_priority ciq indices_partial fmp emails historical_scores --with-scheduler
+autostart=true
+directory=/app
+autorestart=true
+redirect_stderr=true
+stdout_logfile=/dev/fd/1
+stdout_logfile_maxbytes=0
+environment = SERVICE_NAME="tweenvest-worker"
+
+[program:worker4]
+command=python manage.py rqworker ciq_priority fmp_priority ciq indices_partial fmp emails historical_scores --with-scheduler
+autostart=true
+directory=/app
+autorestart=true
+redirect_stderr=true
+stdout_logfile=/dev/fd/1
+stdout_logfile_maxbytes=0
+environment = SERVICE_NAME="tweenvest-worker"
+
+[program:worker5]
+command=python manage.py rqworker fmp_priority ciq_priority ciq fmp emails --with-scheduler
+autostart=true
+directory=/app
+autorestart=true
+redirect_stderr=true
+stdout_logfile=/dev/fd/1
+stdout_logfile_maxbytes=0
+environment = SERVICE_NAME="tweenvest-worker"
+
+[program:worker6]
+command=python manage.py rqworker emails --with-scheduler
+autostart=true
+directory=/app
+autorestart=true
+redirect_stderr=true
+stdout_logfile=/dev/fd/1
+stdout_logfile_maxbytes=0
+environment = SERVICE_NAME="tweenvest-worker"
+
+[program:worker7]
+command=python manage.py rqworker ciq_priority ciq emails summaries --with-scheduler
+directory=/app
+autostart=true
+autorestart=true
+redirect_stderr=true
+stdout_logfile=/dev/fd/1
+stdout_logfile_maxbytes=0
+environment = SERVICE_NAME="tweenvest-worker"
+
+[program:worker8]
+command=python manage.py rqworker ciq_priority ciq emails summaries --with-scheduler
+directory=/app
+autostart=true
+autorestart=true
+redirect_stderr=true
+stdout_logfile=/dev/fd/1
+stdout_logfile_maxbytes=0
+environment = SERVICE_NAME="tweenvest-worker"
+
+[program:worker9]
+command=python manage.py rqworker historical_scores ciq_priority summaries ciq emails --with-scheduler
+directory=/app
+autostart=true
+autorestart=true
+redirect_stderr=true
+stdout_logfile=/dev/fd/1
+stdout_logfile_maxbytes=0
+environment = SERVICE_NAME="tweenvest-worker"
+
+[program:worker10]
+command=python manage.py rqworker summaries ciq_priority fmp_priority ciq fmp emails --with-scheduler
+directory=/app
+autostart=true
+autorestart=true
+redirect_stderr=true
+stdout_logfile=/dev/fd/1
+stdout_logfile_maxbytes=0
+environment = SERVICE_NAME="tweenvest-worker"
+\end{lstlisting}
+
+\subsection{Personal Development Server}
+\begin{lstlisting}[language={}, caption=Hetzner Workers Management, label={lst:hetzner_workers_management}]
+[program:worker1]
+command=python manage.py rqworker historical_scores
+process_name=%(program_name)s_%(process_num)02d
+numprocs=16
+directory=/app
+autostart=true
+autorestart=true
+redirect_stderr=true
+stdout_logfile=/dev/fd/1
+stdout_logfile_maxbytes=0
+environment = SERVICE_NAME="tweenvest-worker"
+\end{lstlisting}
+
+
+% -------------------------- Data Export Job --------------------------
 \section{Data Export Job Implementation}
 \label{app:data_export_job}
 
@@ -1345,5 +1626,73 @@ def export_factors_and_pricehistory_task(
     \item Including dividend payments in profitability calculations
     \item Tracking and reporting missing data points for both prices and factor scores
 \end{itemize}
+
+\section{Custom Python Functions for Data Analysis}
+\label{app:custom_functions}
+
+\begin{lstlisting}[language=Python, caption=Correlation Matrix Plot Function]
+def correlation_matrix(
+    df: pd.DataFrame, columns: list[str], file_path: str | None = None
+) -> None:
+    """
+    Plot a correlation matrix for the DataFrame showing only the lower triangle.
+    """
+    df_columns = df[columns]
+    corr_matrix = df_columns.corr()
+
+    # Create a mask for the lower triangle
+    mask = np.triu(np.ones_like(corr_matrix, dtype=bool))
+
+    # Plot using seaborn for better visualization
+    plt.figure(figsize=(12, 8))
+    sns.heatmap(
+        corr_matrix,
+        mask=mask,
+        annot=True,
+        cmap="coolwarm",
+        center=0,
+        fmt=".2f",
+        square=True,
+    )
+    plt.title("Correlation Matrix of Numeric Variables")
+    plt.tight_layout()
+
+    if file_path:
+        plt.savefig(file_path)
+        plt.show()
+    else:
+        plt.show()
+\end{lstlisting}
+
+\begin{lstlisting}[language=Python, caption=Custom Pairplot Function]
+def pairplot(
+    df: pd.DataFrame,
+    file_path: str | None = None,
+    kde: bool = False,
+    hue: str = "region",
+    hue_order: list[str] | None = None,
+    palette: dict[str, str] | None = None,
+) -> None:
+
+    if len(df) > 10000:
+        df = df.sample(10000, random_state=42)
+
+    g = sns.pairplot(
+        df,
+        hue=hue,
+        diag_kind="kde",
+        hue_order=hue_order,
+        palette=palette,
+        corner=True,
+    )
+    if kde:
+        g.map_lower(sns.kdeplot, levels=4, color=".2")
+
+    if file_path:
+        plt.savefig(file_path)
+        plt.close()
+    else:
+        plt.show()
+\end{lstlisting}
 
 \end{document}
