@@ -423,8 +423,8 @@ Since all of the data is coming from a data provider that uses OCR as one of the
 \vspace{0.5cm}
 \noindent For inspecting the data, we will use the \textit{pandas} \cite{pandas2024}, \textit{matplotlib} \cite{matplotlib2025doc}, and \textit{seaborn} \cite{seaborn2024}, which are powerful tools for data manipulation and analysis. The focus will be on the following aspects:
 \begin{itemize}
-  \item \textbf{Data Distributions}: We need to make sure that the data is distributed in a way that is suitable for the modeling.
   \item \textbf{Missing Values}: We need to check if there are any missing values in the data.
+  \item \textbf{Data Distributions}: We need to make sure that the data is distributed in a way that is suitable for the modeling.
   \item \textbf{Variable Correlations}: We also have to see if there are any correlations between the variables. For this, we will use the correlation matrix defined as:
   \begin{equation}
     \rho_{X,Y} = \frac{\text{Cov}(X,Y)}{\sigma_X \sigma_Y}
@@ -910,7 +910,7 @@ phs = (
 Once all tests have passed and the team had approved the changes, the next step was to create scripts —from now on, \textit{jobs}—to populate the current DB with the historic factor scores while maintaining the servers performance in normal levels. For this, we had to update a basic method, \textit{bulk\_create\_or\_update}, used many times through the whole codebase and add a new conditioning so it can handle conflicts depending if the models are empty or not. After reading the official Django \textcite{django2025queryset}, we saw that in newest versions they had included new fields to its original method \textit{bulk\_create}, so we had to update the Django version in our Docker machine and make sure this didn't introduce any unwanted issues.
 
 \vspace{0.5cm}
-\noindent After this was implemented, we decided to create three different jobs for enqueueing the tasks and being able to separate the calculations. This way we could restart them in case something broke during the process (see Appendix \ref{app:historical_scores_job}). Also, we had to manage the server resources, so for assuring the platform's performance, we used the following hierarchy:
+\noindent After this was implemented, we decided to create three different jobs for enqueueing the tasks and being able to separate the calculations. This way we could restart them in case something broke during the process (see Appendix \ref{app:historical_scores_job}). Also, we had to manage the server resources, so for assuring the platform's performance, we used the following hierarchy (see Listing \ref{lst:lst:tweenvest_production_workers_management}):
 \begin{enumerate}
     \item Seven workers for primary daily jobs from different API data integration
     \item One dedicated worker for guaranteeing email sendings, and 6 prioritized shared workers
@@ -921,31 +921,31 @@ Once all tests have passed and the team had approved the changes, the next step 
 \noindent A crucial part of this code was replicability, equal distribution through different sectors, and mostly to assure that the companies existed during enough time for the factor scores to calculate the 10 years averages.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\textwidth]{images/tweenvest/Historical Jobs First Iteration.png}
-    \caption{Historical Jobs First Iteration}
+    \includegraphics[width=1\textwidth]{images/tweenvest/Historical Jobs First Iteration.png}
+    \caption{Historical Jobs First Iteration Schema}
     \label{fig:historical_jobs_first_iteration}
 \end{figure}
 
-\noindent During the first small test it worked in local, but when tested with the production DB we started to see important issues with how the functions where designed due to the large amount of data being processed:
+\noindent We created the first jobs with the schema shown in Figure \ref{fig:historical_jobs_first_iteration}, and during the first small test it worked in local, but when tested with the production DB we started to see important issues with how the functions where designed due to the large amount of data being processed:
 \begin{itemize}
     \item Passing incorrect arguments between jobs—such as entire lists of stock objects—led to the REDIS database reaching its maximum storage capacity.
     \item Jobs ran out of time.
 \end{itemize}
 
-
-\noindent We then changed the day range logic to enqueue a \textit{calculate\_index\_scores\_task} for each day, so the job didn't have to calculate all of the index data for the dates at all at once. Also, we modified the args to only uses models identifiers "id" to reduce the REDIS memory used. The complete implementation of this job can be found in Appendix \ref{app:historical_scores_job}.
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\textwidth]{images/tweenvest/Historical Jobs Final Version.png}
-    \caption{Historical Jobs Final Version}
+    \includegraphics[width=1\textwidth]{images/tweenvest/Historical Jobs Final Version.png}
+    \caption{Historical Jobs Final Version Schema}
     \label{fig:historical_jobs_final_version}
 \end{figure}
 
+\noindent We then changed the day range logic to enqueue a \textit{calculate\_index\_scores\_task} for each day, so the job didn't have to calculate all of the index data for the dates at all at once, as shown in Figure \ref{fig:historical_jobs_final_version}. Also, we modified the function args to only uses models identifiers "id" to reduce the REDIS memory used. The complete implementation of this job can be found in Appendix \ref{app:historical_scores_job}.
+
 \subsection{Telemetry Tracing}
-Finally we had a functional jobs for calculating the scores, and ran the first calculation for a dataset of 1.500 stocks. After the first jobs finished we quickly realized that they were taking too much time to process, and saw a disproportionate amount of queries to the DB so we started a process to check on where was the bottleneck using telemetry tracing tools.
+Finally we had the functional jobs for calculating the scores, and ran the first calculation for a dataset of 1,500 stocks. After the first jobs finished we quickly realized that they were taking too much time to process, and saw a disproportionate amount of queries to the DB so we started a process to check on where was the bottleneck using telemetry tracing tools.
 
 \vspace{0.5cm}
-\noindent To do so, we had to inspect each method and function that is used through the calculations of the factor scores. Luckily we had just recently implemented DataDog which is a software that provides monitoring and analytics for applications and infrastructure, offering real-time metrics, event monitoring, and end-to-end tracing.
+\noindent To do so, we had to inspect each method and function that was being used through the calculations of the factor scores. Luckily we had just recently implemented \textit{DataDog} which is a software that provides monitoring and analytics for applications and infrastructure, offering real-time metrics, event monitoring, and end-to-end tracing.
 
 \vspace{0.5cm}
 \noindent To apply the tracer, we simply had to add a specific decorator before each method and set up the environment for being able to trace not only production launched jobs, but also development tests.
@@ -953,7 +953,7 @@ Finally we had a functional jobs for calculating the scores, and ran the first c
 \vspace{0.5cm}
 \noindent Here's an example of how the tracer was implemented in the quality score calculation:
 
-\begin{lstlisting}[language=Python, caption=Telemetry Tracing Implementation]
+\begin{lstlisting}[language=Python, caption=Telemetry Tracing Implementation, label={lst:telemetry_tracing_implementation}]
 from opentelemetry import trace
 
 tracer = trace.get_tracer(__name__)
@@ -968,35 +968,44 @@ def compute_quality_score(
     return final_score
 \end{lstlisting}
 
-\noindent We clearly saw an excess of queries to the DB when calculating each score, and tried to reduce them by looking for a simple fault in the logic of the queries. Similar issues had been resolved before by adding a \textit{select\_related} in the queries. To clarify what this does, here is the definition with a simple use-case:
+\noindent We then looked at the \textit{DataDog} dashboard and clearly saw an excess of queries to the DB when calculating each score, and tried to reduce them by looking for a simple fault in the logic of the queries. Similar issues had been resolved before by adding a \textit{select\_related} in the queries. To clarify what this does, here is the definition with a simple use-case:
 
 \vspace{0.5cm}
 \noindent ``Returns a QuerySet that will follow foreign-key relationships, selecting additional related-object data when it executes its query. This is a performance booster which results in a single more complex query but means later use of foreign-key relationships won't require database queries.'' -- \textcite{django2025selectrelated}.
 
 \vspace{0.5cm}
-\noindent So in Django, \textit{select\_related()} and \textit{prefetch\_related()} are designed to stop the deluge of database queries that are caused by accessing related objects. \textit{select\_related()} ``follows'' foreign-key relationships, selecting additional related-object data when it executes its query. \textit{prefetch\_related()} does a separate lookup for each relationship and does the ``joining'' in Python.
+\noindent In Django, \textit{select\_related()} and \textit{prefetch\_related()} are designed to stop the deluge of database queries that are caused by accessing related objects. \textit{select\_related()} ``follows'' foreign-key relationships, selecting additional related-object data when it executes its query. \textit{prefetch\_related()} does a separate lookup for each relationship and does the ``joining'' in Python. So one uses \textit{select\_related} when the object that you're going to be selecting is a single object, so \textit{OneToOneField} or a \textit{ForeignKey}.
 
 \vspace{0.5cm}
-\noindent One uses \textit{select\_related} when the object that you're going to be selecting is a single object, so \textit{OneToOneField} or a \textit{ForeignKey}.
-
-\vspace{0.5cm}
-\noindent But after many attempts, and due to the lack of time left to just calculate the factor scores, we had to leave this "minor issue" unsolved and change the strategy to solve the calculation time. Which led to the realization that we were sharing most of the servers power with the normal usage of the platform, and for the normal calculations times (3-4h) didn't matter because we do them daily after market hours, but that didn't work for calculating 5 or more years at once, even with only calculating one score per month.
+\noindent  But after many attempts, and due to the lack of time left to just calculate the factor scores, we had to leave this "minor issue" unsolved and change the strategy to fix the calculation time problem. Which led to the realization that we were sharing most of the servers power with the normal usage of the platform, and for the normal calculations times (3-4h) didn't matter because Tweenvest do them daily after market hours, but that didn't work for calculating 5 or more years in a reasonable time, even when calculating only one score per month.
 
 \subsection{Dedicated Server Deployment}
-\noindent We made the decision to establish a dedicated server for this thesis, equipped with enhanced computational power to facilitate the calculations and data fitting. After thorough research, we opted for Hetzner servers due to their exceptional quality-price ratio.
+\noindent We made the decision to establish a dedicated server for this thesis, equipped with enhanced computational power to facilitate the calculations and data fitting. After thorough research, we opted for Hetzner servers due to their exceptional quality-price ratio, we ended up with a dedicated server with the following characteristics:
 
-\vspace{0.5cm}
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|l|l|l|l|l|l|}
+        \hline
+        \textbf{VCPUS} & \textbf{RAM} & \textbf{SSD Storage} & \textbf{Extra Volume} & \textbf{Bandwidth} & \textbf{Location} \\
+        \hline
+        16 & 32 GB & 320 GB & 480 GB & 20TB & Germany \\
+        \hline
+    \end{tabular}
+    \caption{Hetzner Server Specifications}
+    \label{tab:hetzner_server_specs}
+\end{table}
+
 \noindent Deploying the project in a scalable and reproducible environment involved several structured steps, encompassing server provisioning, secure remote access configuration using SSH, and initializing the containerized application deployment via Docker, with the application codebase managed through GitHub.
 
-\vspace{0.5cm}
-\noindent After all of the setup was done, we saw amazing performance improvements going from 15-minute calculation times for index statistics to 8 seconds. Finally, we could launch the factor scores historical calculations, so we created two subsets of 1,500 random companies each with the factor scores calculated for the 1st day of the month for the following periods: 2015-2020 and 2020-2025, which took a total of 3 hours.
+\vspace{0.5cm}  
+\noindent After all of the setup was done, we saw an amazing \textbf{x100 performance improvement}, going from 15-minute calculation times for index statistics to 8 seconds. Finally, we could launch the factor scores historical calculations, so we created two subsets of 1,500 random companies each with the factor scores calculated for the 1st day of the month for the following periods: 2015-2020 and 2020-2025, which took a total of 3 hours.
 
 \vspace{0.5cm}
 \noindent Now that we have filled the DB with the necessary factor scores for the study, we ran a big calculation to get all of the possible factor scores for the +100,000 companies, which took several days.
 
 \subsection{Aggregating the data}
 
-For being able to continue, we need to create the final dataset with all the necessary data for later on doing the analysis and developing the predictive models, so we created a simple algorithm with this logic:
+For being able to continue, we needed to create the final dataset with all the necessary data for later on doing the analysis and developing the predictive models, so we created a simple algorithm with this logic:
 
 \begin{figure}[H]
     \centering
@@ -1005,7 +1014,7 @@ For being able to continue, we need to create the final dataset with all the nec
     \label{fig:first_data_aggregation_schema}
 \end{figure}
 
-\noindent Once we had the final csv file we noticed that we had too many empty values for profits, the problem was because many of the days calculated were on the weekend. So there was no price history for them, but that wasn't the only thing to take account. Since the companies belong to multiple countries, the holidays were causing another major loss in the information. To fix this in a general way we implemented an internal method for estimating price histories if it didn't exist for the wanted date. The complete implementation of this data export and price estimation process can be found in Appendix \ref{app:data_export_job}.
+\noindent Once we had the final csv file we noticed that we had too many empty values for profits, the problem was because some of the days calculated were empty for a specific company, so there was no price history for them. Since the companies belong to multiple countries, the different holidays could be causing another major loss in the information. To fix this in a general way we implemented an internal method for estimating price histories if it didn't exist for the wanted date. The complete implementation of this data export and price estimation process can be found in Appendix \ref{app:data_export_job}.
 
 \begin{figure}[H]
     \centering
@@ -1014,62 +1023,91 @@ For being able to continue, we need to create the final dataset with all the nec
     \label{fig:final_data_aggregation_schema}
 \end{figure}
 
-\noindent This can be done due to the fact that we are only looking for long term profitabilities, so we can \textbf{approximate the price} on a day "x" by interpolating the price on "x-y" and "x+z" weighted by how close they are to the original day "x" with a maximum distance from "x" of 15 days. This reduced significantly the amount of missing values.
+\noindent This can be done due to the fact that we are only looking for long term profitabilities, so we can \textbf{approximate the price} on a day $x$ by interpolating the price on $x-y$ and $x+z$, weighted by how close they are to the original day $x$, with a maximum distance from $x$ of 15 days. This significantly reduced the amount of missing values.
 
 \subsection{Datasets Creation}
 
-For this work, we are going to attack the main objective from multiple perspectives. First we are going to make a descriptive analysis to understand the data, and then we will propose different models to see if there are any relationships between the scores factors and long term profitabilities.
-
-\vspace{0.5cm}
-\noindent When creating the datasets, we made two different approaches:
-
+For this study, we have attacked the main objective from multiple perspectives. First we made a descriptive analysis to understand the data, and then we proposed different models to see if there were any relationships between the scores factors and long term profitabilities. Thats why when creating the datasets, we made two different approaches to have more information for the analysis:
 
 \begin{figure}[H]
     \begin{minipage}{0.48\textwidth}
         \centering
         \includegraphics[width=\textwidth]{images/code/descriptive analysis/1st Dataset.png}
-        \caption{1st Dataset}
+        \caption{Past Dataset}
         \label{fig:1st_dataset}
     \end{minipage}
     \hfill
     \begin{minipage}{0.48\textwidth}
         \centering
         \includegraphics[width=\textwidth]{images/code/descriptive analysis/2nd Dataset.png}
-        \caption{2nd Dataset}
+        \caption{Future Dataset}
         \label{fig:2nd_dataset}
     \end{minipage}
 \end{figure}
 
-\noindent For the 1st one, we calculated the scores for the range 2020-2025 and then related them to the profits obtained until the specified date. So, for example, the date 1-1-2021, we would link the explanatory variables to the 2 years' profitability obtained until that date: 
-
+\noindent For the past dataset, we calculated the scores for the range 2020-2025 and then related them to the profits obtained until the specified date. For example, the date 1-1-2021 would be linked to the 2 years' profitability obtained until that date: 
 \begin{equation}
-    Profit(\%) = \frac{P_{1\text{-}1\text{-}2021} - P_{1\text{-}1\text{-}2019} + D_{\text{acc}}}{P_{1\text{-}1\text{-}2019}}
+    Profit_{1\text{-}1\text{-}2021}(\%) = \frac{P_{1\text{-}1\text{-}2021} - P_{1\text{-}1\text{-}2019} + D_{\text{acc}}}{P_{1\text{-}1\text{-}2019}}
 \end{equation}
 
-\noindent Which interprets to how earlier profits have influenced on the explanatory variables. This will give us valuable information later on, but we actually want the opposite. So we created the second dataset where we will be looking at the future profits based on current explanatory variables.
-
+\noindent Which interprets to how earlier profits have influenced on the explanatory variables. This will give us valuable information later on, but for the main analysis we actually want the opposite.
 
 \vspace{0.5cm}
-\noindent For the 2nd one, we calculated the scores for the range 2015-2020 and then related them to the profits obtained until the specified date. So, for example, the date 1-1-2021, we would link the explanatory variables to the 2 years' profitability that will be obtained in the future: 
+\noindent So we created the future dataset, we calculated the scores for the range 2015-2020 and then related them to the profits obtained until the specified date. For example, the date 1-1-2021 would be linked to the 2 years' profitability that will be obtained in the future: 
 
 \begin{equation}
-    Profit(\%) = \frac{P_{1\text{-}1\text{-}2023} - P_{1\text{-}1\text{-}2021} + D_{\text{acc}}}{P_{1\text{-}1\text{-}2021}}
+    Profit_{1\text{-}1\text{-}2021}(\%) = \frac{P_{1\text{-}1\text{-}2023} - P_{1\text{-}1\text{-}2021} + D_{\text{acc}}}{P_{1\text{-}1\text{-}2021}}
 \end{equation}
 
-\noindent This approach is what we actually want to use for the predictive models, so we will be using the 2nd dataset for the rest of the analysis.
+\noindent As this approach is what we actually want to use for the predictive models, we will be using the future dataset structure for most of the analysis.
 
 \section{Descriptive Analysis}
 
+ As a summary to know how many datasets we will be using through the study, we can use the following table:
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|l|l|l|l|}
+        \hline  
+        \textbf{Dataset} & \textbf{Raw} & \textbf{Cleaned} & \textbf{No Outliers} \\
+        \hline
+        \textbf{Small Data Past} & 83,243 & 95,000 & 5,000 \\
+        \hline
+        \textbf{Big Data Past} & 16,119,852 & 95,000 & 5,000 \\
+        \hline
+        \textbf{Small Data Future} & 65,166 & 95,000 & 5,000 \\
+        \hline
+        \textbf{Big Data Future} & 100,000 & 95,000 & 5,000 \\
+        \hline
+        \textbf{Small Data Future USA} & 60,503 & 380,000 & 20,000 \\
+        \hline
+        \textbf{Small Data Future EU} & 62,725 & 380,000 & 20,000 \\
+        \hline        \hline
+        \textbf{Small Data Future AS} & 65,772 & 380,000 & 20,000 \\
+        \hline
+        \textbf{Small Data Future LAT} & 48,412 & 380,000 & 20,000 \\
+        \hline
+        \textbf{Small Data Future AF} & 58,341 & 380,000 & 20,000 \\
+        \hline
+        \end{tabular}
+
+    \caption{Data Points per Dataset}
+    \label{tab:datasets_summary}
+\end{table}
+
 \subsection{Preprocessing the Data}
 
-To begin, we looked at the data structure and saw that about 50\% of growth scores were empty. This turned on many alerts from problems with the algorithm, because compared to the rest of the variables there was a significant differences, their absence was only around 8\%. But after digging into the data we realized that it was due to the fact that many companies stop sending reports or selling but keep existing, so we decided to deleted these companies from our dataset because they aren't behaving as a "normal company", and those companies could create a bias in the models. On the other hand, we set all of NaN values of dividend scores as equal to 0 because Tweenvest's algorithm doesn't give a score if the company doesn't pay dividends, but in the study this data is very valuable to see  it if that score is that related to profitability.
+Even with all of these protocols to create the most reliable and filled datasets, we still had to follow the methodologies explained in the previous chapter to analyze the data.
+
+\vspace{0.5cm}
+\noindent To begin, we looked at the data structure and saw that \textbf{about 50\% of growth scores were empty}. This turned on many alerts from problems with the algorithm, because compared to the rest of the variables there was a significant difference, since the \textbf{normal absence was only around 8\%}. But after digging into the data we realized that it was due to the fact that many companies stopped sending reports or selling but keep existing, so we decided to deleted these companies from our dataset because they weren't behaving as a "normal company", and this could create a bias in the models. Additionally, as noted earlier, we replaced all NaN values in the dividend scores with 0, since Tweenvest's algorithm omits a score when a company does not pay dividends.
 
 \vspace{0.5cm}
 \noindent Once we did those small adjustments on the dataset, we ended up with the following distributions:
 
 
 \vspace{0.5cm}
-\noindent The complete implementation of this preprocessing process can be found in Appendix \ref{app:preprocessing_job}.
+\noindent The complete implementation of this preprocessing process can be found in Appendix \ref{lst:data_cleaning}.
 
 % ############################### DISCUSSION #######################
 \chapter{Discussion}
@@ -1693,6 +1731,78 @@ def pairplot(
         plt.close()
     else:
         plt.show()
+\end{lstlisting}
+
+
+\section{Data Preprocessing}
+
+\subsection{Data Cleaning}
+
+\begin{lstlisting}[language=Python, caption=Basic Data Cleaning, label={lst:data_cleaning}]
+    import sys
+    from pathlib import Path
+    
+    # Add the parent directory (code/) to sys.path
+    sys.path.append(str(Path().resolve().parent))
+    from utils import load_data, plot_numeric_distributions
+    import pandas as pd
+    
+    # %% [markdown]
+    # # Loading the data
+    
+    # %%
+    file_name = "Small Data future AF"
+    data_path = f"../data/raw/{file_name}.csv"
+    
+    # Read the CSV file
+    df = load_data(data_path)
+    
+    # %% [markdown]
+    # ## Cleaning and renaming
+    
+    # %%
+    df = df.rename(
+        columns={
+            "stock__share_type__company__industry__industry_group__sector__name": (
+                "sector"
+            ),
+            "stock__share_type__company__country__region": "region",
+            "market_cap_usd": "market_cap",
+            "stock__share_type__company__name": "company",
+            "stock__ticker": "ticker",
+        }
+    )
+    
+    df["dividend"] = df["dividend"].fillna(0.0)
+    df["date"] = pd.to_datetime(df["date"])
+    df_no_nan = df.dropna()
+
+    
+    # %% [markdown]
+    # # Analyzing
+    
+    # %%
+    export_path = f"../data/cleaned/basic/plots/{file_name}.png"
+    plot_numeric_distributions(df, file_path=export_path)
+    
+    # %% [markdown]
+    # # Export cleaned data
+    
+    # %%
+    # Export the cleaned dataset to CSV
+    cleaned_data_path = f"../data/cleaned/basic/{file_name}.csv"
+    df.to_csv(cleaned_data_path, index=False)
+    
+    print(f"Cleaned data exported to: {cleaned_data_path}")
+    
+    
+    
+\end{lstlisting}
+
+\subsection{Outlier Detection}
+
+\begin{lstlisting}[language=Python, caption=Outlier Detection, label={lst:outlier_detection}]
+
 \end{lstlisting}
 
 \end{document}
