@@ -1071,23 +1071,23 @@ For this study, we have attacked the main objective from multiple perspectives. 
         \hline  
         \textbf{Dataset} & \textbf{Raw} & \textbf{Cleaned} & \textbf{No Outliers} \\
         \hline
-        \textbf{Small Data Past} & 83,243 & 95,000 & 5,000 \\
+        \textbf{Big Data Past} & 16,119,852 & 9,991,895 & 5,000 \\
         \hline
-        \textbf{Big Data Past} & 16,119,852 & 95,000 & 5,000 \\
+        \textbf{Big Data Future} & 31,933,137 & 14,518,624 & 5,000 \\
+        \hline 
+        \textbf{Small Data Past} & 83,243 & 48,338 & 46,415 \\
         \hline
-        \textbf{Small Data Future} & 65,166 & 95,000 & 5,000 \\
+        \textbf{Small Data Future} & 65,166 & 26,214 & 25,220 \\
         \hline
-        \textbf{Big Data Future} & 100,000 & 95,000 & 5,000 \\
+        \textbf{Small Data Future USA} & 60,503 & 21,240 & 20,463 \\
         \hline
-        \textbf{Small Data Future USA} & 60,503 & 380,000 & 20,000 \\
+        \textbf{Small Data Future EU} & 62,725 & 25,217 & 24,245 \\
+        \hline        
+        \textbf{Small Data Future AS} & 65,772 & 28,085 & 27,156\\
         \hline
-        \textbf{Small Data Future EU} & 62,725 & 380,000 & 20,000 \\
-        \hline        \hline
-        \textbf{Small Data Future AS} & 65,772 & 380,000 & 20,000 \\
+        \textbf{Small Data Future LAT} & 48,412 & 20,610 & 19,851 \\
         \hline
-        \textbf{Small Data Future LAT} & 48,412 & 380,000 & 20,000 \\
-        \hline
-        \textbf{Small Data Future AF} & 58,341 & 380,000 & 20,000 \\
+        \textbf{Small Data Future AF} & 58,341 & 21,182 & 20,335 \\
         \hline
         \end{tabular}
 
@@ -1103,7 +1103,8 @@ Even with all of these protocols to create the most reliable and filled datasets
 \noindent To begin, we looked at the data structure and saw that \textbf{about 50\% of growth scores were empty}. This turned on many alerts from problems with the algorithm, because compared to the rest of the variables there was a significant difference, since the \textbf{normal absence was only around 8\%}. But after digging into the data we realized that it was due to the fact that many companies stopped sending reports or selling but keep existing, so we decided to deleted these companies from our dataset because they weren't behaving as a "normal company", and this could create a bias in the models. Additionally, as noted earlier, we replaced all NaN values in the dividend scores with 0, since Tweenvest's algorithm omits a score when a company does not pay dividends.
 
 \vspace{0.5cm}
-\noindent Once we did those small adjustments on the dataset, we ended up with the following distributions:
+\noindent Once we did those small adjustments on the dataset, we ended up with the following distributions for the Big Datasets:
+
 
 
 \vspace{0.5cm}
