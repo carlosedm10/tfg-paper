@@ -822,7 +822,7 @@ Finally, for trying to capture the non-linear relationships between all the avai
 
 
 % ############################### DEVELOPMENT AND RESULTS #######################
-\chapter{Development and Results}
+\chapter{Development}
 
 \section{Creation of the Dataset}
 
@@ -858,7 +858,7 @@ After locating where the score calculators are called, we have to understand the
     \label{fig:scores_schema}
 \end{figure}
 
-\noindent With this schema we have simplified the logic behind several functions related to the calculations of each factor score. Quickly we realized that we had to modify the queries to include an extra filter, \textit{calculation\_date} to get models related to the score at any time, this way we can set it as "today" whenever we are just calculating the current ones.
+\noindent With this schema we have simplified the logic behind several functions related to the calculations of each factor score. Quickly we realized that we had to modify the queries to include an extra filter, \textit{calculation\_date} to get the models related to the score at any time, this way we can set it as "today" whenever we are calculating the present scores.
 
 
 \begin{figure}[H]
@@ -897,13 +897,13 @@ phs = (
 \vspace{0.5cm}
 \noindent Along the way of analyzing the code's structure we made some adjustments to simplify the legibility:
 \begin{itemize}
-    \item Renaming functions whenever they are internal methods or generic auxiliary methods called by different functions.
-    \item Externalizing mocking functions that help create fake models and data for unit testing.
-    \item Homogenize the code's structure, field types, to help with readability and keeping a standard order along the backend and frontend.
+    \item \textbf{Renaming functions} whenever they are internal methods or generic auxiliary methods called by different functions.
+    \item \textbf{Externalizing mocking functions} that help create fake models and data for unit testing.
+    \item \textbf{Homogenize the code's structure}, field types, to help with readability and keeping a standard order along the backend and frontend.
 \end{itemize}
 
 \vspace{0.5cm}
-\noindent Another very important part of these updating procedure was to adapt the current unit tests to make sure that the original code still behaved as expected, and creating new ones to check that the changes calculated the factor scores properly.
+\noindent Another very important part of these updating procedure was to \textbf{adapt the unit tests} to make sure that the original code still behaved as expected, and creating new ones to check that the changes calculated the factor scores properly.
 
 \subsection{Designing new Jobs}
 
@@ -986,9 +986,9 @@ def compute_quality_score(
     \centering
     \begin{tabular}{|l|l|l|l|l|l|}
         \hline
-        \textbf{VCPUS} & \textbf{RAM} & \textbf{SSD Storage} & \textbf{Extra Volume} & \textbf{Bandwidth} & \textbf{Location} \\
+        \textbf{VCPUS} & \textbf{RAM} & \textbf{SSD Storage} & \textbf{Extra Volume} \\
         \hline
-        16 & 32 GB & 320 GB & 480 GB & 20TB & Germany \\
+        16 & 32 GB & 320 GB & 480 GB \\
         \hline
     \end{tabular}
     \caption{Hetzner Server Specifications}
@@ -1071,9 +1071,9 @@ For this study, we have attacked the main objective from multiple perspectives. 
         \hline  
         \textbf{Dataset} & \textbf{Raw} & \textbf{Cleaned} & \textbf{No Outliers} \\
         \hline
-        \textbf{Big Data Past} & 16,119,852 & 9,991,895 & 5,000 \\
+        \textbf{Big Data Past} & 16,119,852 & 9,991,895 & -- \\
         \hline
-        \textbf{Big Data Future} & 31,933,137 & 14,518,624 & 5,000 \\
+        \textbf{Big Data Future} & 31,933,137 & 14,518,624 & -- \\
         \hline 
         \textbf{Small Data Past} & 83,243 & 48,338 & 46,415 \\
         \hline
@@ -1091,7 +1091,7 @@ For this study, we have attacked the main objective from multiple perspectives. 
         \hline
         \end{tabular}
 
-    \caption{Data Points per Dataset}
+    \caption{Rows per Dataset}
     \label{tab:datasets_summary}
 \end{table}
 
@@ -1105,6 +1105,8 @@ Even with all of these protocols to create the most reliable and filled datasets
 \vspace{0.5cm}
 \noindent Once we did those small adjustments on the dataset, we ended up with the following distributions for the Big Datasets:
 
+
+\chapter{Results}
 
 
 \vspace{0.5cm}
