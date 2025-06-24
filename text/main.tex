@@ -73,8 +73,8 @@ To my parents.
 \part{Main Report}
 
 % ############################### INTRODUCTION #######################
-\chapter{Introduction to Fundamental Analysis}
-\section{Definition}
+\chapter{Introduction and Objectives }
+\section{Fundamental Analysis Investing}
 
 \noindent Fundamental Analysis is a methodology used to evaluate the intrinsic value of a company, asset, or market by analyzing various economic, financial, qualitative and quantitative factors. Unlike technical analysis, which focuses on price movements and chart patterns, fundamental analysis seeks to determine an asset's "true value" to identify investment opportunities that may be undervalued or overvalued in the market.
 
@@ -82,13 +82,112 @@ To my parents.
 \noindent This intrinsic value is defined by numerous experts and renowned investors—such as Benjamin Graham, Warren Buffett, and Pat Dorsey \cite{dorsey2011five}—as a company's ability to adapt to an ever-changing environment, create value in the market, and establish barriers to entry for competitors, commonly referred to as \textit{economic moats}.
 
 \vspace{0.5cm}
-\noindent Measuring these moats is challenging due to the difficulty of quantifying certain variables, such as brand strength and market influence. However, over the long term, these intangible factors translate into tangible financial data, reflected in a company's balance sheet, income statement, and cash flow statement; that when exposed to the public market share creates a need to buy or sell the stocks, altering the companies profitability. So from now on, this economic moats will be called \textit{alpha}, following the common literature . 
+\noindent Measuring these moats is challenging due to the difficulty of quantifying certain variables, such as brand strength and market influence. However, over the long term most literature show that these \textbf{intangible factors translate into tangible financial data}, reflected in a company's reports: balance sheet, income statement, and cash flow statement. When exposed to the public market share transform into the need to buy or sell the stocks, altering the companies stocks' profitability. So from now on, this economic moats will be called \textit{alpha}, \textcite{sharpe1964capm}.
 
+\vspace{0.5cm}
+\noindent This complexity is what made Tweenvest develop a series of scores to help users identify possible \textit{alpha} in a company, based on the fundamental analysis principles.
+
+\section{Problems With the Current Approach}
+
+\noindent In the context of this thesis, we have to explain the need to make a systematic review of the scores to check wether the simplifications and hypotheses assumed by the financial consensus, and the way that they are implemented in Tweenvest's scores, truly show a company's ability to create \textit{alpha} over time or not.
+
+
+\subsection{Unquantified Variables}
+\noindent Since the current model only includes variables found in a company's financial statements, there is a significant amount of relevant information being left out, for example:
+
+\begin{itemize}
+    \item The \textbf{perceived differentiation} of a product is one such element that may not be properly captured by traditional financial analysis. A trusted brand or strong reputation can allow a company to charge premium prices and build customer loyalty, generating extraordinary long-term profits. For instance, brands like Tiffany or Rolex have high perceived value that justifies elevated prices—something that cannot be easily quantified using standard financial metrics such as profit margins or return on capital.
+
+    \item Additionally, strategies such as \textbf{cost leadership} and offering products at lower prices can provide a significant competitive advantage that is not always directly reflected in financial data.
+
+    \item Companies may also establish \textbf{barriers to entry} and \textbf{high switching costs} for customers, making it more difficult for them to move to competitors. These strategies may involve investments in technology, patents, or simply building long-term customer and employees relationships.
+\end{itemize}
+
+\noindent To properly measure these variables, a more exhaustive analysis of each company would be required, pulling from multiple secondary information sources such as news articles, conference transcripts, customer blogs, competitive product reviews, and more. This task is far more difficult to automate via code, as it would require multimodal AI techniques--thus, it will fall outside the scope of this work.
+
+\subsection{Emergent Effects in Complex Systems}
+
+\noindent In complex systems like financial markets, network effects emerge, adding noise to actual reliable data behind it. For example:
+
+\begin{itemize}
+    \item \textbf{Herd behavior} is a network effect where investors tend to follow the actions of others rather than rely on their own analysis. This can amplify market movements, both upward and downward. Herd behavior can lead to speculative bubbles and abrupt corrections when collective expectations shift.
+
+    \item \textbf{Feedback loops} are another effect where market participants' actions reinforce existing market behavior. For example, rising asset prices may attract more investors, which in turn drives prices even higher. This type of positive feedback can cause price escalation that becomes detached from underlying fundamentals. Conversely, negative feedback can occur during a sell-off, where falling prices trigger more selling, further accelerating the decline.
+    \item \textbf{Macro-level influences} are another crucial factor where broader structural changes—such as political decisions, economic policies, technological shifts, or industry-wide trends—can significantly impact market behavior. These larger forces often operate beyond the scope of individual company analysis and can create ripple effects throughout the entire market ecosystem.
+\end{itemize}
+
+\subsection{Linearity and Stationarity}
+
+\subsubsection{Non-linearity}
+\noindent The relationships between financial variables are often non-linear, meaning that changes in one variable may not result in proportional changes in another.
+
+\begin{itemize}
+    \item \textbf{Economies of scale} can create non-linear relationships between production volume and costs. As a company grows, it may experience decreasing marginal costs due to better resource utilization, bulk purchasing discounts, or spreading fixed costs over larger output.
+    
+    \item \textbf{Market saturation} can lead to diminishing returns on marketing spend or R\&D investments. Initial investments might yield significant returns, but as the market becomes saturated, additional spending may produce smaller incremental benefits.
+    
+    \item \textbf{Competitive dynamics} can create threshold effects where small changes in market share or pricing can trigger significant shifts in competitive position or profitability.
+\end{itemize}
+
+\subsubsection{Trends}
+
+\noindent Traditionally, standard growth ratios have been used, based on the assumption that in competitive markets, when a new business model or opportunity emerges with above-average margins, entrepreneurs quickly move in to capitalize on it—eventually saturating the opportunity and driving margins back down to average levels over time. But what happens when there is a significant shift in trend? 
+
+\vspace{0.5cm}
+\noindent Markets are "fluctuating entities", so static metrics can become problematic when underlying trends change. A clear example is the rise of artificial intelligence and the surge in stock prices of companies involved in the production and development of the necessary technologies.
+
+\section{Objectives}
+
+\noindent Given the limitations identified in the current approach, Tweenvest needs to \textbf{evaluate if the scores represent \textit{alpha} for different time frames}, and \textbf{guide users how to interpret them based on different investment strategies}. Additionally, to propose possible changes to the current algorithm in order to present the results with more accuracy. To achieve this, we follow a structured, multi-step process:
+
+\begin{enumerate}
+  \item \textbf{System Architecture Enhancement}: Modify Tweenvest's database architecture to enable historical score storage and retrieval and create the datasets for the analysis.
+  \item \textbf{Data Curation}: Clean and preprocess the collected data to ensure consistency and reliability, handling missing values and outliers appropriately.
+  \item \textbf{Exploratory Analysis}: Process and analyze the data to check the distributions and correlations between variables, looking for early on patterns to later compare and use in the modeling.
+  \item \textbf{Predictive Modeling}: Develop multiple predictive models to better understand the scores and their relations with other variables and time frames.
+  \item \textbf{Validation \& Benchmarking}: Back-test the algorithms to check their performance and consistency to see if the scores generate positive \textit{alpha} over time.
+\end{enumerate}
+
+\section{Variables for the Analysis}
+
+For doing so, we are going to look for correlations between the profits of a company with different scores and other categorical variables.
+
+\subsection{Response Variables}
+To help users understand how to use the scores depending on their investment horizon, we used different profits that from know one will be representad as \(P_i\) for each time horizon: \(i \in \{1 \text{ month}; 3 \text{ months}; 6 \text{ months}; 1 \text{ year}; 2 \text{ years}; 5 \text{ years}\}\)
+
+\vspace{0.5cm}
+\noindent The profits are defined as:
+
+\begin{equation}
+    R_i^n = \frac{(P_{i+n} + D_{acc}) - P_{i}}{P_{i}}
+\end{equation}
+
+\noindent Here, \(R_i^n\) represents the total return achieved over a period of \(n\) months starting from time \(i\). This return accounts for both the price appreciation and the dividends received during the specified time frame. Specifically, \(P_i\) denotes the price at time \(i\), while \(D_{acc}\) is the sum of all dividends accumulated from time \(i\) to \(i+n\).
+
+
+\subsection{Explanatory Variables}
+To relate the profits with the scores, we need to use different variables:
+\begin{itemize}
+    \item \textbf{Main variables}, these are numerical variables from \textbf{Tweenvest's Scores}, that are in the range of 0 to 100: \(S_j\) where   \(j \in \{\text{ Quality; Value; Dividend; Growth}\}\)
+    \item \textbf{Dummy variables}, these are boolean variables that allow us to tag the companies by:
+    \begin{itemize}
+        \item \textbf{Industry}: \(I_k\) where \(k \in \{\text{Financials; Healthcare; etc.}\}\)
+        \item \textbf{Region}: \(R_l\) where \(l \in \{\text{Europe; North America; etc.}\}\)
+    \end{itemize}
+    \item \textbf{Market Variables}, these are numeric variables that represent the companies \textit{"size"} using the: \textbf{Market Cap} and \textbf{Volume}.
+\end{itemize}
+
+
+
+
+
+% ############################### METHODOLOGY #######################
+\chapter{Methodology \& Theoretical Framework}
 
 
 \section{Tweenvest's Scores}
 
-This long-term advantage seen in the finance is used in many indexes such as \textcite{msci2024fundamental}, IBEX-35, etc. So following this approach, Tweenvest developed a series of factors to help users identify possible \textit{alpha} in a company. Upon these factors, we can highlight four main scores strictly related to key focus areas that investors consider before making any decision:
+The \textbf{long-term advantage} explained earlier in the finance is used in many indexes such as \textcite{msci2024fundamental}, IBEX-35, etc to achieve higher returns than average. So following this approach, Tweenvest developed a series of scores to \textbf{help users identify possible \textit{alpha} in a company}. Upon these scores, we can highlight four --Quality, Growth, Value, and Dividend-- that are strictly related to key focus areas that fundamental-based investors consider before making any decision, these areas are:
 \begin{itemize}
     \item Profitability
     \item Financial Health
@@ -331,73 +430,6 @@ This part of the score is used to assess the sustainability of the dividend.
 \end{figure}
 
 \noindent Finally, as seen in Figure \ref{fig:dividend_score}, the algorithm adjusts this score based on how many years the dividend has been maintained or increased, \textbf{rewarding consistency}.
-
-
-\section{Problems with the current approach}
-
-\noindent In the context of this thesis, we have to explain the need to make a systematic review of the scores to check wether the simplifications and hypotheses assumed by the financial consensus truly show a company's ability to create \textit{alpha} over time or not.
-
-
-\subsection{Unquantified Variables}
-\noindent Since the current model only includes variables found in a company's financial statements, there is a significant amount of relevant information being left out, for example:
-
-\begin{itemize}
-    \item The \textbf{perceived differentiation} of a product is one such element that may not be properly captured by traditional financial analysis. A trusted brand or strong reputation can allow a company to charge premium prices and build customer loyalty, generating extraordinary long-term profits. For instance, brands like Tiffany or Rolex have high perceived value that justifies elevated prices—something that cannot be easily quantified using standard financial metrics such as profit margins or return on capital.
-
-    \item Additionally, strategies such as \textbf{cost leadership} and offering products at lower prices can provide a significant competitive advantage that is not always directly reflected in financial data.
-
-    \item Companies may also establish \textbf{barriers to entry} and \textbf{high switching costs} for customers, making it more difficult for them to move to competitors. These strategies may involve investments in technology, patents, or simply building long-term customer and employees relationships.
-\end{itemize}
-
-\noindent To properly measure these variables, a more exhaustive analysis of each company would be required, pulling from multiple secondary information sources such as news articles, conference transcripts, customer blogs, competitive product reviews, and more. This task is far more difficult to automate via code, as it would require multimodal AI techniques—thus, it will fall outside the scope of this work.
-
-\subsection{Emergent Effects in Complex Systems}
-
-\noindent In complex systems like financial markets, network effects emerge, adding noise to actual reliable data behind it. For example:
-
-\begin{itemize}
-    \item \textbf{Herd behavior} is a network effect where investors tend to follow the actions of others rather than rely on their own analysis. This can amplify market movements, both upward and downward. Herd behavior can lead to speculative bubbles and abrupt corrections when collective expectations shift.
-
-    \item \textbf{Feedback loops} are another effect where market participants' actions reinforce existing market behavior. For example, rising asset prices may attract more investors, which in turn drives prices even higher. This type of positive feedback can cause price escalation that becomes detached from underlying fundamentals. Conversely, negative feedback can occur during a sell-off, where falling prices trigger more selling, further accelerating the decline.
-    \item \textbf{Macro-level influences} are another crucial factor where broader structural changes—such as political decisions, economic policies, technological shifts, or industry-wide trends—can significantly impact market behavior. These larger forces often operate beyond the scope of individual company analysis and can create ripple effects throughout the entire market ecosystem.
-\end{itemize}
-
-\subsection{Linearity and Stationarity}
-
-\subsubsection{Non-linearity}
-\noindent The relationships between financial variables are often non-linear, meaning that changes in one variable may not result in proportional changes in another.
-
-\begin{itemize}
-    \item \textbf{Economies of scale} can create non-linear relationships between production volume and costs. As a company grows, it may experience decreasing marginal costs due to better resource utilization, bulk purchasing discounts, or spreading fixed costs over larger output.
-    
-    \item \textbf{Market saturation} can lead to diminishing returns on marketing spend or R\&D investments. Initial investments might yield significant returns, but as the market becomes saturated, additional spending may produce smaller incremental benefits.
-    
-    \item \textbf{Competitive dynamics} can create threshold effects where small changes in market share or pricing can trigger significant shifts in competitive position or profitability.
-\end{itemize}
-
-\subsubsection{Trends}
-
-\noindent Traditionally, standard growth ratios have been used, based on the assumption that in competitive markets, when a new business model or opportunity emerges with above-average margins, entrepreneurs quickly move in to capitalize on it—eventually saturating the opportunity and driving margins back down to average levels over time. But what happens when there is a significant shift in trend? 
-
-\vspace{0.5cm}
-\noindent Markets are "fluctuating entities", so static metrics can become problematic when underlying trends change. A clear example is the rise of artificial intelligence and the surge in stock prices of companies involved in the production and development of the necessary technologies.
-
-
-
-% ############################### OBJECTIVES #######################
-\chapter{Objectives}
-Knowing the possible problems shown with the current approach, Tweenvest has the need to check if the scores actually represent an objective and accurate view of the company's ability to generate \textit{alpha} for different time frames, and propose changes to the current algorithm if needed for being able to present their results with more accuracy to their users. To do this, we need to follow multiple steps:
-\begin{enumerate}
-  \item \textbf{System Architecture Enhancement}: Modify Tweenvest's database architecture to enable historical score storage and retrieval and create the datasets for the analysis.
-  \item \textbf{Data Curation}: Clean and preprocess the collected data to ensure consistency and reliability, handling missing values and outliers appropriately.
-  \item \textbf{Exploratory Analysis}: Process and analyze the data to check the distributions and correlations between variables, looking for early on patterns to later compare and use in the modeling.
-  \item \textbf{Predictive Modeling}: Develop multiple predictive models to check what is the best way to use the scores for multiple time frames investment strategies.
-  \item \textbf{Validation \& Benchmarking}: Back-test the algorithms to check their performance and consistency to see if the scores generate positive \textit{alpha} over time.
-\end{enumerate}
-
-
-% ############################### METHODOLOGY #######################
-\chapter{Methodology \& Theoretical Framework}
 
 \section{Code practices}
 Since the code that needs to be changed is used in a production environment by Tweenvest, it is important to follow some \textit{good practices} to ensure the code is easy to understand, maintain, and to avoid introducing new bugs.
@@ -698,21 +730,6 @@ The main objective of this thesis is to check if the scores have any relation wi
 \vspace{0.5cm}
 \noindent As a first approach, we created a set of models that separate the scores and the different returns. 
 
-\subsubsection{Response Variables}
-To help users understand how to use the scores depending on their investment horizon, we used different profits that from know one will be representad as \(P_i\) for each time horizon: \(i \in \{1 \text{ month}; 3 \text{ months}; 6 \text{ months}; 1 \text{ year}; 2 \text{ years}; 5 \text{ years}\}\)
-
-\subsubsection{Explanatory Variables}
-For being able to train the models, we have different variable categories:
-
-\begin{itemize}
-    \item \textbf{Main variables}, these are numerical variables from \textbf{Tweenvest's Scores}, that are in the range of 0 to 100: \(S_j\) where   \(j \in \{\text{ Quality; Value; Dividend; Growth}\}\)
-    \item \textbf{Dummy variables}, these are boolean variables that allow us to tag the companies by:
-    \begin{itemize}
-        \item \textbf{Industry}: \(I_k\) where \(k \in \{\text{Financials; Healthcare; etc.}\}\)
-        \item \textbf{Region}: \(R_l\) where \(l \in \{\text{Europe; North America; etc.}\}\)
-    \end{itemize}
-    \item \textbf{Market Variables}, these are numeric variables that represent the companies \textit{"size"} using the: \textbf{Market Cap} and \textbf{Volume}.
-\end{itemize}
 
 \subsection{Regression Models}
 
@@ -819,9 +836,89 @@ And for capturing possible memory of the companies behavior in different aspects
 
 Finally, for trying to capture the non-linear relationships between all the available variables, including the windowed statistical properties, we will use the Neural Networks.
 
+\section{Back-testing}
+
+In order to assess and compare the modeling techniques employed in this thesis, it is important to have a consistent criteria to evaluate them based on the next requirements:
+
+\subsection{Performance}
+The first thing we need to see is if the models are able to detect any relationships between the co-variables and the response variable, and how accurate they are:
+\begin{itemize}
+    \item \textbf{Prediction Accuracy:} $R^2$ and $R^2_{adjusted}$, these metrics quantify the proportion of variance explained by the model.
+    \item \textbf{Accuracy:} RMSE, MAE, which evaluate the errors the model makes when predicting the target variable.
+\end{itemize}
 
 
-% ############################### DEVELOPMENT AND RESULTS #######################
+\subsection{Consistency and Overfitting}
+We check whether the models reflect stable, interpretable patterns in the relationships between scores and alpha. For this, we will use the following techniques:
+\begin{itemize}
+    \item \textbf{Sign of coefficients:} We will check if the sign of the coefficients remains stable across different time horizons.
+    \item \textbf{Shape of functions:} We will check if the shape of the functions remains stable across different time horizons.
+    \item \textbf{Number of significant variables:} We will check if the number of significant variables increases with the performance of the models, using the $p-value < 0.2$ criterion.
+\end{itemize}
+
+\subsection{Robustness of Results}
+The residuals of the models should resemble white noise, indicating the absence of unmodeled structure and valid statistical inference \textcite{enders1948applied}.
+\begin{itemize}
+    \item \textbf{Mean Value Test:} The mean of the residuals should be close to 0, which is checked with the T-test.
+        \begin{itemize}
+            \item \textbf{Distribution Plots:} Visualize the distribution of residuals to assess if the mean is centered at zero.
+        \end{itemize}
+    \item \textbf{Heteroscedasticity Tests:} The variance of the residuals should be constant across all time horizons.
+        \begin{itemize}
+            \item \textbf{White Test:} Checks for general forms of heteroscedasticity.
+            \item \textbf{Breusch-Pagan Test:} Tests whether the variance of the errors depends on the values of the independent variables.
+            \item \textbf{F and t tests:} Used to compare variances and means across groups.
+            \item \textbf{Distribution Plots:} Visualize residuals versus fitted values to detect patterns in variance.
+        \end{itemize}
+    \item \textbf{Normality Tests:} The distribution of residuals should follow a Normal distribution.
+        \begin{itemize}
+            \item \textbf{Shapiro-Wilk Test:} Statistical test for normality.
+            \item \textbf{Jarque-Bera Test:} Tests whether sample data have the skewness and kurtosis matching a normal distribution.
+            \item \textbf{Q-Q Plots:} Visual tool to compare the quantiles of the residuals to a normal distribution.
+            \item \textbf{Distribution Plots:} Visualize the histogram or density of residuals.
+        \end{itemize}
+    \item \textbf{Autocorrelation Test:} The errors should not be correlated with each other.
+        \begin{itemize}
+            \item \textbf{Durbin-Watson Test:} Checks for the presence of autocorrelation in the residuals.
+            \item \textbf{ACF and PACF Plots:} Visualize the autocorrelation and partial autocorrelation of residuals to detect serial correlation.
+        \end{itemize}
+\end{itemize}
+
+
+
+
+% \begin{itemize}
+%     \item \textbf{Consistency}: The models should display stable relationships between scores and alpha across different time horizons. For example, a score that positively impacts alpha in the short term should not suddenly show a strong negative effect in the long term.
+%     \item \textbf{Performance}: The models should predict future profitability or alpha with a reasonable level of accuracy.
+%     \item \textbf{Overfitting}: Given the number of explanatory variables, we must ensure the models generalize well and are not fitting noise in the training data.
+%     \item \textbf{Robustness of Results}: The residuals of the models should resemble white noise, indicating the absence of unmodeled structure and valid statistical inference.
+% \end{itemize}
+
+
+% \begin{table}[H]
+%     \centering
+%     \caption{Comparison of Model Requirements and Techniques Used}
+%     \label{tab:requirements_vs_techniques}
+%     \begin{tabular}{|p{3.5cm}|p{4.5cm}|p{5.5cm}|}
+%         \hline
+%         \textbf{Requirement} & \textbf{Techniques(s) Used} & \textbf{How the Requirement is Addressed} \\
+%         \hline
+%         Consistency & Sign of coefficients / shape of functions & We check whether the sign of coefficients or the functional shapes (in GAMs) remain stable across different time horizons, indicating stable patterns. \\
+%         \hline
+%         Performance & RMSE, MAE, $R^2$ & These metrics evaluate how accurately the model explains or predicts the target variable, capturing both error and fit quality. \\
+%         \hline
+%         Overfitting & $R^2_{\text{adjusted}}$, number of significant variables & Models with high $R^2$ but low $R^2_{\text{adjusted}}$ are penalized. We also track the number of statistically significant variables to control model complexity. \\
+%         \hline
+%         Robustness of Results & White noise tests (Mean Value Test; Heteroscedasticity Tests: White Test, Breusch-Pagan Test, F and t tests; Normality Tests: Shapiro-Wilk Test, Jarque-Bera Test; Autocorrelation Test: Durbin-Watson Test) & Check if the residuals are white noise using the following tests: (1) Mean Value Test, (2) Heteroscedasticity Tests (White Test, Breusch-Pagan Test, F and t tests), (3) Normality Tests (Shapiro-Wilk Test, Jarque-Bera Test), and (4) Autocorrelation Test (Durbin-Watson Test). Passing these tests indicates that the model has captured the main signal in the data. \\
+%         \hline
+%     \end{tabular}
+% \end{table}
+
+
+
+
+
+% ############################### DEVELOPMENT  ###############################
 \chapter{Development}
 
 \section{Creation of the Dataset}
