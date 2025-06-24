@@ -1074,10 +1074,24 @@ def compute_quality_score(
 \noindent In Django, \textit{select\_related()} and \textit{prefetch\_related()} are designed to stop the deluge of database queries that are caused by accessing related objects. \textit{select\_related()} ``follows'' foreign-key relationships, selecting additional related-object data when it executes its query. \textit{prefetch\_related()} does a separate lookup for each relationship and does the ``joining'' in Python. So one uses \textit{select\_related} when the object that you're going to be selecting is a single object, so \textit{OneToOneField} or a \textit{ForeignKey}.
 
 \vspace{0.5cm}
-\noindent  But after many attempts, and due to the lack of time left to just calculate the factor scores, we had to leave this "minor issue" unsolved and change the strategy to fix the calculation time problem. Which led to the realization that we were sharing most of the servers power with the normal usage of the platform, and for the normal calculations times (3-4h) didn't matter because Tweenvest do them daily after market hours, but that didn't work for calculating 5 or more years in a reasonable time, even when calculating only one score per month.
+\noindent After numerous attempts to improve performance, we were forced to reconsider our approach and began analyzing the problem from a different perspective. It quickly became evident that we were operating on a small virtual machine (Table~\ref{tab:tweenvest_server_specs}) shared with the regular platform workload. Tweenvest’s servers are not designed for high computational demand; rather, they are optimized for routine operations, where standard score calculations typically take between 3 to 4 hours. This setup works well under normal conditions, as calculations are performed after market hours and do not impact the user experience. However, it proved inadequate for our needs—specifically, processing data over five or more years within a reasonable timeframe, even when computing just one score per month.
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|l|l|l|l|}
+        \hline
+        \textbf{VCPUS} & \textbf{RAM} & \textbf{SSD Storage} & \textbf{Extra Volume} \\
+        \hline
+        8 & 4 GB & 320 GB & -- \\
+        \hline
+    \end{tabular}
+    \caption{Tweenvest Server Specifications}
+    \label{tab:tweenvest_server_specs}
+\end{table}
+
 
 \subsection{Dedicated Server Deployment}
-\noindent We made the decision to establish a dedicated server for this thesis, equipped with enhanced computational power to facilitate the calculations and data fitting. After thorough research, we opted for Hetzner servers due to their exceptional quality-price ratio, we ended up with a dedicated server with the following characteristics:
+\noindent We made the decision to establish a dedicated server for this thesis, equipped with enhanced computational power to facilitate the calculations and data fitting.After evaluating several providers, we opted for Hetzner servers due to their exceptional quality-price ratio. The final setup consists of a dedicated server with the following specifications:
 
 \begin{table}[H]
     \centering
@@ -1098,7 +1112,7 @@ def compute_quality_score(
 \noindent After all of the setup was done, we saw an amazing \textbf{x100 performance improvement}, going from 15-minute calculation times for index statistics to 8 seconds. Finally, we could launch the factor scores historical calculations, so we created two subsets of 1,500 random companies each with the factor scores calculated for the 1st day of the month for the following periods: 2015-2020 and 2020-2025, which took a total of 3 hours.
 
 \vspace{0.5cm}
-\noindent Now that we have filled the DB with the necessary factor scores for the study, we ran a big calculation to get all of the possible factor scores for the +100,000 companies, which took several days.
+\noindent Now that we had filled the DB with the necessary factor scores for the study, we ran a big calculation to get all of the possible factor scores for the +100,000 companies, which took several days.
 
 \subsection{Aggregating the data}
 
@@ -1111,7 +1125,7 @@ For being able to continue, we needed to create the final dataset with all the n
     \label{fig:first_data_aggregation_schema}
 \end{figure}
 
-\noindent Once we had the final csv file we noticed that we had too many empty values for profits, the problem was because some of the days calculated were empty for a specific company, so there was no price history for them. Since the companies belong to multiple countries, the different holidays could be causing another major loss in the information. To fix this in a general way we implemented an internal method for estimating price histories if it didn't exist for the wanted date. The complete implementation of this data export and price estimation process can be found in Appendix \ref{app:data_export_job}.
+\noindent Once we had the final csv file we noticed that we had too many empty values for profits, the problem was because some of the days calculated were empty for a specific company, so there was no price history for them. Since the companies belong to multiple countries, the different holidays could be causing another major loss in the information. To fix this in a general way we implemented an internal method for estimating price histories if they didn't exist for the wanted date. The complete implementation of this data export and price estimation process can be found in Appendix \ref{app:data_export_job}.
 
 \begin{figure}[H]
     \centering
@@ -1129,16 +1143,16 @@ For this study, we have attacked the main objective from multiple perspectives. 
 \begin{figure}[H]
     \begin{minipage}{0.48\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{images/code/descriptive analysis/1st Dataset.png}
+        \includegraphics[width=\textwidth]{images/code/descriptive analysis/Past Dataset variables relations.png}
         \caption{Past Dataset}
-        \label{fig:1st_dataset}
+        \label{fig:past_dataset}
     \end{minipage}
     \hfill
     \begin{minipage}{0.48\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{images/code/descriptive analysis/2nd Dataset.png}
+        \includegraphics[width=\textwidth]{images/code/descriptive analysis/Future Dataset variables relations.png}
         \caption{Future Dataset}
-        \label{fig:2nd_dataset}
+        \label{fig:future_dataset}
     \end{minipage}
 \end{figure}
 
@@ -1147,10 +1161,10 @@ For this study, we have attacked the main objective from multiple perspectives. 
     Profit_{1\text{-}1\text{-}2021}(\%) = \frac{P_{1\text{-}1\text{-}2021} - P_{1\text{-}1\text{-}2019} + D_{\text{acc}}}{P_{1\text{-}1\text{-}2019}}
 \end{equation}
 
-\noindent Which interprets to how earlier profits have influenced on the explanatory variables. This will give us valuable information later on, but for the main analysis we actually want the opposite.
+\noindent Which interprets to \textbf{how earlier profits have influenced on the explanatory variables}. This will give us valuable information in the descriptive analysis.
 
 \vspace{0.5cm}
-\noindent So we created the future dataset, we calculated the scores for the range 2015-2020 and then related them to the profits obtained until the specified date. For example, the date 1-1-2021 would be linked to the 2 years' profitability that will be obtained in the future: 
+\noindent For the model fitting, \textbf{we want to know if the current scores are good predictors of the future profits}. So we calculated the scores for the range 2015-2020 and related them to the profits obtained from that date to the future. For example, the date 1-1-2021 would be linked to the 2 years' profitability that will be obtained in the future: 
 
 \begin{equation}
     Profit_{1\text{-}1\text{-}2021}(\%) = \frac{P_{1\text{-}1\text{-}2023} - P_{1\text{-}1\text{-}2021} + D_{\text{acc}}}{P_{1\text{-}1\text{-}2021}}
@@ -1168,9 +1182,9 @@ For this study, we have attacked the main objective from multiple perspectives. 
         \hline  
         \textbf{Dataset} & \textbf{Raw} & \textbf{Cleaned} & \textbf{No Outliers} \\
         \hline
-        \textbf{Big Data Past} & 16,119,852 & 9,991,895 & -- \\
+        \textbf{Big Data Past$^\dagger$} & 16,119,852 & 9,991,895 & 9,492,301 \\
         \hline
-        \textbf{Big Data Future} & 31,933,137 & 14,518,624 & -- \\
+        \textbf{Big Data Future$^\dagger$} & 31,933,137 & 14,518,624 & 13,792,692 \\
         \hline 
         \textbf{Small Data Past} & 83,243 & 48,338 & 46,415 \\
         \hline
@@ -1191,6 +1205,8 @@ For this study, we have attacked the main objective from multiple perspectives. 
     \caption{Rows per Dataset}
     \label{tab:datasets_summary}
 \end{table}
+
+\noindent $^\dagger$ In the \textit{Big Data Past} and \textit{Big Data Future} datasets, we removed the outliers using the Isolation Forest method for saving computational time.
 
 \subsection{Preprocessing the Data}
 
