@@ -349,8 +349,8 @@ These ratios measure a company's ability to meet short-term obligations with its
     \label{fig:growth_score}
 \end{figure}
 
-\subsection{Valuation}
-\noindent The Valuation Score measures how attractively a company is priced relative to fundamental multiples such as earnings, cash flow, sales, and dividends. This is critical for investors following value investing principles, where the goal is to buy quality companies for less than their intrinsic worth. The algorithm evaluates a series of valuation multiples—both price-based and enterprise value-based—and dividend yield.
+\subsection{Value}
+\noindent The Value Score measures how attractively a company is priced relative to fundamental multiples such as earnings, cash flow, sales, and dividends. This is critical for investors following value investing principles, where the goal is to buy quality companies for less than their intrinsic worth. The algorithm evaluates a series of valuation multiples—both price-based and enterprise value-based—and dividend yield.
 
 % TODO: TTM capital definitions
 
@@ -376,13 +376,13 @@ These ratios measure a company's ability to meet short-term obligations with its
 \end{itemize}
 
 \vspace{0.5cm}
-\noindent Each of these ratios is compared to multiple historical statistics and sectoral benchmarks to create individual scores and then average them.
+\noindent Each of these ratios is compared to multiple historical statistics and sector benchmarks to create individual scores and then average them.
 
 \vspace{0.5cm}
 \noindent \textbf{Note:}
 \begin{itemize}
-    \item Market Cap = Share Price × Total Outstanding Shares
-    \item Enterprise Value = Market Capitalization + Total Debt - Cash + Marketable Securities
+    \item \textit{Market Cap = Share Price × Total Outstanding Shares}
+    \item \textit{Enterprise Value = Market Capitalization + Total Debt - Cash + Marketable Securities}
 \end{itemize}
 
 \begin{figure}[H]
@@ -921,7 +921,7 @@ The residuals of the models should resemble white noise, indicating the absence 
 % ############################### DEVELOPMENT  ###############################
 \chapter{Development}
 
-\section{Creation of the Dataset}
+\section{Architecture Enhancement}
 
 % \noindent We have understood the nature of the data, explained the bases of how the scores are calculated, and the code methodologies we will be using. Now we need to create a proper dataset.
 
@@ -1114,6 +1114,8 @@ def compute_quality_score(
 \vspace{0.5cm}
 \noindent Now that we had filled the DB with the necessary factor scores for the study, we ran a big calculation to get all of the possible factor scores for the +100,000 companies, which took several days.
 
+\section{Dataset Creation}
+
 \subsection{Aggregating the data}
 
 For being able to continue, we needed to create the final dataset with all the necessary data for later on doing the analysis and developing the predictive models, so we created a simple algorithm with this logic:
@@ -1136,21 +1138,21 @@ For being able to continue, we needed to create the final dataset with all the n
 
 \noindent This can be done due to the fact that we are only looking for long term profitabilities, so we can \textbf{approximate the price} on a day $x$ by interpolating the price on $x-y$ and $x+z$, weighted by how close they are to the original day $x$, with a maximum distance from $x$ of 15 days. This significantly reduced the amount of missing values.
 
-\subsection{Datasets Creation}
+\subsection{Datasets Construction}
 
 For this study, we have attacked the main objective from multiple perspectives. First we made a descriptive analysis to understand the data, and then we proposed different models to see if there were any relationships between the scores factors and long term profitabilities. Thats why when creating the datasets, we made two different approaches to have more information for the analysis:
 
 \begin{figure}[H]
     \begin{minipage}{0.48\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{images/code/descriptive analysis/Past Dataset variables relations.png}
+        \includegraphics[width=\textwidth]{images/tweenvest/Past Dataset variables relations.png}
         \caption{Past Dataset}
         \label{fig:past_dataset}
     \end{minipage}
     \hfill
     \begin{minipage}{0.48\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{images/code/descriptive analysis/Future Dataset variables relations.png}
+        \includegraphics[width=\textwidth]{images/tweenvest/Future Dataset variables relations.png}
         \caption{Future Dataset}
         \label{fig:future_dataset}
     \end{minipage}
@@ -1172,9 +1174,29 @@ For this study, we have attacked the main objective from multiple perspectives. 
 
 \noindent As this approach is what we actually want to use for the predictive models, we will be using the future dataset structure for most of the analysis.
 
-\section{Descriptive Analysis}
+\subsection{Preprocessing}
+Even with all of these protocols to create the most reliable and filled datasets, we still had to follow the methodologies explained in the previous chapter to analyze the data.
 
- As a summary to know how many datasets we will be using through the study, we can use the following table:
+\subsubsection{Cleaning the Data}
+To begin, we looked at the data structure and saw that \textbf{about 50\% of growth scores were empty}. This turned on many alerts from problems with the scores calculation algorithm, because compared to the rest of the variables there was a significant difference, since the \textbf{normal absence was only around 8\%} taking into account the value score as reference because it doesn't have 10 year averages.
+\begin{table}[H]
+    \centering
+    \begin{tabular}{|c|c|c|c|c|c|c|c|c|}
+        \hline
+        \textbf{quality} & \textbf{growth} & \textbf{value} & \textbf{profit\_1m} & \textbf{profit\_3m} & \textbf{profit\_6m} & \textbf{profit\_1y} & \textbf{profit\_2y} & \textbf{profit\_5y} \\
+        \hline
+        13.4 & 54.0 & 7.4 & 2.6 & 3.1 & 3.2 & 3.2 & 3.3 & 6.0 \\
+        \hline
+    \end{tabular}
+    \caption{Missing values (\% ) per column for Small Data Future.}
+    \label{tab:missing_values_small_data_future}
+\end{table}
+
+
+\noindent   But after digging into the data we saw that it was due to the fact that many companies stopped sending reports or selling but kept existing, so we decided to deleted them from our dataset because they weren't behaving as a "normal company", and this could create a bias in the models. Additionally, as noted earlier, we replaced all NaN values in the dividend scores with 0, since Tweenvest's algorithm omits a score when a company does not pay dividends. That's why we don't see any missing values in the dividend scores.
+
+\vspace{0.5cm}
+\noindent This pattern is constant in all of the different datasets, as we can see in this summary table:
 
 \begin{table}[H]
     \centering
@@ -1208,22 +1230,89 @@ For this study, we have attacked the main objective from multiple perspectives. 
 
 \noindent $^\dagger$ In the \textit{Big Data Past} and \textit{Big Data Future} datasets, we removed the outliers using the Isolation Forest method for saving computational time.
 
-\subsection{Preprocessing the Data}
-
-Even with all of these protocols to create the most reliable and filled datasets, we still had to follow the methodologies explained in the previous chapter to analyze the data.
-
-\vspace{0.5cm}
-\noindent To begin, we looked at the data structure and saw that \textbf{about 50\% of growth scores were empty}. This turned on many alerts from problems with the algorithm, because compared to the rest of the variables there was a significant difference, since the \textbf{normal absence was only around 8\%}. But after digging into the data we realized that it was due to the fact that many companies stopped sending reports or selling but keep existing, so we decided to deleted these companies from our dataset because they weren't behaving as a "normal company", and this could create a bias in the models. Additionally, as noted earlier, we replaced all NaN values in the dividend scores with 0, since Tweenvest's algorithm omits a score when a company does not pay dividends.
-
-\vspace{0.5cm}
-\noindent Once we did those small adjustments on the dataset, we ended up with the following distributions for the Big Datasets:
-
 
 \chapter{Results}
+\section{Descriptive Analysis}
+
+Before jumping into the model fitting, it is necessary to understand the data that we are working with.
+
+\subsection{Variables Distributions}
+
+\subsubsection{Scores}
+Following the scores order, quality's distribution show a \textbf{clear negative skewness}, meaning that there are more companies closer to having a good quality score. This could be due to the fact that we have deleted companies that don't behave as a "normal company", so we will analize the distributions of the profits to see if there is a bias in the data. Also, there is a \textbf{secondary peak arounf the 30-40 scores}, which could be related to the time-frame of the data.
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{images/code/descriptive analysis/distributions/Big Data future - Scores.png}
+        \caption{Big Data Future - Scores}
+        \label{fig:scores}
+    \end{minipage}\hfill
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{images/code/descriptive analysis/distributions/Big Data future - Scores Deep.png}
+        \caption{Big Data Future - Scores Deep}
+        \label{fig:scores_deep}
+    \end{minipage}
+\end{figure}
+
+\noindent Around 2015-2020 interest rates were at a historical low, so there could be more companies with more debt than normal. Some central banks, particularly in Europe, experimented with negative interest rate policies on deposit facilities during this period (Figure~\ref{fig:euribor}). This possibility should be studied in more detail, but knowing that this doesn't happen for the dataset between 2020-2025 where interest rates are higher, we have a clue that this could be whats causing it (see Appendix Figure~\ref{fig:past_scores_deep}).
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\linewidth]{images/macros/Euribor.png}
+    \caption{EMMI - Euribor Interest Rates}
+    \label{fig:euribor}
+\end{figure}
+
 
 
 \vspace{0.5cm}
-\noindent The complete implementation of this preprocessing process can be found in Appendix \ref{lst:data_cleaning}.
+\noindent Finishing with quality, there is a "deffect" in the dataset. We don't have 10 year averages for the companies that are in the 2015-2020 period --Tweenvest is only paying for data after 2012-- so the algorithm gives 0 to some of its criterias making the maximum quality be 80. But since this is happening for all of the companies, \textbf{it is not a problem for the model fitting}, altought we won't be analiyzing those criteria's performance.
+
+\vspace{0.5cm}
+\noindent Continuing with growth, we notice that there are many companies with a score of 0 and a score of 100, and something similar happens with the 0s in Diviend. For having a deeper look, we excluded those values for the Figure \ref{fig:scores_deep} where we can see that it is closer to a uniform distribution with a descend slope after 65, which means that most companies have a similar growth rate, but fewer have higher ones.
+
+\vspace{0.5cm}
+\noindent When looking at the value score, we can see that the distribution almost has an average of 50, and there is a continum of values trough the whole range, so it seems that we have a well scale for distributing the companies.
+
+\vspace{0.5cm}
+\noindent Lastly for the dividend score, as mentioned before, there are many companies that don't pay dividends. But aside from that, we have an irregular distribution for the score, with a peak arounf 85-92 meaning that there are multiple companies that respect their dividend policy.
+
+\subsubsection{Dummies}
+
+When it comes to the dummies we see a uniform distribution with the sectors because this condition was forced in the data creation process, but a clear predomination of the Asiatic region in the dataset, which also happens for all of the datasets. 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.8\linewidth]{images/code/descriptive analysis/distributions/Small Data future - Dummies.png}
+    \caption{Small Data Future - Dummies}
+    \label{fig:small_future_dummies}
+\end{figure}
+
+\noindent This could create issues for the model fitting, since it is known that in countries like China, their annual reports are not audited by external auditors. But since we are using the dummies to take this effect into account, we shouldn't have any problem.
+
+\subsection{Processing}
+
+
+\vspace{0.5cm}
+\noindent After looking at the data, we saw that there were many outliers:
+
+\section{Predictive Models}
+
+\subsection{Linear Regression}
+
+\subsection{The problem with ARIMA}
+
+\subsection{GAM}
+
+\subsection{Neural Network}
+
+\section{Back-testing}
+
+
 
 % ############################### DISCUSSION #######################
 \chapter{Discussion}
@@ -1239,11 +1328,11 @@ Even with all of these protocols to create the most reliable and filled datasets
 \newpage
 
 % ############################### APPENDICES #######################
-\part{Appendices}
-% \def\thechapter{\Alph{chapter}}
-\makeatletter
-\renewcommand{\@chapapp}{Appendix}
-\makeatother
+\part{Appendix}
+% % \def\thechapter{\Alph{chapter}}
+% \makeatletter
+% \renewcommand{\@chapapp}{Appendix}
+% \makeatother
 
 \chapter{Code Listings}
 % -------------------------- Scores Calculation Job --------------------------
@@ -1920,5 +2009,62 @@ def pairplot(
 \begin{lstlisting}[language=Python, caption=Outlier Detection, label={lst:outlier_detection}]
 
 \end{lstlisting}
+
+
+\section{Extra Images}
+
+\subsection{Distributions}
+Here we have all of the not used images for further analysis, if needed.
+
+\subsubsection{Scores}
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=0.8\textwidth]{images/code/descriptive analysis/distributions/Big Data past - Scores.png}
+    \caption{Big Data Past - Scores}
+    \label{fig:past_scores}
+    \end{minipage}\hfill
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=0.8\textwidth]{images/code/descriptive analysis/distributions/Big Data past - Scores Deep.png}
+        \caption{Big Data Past - Scores Deep}
+        \label{fig:past_scores_deep}
+    \end{minipage}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=0.8\textwidth]{images/code/descriptive analysis/distributions/Small Data future - Scores.png}
+    \caption{Small Data Future - Scores}
+    \label{fig:small_future_scores}
+    \end{minipage}\hfill
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=0.8\textwidth]{images/code/descriptive analysis/distributions/Small Data future - Scores Deep.png}
+        \caption{Small Data Future - Scores Deep}
+        \label{fig:small_future_scores_deep}
+    \end{minipage}
+\end{figure}
+
+\subsubsection{Dummies}
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=0.8\textwidth]{images/code/descriptive analysis/distributions/Big Data future - Dummies.png}
+    \caption{Big Data Future - Dummies}
+    \label{fig:future_dummies}
+    \end{minipage}\hfill
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=0.8\textwidth]{images/code/descriptive analysis/distributions/Big Data past - Dummies.png}
+        \caption{Big Data Past - Dummies}
+        \label{fig:past_dummies}
+    \end{minipage}
+\end{figure}
 
 \end{document}
