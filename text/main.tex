@@ -1204,7 +1204,7 @@ To begin, we looked at the data structure and saw that \textbf{about 50\% of gro
         \hline  
         \textbf{Dataset} & \textbf{Raw} & \textbf{Cleaned} & \textbf{No Outliers} \\
         \hline
-        \textbf{Big Data Past$^\dagger$} & 16,119,852 & 9,991,895 & 9,492,301 \\
+        \textbf{Big Data Past$^\dagger$} & 16,119,852 & 9,991,895 & 9,492,300 \\
         \hline
         \textbf{Big Data Future$^\dagger$} & 31,933,137 & 14,518,624 & 13,792,692 \\
         \hline 
@@ -1283,22 +1283,113 @@ Following the scores order, quality's distribution show a \textbf{clear negative
 
 \subsubsection{Dummies}
 
-When it comes to the dummies we see a uniform distribution with the sectors because this condition was forced in the data creation process, but a clear predomination of the Asiatic region in the dataset, which also happens for all of the datasets. 
+When it comes to the dummies we see a uniform distribution with the sectors because this condition was forced in the data creation process. But with the regions we have a different result, seeing a clear \textbf{predomination of the Asiatic region}, which happens in all of the datasets. Which could create issues for the model fitting, since it is known that in countries like China have more volatility and lower returns \textcite{chen2024economic}.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\linewidth]{images/code/descriptive analysis/distributions/Small Data future - Dummies.png}
+    \includegraphics[width=1\linewidth]{images/code/descriptive analysis/distributions/Small Data future - Dummies.png}
     \caption{Small Data Future - Dummies}
     \label{fig:small_future_dummies}
 \end{figure}
 
-\noindent This could create issues for the model fitting, since it is known that in countries like China, their annual reports are not audited by external auditors. But since we are using the dummies to take this effect into account, we shouldn't have any problem.
+\noindent  Also, their auditors often lack true independence, especially when auditing state-owned enterprises (SOEs) or firms with strong political ties. The Chinese government tightly controls domestic accounting firms and imposes restrictions on foreign auditors. Even international firms like \textit{PwC-China} operate under local joint ventures, often with limited autonomy, as reviewd in \textcite{LIU2012782}. So we will have to check if the dummies variables are enough to take this effect into account, or if we need a different approach for modeling the geographical effects.
 
-\subsection{Processing}
+\vspace{0.5cm}
+\noindent It is worth noting that the distribution of companies across sectors varies significantly over time, as shown in Appendix Figures \ref{fig:future_dummies} and \ref{fig:past_dummies}. This temporal variation in sector representation presents an interesting opportunity for future research.
+
+\subsubsection{Profits}
+
+\noindent When analyzing the profit distributions across different time horizons, we observe that the distributions contain a numerous amount of outliers that don't let us see the distributions clearly (Appendix Figures \ref{fig:big_data_future_profits_boxplot} and \ref{fig:big_data_future_profits}). So just for this descriptive analysis purposes, \textbf{we used the IQR method} mentioned in previous chapters to remove the outliers.
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=0.8\linewidth]{images/code/descriptive analysis/distributions/Big Data future IQR - Profits Boxplot.png}
+        \caption{Big Data Future IQR - Profits Boxplot}
+        \label{fig:big_data_future_iqr_profits_boxplot}
+    \end{minipage}\hfill
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=0.8\linewidth]{images/code/descriptive analysis/distributions/Big Data Future IQR - Profits.png}
+        \caption{Big Data Future IQR - Profits}
+        \label{fig:big_data_future_iqr_profits_iqr}
+    \end{minipage}
+\end{figure}
 
 
 \vspace{0.5cm}
-\noindent After looking at the data, we saw that there were many outliers:
+\noindent Interestingly, we notice that the short-term profit distributions (1-month and 3-month) are more symmetric and closer to normal distributions, which is consistent with the efficient market hypothesis suggesting that short-term price movements are largely random. 
+
+\vspace{0.5cm}
+\noindent However, as we extend to longer time horizons, the distributions become more positively skewed, which aligns with the general expectation that most companies don't have good returns, except of the market winners that tend to generate extraordinary positive returns due to the mentioned \textbf{economic moats}. This is particularly evident in the longer-term profit distributions (2-year and 5-year), where we see a longer tail extending toward higher positive returns.
+
+
+\vspace{0.5cm}
+\noindent There is also a tendency to having less negative returns compared to the positive ones the longer the time-frame. Logically, companies with bad returns don't last long.
+
+\subsection{Correlations}
+
+For analizing the correlations between the variables, we will start firstly with just the cleaned big datasets, and then we will use also the datasets without the outliers, since these are the ones that will be used for the model fitting.
+
+\vspace{0.5cm}
+\noindent Here is the only section that we will be using the past Datasets, to see if past profits are being reflected in current scores.
+\subsubsection{Clean Datasets}
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{images/code/descriptive analysis/correlations/Big Data Past.png}
+        \caption{Big Data Past - Correlations}
+        \label{fig:big_data_past_correlations}
+    \end{minipage}\hfill
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{images/code/descriptive analysis/correlations/Big Data future.png}
+        \caption{Big Data Future - Correlations}
+        \label{fig:big_data_future_correlations}
+    \end{minipage}
+\end{figure}
+
+\noindent We can appretiate three main expected correlations:
+\begin{itemize}
+    \item \textbf{Companies with good quality} --that is so, they have consisten growth, good liquidity and healthy debt-- \textbf{are more likely to give dividends}.
+    \item There is a strong relationship betwen the market cap of a company and the volume of the shares traded.
+    \item \textbf{Companies have inertia}, or how it is called \textit{Momentum}, meaning that the profit of a company is positively correlated with the profit of the previous period.
+\end{itemize}
+
+\subsubsection{Outliers Datasets}
+But as it has been seen multiple times through the analysis, the outliers create a big bias that doesn't allow us to see the real correlations occurring for "normal companies". So as shown in the table \ref{tab:datasets_summary}, we will use the Big datasets fitered with the Isolation Forest method to remove outliers as a first approach, but for the model fitting we will use the multi-criteria outlier detection.
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{images/code/descriptive analysis/correlations/Big Data Past - IF.png}
+        \caption{Big Data Past IF - Correlations}
+        \label{fig:big_data_past_if_correlations}
+    \end{minipage}\hfill
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{images/code/descriptive analysis/correlations/Big Data future - IF.png}
+        \caption{Big Data Future IF - Correlations}
+        \label{fig:big_data_future_if_correlations}
+    \end{minipage}
+\end{figure}
+
+\noindent As expected, the correlations already seen stay similar with a slight increase in the \textit{Momentum}, showing more importance of it than other variables. But actually, there are \textbf{new correlations seen} for both datasets:
+
+\begin{itemize}
+    \item  \textbf{Accumulated profits affect the scores}. In the past dataset we can see that long term past profits translate into higher quality and dividend scores-- as expected by their correlation. But also, they make the value score to decrease. This could be explained by two effects:
+    \begin{itemize}
+        \item \textbf{Bull markets}. As explained in the second chapter, a company can experience good returns in the stock market that are not followed by good financial growth. This makes their value multiples to raise, making their value score to decrease.
+        \item \textbf{The company is not able to maintain its profitability}. If a company has had good past profits, but is not able to maintain them, the market will eventually realize that and the company will have a lower value score.
+    \end{itemize}
+    \item \textbf{Long term stock returns affect the company's growth}. This is a very interesting result, since it explains the reason why companies try to go to the market to raise capital and help the company grow.
+    \item \textbf{Quality is correlated to future profits}. This could be explained by the fact that a company with good quality is more likely to have good future profits, but also by the fact that the market is efficient and the price of a company will reflect all of the information available.
+    \item There is a \textbf{mild correlation between most scores}, which could be explain by the fact that a company that does well in one aspect, is more likely to do well in the others. This correlation won't affect the models because they are separated by score.
+\end{itemize}
 
 \section{Predictive Models}
 
@@ -2014,7 +2105,7 @@ def pairplot(
 \section{Extra Images}
 
 \subsection{Distributions}
-Here we have all of the not used images for further analysis, if needed.
+Here we have all of the not shown images for further analysis, if needed.
 
 \subsubsection{Scores}
 \begin{figure}[H]
@@ -2064,6 +2155,25 @@ Here we have all of the not used images for further analysis, if needed.
         \includegraphics[width=0.8\textwidth]{images/code/descriptive analysis/distributions/Big Data past - Dummies.png}
         \caption{Big Data Past - Dummies}
         \label{fig:past_dummies}
+    \end{minipage}
+\end{figure}
+
+\subsubsection{Profits}
+
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{images/code/descriptive analysis/distributions/Big Data future - Profits Boxplot.png}
+        \caption{Big Data Future - Profits Boxplot}
+        \label{fig:big_data_future_profits_boxplot}
+    \end{minipage}\hfill
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{images/code/descriptive analysis/distributions/Big Data Future - Profits.png}
+        \caption{Big Data Future - Profits}
+        \label{fig:big_data_future_profits}
     \end{minipage}
 \end{figure}
 
