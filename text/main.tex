@@ -1391,6 +1391,27 @@ But as it has been seen multiple times through the analysis, the outliers create
     \item There is a \textbf{mild correlation between most scores}, which could be explain by the fact that a company that does well in one aspect, is more likely to do well in the others. This correlation won't affect the models because they are separated by score.
 \end{itemize}
 
+\noindent Althought we have to make clear that these correlations do not stand along all of the datasets separated by region (see Appendix Figures from \ref{fig:small_data_future_usa_correlations} to \ref{fig:small_data_future_as_multi_correlations}), so we aren't sure yet if these relationships will be properly explained with linear models.
+
+\subsection{Data clusters}
+Finally, we are going to try to compare these results with the pairplots of the datasets, to look for clusters of data when comparing many variables at once.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{images/code/descriptive analysis/correlations/Small Data future - Multi - pairplot.png}
+    \caption{Pairplot of Small Data Future - Multi}
+    \label{fig:pairplot_small_data_future_multi}
+\end{figure}
+
+\noindent Here it is harder to eye-see the data structure that could form clusters since there are many datapoints, but there are some exceptions:
+\begin{itemize}
+    \item \textbf{Profits}. We can see linear correlations between some of the different profits, but for longer horizons the relationships are no longer liner. Which is expected since the further the horizon, more variables take part in the calculation of the profit.
+    \item \textbf{Market Cap}. Companies with bigger market caps tend to have higher quality and dividend scores. Bigger companies should have a more stable financial situaition, otherwise they wouldn't be as big. Also there are some sectors that tend to have higher market caps than others, like in Health Care or Consumer Staples.
+    \item \textbf{Sector}. It seems that there could be a pattern seen in the sectors distribution for each scores, but it is not clear.
+\end{itemize}
+
+\noindent Something else to notice are the distributions of the different market carps for different sectors.
+
 \section{Predictive Models}
 
 \subsection{Linear Regression}
@@ -2160,7 +2181,6 @@ Here we have all of the not shown images for further analysis, if needed.
 
 \subsubsection{Profits}
 
-
 \begin{figure}[H]
     \centering
     \begin{minipage}{0.48\textwidth}
@@ -2177,4 +2197,90 @@ Here we have all of the not shown images for further analysis, if needed.
     \end{minipage}
 \end{figure}
 
+\subsection{Correlations}
+
+\subsubsection{USA and Canada}
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{images/code/descriptive analysis/correlations/Small Data future USA.png}
+        \caption{Small Data Future USA}
+        \label{fig:small_data_future_usa_correlations}
+    \end{minipage}
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{images/code/descriptive analysis/correlations/Small Data future USA - Multi.png}
+        \caption{Small Data Future USA - Multi}
+        \label{fig:small_data_future_usa_multi_correlations}
+    \end{minipage}
+\end{figure}
+
+\subsubsection{Europe}
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{images/code/descriptive analysis/correlations/Small Data future EU.png}
+        \caption{Small Data Future EU}
+        \label{fig:small_data_future_eu_correlations}
+    \end{minipage}
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{images/code/descriptive analysis/correlations/Small Data future EU - Multi.png}
+        \caption{Small Data Future EU Multi}
+        \label{fig:small_data_future_eu_multi_correlations}
+    \end{minipage}
+\end{figure}
+
+\subsubsection{Latin America}
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{images/code/descriptive analysis/correlations/Small Data future LAT.png}
+        \caption{Small Data Future LAT}
+        \label{fig:small_data_future_lat_correlations}
+    \end{minipage}
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{images/code/descriptive analysis/correlations/Small Data future LAT - Multi.png}
+        \caption{Small Data Future LAT - Multi}
+        \label{fig:small_data_future_lat_multi_correlations}
+    \end{minipage}
+\end{figure}
+
+\subsubsection{Africa}
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{images/code/descriptive analysis/correlations/Small Data future AF.png}
+        \caption{Small Data Future AF}
+        \label{fig:small_data_future_af_correlations}
+    \end{minipage}
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{images/code/descriptive analysis/correlations/Small Data future AF - Multi.png}
+        \caption{Small Data Future AF - Multi}
+        \label{fig:small_data_future_af_multi_correlations}
+    \end{minipage}
+\end{figure}
+
+\subsubsection{Asia and Oceania}
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{images/code/descriptive analysis/correlations/Small Data future AS.png}
+        \caption{Small Data Future AS}
+        \label{fig:small_data_future_as_correlations}
+    \end{minipage}
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\linewidth]{images/code/descriptive analysis/correlations/Small Data future AS - Multi.png}
+        \caption{Small Data Future AS - Multi}
+        \label{fig:small_data_future_as_multi_correlations}
+    \end{minipage}
+\end{figure}
 \end{document}
