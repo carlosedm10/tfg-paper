@@ -692,7 +692,6 @@ Since we are looking at outliers from the perspective of correlations between th
     Applicable in any domain where a dissimilarity measure is defined, not limited to vector spaces. & Not inherently scalable to very large datasets without approximation or optimization. \\
     \hline
     Works well across domains, such as network intrusion detection or classification tasks. & -- \\
-
     \hline
     Easily generalizable and adaptable for use in spatial data, temporal data, and network structures. & -- \\
     \hline
@@ -1275,7 +1274,7 @@ That's when we realized that if each method was good at detecting some outliers 
 
 \subsection{Summary}
 \vspace{0.5cm}
-\noindent To summarize how we have treated the data, we ended up having 9 different datasets, each with 17 columns where we have the explained variables, and also the company's name and stock ticker.
+\noindent To summarize how we have treated the data, we ended up having 9 different datasets, each with 17 columns where we have the explained variables, and also the company's name and stock ticker (see Appendix Figure~\ref{fig:number_of_columns}).
 
 \begin{table}[H]
     \centering
@@ -1308,6 +1307,7 @@ That's when we realized that if each method was good at detecting some outliers 
 \end{table}
 
 \noindent $^\dagger$ In the \textit{Big Data Past} and \textit{Big Data Future} datasets, we removed the outliers using the Isolation Forest method for saving computational time.
+
 
 
 
@@ -2204,6 +2204,16 @@ def pairplot(
 
 
 \section{Extra Images}
+\subsection{Data}
+
+\subsubsection{Columns and variables}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{images/tweenvest/Number of columns.png}
+    \caption{Number of columns per dataset}
+    \label{fig:number_of_columns}
+\end{figure}
 
 \subsection{Distributions}
 Here we have all of the not shown images for further analysis, if needed.
