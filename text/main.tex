@@ -705,7 +705,7 @@ Since we are looking at outliers from the perspective of correlations between th
 There is a big controversy in the field about the best method to detect the outliers, since the results can vary a lot depending on the algorithm used.
 
 \vspace{0.5cm}
-\noindent So to attempt to fix this issue, after reading some aggregative methods such as \textcite{abro2020stacking}, we created a multi-modal method that combines the results of the different methods to get a more robust result.
+\noindent So to attempt to fix this issue, after reading some aggregative methods such as \textcite{abro2020stacking}, we created a multi-criteria method that combines the results of the different methods to get a more robust result.
 
 \begin{figure}[H]
     \centering
@@ -720,7 +720,7 @@ There is a big controversy in the field about the best method to detect the outl
 
 %TODO: maybe move this to the results section
 \vspace{0.5cm}
-\noindent We noticed that since this method is very restrictive, we have to set a threshold multiplier to the original dataset to get the final outliers. So for example, a 20\% threshold would only exclude around 4\% of the original dataset because of the intersection of all the methods makes it very restrictive. Here we \textbf{propose for future work} to fine tune the different thresholds for each method to get a more robust result.
+\noindent We noticed that since this method is very restrictive, we have to set a threshold multiplier to the original dataset to get the final outliers. So for example, a 20\% threshold would only exclude around 4\% of the original dataset because of the intersection of all the methods makes it very restrictive. Here we \textbf{propose for future work} to fine tune the different thresholds for each method to get a more robust result. This will be explained with more detail in the development section.
 
 
 % ############################### PREDICTIVE MODELS #######################
@@ -1195,8 +1195,87 @@ To begin, we looked at the data structure and saw that \textbf{about 50\% of gro
 
 \noindent   But after digging into the data we saw that it was due to the fact that many companies stopped sending reports or selling but kept existing, so we decided to deleted them from our dataset because they weren't behaving as a "normal company", and this could create a bias in the models. Additionally, as noted earlier, we replaced all NaN values in the dividend scores with 0, since Tweenvest's algorithm omits a score when a company does not pay dividends. That's why we don't see any missing values in the dividend scores.
 
+\subsection{Outlier Detection}
+
+In this section we will present the performance of the different outlier detection methods. But the main analysis of the final datasets will be done in the results chapter.
+
+\subsubsection{Inter Quartile Range}
+
+This method is usefull for big datasets that need to be filtered quickly and where the meaning of the outliers is not multivariate. But as it will be explained in the results chapter, we saw correlations between the different profits, so weneeded to use multivariate outlier detection methods, otherwise we could be creating a bias in the data for the model fitting.
+
+\subsubsection{Isolation Forest}
+
+We started of using this technique due to its speed and accuracy for non-linear multiviariate clusters.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{images/code/outliers/Small Data future - IF.png}
+    \caption{Small Data Future - IF (5\% tolerance)}
+    \label{fig:small_data_future_if}
+\end{figure}
+
+\noindent This pairplot shows how the IF method is detecting outliers in the profits data. In this case it is detecting as outliers much of the data that seems to form a structure in the profits. Also, it is deleting some interesting clusters when comparing the profits with the scores, and here we might lose some important information-- this is highlighted with the red circles.
+
+\newpage
+
+\subsubsection{Single Vector Machine}
+
+When using the SVM we saw a similar detection compared to the IF method, which is very interesting since their approach is completely different.
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{images/code/outliers/Small Data future - SVM.png}
+    \caption{Small Data Future - SVM (5\% tolerance)}
+    \label{fig:small_data_future_svm}
+\end{figure}
+
+\noindent But in this case also see a slight improvement with recuperating the structures in some of the profits--  this is circled with the green color.
+
+\newpage
+\subsubsection{Local Outlier Factor}
+
+\noindent Surprisingly, with the LOF method we see a good improvement for both the profits and the scores clusters-- which is highlighted with the green circles.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{images/code/outliers/Small Data future - LOF.png}
+    \caption{Small Data Future - LOF (5\% tolerance)}
+    \label{fig:small_data_future_lof}
+\end{figure}
+
+\noindent We knew we were going in the right direction, but with this method we were missing some outliers that were detected before in the score-profits clusters.
+
+\newpage
+\subsubsection{Multi-Criteria Outlier Detection}
+
+That's when we realized that if each method was good at detecting some outliers but bad at others, it makes a lot of sense to use them together. Following this approach and after multiple tests, we found that the bests results came when increasing the overall tolerance and then selecting the intersection of outliers between them, so with a tolerance of 20\% we only excluded around 4\% of the data.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{images/code/outliers/Small Data future - Multi.png}
+    \caption{Small Data Future - Multi-Criteria (20\% tolerance)}
+    \label{fig:small_data_future_multi}
+\end{figure}
+
+\noindent As shown in the pairplot, this method is able to mantain most of the structures of the profits and also keep the small clusters for the scores, which is highlighted with the blue circles. But of course, it is not perfect. 
+
 \vspace{0.5cm}
-\noindent This pattern is constant in all of the different datasets, as we can see in this summary table:
+\noindent For future developments of these type of techniques, we have to mention that understanding the main core ideas of each method we could probably optimize the results by changing the tolerance parameters individually by applying multipliers for each method:
+\begin{enumerate}
+    \item \textbf{SVM} is basically creating geometrical hyper-dimensional frontiers to form a safe hyper-volume of data clusters. So the intuition tells us that this method should probably have a \textbf{higher tolerance} than the rest.
+    \item \textbf{LOF} is looking for clusters of high density, not taking account the distance between the clusters. So this method is very good for detecting extreme phenomena but that could be consistent. Its \textbf{tolerance could be between the other methods}.
+    \item \textbf{IF} is looking for the most isolated points following a random forest approach. It is good for detecting those points that seem to make not much sense, so its \textbf{tolerance shouldn't be as high}.
+\end{enumerate}
+
+\noindent But this is just a hypothesis, we will have to be studied it in the future with rigorous tests.
+
+\vspace{0.5cm}
+\noindent Finally, we have to clarify that outliers are anomalies in the behavior of the data, so even thought we are excluding them for obtaining a general set of models. We could be missing valuable information, such as the possible structures shown with the red figures. Thats why we propose a separate analysis for the outliers, to see if really good profits (or bad ones) have any characteristics, such as average high or low scores.
+
+\subsection{Summary}
+\vspace{0.5cm}
+\noindent To summarize how we have treated the data, we ended up having 9 different datasets, each with 17 columns where we have the explained variables, and also the company's name and stock ticker.
 
 \begin{table}[H]
     \centering
@@ -1229,6 +1308,7 @@ To begin, we looked at the data structure and saw that \textbf{about 50\% of gro
 \end{table}
 
 \noindent $^\dagger$ In the \textit{Big Data Past} and \textit{Big Data Future} datasets, we removed the outliers using the Isolation Forest method for saving computational time.
+
 
 
 \chapter{Results}
