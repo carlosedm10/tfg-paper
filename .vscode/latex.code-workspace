@@ -13,6 +13,10 @@
     // Hide LaTeX build clutter from view
     "files.exclude": {
       "**/*.aux": true,
+      "**/*.acr": true,
+      "**/*.alg": true,
+      "**/*.gls": true,
+      "**/*.glg": true,
       "**/*.xml": true,
       "**/*.bcf": true,
       "**/*.acn": true,
