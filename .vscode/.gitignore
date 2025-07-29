@@ -1,0 +1,39 @@
+
+# LaTeX intermediate and output files
+**/*.aux
+**/*.bbl
+**/*.bcf
+**/*.blg
+**/*.fdb_latexmk
+**/*.fls
+**/*.glo
+**/*.gls
+**/*.ist
+**/*.lof
+**/*.log
+**/*.lot
+**/*.out
+**/*.toc
+**/*.acn
+**/*.acr
+**/*.alg
+**/*.dvi
+**/*.nav
+**/*.snm
+**/*.synctex.gz
+**/*.run.xml
+**/*.pdf
+
+# VSCode LaTeX Workshop cache
+.latexmk
+
+# Common build and cache folders
+_build/
+build/
+latex.out/
+*.synctex
+*.synctex(busy)
+*.synctex.gz(busy)
+
+# Misc
+*.bbl-SAVE-ERROR
