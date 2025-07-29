@@ -4,8 +4,11 @@
 \usepackage[T1]{fontenc}         % Font encoding
 \usepackage{mathpazo}            % Cursive text support
 \usepackage[english]{babel}      % Language support
+\usepackage{microtype}            % Micro-typography for better line breaking
 \usepackage[a4paper, margin=2.5cm]{geometry}  % Page size and margins
 \usepackage{setspace}            % Line spacing
+\raggedbottom                     % Allow variable page heights to prevent underfull vbox
+\setlength{\parskip}{0.5em}       % Consistent paragraph spacing
 \usepackage{graphicx}            % Include images
 \usepackage{amsmath, amssymb}    % Math packages
 \usepackage{float}               % Improved float control

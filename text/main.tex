@@ -77,13 +77,13 @@ To my parents.
 \chapter{Introduction and Objectives }
 \section{Fundamental Analysis Investing}
 
-\noindent Fundamental Analysis is a methodology used to evaluate the intrinsic value of a company, asset, or market by analyzing various economic, financial, qualitative and quantitative factors. Unlike technical analysis, which focuses on price movements and chart patterns, fundamental analysis seeks to determine an asset's "true value" to identify investment opportunities that may be undervalued or overvalued in the market.
+\noindent Fundamental Analysis is a methodology used to evaluate the intrinsic value of a company, asset, or market by analyzing various economic, financial, qualitative, and quantitative factors. Unlike technical analysis, which focuses on price movements and chart patterns, fundamental analysis seeks to determine an asset's \textit{``true value''} to identify investment opportunities that may be undervalued or overvalued in the market.
 
 \vspace{0.5cm}
-\noindent This intrinsic value is defined by numerous experts and renowned investors—such as Benjamin Graham, Warren Buffett, and Pat Dorsey \cite{dorsey2011five}—as a company's ability to adapt to an ever-changing environment, create value in the market, and establish barriers to entry for competitors-- commonly referred to as \textit{economic moats}.
+\noindent This intrinsic value is defined by numerous experts and renowned investors—such as Benjamin Graham, Warren Buffett, and Pat Dorsey~\cite{dorsey2011five}—as a company's ability to adapt to an ever-changing environment, create value in the market, and establish barriers to entry for competitors-- commonly referred to as \textit{economic moats}.
 
 \vspace{0.5cm}
-\noindent Measuring these moats is challenging due to the difficulty of quantifying certain variables, such as brand strength and market influence. However, over the long term most literature show that these \textbf{intangible factors translate into tangible financial data}, which are reflected in a company's reports: balance sheet, income statement, and cash flow statement. When companies are exposed to the public market share, all of this information transforms into the needs of buying or selling the stocks, altering the companies stocks' profitability. So from now on, this economic moats will be called \textit{alpha}, \textcite{sharpe1964capm}.
+\noindent Measuring these moats is challenging due to the difficulty of quantifying certain variables, such as brand strength and market influence. However, over the long term most literature show that these \textbf{intangible factors translate into tangible financial data}, which are reflected in a company's reports: balance sheet, income statement, and cash flow statement. When companies are exposed to the public market share, all of this information transforms into the needs of buying or selling the stocks, altering the companies stocks' profitability. So from now on, these \textbf{economic moats will be called \textit{alpha}}, \textcite{sharpe1964capm}.
 
 \vspace{0.5cm}
 \noindent This complexity is what made José Tatay, Tweenvest's founder, develop a series of algorithms to calculate certain scores, based on the fundamental analysis principles, to help users identify possible \textit{alpha} in a company; which is the main objective for all of the long-term investors. This methodology will be explained further more in the next chapter.
@@ -104,7 +104,7 @@ To my parents.
     \item Companies may also establish \textbf{barriers to entry} and \textbf{high switching costs} for customers, making it more difficult for them to move to competitors. These strategies may involve investments in technology, patents, or simply building long-term customer and employees relationships.
 \end{itemize}
 
-\noindent To properly measure these variables, a more exhaustive analysis of each company would be required, pulling from multiple secondary information sources such as news articles, conference transcripts, customer blogs, competitive product reviews, and more; which could also itself affect the market. This task is commonly known as \textit{social listening} \cite{WANG2022110598}; and is far more difficult to automate via code, as it would require multimodal AI techniques--thus, it will fall outside the scope of this work.
+\noindent To properly measure these variables, a more exhaustive analysis of each company would be required, pulling from multiple secondary information sources such as news articles, conference transcripts, customer blogs, competitive product reviews, and more; which could also itself affect the market. This task is commonly known as \textit{social listening}~\cite{WANG2022110598}; and is far more difficult to automate via code, as it would require multimodal AI techniques --thus, it will fall outside the scope of this work.
 
 \subsection{Emergent Effects in Complex Systems}
 
@@ -135,7 +135,7 @@ To my parents.
 \noindent Traditionally, standard growth ratios have been used, based on the assumption that in competitive markets, when a new business model or opportunity emerges with above-average margins, entrepreneurs quickly move in to capitalize on it; eventually saturating the opportunity and driving margins back down to average levels over time. But what happens when there is a significant shift in trend? 
 
 \vspace{0.5cm}
-\noindent Markets are "fluctuating entities", so \textbf{static metrics can become problematic when underlying trends change}. A clear example is the rise of artificial intelligence and the surge in stock prices of companies involved in the production and development of the necessary technologies.
+\noindent Markets are ``fluctuating entities'', so \textbf{static metrics can become problematic when underlying trends change}. A clear example is the rise of artificial intelligence and the surge in stock prices of companies involved in the production and development of the necessary technologies.
 
 \section{Objectives}
 
@@ -154,7 +154,7 @@ To my parents.
 For doing so, we are going to look for correlations between the profits of a company with different scores and other categorical variables.
 
 \subsection{Response Variables}
-To help users understand how to use the scores depending on their investment horizon, we used different profits that from know one will be representad as \(P_i\) for each time horizon: \(i \in \{1 \text{ month}; 3 \text{ months}; 6 \text{ months}; 1 \text{ year}; 2 \text{ years}; 5 \text{ years}\}\)
+To help users understand how to use the scores depending on their investment horizon, we used different profits that from now on will be represented as \(P_i\) for each time horizon: \(i \in \{1 \text{ month}; 3 \text{ months}; 6 \text{ months}; 1 \text{ year}; 2 \text{ years}; 5 \text{ years}\}\).
 
 \vspace{0.5cm}
 \noindent The profits are defined as:
@@ -175,7 +175,7 @@ To relate the profits with the scores, we need to use different variables:
         \item \textbf{Industry}: \(I_k\) where \(k \in \{\text{Financials; Healthcare; etc.}\}\)
         \item \textbf{Geographical Region}: \(G_l\) where \(l \in \{\text{Europe; North America; etc.}\}\)
     \end{itemize}
-    \item \textbf{Market Variables}, these are numeric variables that represent the companies \textit{"size"} using the: \textbf{Market Cap} and \textbf{Volume}.
+    \item \textbf{Market Variables}, these are numeric variables that represent the companies \textit{``size''} using the: \textbf{Market Cap} and \textbf{Volume}.
 \end{itemize}
 
 
@@ -200,7 +200,7 @@ The \textbf{long-term advantage} explained earlier in the finance is used in man
 
 \subsection{Quality}
 
-\noindent To understand what the Quality score aims to capture, it is useful to consider the three key categories commonly used by successful investors when analyzing financial statements: \textbf{profitability}, \textbf{financial health}, and \textbf{predictability}. Each category encompasses a range of financial ratios that reflect different aspects of a company's performance. By combining these dimensions, we can construct a more comprehensive view of a company's overall financial "quality."
+\noindent To understand what the Quality score aims to capture, it is useful to consider the three key categories commonly used by successful investors when analyzing financial statements: \textbf{profitability}, \textbf{financial health}, and \textbf{predictability}. Each category encompasses a range of financial ratios that reflect different aspects of a company's performance. By combining these dimensions, we can construct a more comprehensive view of a company's overall financial ``quality''.
 
 
 \vspace{0.5cm}
@@ -211,37 +211,34 @@ These are essential for understanding how a company is managing its costs and ge
 \begin{itemize}
     \item \textbf{Net margin}: Represents net profit as a percentage of total sales, indicates a company's efficiency in generating profits after accounting for all expenses, taxes, and costs.
     
-    \item \textbf{Operating margin}: Measures operating profit (EBIT) as a percentage of total sales, providing a clear view of the profitability of a company's core operations, excluding interest and taxes. This metric is fundamental for evaluating a company's operational efficiency.
+    \item \textbf{Operating margin}: Measures operating profit (\acrshort{ebit}) as a percentage of total sales, providing a clear view of the profitability of a company's core operations, excluding interest and taxes. This metric is fundamental for evaluating a company's operational efficiency.
     
-    \item \textbf{EBITDA margin}: Removes the effects of capital structure and accounting policies, offering a clear view of the company's pure operational profitability.
+    \item \textbf{\acrshort{ebitda} margin}: Removes the effects of capital structure and accounting policies, offering a clear view of the company's pure operational profitability.
     
     \item \textbf{Gross margin}: Focuses on revenues after deducting the cost of goods sold, is a key measure of production efficiency and a company's ability to manage its direct costs.
 \end{itemize}
 
 \subsubsection{Performance Ratios}
 These are used to measure the overall performance of the company.
-% TODO: Take the capitals definitions out from here
 \begin{itemize}
-    \item \textbf{\gls{roa}}: Measures how efficiently a company converts its assets into profits. This is especially important in capital-intensive sectors, where efficient asset management can make a significant difference in profitability.
+    \item \textbf{\acrshort{roa}}: Measures how efficiently a company converts its assets into profits. This is especially important in capital-intensive sectors, where efficient asset management can make a significant difference in profitability.
     
-    \item \textbf{\gls{roe}}: Focuses on the profits generated per dollar of equity invested by shareholders. This ratio is crucial for evaluating a company's overall profitability from the shareholders' perspective. It is an especially valuable metric for investors seeking to maximize their returns on equity investment.
+    \item \textbf{\acrshort{roe}}: Focuses on the profits generated per dollar of equity invested by shareholders. This ratio is crucial for evaluating a company's overall profitability from the shareholders' perspective. It is an especially valuable metric for investors seeking to maximize their returns on equity investment.
     
-    \item \textbf{\gls{roic}}: Focuses on the return generated by all the funds invested in the company, including both shareholders' equity and debt. It is a comprehensive measure of a company's ability to generate value from all its sources of financing.
+    \item \textbf{\acrshort{roic}}: Focuses on the return generated by all the funds invested in the company, including both shareholders' equity and debt. It is a comprehensive measure of a company's ability to generate value from all its sources of financing.
     
-    \item \textbf{\gls{roce}}: Measures the funds used to finance operations, regardless of the source. This ratio is useful for comparing the efficiency of companies with different capital structures, as it focuses on total capital employed rather than just equity.
+    \item \textbf{\acrshort{roce}}: Measures the funds used to finance operations, regardless of the source. This ratio is useful for comparing the efficiency of companies with different capital structures, as it focuses on total capital employed rather than just equity.
 \end{itemize}
 
-% TODO: Take the capitals definitions out from here
-\noindent Also, to not only look at actives, Tweenvest uses the cash generated to calculate: \textbf{\gls{croic}}, \textbf{\gls{croce}}, \textbf{OCF/Sales}, and \textbf{\gls{fcf}/Sales}. And lastly it takes account also the Owner's income to calculate: \textbf{Owner's Income/Sales}, \textbf{Owner's \gls{croic}} and \textbf{Owner's \gls{croce}}.
+\noindent Also, to not only look at actives, Tweenvest uses the cash generated to calculate: \textbf{\acrshort{croic}}, \textbf{\acrshort{croce}}, \textbf{OCF/Sales}, and \textbf{\acrshort{fcf}/Sales}. And lastly it takes account also the Owner's income to calculate: \textbf{Owner's Income/Sales}, \textbf{Owner's \acrshort{croic}} and \textbf{Owner's \acrshort{croce}}.
 
 \vspace{0.5cm}
 \noindent Continuing with the \textbf{financial health}, we need to analyze the company's debt in different aspects:
 
-% TODO: Take the capitals definitions out from here
 \subsubsection{Leverage Ratios}
 These ratios assess how much a company relies on debt to finance its assets and operations, and are essential for evaluating financial risk and long-term solvency.
 \begin{itemize}
-    \item \textbf{Financial Leverage} (Total Assets / Equity): Measures the proportion of a company's assets that are financed by shareholder equity. A higher ratio suggests the company is using more debt relative to equity, indicating greater financial risk but also potential return amplification through leverage.
+    \item \textbf{\acrshort{financialleverage}}: Measures the proportion of a company's assets that are financed by shareholder equity. A higher ratio suggests the company is using more debt relative to equity, indicating greater financial risk but also potential return amplification through leverage.
     
     \item \textbf{Total Debt/Assets}: Indicates what portion of the company's assets is financed through debt. A lower ratio implies a more conservative capital structure, while a higher one may indicate increased risk if the company becomes over-leveraged.
     
@@ -253,24 +250,23 @@ These ratios assess how much a company relies on debt to finance its assets and 
 \subsubsection{Debt Coverage Ratios}
 These metrics evaluate a company's ability to cover its debt using its earnings or cash flow, reflecting the sustainability of a company's debt in relation to its operational performance.
 
-% TODO: Take the capitals definitions out from here
 \begin{itemize}
-    \item \textbf{Net Debt/EBIT}: Shows how many years it would take for a company to repay its net debt using EBIT (Earnings Before Interest and Taxes).
+    \item \textbf{Net Debt/\acrshort{ebit}}: Shows how many years it would take for a company to repay its net debt using \acrshort{ebit}.
     
-    \item \textbf{Net Debt/EBITDA}: Similar to the above, but adds back depreciation and amortization. This gives a more cash-focused view of a company's ability to handle its debt load, and is especially useful for comparing companies in capital-intensive industries.
+    \item \textbf{Net Debt/\acrshort{ebitda}}: Similar to the above, but adds back depreciation and amortization. This gives a more cash-focused view of a company's ability to handle its debt load, and is especially useful for comparing companies in capital-intensive industries.
     
-    \item \textbf{Net Debt/FCF}: Evaluates how many years of free cash flow would be needed to pay off net debt. Since FCF includes investment needs, this ratio gives a more conservative view of debt sustainability.
+    \item \textbf{Net Debt/\acrshort{fcf}}: Evaluates how many years of free cash flow would be needed to pay off net debt. Since FCF includes investment needs, this ratio gives a more conservative view of debt sustainability.
     
-    \item \textbf{Net Debt/Owner's Income}: Compares net debt to the income available to equity holders (after all operating and investing costs).
+    \item \textbf{Net Debt/Owner's Income}: Compares net debt to the income available to equity holders, after all operating and investing costs.
 \end{itemize}
 
 \subsubsection{Interest Coverage Ratios}
 These ratios measure how easily a company can meet its interest payments on outstanding debt — critical for assessing short-term debt service capability.
 
 \begin{itemize}
-    \item \textbf{EBIT/Interest}: Indicates how many times a company can cover its interest expenses with its operating income.
+    \item \textbf{\acrshort{ebit}/Interest}: Indicates how many times a company can cover its interest expenses with its operating income.
     
-    \item \textbf{EBITDA/Interest}: Similar to the above, but adds back depreciation and amortization. This gives a clearer picture of available cash earnings before fixed financial obligations, ideal for heavily asset-based businesses.
+    \item \textbf{\acrshort{ebitda}/Interest}: Similar to the above, but adds back depreciation and amortization. This gives a clearer picture of available cash earnings before fixed financial obligations, ideal for heavily asset-based businesses.
     
     \item \textbf{FCF/Interest}: Since FCF considers investment needs, this is a stringent test of how much real, discretionary cash is available for debt servicing.
     
@@ -281,13 +277,13 @@ These ratios measure how easily a company can meet its interest payments on outs
 These ratios measure a company's ability to meet short-term obligations with its short-term assets. They are essential for evaluating near-term financial health and risk of insolvency.
 
 \begin{itemize}
-    \item \textbf{Current Ratio} (Current Assets / Current Liabilities): Shows whether a company has enough assets to cover its short-term liabilities. A value above 1 is generally considered healthy, though excessively high values may imply inefficiency.
+    \item \textbf{\acrshort{currentratio}}: Shows whether a company has enough assets to cover its short-term liabilities. A value above 1 is generally considered healthy, though excessively high values may imply inefficiency.
     
-    \item \textbf{Quick Ratio} ((Current Assets - Inventory) / Current Liabilities): A more stringent version of the current ratio that excludes inventory, which may not be easily liquidated. It's useful in assessing true short-term liquidity.
+    \item \textbf{\acrshort{quickratio}}: A more stringent version of the current ratio that excludes inventory, which may not be easily liquidated. It's useful in assessing true short-term liquidity.
     
-    \item \textbf{Cash Ratio} (Cash and Equivalents / Current Liabilities): The most conservative liquidity metric, focusing only on cash and equivalents. It shows the immediate solvency of a company in a worst-case scenario.
+    \item \textbf{\acrshort{cashratio}}: The most conservative liquidity metric, focusing only on cash and equivalents. It shows the immediate solvency of a company in a worst-case scenario.
     
-    \item \textbf{OCF Ratio} (Operating Cash Flow / Current Liabilities): Assesses how well the company's operational cash flows can cover its current obligations. This offers a realistic view of liquidity since it's based on actual cash generation rather than accounting figures.
+    \item \textbf{\acrshort{ocfratio}}: Assesses how well the company's operational cash flows can cover its current obligations. This offers a realistic view of liquidity since it's based on actual cash generation rather than accounting figures.
 \end{itemize}
 
 \subsubsection{Predictability}
@@ -302,7 +298,6 @@ These ratios measure a company's ability to meet short-term obligations with its
     \label{fig:quality_score}
 \end{figure}
 
-
 \noindent After calculating all of this ratios, Tweenvest compares them to the sectors' median and interpolates each of them to create a single score for the ratio, then it aggregates them all using personalized weights to create the final Quality Score, which is then showed to the clients as shown in Figure \ref{fig:quality_score}.
 
 
@@ -312,7 +307,7 @@ These ratios measure a company's ability to meet short-term obligations with its
 \subsubsection{Revenue \& Profitability Growth}
 \begin{itemize}
     \item \textbf{Sales}: Measures growth in core revenue streams
-    \item \textbf{EBITDA}: Captures growth in operational cash-generating ability before non-cash and financing impacts
+    \item \textbf{\acrshort{ebitda}}: Captures growth in operational cash-generating ability before non-cash and financing impacts
     \item \textbf{Operating Income}: Reflects growth in profit from core business operations
     \item \textbf{Net Income}: Includes all income sources, showing overall profitability growth
 \end{itemize}
@@ -336,9 +331,9 @@ These ratios measure a company's ability to meet short-term obligations with its
 
 \subsubsection{Per-Share Value Growth}
 \begin{itemize}
-    \item \textbf{Diluted EPS}: Tracks per-share earnings growth, accounting for dilution effects
+    \item \textbf{Diluted \acrshort{eps}}: Tracks per-share earnings growth, accounting for dilution effects
     \item \textbf{Diluted Shares}: Included to track share count changes, ensuring EPS growth isn't artificially inflated by buybacks or dilution
-    \item \textbf{Ordinary DPS}: Tracks the growth of shareholder payouts, a proxy for confidence in future earnings
+    \item \textbf{Ordinary \acrshort{dps}}: Tracks the growth of shareholder payouts, a proxy for confidence in future earnings
 \end{itemize}
 
 \vspace{0.5cm}
@@ -354,27 +349,25 @@ These ratios measure a company's ability to meet short-term obligations with its
 \subsection{Value}
 \noindent The Value Score measures how attractively a company is priced relative to fundamental multiples such as earnings, cash flow, sales, and dividends. This is critical for investors following value investing principles, where the goal is to buy quality companies for less than their intrinsic worth. The algorithm evaluates a series of valuation multiples—both price-based and enterprise value-based—and dividend yield.
 
-% TODO: TTM capital definitions
-
 \subsubsection{Price-Based Multiples}
 \begin{itemize}
-    \item \textbf{P/E} (Market Cap / Adjusted TTM Earnings): Measures how much investors are willing to pay per dollar of earnings
-    \item \textbf{P/S} (Market Cap / TTM Revenue): Useful when earnings are volatile; shows valuation relative to sales
-    \item \textbf{P/CF} (Market Cap / TTM Operating Cash Flow): Reflects valuation relative to cash-generating ability
-    \item \textbf{P/B} (Market Cap / Tangible Equity): Especially relevant for asset-heavy sectors like banks or industrials
+    \item \textbf{\acrshort{pe}}: Measures how much investors are willing to pay per dollar of earnings
+    \item \textbf{\acrshort{ps}}: Useful when earnings are volatile; shows valuation relative to sales
+    \item \textbf{\acrshort{pcf}}: Reflects valuation relative to cash-generating ability
+    \item \textbf{\acrshort{pb}}: Especially relevant for asset-heavy sectors like banks or industrials
 \end{itemize}
 
 \subsubsection{Enterprise Value-Based Multiples}
 \begin{itemize}
-    \item \textbf{EV/Sales} (Enterprise Value / TTM Revenue)
-    \item \textbf{EV/EBITDA} (Enterprise Value / TTM EBITDA)
-    \item \textbf{EV/EBIT} (Enterprise Value / TTM EBIT)
-    \item \textbf{EV/FCF} (Enterprise Value / TTM Free Cash Flow)
+    \item \textbf{\acrshort{evsales}}: Indicates how much investors are willing to pay for each unit of revenue, providing a sense of overall company valuation relative to sales.
+    \item \textbf{\acrshort{evebitda}}: Shows the value the market assigns to a company compared to its operating profitability before non-cash and financing items, useful for comparing companies with different capital structures.
+    \item \textbf{\acrshort{evebit}}: Reflects the market value relative to operating earnings after depreciation and amortization, offering insight into core business profitability.
+    \item \textbf{\acrshort{evfcf}}: Assesses how the market values a company in relation to the actual cash it generates, highlighting the ability to produce free cash flow for investors.
 \end{itemize}
 
 \subsubsection{Yield-Based Valuation}
 \begin{itemize}
-    \item \textbf{Dividend Yield (\%)} (Dividend per Share / Price per Share)
+    \item \textbf{\acrshort{dividendyield}}: Measures the annual return on investment from dividends, expressed as a percentage of the current share price.
 \end{itemize}
 
 \vspace{0.5cm}
@@ -404,22 +397,19 @@ These ratios measure a company's ability to meet short-term obligations with its
 \subsubsection{Safety}
 This part of the score is used to assess the sustainability of the dividend.
 \begin{itemize}
-    \item \textbf{Payout Ratio EPS} (DPS / Diluted EPS): Shows if dividends are covered by accounting earnings
-    \item \textbf{Payout Ratio FCF} (DPS / Free Cash Flow per Share): Shows if dividends are funded by real cash generation
-    \item \textbf{Payout Ratio Owner Earnings} (DPS / Owner Earnings per Share): A conservative test of sustainability (excludes CAPEX)
+    \item \textbf{\acrshort{payoutratioeps}}: Shows if dividends are covered by accounting earnings
+    \item \textbf{\acrshort{payoutratiofcf}}: Shows if dividends are funded by real cash generation
+    \item \textbf{\acrshort{payoutratioowner}}: A conservative test of sustainability, excluding \acrshort{capex}.
 \end{itemize}
 
 \subsubsection{Growth}
 \noindent Measures how consistently and strongly the dividend has grown over time.
 \begin{itemize}
-    \item \textbf{Ordinary DPS CAGR}: 3-Year, 5-Year, 10-Year growth rates
+    \item \textbf{Ordinary \acrshort{dps} \acrshort{cagr}}: 3-Year, 5-Year, 10-Year growth rates
 \end{itemize}
 
 \subsubsection{Yield}
-\noindent This evaluates the attractiveness of the dividend today relative to the company's historical averages and sector benchmarks.
-\begin{itemize}
-    \item \textbf{Dividend Yield} (DPS / Price per Share): Represents how much income an investor receives annually from dividends
-\end{itemize}
+\noindent This sub-score evaluates the attractiveness of the dividend today relative to the company's historical averages and sector benchmarks on \acrshort{dividendyield}.
 
 \vspace{0.5cm}
 \noindent These components are individually scored weighted and interpolated against industry benchmarks to form a composite score. 
@@ -431,14 +421,14 @@ This part of the score is used to assess the sustainability of the dividend.
     \label{fig:dividend_score}
 \end{figure}
 
-\noindent Finally, as seen in Figure \ref{fig:dividend_score}, the algorithm adjusts this score based on how many years the dividend has been maintained or increased, \textbf{rewarding consistency}.
+\noindent Finally, as seen in Figure~\ref{fig:dividend_score}, the algorithm adjusts this score based on how many years the dividend has been maintained or increased, \textbf{rewarding consistency}.
 
 \section{Code practices}
 Since the code that needs to be changed is used in a production environment by Tweenvest, it is important to follow some \textit{good practices} to ensure the code is easy to understand, maintain, and to avoid introducing new bugs.
 
 \begin{itemize}
   \item \textbf{Understanding and Documenting}: Before starting to work on the code, it is important to understand the codebase and the purpose of the code. For this, it is recommended to use some tools like flux diagrams, code comments, and documentation. As it will be shown later on.
-  \item \textbf{Testing}: To ensure proper functionality, every function and class should have unit tests that cover all possible scenarios. These tests are run automatically by the CI/CD pipeline.
+  \item \textbf{Testing}: To ensure proper functionality, every function and class should have unit tests that cover all possible scenarios. These tests are run automatically by the \acrshort{ci/cd} pipeline.
   \item \textbf{Pair code review}: After completing the previous steps, the code undergoes a pair code review process, where at least one other team member reviews and approves the changes in \textit{Github} before merging into the main branch.
   \item \textbf{Logging}: After each feature is implemented, it is important to analyze the actual performance in the production environment by looking at its logs to check if the feature is working as expected, and to look for any possible optimizations to be made.
 \end{itemize}
@@ -449,13 +439,13 @@ Once we have created our raw dataset, we need to inspect it and make sure it is 
 
 \subsection{Data Consistency}
 
-Since all of the data is coming from a data provider that uses OCR as one of their tools whenever they do not have the data in a structured format, we need to be very restrictive with the data used. Also, as we mentioned before, some of the algorithms for calculating the scores use long-term data such as 10 year growths rates.
+Since all of the data is coming from a data provider that uses \acrshort{ocr} as one of their tools whenever they do not have the data in a structured format, we need to be very restrictive with the data used. Also, as we mentioned before, some of the algorithms for calculating the scores use long-term data such as 10 year growths rates.
 
 \vspace{0.5cm}
 \noindent This is one of the biggest \textbf{limitations to the study}: we will be missing the data of companies that stopped existing or that were acquired by other companies, if they did not exist for 10 or more years.
 
 \vspace{0.5cm}
-\noindent For inspecting the data we will be using Python as the main language, enhanced with: \textit{pandas} \cite{pandas2024}, \textit{matplotlib} \cite{matplotlib2025doc}, and \textit{seaborn} \cite{seaborn2024}, which are powerful tools for data manipulation and analysis. The focus will be on the following aspects:
+\noindent For inspecting the data we will be using Python as the main language, enhanced with: \textit{pandas}~\cite{pandas2024}, \textit{matplotlib}~\cite{matplotlib2025doc}, and \textit{seaborn}~\cite{seaborn2024}, which are powerful tools for data manipulation and analysis. The focus will be on the following aspects:
 \begin{itemize}
   \item \textbf{Missing Values}: We need to check if there are any missing values in the data.
   \item \textbf{Data Distributions}: We need to make sure that the data is distributed in a way that is suitable for the modeling.
@@ -464,7 +454,7 @@ Since all of the data is coming from a data provider that uses OCR as one of the
     \rho_{X,Y} = \frac{\text{Cov}(X,Y)}{\sigma_X \sigma_Y}
   \end{equation}
   where \(\text{Cov}(X,Y)\) is the covariance between the variables \(X\) and \(Y\), \(\sigma_X\) is the standard deviation of \(X\), and \(\sigma_Y\) is the standard deviation of \(Y\). This matrix will be created with a custom heatmap function (see Appendix~\ref{app:custom_functions}).
-  \item \textbf{Data Patterns}: We need to check if there are any visible data patterns between the variables. To address this, we will use a custom \textit{pairplot} function from \textit{seaborn}, which is a powerful tool for data visualization and exploration  depending on the type of variable (see Appendix~\ref{app:custom_functions}).
+  \item \textbf{Data Patterns}: We need to check if there are any visible data patterns between the variables. To address this, we will use a custom \textit{\acrshort{pairplot}} function from \textit{seaborn}, which is a powerful tool for data visualization and exploration  depending on the type of variable (see Appendix~\ref{app:custom_functions}).
 \end{itemize}
 
 \vspace{0.5cm}
@@ -500,9 +490,9 @@ In numerous modeling applications, having normally distributed features is advan
 \begin{equation}
 x_i^{(\lambda)} =
 \begin{cases}
-\frac{[(x_i + 1)^\lambda - 1]}{\lambda}, & \text{if } x_i \geq 0, \lambda \neq 0 \\
+\frac{[{(x_i + 1)}^\lambda - 1]}{\lambda}, & \text{if } x_i \geq 0, \lambda \neq 0 \\
 \ln(x_i + 1), & \text{if } x_i \geq 0, \lambda = 0 \\
--\frac{[(-x_i + 1)^{2 - \lambda} - 1]}{2 - \lambda}, & \text{if } x_i < 0, \lambda \neq 2 \\
+-\frac{[{(-x_i + 1)}^{2 - \lambda} - 1]}{2 - \lambda}, & \text{if } x_i < 0, \lambda \neq 2 \\
 -\ln(-x_i + 1), & \text{if } x_i < 0, \lambda = 2
 \end{cases}
 \end{equation}
@@ -511,7 +501,7 @@ x_i^{(\lambda)} =
 
 \vspace{0.5cm}
 
-\noindent In Figure \ref{fig:yeo-johnson}, we depict some examples of the transformation for different distributions:
+\noindent In Figure~\ref{fig:yeo-johnson}, we depict some examples of the transformation for different distributions:
 
 \begin{figure}[H]
     \centering
@@ -534,11 +524,11 @@ unauthorised access.
 
 \subsection{Inter Quartile Range}
 
-Given a univariate dataset, the Interquartile Rule identifies outliers based on the interquartile range (IQR). The steps are as follows:
+Given a univariate dataset, the Interquartile Rule identifies outliers based on the \acrshort{iqr}. The steps are as follows:
 
 \begin{enumerate}
-    \item Compute the first quartile ($Q_1$), which is the 25th percentile of the data.
-    \item Compute the third quartile ($Q_3$), which is the 75th percentile of the data.
+    \item Compute the first quartile (\(Q_1\)), which is the 25th percentile of the data.
+    \item Compute the third quartile (\(Q_3\)), which is the 75th percentile of the data.
     \item Calculate the interquartile range:
     \[
         \text{IQR} = Q_3 - Q_1
@@ -550,7 +540,7 @@ Given a univariate dataset, the Interquartile Rule identifies outliers based on 
     \[
         \text{Upper bound} = Q_3 + 1.5 \times \text{IQR}
     \]
-    \item Any data point $x$ is considered an outlier if:
+    \item Any data point \(x\) is considered an outlier if:
     \[
         x < \text{Lower bound} \quad \text{or} \quad x > \text{Upper bound}
     \]
@@ -578,7 +568,7 @@ Given a univariate dataset, the Interquartile Rule identifies outliers based on 
 
 \subsection{Single Vector Machine}
 
-\noindent Support Vector Machines (SVMs) represent a robust class of unsupervised learning algorithms that can be effectively adapted for anomaly detection tasks. This algorithm establishes itself on the premise that the majority of real-world data is inherently normal. Where the goal is to define a boundary encapsulating the normal instances in the feature space, thereby creating a region of familiarity. 
+\noindent The \gls{svm} represent a robust family of unsupervised learning algorithms that can be effectively adapted for anomaly detection tasks. This algorithm establishes itself on the premise that the majority of real-world data is inherently normal. Where the goal is to define a boundary encapsulating the normal instances in the feature space, thereby creating a region of familiarity. 
 
 \vspace{0.5cm}
 \noindent To capture the bases of the \textit{scikit-learn} implementation \cite{scikit2025oneclasssvm} used in this work, we can say that the main idea is to find a minimum volume sphere that contain all the training samples. This sphere, described by its center \(c\) and its radius \(r\), is obtained by solving the constrained optimization problem: \cite{zineb2012simple}
@@ -609,7 +599,7 @@ Given a univariate dataset, the Interquartile Rule identifies outliers based on 
             Solid theoretical foundation and widely supported in machine learning libraries. & -- \\
         \hline
     \end{tabular}
-    \caption{Pros and Cons of One-Class SVM for Outlier Detection}
+    \caption{Pros and Cons of One-Class \acrshort{svm} for Outlier Detection}
 \end{table}
     
     
@@ -675,7 +665,7 @@ As we are seeing in this small fraction of outlier detection methodologies, most
 
 \subsection{Local Outlier Factor}
 
-Since we are looking at outliers from the perspective of correlations between the different response variables to see which companies do not behave naturally. We also checked on the Local Outlier Factor (LOF) for being based on hyper-plane densities of data.
+Since we are looking at outliers from the perspective of correlations between the different response variables to see which companies do not behave naturally. We also checked on the \gls{lof} for being based on hyper-plane densities of data.
 
 \vspace{0.5cm}
 \noindent The algorithm measures the local deviation of the density of a given sample with respect to its neighbors. It is local in that the anomaly score depends on how isolated the object is with respect to the surrounding neighborhood. More precisely, locality is given by k-nearest neighbors, whose distance is used to estimate the local density. By comparing the local density of a sample to the local densities of its neighbors, one can identify samples that have a substantially lower density than their neighbors. These are considered outliers. \textcite{breunig2000lof}
@@ -687,7 +677,7 @@ Since we are looking at outliers from the perspective of correlations between th
     \hline
     \textbf{Pros} & \textbf{Cons} \\
     \hline
-    Can detect outliers relative to their local neighborhood, allowing it to identify context-specific anomalies. & LOF scores are relative and lack a universal interpretation threshold for outliers. \\
+    Can detect outliers relative to their local neighborhood, allowing it to identify context-specific anomalies. & \acrshort{lof} scores are relative and lack a universal interpretation threshold for outliers. \\
     \hline
     Effective in datasets with varying densities — unlike global methods, it can recognize outliers near dense clusters. & Sensitivity to parameter selection (e.g., number of neighbors) can affect performance and consistency. \\
     \hline
@@ -698,7 +688,7 @@ Since we are looking at outliers from the perspective of correlations between th
     Easily generalizable and adaptable for use in spatial data, temporal data, and network structures. & -- \\
     \hline
     \end{tabular}
-    \caption{Pros and Cons of the Local Outlier Factor (LOF) Method}
+    \caption{Pros and Cons of the \acrshort{lof} Method}
 \end{table}
     
 \subsection{Multi-Criteria Outlier Detection}
@@ -711,7 +701,7 @@ There is a big controversy in the field about the best method to detect the outl
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{images/code/outliers/multimodal.png}
-    \caption{Multi-Criteria Outlier Detection Method}
+    \caption{\acrshort{multi} Method Schema}
     \label{fig:multimodal}
 \end{figure}
 
@@ -720,15 +710,14 @@ There is a big controversy in the field about the best method to detect the outl
 \noindent As shown in the Figure \ref{fig:multimodal}, this starts by homogenizing the variables distribution with a common data transformation so they are more Normal, but to make sure that the final data isn't being transformed we copy the original dataset earlier. After this, we use multiple methods to detect the different outliers and then we make the intersection between them to get the common outliers. By the end of this process we have tagged the original dataset rows, assuring that the data that will be excluded is only formed by \textit{"true outliers"}.
 
 %TODO: maybe move this to the results section
-\vspace{0.5cm}
-\noindent We noticed that since this method is very restrictive, we had to set threshold multipliers to the original dataset to get the final outliers. So for example, a 20\% threshold would only exclude around 8\% of the original dataset because of the intersection of all the methods makes it very restrictive.
+% \vspace{0.5cm}
+% \noindent We noticed that since this method is very restrictive, we had to set threshold multipliers to the original dataset to get the final outliers. So for example, a 20\% threshold would only exclude around 8\% of the original dataset because of the intersection of all the methods makes it very restrictive.
 
-\subsubsection{Island detector}
+\subsubsection{Island Cases detector}
 
 % TODO: explain the island detector.
 
-
-Here we \textbf{propose for future work} to fine tune the different thresholds for each method to get a more robust result. This will be explained with more detail in the development section.
+When looking at the \acrshort{multi} diagram we can expect it to save different data points that are not common between all of the methods due to its intersection of \textit{true outliers}. This might be good for many classification tasks but when it comes to regression it can cause bias since there could be \textit{"islands"} --clusters-- of points that don't follow a normal distribution. Also since these points don't have to be errors in the data, they could show extreme but consistent behaviour that should be modeled separately.
 
 
 % ############################### PREDICTIVE MODELS #######################
@@ -1261,23 +1250,23 @@ We started of using this technique due to its speed and accuracy for non-linear 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{images/code/outliers/Small Data future - IF.png}
-    \caption{Small Data Future - IF (5\% tolerance)}
+    \caption{Small Data Future - \acrshort{if} (5\% tolerance)}
     \label{fig:small_data_future_if}
 \end{figure}
 
-\noindent This pairplot shows how the IF method is detecting outliers in the profits data. In this case it is detecting as outliers much of the data that seems to form a structure in the profits. Also, it is deleting some interesting clusters when comparing the profits with the scores, and here we might lose some important information-- this is highlighted with the red circles.
+\noindent This pairplot shows how the \acrshort{if} method is detecting outliers in the profits data. In this case it is detecting as outliers much of the data that seems to form a structure in the profits. Also, it is deleting some interesting clusters when comparing the profits with the scores, and here we might lose some important information-- this is highlighted with the red circles.
 
 \newpage
 
 \subsubsection{Single Vector Machine}
 
-When using the SVM we saw a similar detection compared to the IF method, which is very interesting since their approach is completely different.
+When using the \acrshort{svm} we saw a similar detection compared to the \acrshort{if} method, which is very interesting since their approach is completely different.
 
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{images/code/outliers/Small Data future - SVM.png}
-    \caption{Small Data Future - SVM (5\% tolerance)}
+    \caption{Small Data Future - \acrshort{svm} (5\% tolerance)}
     \label{fig:small_data_future_svm}
 \end{figure}
 
@@ -1286,12 +1275,12 @@ When using the SVM we saw a similar detection compared to the IF method, which i
 \newpage
 \subsubsection{Local Outlier Factor}
 
-\noindent Surprisingly, with the LOF method we see a good improvement for both the profits and the scores clusters-- which is highlighted with the green circles.
+\noindent Surprisingly, with the \acrshort{lof} method we see a good improvement for both the profits and the scores clusters-- which is highlighted with the green circles.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{images/code/outliers/Small Data future - LOF.png}
-    \caption{Small Data Future - LOF (5\% tolerance)}
+    \caption{Small Data Future - \acrshort{lof} (5\% tolerance)}
     \label{fig:small_data_future_lof}
 \end{figure}
 
@@ -1305,7 +1294,7 @@ That's when we realized that if each method was good at detecting some outliers 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{images/code/outliers/Small Data future - Multi.png}
-    \caption{Small Data Future - Multi-Criteria (20\% tolerance)}
+    \caption{Small Data Future - \acrshort{multi} (20\% tolerance)}
     \label{fig:small_data_future_multi}
 \end{figure}
 
@@ -1314,9 +1303,9 @@ That's when we realized that if each method was good at detecting some outliers 
 \vspace{0.5cm}
 \noindent For future developments of these type of techniques, we have to mention that understanding the main core ideas of each method we could probably optimize the results by changing the tolerance parameters individually by applying multipliers for each method:
 \begin{enumerate}
-    \item \textbf{SVM} is basically creating geometrical hyper-dimensional frontiers to form a safe hyper-volume of data clusters. So the intuition tells us that this method should probably have a \textbf{higher tolerance} than the rest.
-    \item \textbf{LOF} is looking for clusters of high density, not taking account the distance between the clusters. So this method is very good for detecting extreme phenomena but that could be consistent. Its \textbf{tolerance could be between the other methods}.
-    \item \textbf{IF} is looking for the most isolated points following a random forest approach. It is good for detecting those points that seem to make not much sense, so its \textbf{tolerance shouldn't be as high}.
+    \item \textbf{\acrshort{svm}} is basically creating geometrical hyper-dimensional frontiers to form a safe hyper-volume of data clusters. So the intuition tells us that this method should probably have a \textbf{higher tolerance} than the rest.
+    \item \textbf{\acrshort{lof}} is looking for clusters of high density, not taking account the distance between the clusters. So this method is very good for detecting extreme phenomena but that could be consistent. Its \textbf{tolerance could be between the other methods}.
+    \item \textbf{\acrshort{if}} is looking for the most isolated points following a random forest approach. It is good for detecting those points that seem to make not much sense, so its \textbf{tolerance shouldn't be as high}.
 \end{enumerate}
 
 \noindent But this is just a hypothesis, we will have to be studied it in the future with rigorous tests.
@@ -1431,20 +1420,20 @@ When it comes to the dummies we see a uniform distribution with the sectors beca
 
 \subsubsection{Profits}
 
-\noindent When analyzing the profit distributions across different time horizons, we observe that the distributions contain a numerous amount of outliers that do not let us see the distributions clearly (Appendix Figures \ref{fig:big_data_future_profits_boxplot} and \ref{fig:big_data_future_profits}). So just for this descriptive analysis purposes, \textbf{we used the IQR method} mentioned in previous chapters to remove the outliers.
+\noindent When analyzing the profit distributions across different time horizons, we observe that the distributions contain a numerous amount of outliers that do not let us see the distributions clearly (Appendix Figures \ref{fig:big_data_future_profits_boxplot} and \ref{fig:big_data_future_profits}). So just for this descriptive analysis purposes, \textbf{we used the \acrshort{iqr} method} mentioned in previous chapters to remove the outliers.
 
 \begin{figure}[H]
     \centering
     \begin{minipage}{0.48\textwidth}
         \centering
         \includegraphics[width=0.8\linewidth]{images/code/descriptive analysis/distributions/Big Data future IQR - Profits Boxplot.png}
-        \caption{Big Data Future IQR - Profits Boxplot}
+        \caption{Big Data Future \acrshort{iqr} - Profits Boxplot}
         \label{fig:big_data_future_iqr_profits_boxplot}
     \end{minipage}\hfill
     \begin{minipage}{0.48\textwidth}
         \centering
         \includegraphics[width=0.8\linewidth]{images/code/descriptive analysis/distributions/Big Data Future IQR - Profits.png}
-        \caption{Big Data Future IQR - Profits}
+        \caption{Big Data Future \acrshort{iqr} - Profits}
         \label{fig:big_data_future_iqr_profits_iqr}
     \end{minipage}
 \end{figure}
@@ -1499,13 +1488,13 @@ But as it has been seen multiple times through the analysis, the outliers create
     \begin{minipage}{0.48\textwidth}
         \centering
         \includegraphics[width=\linewidth]{images/code/descriptive analysis/correlations/Big Data Past - IF.png}
-        \caption{Big Data Past IF - Correlations}
+        \caption{Big Data Past \acrshort{if} - Correlations}
         \label{fig:big_data_past_if_correlations}
     \end{minipage}\hfill
     \begin{minipage}{0.48\textwidth}
         \centering
         \includegraphics[width=\linewidth]{images/code/descriptive analysis/correlations/Big Data future - IF.png}
-        \caption{Big Data Future IF - Correlations}
+        \caption{Big Data Future \acrshort{if} - Correlations}
         \label{fig:big_data_future_if_correlations}
     \end{minipage}
 \end{figure}
@@ -1531,7 +1520,7 @@ Finally, we are going to try to compare these results with the pairplots of the 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{images/code/descriptive analysis/correlations/Small Data future - Multi - pairplot.png}
-    \caption{Pairplot of Small Data Future - Multi}
+    \caption{Pairplot of Small Data Future - \acrshort{multi}}
     \label{fig:pairplot_small_data_future_multi}
 \end{figure}
 
@@ -2353,7 +2342,7 @@ Here we have all of the not shown images for further analysis, if needed.
     \begin{minipage}{0.48\textwidth}
         \centering
         \includegraphics[width=\linewidth]{images/code/descriptive analysis/correlations/Small Data future USA - Multi.png}
-        \caption{Small Data Future USA - Multi}
+        \caption{Small Data Future USA - \acrshort{multi}}
         \label{fig:small_data_future_usa_multi_correlations}
     \end{minipage}
 \end{figure}
@@ -2370,7 +2359,7 @@ Here we have all of the not shown images for further analysis, if needed.
     \begin{minipage}{0.48\textwidth}
         \centering
         \includegraphics[width=\linewidth]{images/code/descriptive analysis/correlations/Small Data future EU - Multi.png}
-        \caption{Small Data Future EU Multi}
+        \caption{Small Data Future EU \acrshort{multi}}
         \label{fig:small_data_future_eu_multi_correlations}
     \end{minipage}
 \end{figure}
@@ -2387,7 +2376,7 @@ Here we have all of the not shown images for further analysis, if needed.
     \begin{minipage}{0.48\textwidth}
         \centering
         \includegraphics[width=\linewidth]{images/code/descriptive analysis/correlations/Small Data future LAT - Multi.png}
-        \caption{Small Data Future LAT - Multi}
+        \caption{Small Data Future LAT - \acrshort{multi}}
         \label{fig:small_data_future_lat_multi_correlations}
     \end{minipage}
 \end{figure}
@@ -2404,7 +2393,7 @@ Here we have all of the not shown images for further analysis, if needed.
     \begin{minipage}{0.48\textwidth}
         \centering
         \includegraphics[width=\linewidth]{images/code/descriptive analysis/correlations/Small Data future AF - Multi.png}
-        \caption{Small Data Future AF - Multi}
+        \caption{Small Data Future AF - \acrshort{multi}}
         \label{fig:small_data_future_af_multi_correlations}
     \end{minipage}
 \end{figure}
@@ -2421,7 +2410,7 @@ Here we have all of the not shown images for further analysis, if needed.
     \begin{minipage}{0.48\textwidth}
         \centering
         \includegraphics[width=\linewidth]{images/code/descriptive analysis/correlations/Small Data future AS - Multi.png}
-        \caption{Small Data Future AS - Multi}
+        \caption{Small Data Future AS - \acrshort{multi}}
         \label{fig:small_data_future_as_multi_correlations}
     \end{minipage}
 \end{figure}

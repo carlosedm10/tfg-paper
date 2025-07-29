@@ -93,6 +93,36 @@
           "%DOC%"
         ]
       }
+    ],
+    // Spell checker configuration for LaTeX
+    "cSpell.languageSettings": [
+      {
+        "languageId": "latex",
+        "ignoreRegExpList": [
+          "\\\\cite[a-z]*\\{[^}]*\\}",
+          "\\\\textcite\\{[^}]*\\}",
+          "\\\\parencite\\{[^}]*\\}",
+          "\\\\autocite\\{[^}]*\\}",
+          "\\\\gls\\{[^}]*\\}",
+          "\\\\acrshort\\{[^}]*\\}",
+          "\\\\newacronym\\{[^}]*\\}\\{[^}]*\\}\\{[^}]*\\}"
+        ]
+      }
+    ],
+    "cSpell.words": [
+      "abro",
+      "acrshort",
+      "autocite",
+      "Buffett",
+      "matplotlib",
+      "newacronym",
+      "parencite",
+      "scikit",
+      "seaborn",
+      "Stationarity",
+      "Tatay",
+      "textcite",
+      "Unlevered"
     ]
   },
   "extensions": {
