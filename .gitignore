@@ -1,43 +1,42 @@
-# LaTeX build files
-*.aux
-*.log
-*.out
-*.toc
-*.synctex.gz
-*.bbl
-*.blg
-*.fls
-*.fdb_latexmk
-*.dvi
-*.glo
-*.ist
-*.lof
-*.lot
-*.idx
-*.ilg
-*.ind
-*.bcf
-*.run.xml
+
+# LaTeX intermediate and output files
+**/*.aux
+**/*.bbl
+**/*.bcf
+**/*.blg
+**/*.fdb_latexmk
+**/*.fls
+**/*.glo
+**/*.gls
+**/*.glg
+**/*.ist
+**/*.lof
+**/*.log
+**/*.lot
+**/*.out
+**/*.toc
+**/*.acn
+**/*.acr
+**/*.alg
+**/*.dvi
+**/*.nav
+**/*.snm
+**/*.synctex.gz
+**/*.run.xml
+**/*.pdf
+
+# VSCode LaTeX Workshop cache
+.latexmk
+
+# Common build and cache folders
+_build/
+build/
+latex.out/
+*.synctex
+*.synctex(busy)
+*.synctex.gz(busy)
+
+# Misc
 *.bbl-SAVE-ERROR
 
-# LaTeX temporary files
-*.tmp
-*.bak
-*.swp
-*~
-
-# LaTeX generated directories
-auto/
-
-
-# OS generated files
-.DS_Store
-.DS_Store?
-._*
-.Spotlight-V100
-.Trashes
-ehthumbs.db
-Thumbs.db
-
-# Images
-
+**/.DS_Store
