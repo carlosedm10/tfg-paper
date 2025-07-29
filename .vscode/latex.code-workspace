@@ -15,6 +15,7 @@
       "**/*.aux": true,
       "**/*.xml": true,
       "**/*.bcf": true,
+      "**/*.acn": true,
       "**/*.lof": true,
       "**/*.lot": true,
       "**/*.log": true,

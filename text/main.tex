@@ -50,19 +50,21 @@ To my parents.
 \tableofcontents
 \newpage
 
-% ############################### LIST OF FIGURES AND TABLES #######################
+% ############################### LIST OF FIGURES #######################
 \addtocontents{lof}{\protect\thispagestyle{empty}}
 \addtocontents{lof}{\protect\pagestyle{empty}}
 \listoffigures
 \newpage
 
+% ############################### LIST OF TABLES #######################
 \addtocontents{lot}{\protect\thispagestyle{empty}}
 \addtocontents{lot}{\protect\pagestyle{empty}}
 \listoftables
 \newpage
 
 % ############################### ACRONYMS / CAPITALIZED TERMS #######################
-\input{capitals}
+\printglossary[type=\acronymtype, title=Acronyms]
+\newpage
 
 % ############################### START OF CONTENT #######################
 \clearpage
@@ -79,21 +81,21 @@ To my parents.
 \noindent Fundamental Analysis is a methodology used to evaluate the intrinsic value of a company, asset, or market by analyzing various economic, financial, qualitative and quantitative factors. Unlike technical analysis, which focuses on price movements and chart patterns, fundamental analysis seeks to determine an asset's "true value" to identify investment opportunities that may be undervalued or overvalued in the market.
 
 \vspace{0.5cm}
-\noindent This intrinsic value is defined by numerous experts and renowned investors—such as Benjamin Graham, Warren Buffett, and Pat Dorsey \cite{dorsey2011five}—as a company's ability to adapt to an ever-changing environment, create value in the market, and establish barriers to entry for competitors, commonly referred to as \textit{economic moats}.
+\noindent This intrinsic value is defined by numerous experts and renowned investors—such as Benjamin Graham, Warren Buffett, and Pat Dorsey \cite{dorsey2011five}—as a company's ability to adapt to an ever-changing environment, create value in the market, and establish barriers to entry for competitors-- commonly referred to as \textit{economic moats}.
 
 \vspace{0.5cm}
-\noindent Measuring these moats is challenging due to the difficulty of quantifying certain variables, such as brand strength and market influence. However, over the long term most literature show that these \textbf{intangible factors translate into tangible financial data}, reflected in a company's reports: balance sheet, income statement, and cash flow statement. When exposed to the public market share transform into the need to buy or sell the stocks, altering the companies stocks' profitability. So from now on, this economic moats will be called \textit{alpha}, \textcite{sharpe1964capm}.
+\noindent Measuring these moats is challenging due to the difficulty of quantifying certain variables, such as brand strength and market influence. However, over the long term most literature show that these \textbf{intangible factors translate into tangible financial data}, which are reflected in a company's reports: balance sheet, income statement, and cash flow statement. When companies are exposed to the public market share, all of this information transforms into the needs of buying or selling the stocks, altering the companies stocks' profitability. So from now on, this economic moats will be called \textit{alpha}, \textcite{sharpe1964capm}.
 
 \vspace{0.5cm}
-\noindent This complexity is what made Tweenvest develop a series of scores to help users identify possible \textit{alpha} in a company, based on the fundamental analysis principles.
+\noindent This complexity is what made José Tatay, Tweenvest's founder, develop a series of algorithms to calculate certain scores, based on the fundamental analysis principles, to help users identify possible \textit{alpha} in a company; which is the main objective for all of the long-term investors. This methodology will be explained further more in the next chapter.
 
-\section{Problems With the Current Approach}
+\section{Possible Problems With the Scores' Algorithm}
 
-\noindent In the context of this thesis, we have to explain the need to make a systematic review of the scores to check wether the simplifications and hypotheses assumed by the financial consensus, and the way that they are implemented in Tweenvest's scores, truly show a company's ability to create \textit{alpha} over time or not.
+\noindent In the context of this thesis, we have to explain the need to make a systematic review of the scores to \textbf{check wether the simplifications and hypotheses assumed} by the financial consensus, and the way that they are implemented in Tweenvest's scores, \textbf{truly show a company's ability to create \textit{alpha}} over time or not.
 
 
 \subsection{Unquantified Variables}
-\noindent Since the current model only includes variables found in a company's financial statements, there is a significant amount of relevant information being left out, for example:
+\noindent Since the current algorithm only includes variables found in a company's financial statements, there is a significant amount of relevant information being left out, for example:
 
 \begin{itemize}
     \item The \textbf{perceived differentiation} of a product is one such element that may not be properly captured by traditional financial analysis. A trusted brand or strong reputation can allow a company to charge premium prices and build customer loyalty, generating extraordinary long-term profits. For instance, brands like Tiffany or Rolex have high perceived value that justifies elevated prices—something that cannot be easily quantified using standard financial metrics such as profit margins or return on capital.
@@ -103,7 +105,7 @@ To my parents.
     \item Companies may also establish \textbf{barriers to entry} and \textbf{high switching costs} for customers, making it more difficult for them to move to competitors. These strategies may involve investments in technology, patents, or simply building long-term customer and employees relationships.
 \end{itemize}
 
-\noindent To properly measure these variables, a more exhaustive analysis of each company would be required, pulling from multiple secondary information sources such as news articles, conference transcripts, customer blogs, competitive product reviews, and more. This task is far more difficult to automate via code, as it would require multimodal AI techniques--thus, it will fall outside the scope of this work.
+\noindent To properly measure these variables, a more exhaustive analysis of each company would be required, pulling from multiple secondary information sources such as news articles, conference transcripts, customer blogs, competitive product reviews, and more; which could also itself affect the market. This task is commonly known as \textit{social listening} \cite{WANG2022110598}; and is far more difficult to automate via code, as it would require multimodal AI techniques--thus, it will fall outside the scope of this work.
 
 \subsection{Emergent Effects in Complex Systems}
 
@@ -129,16 +131,16 @@ To my parents.
     \item \textbf{Competitive dynamics} can create threshold effects where small changes in market share or pricing can trigger significant shifts in competitive position or profitability.
 \end{itemize}
 
-\subsubsection{Trends}
+\subsubsection{Non-stationarity}
 
-\noindent Traditionally, standard growth ratios have been used, based on the assumption that in competitive markets, when a new business model or opportunity emerges with above-average margins, entrepreneurs quickly move in to capitalize on it—eventually saturating the opportunity and driving margins back down to average levels over time. But what happens when there is a significant shift in trend? 
+\noindent Traditionally, standard growth ratios have been used, based on the assumption that in competitive markets, when a new business model or opportunity emerges with above-average margins, entrepreneurs quickly move in to capitalize on it; eventually saturating the opportunity and driving margins back down to average levels over time. But what happens when there is a significant shift in trend? 
 
 \vspace{0.5cm}
-\noindent Markets are "fluctuating entities", so static metrics can become problematic when underlying trends change. A clear example is the rise of artificial intelligence and the surge in stock prices of companies involved in the production and development of the necessary technologies.
+\noindent Markets are "fluctuating entities", so \textbf{static metrics can become problematic when underlying trends change}. A clear example is the rise of artificial intelligence and the surge in stock prices of companies involved in the production and development of the necessary technologies.
 
 \section{Objectives}
 
-\noindent Given the limitations identified in the current approach, Tweenvest needs to \textbf{evaluate if the scores represent \textit{alpha} for different time frames}, and \textbf{guide users how to interpret them based on different investment strategies}. Additionally, to propose possible changes to the current algorithm in order to present the results with more accuracy. To achieve this, we follow a structured, multi-step process:
+\noindent Given the limitations identified mentioned for the current algorithm, the main aim of this work is to \textbf{evaluate if the scores represent \textit{alpha} for different time frames}, \textbf{guide users how to interpret them based on different investment strategies}, and to \textbf{propose possible changes to the scores calculation} in order to present the results with more accuracy. To achieve this, we followed these objectives:
 
 \begin{enumerate}
   \item \textbf{System Architecture Enhancement}: Modify Tweenvest's database architecture to enable historical score storage and retrieval and create the datasets for the analysis.
@@ -172,7 +174,7 @@ To relate the profits with the scores, we need to use different variables:
     \item \textbf{Dummy variables}, these are boolean variables that allow us to tag the companies by:
     \begin{itemize}
         \item \textbf{Industry}: \(I_k\) where \(k \in \{\text{Financials; Healthcare; etc.}\}\)
-        \item \textbf{Region}: \(R_l\) where \(l \in \{\text{Europe; North America; etc.}\}\)
+        \item \textbf{Geographical Region}: \(G_l\) where \(l \in \{\text{Europe; North America; etc.}\}\)
     \end{itemize}
     \item \textbf{Market Variables}, these are numeric variables that represent the companies \textit{"size"} using the: \textbf{Market Cap} and \textbf{Volume}.
 \end{itemize}
@@ -199,10 +201,11 @@ The \textbf{long-term advantage} explained earlier in the finance is used in man
 
 \subsection{Quality}
 
-\noindent This Tweenvest's score is approached in a similar way that many successful investors would when analyzing the annual reports, by distinguishing on three main categories: \textbf{profitability}, \textbf{financial health}, and \textbf{predictability}. Each of them includes inside of them multiple financial ratios that take account of different relevant data within the company's reports.
+\noindent To understand what the Quality score aims to capture, it is useful to consider the three key categories commonly used by successful investors when analyzing financial statements: \textbf{profitability}, \textbf{financial health}, and \textbf{predictability}. Each category encompasses a range of financial ratios that reflect different aspects of a company's performance. By combining these dimensions, we can construct a more comprehensive view of a company's overall financial "quality."
+
 
 \vspace{0.5cm}
-\noindent To understand the complexity of this score, we need to look at each category separately. Starting with \textbf{profitability} we can separate:
+\noindent To better understand the score, we need to look at each category separately. Starting with \textbf{profitability} we can separate:
 
 \subsubsection{Profitability Margins}
 These are essential for understanding how a company is managing its costs and generating profits from its revenues.
@@ -220,17 +223,17 @@ These are essential for understanding how a company is managing its costs and ge
 These are used to measure the overall performance of the company.
 % TODO: Take the capitals definitions out from here
 \begin{itemize}
-    \item \textbf{ROA (Return on Assets)}: Measures how efficiently a company converts its assets into profits. This is especially important in capital-intensive sectors, where efficient asset management can make a significant difference in profitability.
+    \item \textbf{\gls{roa}}: Measures how efficiently a company converts its assets into profits. This is especially important in capital-intensive sectors, where efficient asset management can make a significant difference in profitability.
     
-    \item \textbf{ROE (Return on Equity)}: Focuses on the profits generated per dollar of equity invested by shareholders. This ratio is crucial for evaluating a company's overall profitability from the shareholders' perspective. It is an especially valuable metric for investors seeking to maximize their returns on equity investment.
+    \item \textbf{\gls{roe}}: Focuses on the profits generated per dollar of equity invested by shareholders. This ratio is crucial for evaluating a company's overall profitability from the shareholders' perspective. It is an especially valuable metric for investors seeking to maximize their returns on equity investment.
     
-    \item \textbf{ROIC (Return on Invested Capital)}: Focuses on the return generated by all the funds invested in the company, including both shareholders' equity and debt. It is a comprehensive measure of a company's ability to generate value from all its sources of financing.
+    \item \textbf{\gls{roic}}: Focuses on the return generated by all the funds invested in the company, including both shareholders' equity and debt. It is a comprehensive measure of a company's ability to generate value from all its sources of financing.
     
-    \item \textbf{ROCE (Return on Capital Employed)}: Measures the funds used to finance operations, regardless of the source. This ratio is useful for comparing the efficiency of companies with different capital structures, as it focuses on total capital employed rather than just equity.
+    \item \textbf{\gls{roce}}: Measures the funds used to finance operations, regardless of the source. This ratio is useful for comparing the efficiency of companies with different capital structures, as it focuses on total capital employed rather than just equity.
 \end{itemize}
 
 % TODO: Take the capitals definitions out from here
-\noindent Also, to not only look at actives, Tweenvest uses the cash generated to calculate: \textbf{CROIC} (Cash Return on Invested Capital), \textbf{CROCE} (Cash Return on Capital Employed), \textbf{OCF/Sales}, and \textbf{FCF/Sales}. And lastly it takes account also the Owner's income to calculate: \textbf{Owner's Income/Sales}, \textbf{Owner's CROIC} and \textbf{Owner's CROCE}.
+\noindent Also, to not only look at actives, Tweenvest uses the cash generated to calculate: \textbf{\gls{croic}}, \textbf{\gls{croce}}, \textbf{OCF/Sales}, and \textbf{\gls{fcf}/Sales}. And lastly it takes account also the Owner's income to calculate: \textbf{Owner's Income/Sales}, \textbf{Owner's \gls{croic}} and \textbf{Owner's \gls{croce}}.
 
 \vspace{0.5cm}
 \noindent Continuing with the \textbf{financial health}, we need to analyze the company's debt in different aspects:
@@ -447,13 +450,13 @@ Once we have created our raw dataset, we need to inspect it and make sure it is 
 
 \subsection{Data Consistency}
 
-Since all of the data is coming from a data provider that uses OCR as one of their tools whenever they don't have the data in a structured format, we need to be very restrictive with the data used. Also, as we mentioned before, some of the algorithms for calculating the scores use long-term data such as 10 year growths rates.
+Since all of the data is coming from a data provider that uses OCR as one of their tools whenever they do not have the data in a structured format, we need to be very restrictive with the data used. Also, as we mentioned before, some of the algorithms for calculating the scores use long-term data such as 10 year growths rates.
 
 \vspace{0.5cm}
-\noindent This is one of the biggest \textbf{limitations to the study}: we will be missing the data of companies that stopped existing or that were acquired by other companies, if they didn't exist for 10 or more years.
+\noindent This is one of the biggest \textbf{limitations to the study}: we will be missing the data of companies that stopped existing or that were acquired by other companies, if they did not exist for 10 or more years.
 
 \vspace{0.5cm}
-\noindent For inspecting the data, we will use the \textit{pandas} \cite{pandas2024}, \textit{matplotlib} \cite{matplotlib2025doc}, and \textit{seaborn} \cite{seaborn2024}, which are powerful tools for data manipulation and analysis. The focus will be on the following aspects:
+\noindent For inspecting the data we will be using Python as the main language, enhanced with: \textit{pandas} \cite{pandas2024}, \textit{matplotlib} \cite{matplotlib2025doc}, and \textit{seaborn} \cite{seaborn2024}, which are powerful tools for data manipulation and analysis. The focus will be on the following aspects:
 \begin{itemize}
   \item \textbf{Missing Values}: We need to check if there are any missing values in the data.
   \item \textbf{Data Distributions}: We need to make sure that the data is distributed in a way that is suitable for the modeling.
@@ -478,13 +481,13 @@ To ensure a robust and well-performing model, it is often necessary to transform
 \noindent This step is particularly important because many components of machine learning models—such as the RBF kernel in Support Vector Machines or the regularization terms (L1 and L2) in linear models—implicitly assume that features are centered around zero and have comparable variances. Without this adjustment, features with significantly larger variances could dominate the optimization process, leading the model to underweight or ignore more informative but lower-variance features.
 
 \subsubsection{Standard Scaler}
-When training the neural networks, it is really important to standardize the data. We can easily use the \textit{StandardScaler} from the \textit{scikit-learn} library that transforms a feature \(x_i\) with the following formula:
+One of the predictive models we will use are neural networks, and for improving the training process of this type of models it is really important to standardize the data. We can easily use the \textit{StandardScaler} from the \textit{scikit-learn} library that transforms a feature \(x_i\) with the following formula:
 
 \begin{equation}
 z_i = \frac{x_i - \mu}{\sigma}
 \end{equation}
 
-\noindent where \(\mu\) is the mean of the feature and \(\sigma\) is its standard deviation. This transformation results in a distribution with a mean of 0 and a standard deviation of 1.
+\noindent where \(\mu\) is the mean of the feature and \(\sigma\) is its standard deviation. \textbf{This transformation is a very common practice}, and it results in a distribution with a mean of 0 and a standard deviation of 1.
 
 
 
@@ -493,7 +496,7 @@ z_i = \frac{x_i - \mu}{\sigma}
 In numerous modeling applications, having normally distributed features is advantageous. \textbf{Power transformations} represent a set of parametric, monotonic functions that are an extension of the Box-Cox transformation. They are designed to convert data from various distributions into approximately Gaussian distributions, thereby reducing variance fluctuations and decreasing distribution asymmetry. 
 
 \vspace{0.5cm}
-\noindent We decided to use the \textbf{Yeo-Johnson transformation} because it allows for negative values and it is reversible.
+\noindent We decided to use the \textbf{Yeo-Johnson transformation} for the profits response variables, because it allows for negative values and it is reversible.
 
 \begin{equation}
 x_i^{(\lambda)} =
@@ -509,7 +512,7 @@ x_i^{(\lambda)} =
 
 \vspace{0.5cm}
 
-\noindent Here are some exammples of the transformations for different distributions:
+\noindent In Figure \ref{fig:yeo-johnson}, we depict some examples of the transformation for different distributions:
 
 \begin{figure}[H]
     \centering
@@ -596,7 +599,7 @@ Given a univariate dataset, the Interquartile Rule identifies outliers based on 
         \hline
         \textbf{Pros} & \textbf{Cons} \\
             \hline
-            Effective for high-dimensional data and complex boundaries. & Sensitive to the choice of kernel and hyperparameters (e.g., $\nu$, $\gamma$). \\
+            Effective for high-dimensional data and complex boundaries. & Sensitive to the choice of kernel and hyperparameters (e.g., \(\nu\), \(\gamma\)). \\
             \hline
             Works well when the training set contains mostly or only normal instances. & Computationally intensive, especially on large datasets. \\
             \hline
@@ -673,7 +676,7 @@ As we are seeing in this small fraction of outlier detection methodologies, most
 
 \subsection{Local Outlier Factor}
 
-Since we are looking at outliers from the perspective of correlations between the different response variables to see which companies don't behave naturally. We also checked on the Local Outlier Factor (LOF) for being based on hyper-plane densities of data.
+Since we are looking at outliers from the perspective of correlations between the different response variables to see which companies do not behave naturally. We also checked on the Local Outlier Factor (LOF) for being based on hyper-plane densities of data.
 
 \vspace{0.5cm}
 \noindent The algorithm measures the local deviation of the density of a given sample with respect to its neighbors. It is local in that the anomaly score depends on how isolated the object is with respect to the surrounding neighborhood. More precisely, locality is given by k-nearest neighbors, whose distance is used to estimate the local density. By comparing the local density of a sample to the local densities of its neighbors, one can identify samples that have a substantially lower density than their neighbors. These are considered outliers. \textcite{breunig2000lof}
@@ -689,7 +692,7 @@ Since we are looking at outliers from the perspective of correlations between th
     \hline
     Effective in datasets with varying densities — unlike global methods, it can recognize outliers near dense clusters. & Sensitivity to parameter selection (e.g., number of neighbors) can affect performance and consistency. \\
     \hline
-    Applicable in any domain where a dissimilarity measure is defined, not limited to vector spaces. & Not inherently scalable to very large datasets without approximation or optimization. \\
+    Applicable in any domain where a dissimilarity measure is defined, not limited to vector spaces. & Can detect outliers patterns that could create a bias for models, because they do not belong to the normal distribution. \\
     \hline
     Works well across domains, such as network intrusion detection or classification tasks. & -- \\
     \hline
@@ -719,7 +722,14 @@ There is a big controversy in the field about the best method to detect the outl
 
 %TODO: maybe move this to the results section
 \vspace{0.5cm}
-\noindent We noticed that since this method is very restrictive, we have to set a threshold multiplier to the original dataset to get the final outliers. So for example, a 20\% threshold would only exclude around 4\% of the original dataset because of the intersection of all the methods makes it very restrictive. Here we \textbf{propose for future work} to fine tune the different thresholds for each method to get a more robust result. This will be explained with more detail in the development section.
+\noindent We noticed that since this method is very restrictive, we had to set threshold multipliers to the original dataset to get the final outliers. So for example, a 20\% threshold would only exclude around 8\% of the original dataset because of the intersection of all the methods makes it very restrictive.
+
+\subsubsection{Island detector}
+
+% TODO: explain the island detector.
+
+
+Here we \textbf{propose for future work} to fine tune the different thresholds for each method to get a more robust result. This will be explained with more detail in the development section.
 
 
 % ############################### PREDICTIVE MODELS #######################
@@ -727,36 +737,38 @@ There is a big controversy in the field about the best method to detect the outl
 The main objective of this thesis is to check if the scores have any relation with the future profits of the companies. For doing this in the most generalized way, instead of creating a portfolio following some subjective criteria on the scores, markets and other variables, we used predictive modeling to check for the actual relationships between the response variables and the explanatory ones.
 
 \vspace{0.5cm}
-\noindent As a first approach, we created a set of models that separate the scores and the different returns. 
+\noindent Since the main objective is to check the relations between the variables, we will use regression models to understand it those relationships. Starting with simple linear regression and then generalizing to non-linear models. And finally to test if we can also predict future profits we will try to use neural networks.
 
 
 \subsection{Regression Models}
 
-To create the econometrical models, we want to be able to understand the actual relationship between the response variables and the explanatory ones. For this we started with the creation of multiple regression models.
+To create the econometrical models, we wanted to be able to understand the actual relationship between the response variables and the explanatory ones. For this we started with the creation of multiple regression models.
 
 \subsubsection{Linear Regression}
 
-As for the first models, we created a series of linear regression models for each factor score that
-includes the interactions between the dummy variables and the score used in each model.
+As for the first models, we created a family of linear regression models (\(i \times j\)) for each factor i-return and j-score. These models include the interactions between the dummy variables and the j-score used in each model.
 
 \begin{equation}
-    \hat{P_i}=\beta_0+\beta_1 \cdot S_j + 
+    \mu_{i,j} = \beta_0+\beta_1 \cdot S_j + 
 \sum_{n=2}^{N}\beta_{n}\cdot D_n + S_j \cdot \sum_{m=N+1}^{M}\beta_{m}\cdot D_m
 \end{equation}
 
 \noindent where:
 \begin{itemize}
-    \item \(P_i\) is the estimated profit for each time horizon \(i\)
+    \item  \(R_{i,j} \sim \mathcal{N}(\mu_{i,j}, \sigma_{i,j}^2)\) is the return for each time horizon \(i\) and factor \(j\). So \(R_{i,j} = \mu_{i,j} + \varepsilon_{i,j}\) where \(\varepsilon_{i,j}\) is the error and \(\mu_{i,j}\) is the expected return.
     \item \(S_j\) is the score for each factor \(j\)
-    \item \(D_{n,m}\) are the dummy variables for the industry and region, where \(D_{n,m} := I_k \cup R_l\)
+    \item \(D_{n,m}\) are the dummy variables for the industry and region, where \(D_{n,m} := I_k \cup G_l\)
     \item \(\beta\) are the coefficients that weight each variable.
 \end{itemize}
 
-\noindent For fitting the models, we also applied a backward selection to remove the variables that are not statistically significant, using the \textbf{p-value} criterion.
+\noindent For fitting the models, we also applied a \textbf{backward selection} to remove the variables that are not statistically significant, using the \textit{p-value} criterion \textbf{with a 20\% tolerance}. This threshold will be used for most of the analysis because in financial data it is harder to get high precisions.
 
 \subsubsection{Generalized Additive Models}
 
-Because the relationships between the variables are not linear, we also used the Generalized Additive Models (GAM) to check if they were able to capture the non-linear relationships between the variables.
+Since the relationships between the variables are most likely non-linear, we also used the Generalized Additive Models (GAM) for the mentioned (\(i \times j\)) family to check if they are able to improve the performance, and also see if there are consistent patterns across the different time horizons.
+
+\vspace{0.5cm}
+\noindent With this analysis we could then let know Tweenvest what are the \textit{"best"} different scales for each score to better guide its users. Since right now --as it was shown in Figures \ref{fig:quality_score} to \ref{fig:dividend_score}-- they are scaled from [0,50] as a bad score, (50, 80] as a good score, and (80, 100] as a great score. And this has not been tested yet.
 
 \vspace{0.5cm}
 \noindent According to \textcite{pygam2018}, GAMs are smooth semi-parametric models that can capture non-linear relationships between variables. They take the form:
@@ -767,16 +779,30 @@ Because the relationships between the variables are not linear, we also used the
 
 \noindent where:
 \begin{itemize}
-    \item \(X^T = [X_1, X_2, \dots, X_N]\) are the independent variables
-    \item \(y\) is the dependent variable.
+    \item \(X^T = [X_1, X_2, \dots, X_N]\) are the explanatory variables.
+    \item \(y\) is the dependent variable, in our case the returns.
     \item \(g()\) is the link function that relates the predictor variables to the expected value of the dependent variable.
     \item \(f_m()\) are feature functions built using penalized B-splines, which automatically model non-linear relationships without requiring manual transformation of variables.
 \end{itemize}
 
-\noindent In our case, we used pyGAMs LinearGAM since the model gives a Normal error distribution, and an identity link.
+\noindent In our case, we used pyGAMs LinearGAM since the model gives a Normal error distribution, and an identity link. Using this library also gives us the possibility to differentiate between the different variable types:
+
+\begin{itemize}
+    \item \textbf{s(i) - Smooth Splines:} Standard smooth splines (cubic by default) for continuous variables like scores: \(f_m(X_m) = \sum_{j=1}^{k} \beta_{mj} B_j(X_m)\) where \(B_j\) are B-spline basis functions
+    \item \textbf{f(i) - Factor Splines:} For categorical variables (sectors and regions): \(f_m(X_m) = \sum_{j=1}^{k} \beta_{mj} I_j(X_m)\) where \(I_j\) are indicator functions
+    \item \textbf{te(i,j) - Tensor Splines:} For modeling non-linear interactions between variables: \(f_m(X_i, X_j) = \sum_{k=1}^{K_i} \sum_{l=1}^{K_j} \beta_{kl} B_k(X_i) B_l(X_j)\)
+\end{itemize}
+
+\noindent In Figure \ref{fig:splines_example} we can see an example of how GAMs can show the non-linear relationships between variables.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{images/code/descriptive analysis/gam/splines_example.png}
+    \caption{pyGAM - Example of GAMs regression splines}
+    \label{fig:splines_example}
+\end{figure}
 
 \subsection{Time Series}
-In the stock market, the prices of the stocks are not independent of each other, they are correlated in the time series and they also have memory on past behavior of the company. This is what is known as \textbf{Momentum}, so companies that have a good past performance are more likely to have a good future performance, and vice versa.
+In the stock market, the prices of the stocks are not independent from each other so as we will see with the descriptive analysis, they are correlated in the time series and they also have memory on past behavior of the company. This is what is known as \textbf{Momentum}, so companies that have a good past performance are more likely to have a good future performance, and vice versa.
 
 \vspace{0.5cm}
 \noindent For this reason, we contemplated two possibilities:
@@ -804,13 +830,13 @@ To take account the profit tendency, we implemented ARIMA models to improve the 
       \item \(d_i\) is the order of differencing.
     \end{itemize}
     
-
+\noindent But this approach supposed a \textit{big issue} that we will explain in the development section.
 
 \subsubsection{Windowed Models}
-And for capturing possible memory of the companies behavior in different aspects, we also implemented windowed models that used the last \(N\) scores statistical properties to predict future profits.
+So for trying to not fall into the same mistake and for capturing possible memory of the companies behavior in different aspects, we also implemented windowed models that used the last \(N\) scores statistical properties to predict future profits.
 
 \vspace{0.5cm}
-\noindent So for each score \(j\), we will calculate the average and the standard deviation of the scores over the last \(N\) periods. Let \(S_j^t\) be the score at time \(t\), then for a window of size \(N\):
+\noindent So for each score \(j\), we calculated the \textbf{average of the scores} over the last \(N\) periods. Let \(S_j^t\) be the score at time \(t\), then for a window of size \(N\):
 
 \begin{equation}
     \bar{S}_j^N = \frac{1}{N} \sum_{i=t-N+1}^{t} S_j^i
@@ -823,18 +849,23 @@ And for capturing possible memory of the companies behavior in different aspects
     \item \(t\) is the current time point
 \end{itemize}
 
-\noindent For adding also the deviation from the average, we also calculated the standard deviation of the scores over the same window:
+\noindent For adding also the deviation from the average, we also calculated the \textbf{standard deviation of the scores} over the same window:
 
 \begin{equation}
     \sigma_j^N = \sqrt{\frac{1}{N} \sum_{i=t-N+1}^{t} (S_j^i - \bar{S}_j^N)^2}
 \end{equation}
 
-\noindent These statistical measures will be used as additional features in our predictive models to capture the temporal behavior of each score.
+\noindent These statistical measures are used as additional features in our predictive models to capture the temporal behavior of each score.
 
 \subsection{Neural Networks}
 
-Finally, for trying to capture the non-linear relationships between all the available variables, including the windowed statistical properties, we will use the Neural Networks.
+Finally, to test if we have enough information to predict future profits, we will create two different types of neuronal networks:
+\begin{itemize}
+    \item \textbf{Regressor Neural Networks} to attempt to predict the future profits.
+    \item \textbf{Classifier Neural Networks} to classify the companies into different categories based on their future profits. Starting with a simple binary classifier and then a multi-class classifier.
+\end{itemize}
 
+As we have used before, for building these simple neuronal networks we will use the \textit{scikit-learn} library that already includes pre-built models for both NN types.
 \section{Back-testing}
 
 In order to assess and compare the modeling techniques employed in this thesis, it is important to have a consistent criteria to evaluate them based on the next requirements:
@@ -842,44 +873,66 @@ In order to assess and compare the modeling techniques employed in this thesis, 
 \subsection{Performance}
 The first thing we need to see is if the models are able to detect any relationships between the co-variables and the response variable, and how accurate they are:
 \begin{itemize}
-    \item \textbf{Prediction Accuracy:} $R^2$ and $R^2_{adjusted}$, these metrics quantify the proportion of variance explained by the model.
-    \item \textbf{Accuracy:} RMSE, MAE, which evaluate the errors the model makes when predicting the target variable.
+    \item \textbf{Prediction capability:} we want to see if the models are able to predict the future profits, so we need to quantify the proportion of variance explained by the model. For this we will use:
+    \begin{itemize}
+        \item  \textbf{The coefficient of determination}, defined as:
+        \begin{equation}
+            R^2 = 1 - \frac{\sum_{i=1}^{n} (y_i - \hat{y}_i)^2}{\sum_{i=1}^{n} (y_i - \bar{y})^2}
+        \end{equation}
+        where $y_i$ are the observed values, $\hat{y}_i$ are the predicted values, and $\bar{y}$ is the mean of the observed values.
+        \item \textbf{The adjusted coefficient of determination}, to take into account the number of predictors in the model:
+        \begin{equation}
+            R^2_{adjusted} = 1 - \left(1 - R^2\right) \frac{n - 1}{n - p - 1}
+        \end{equation}
+        where $n$ is the number of observations and $p$ is the number of predictors.
+    \end{itemize}
+    \item \textbf{Accuracy:} We also need to check on how much error the model is making when adjusted. For this we used:
+    \begin{itemize}
+        \item \textbf{The Mean Absolute Error}, defined as:
+        \begin{equation}
+            MAE = \frac{1}{n} \sum_{i=1}^{n} |y_i - \hat{y}_i|
+        \end{equation}
+        \item \textbf{The Root Mean Square Error}, for penalizing the larger errors or possible excess of outliers:
+        \begin{equation}
+            RMSE = \sqrt{\frac{1}{n} \sum_{i=1}^{n} (y_i - \hat{y}_i)^2}
+        \end{equation}
+       
+    \end{itemize}
 \end{itemize}
 
 
 \subsection{Consistency and Overfitting}
-We check whether the models reflect stable, interpretable patterns in the relationships between scores and alpha. For this, we will use the following techniques:
+We check whether the models reflect stable, interpretable patterns in the relationships between scores and the \textit{alpha}. For this, we will use the following criteria:
 \begin{itemize}
-    \item \textbf{Sign of coefficients:} We will check if the sign of the coefficients remains stable across different time horizons.
-    \item \textbf{Shape of functions:} We will check if the shape of the functions remains stable across different time horizons.
-    \item \textbf{Number of significant variables:} We will check if the number of significant variables increases with the performance of the models, using the $p-value < 0.2$ criterion.
+    \item \textbf{Sign of coefficients:} We will check if the sign of the scores coefficients remains stable across different time horizons. This would tell us that the score behaves as expected. 
+    \item \textbf{Shape of functions:} We will check if the shape of the spline functions of the GAMs remains stable across different time horizons. 
+    \item \textbf{Number of significant variables:} We will check if the number of significant variables increases with the performance of the models, using the \textit{p-value} criterion.
 \end{itemize}
 
 \subsection{Robustness of Results}
-The residuals of the models should resemble white noise, indicating the absence of unmodeled structure and valid statistical inference \textcite{enders1948applied}.
+The residuals of the models should resemble \textbf{white noise}, indicating the absence of unmodeled structure and valid statistical inference \textcite{enders1948applied}. We will do so by using both, visual and statistical tests.
 \begin{itemize}
-    \item \textbf{Mean Value Test:} The mean of the residuals should be close to 0, which is checked with the T-test.
+    \item \textbf{Mean Value Test:} The mean of the residuals should be close to 0.
         \begin{itemize}
             \item \textbf{Distribution Plots:} Visualize the distribution of residuals to assess if the mean is centered at zero.
+            \item \textbf{T-test:} Checks if the mean of the residuals is close to 0.
         \end{itemize}
     \item \textbf{Heteroscedasticity Tests:} The variance of the residuals should be constant across all time horizons.
         \begin{itemize}
+            \item \textbf{Residuals vs Fitted Plots:} In a model with homoscedasticity (constant variance), the residuals should be randomly scattered around zero with a roughly constant spread.
             \item \textbf{White Test:} Checks for general forms of heteroscedasticity.
             \item \textbf{Breusch-Pagan Test:} Tests whether the variance of the errors depends on the values of the independent variables.
-            \item \textbf{F and t tests:} Used to compare variances and means across groups.
-            \item \textbf{Distribution Plots:} Visualize residuals versus fitted values to detect patterns in variance.
         \end{itemize}
     \item \textbf{Normality Tests:} The distribution of residuals should follow a Normal distribution.
         \begin{itemize}
+            \item \textbf{Q-Q Plots:} Visual tool to compare the quantiles of the residuals to a normal distribution. If the data points in the Q-Q plot fall close to a straight diagonal line, it suggests that the data's distribution is similar to the theoretical distribution
             \item \textbf{Shapiro-Wilk Test:} Statistical test for normality.
             \item \textbf{Jarque-Bera Test:} Tests whether sample data have the skewness and kurtosis matching a normal distribution.
-            \item \textbf{Q-Q Plots:} Visual tool to compare the quantiles of the residuals to a normal distribution.
-            \item \textbf{Distribution Plots:} Visualize the histogram or density of residuals.
         \end{itemize}
     \item \textbf{Autocorrelation Test:} The errors should not be correlated with each other.
         \begin{itemize}
+            \item \textbf{ACF and PACF Plots:} Visualize the autocorrelation and partial autocorrelation of residuals.
             \item \textbf{Durbin-Watson Test:} Checks for the presence of autocorrelation in the residuals.
-            \item \textbf{ACF and PACF Plots:} Visualize the autocorrelation and partial autocorrelation of residuals to detect serial correlation.
         \end{itemize}
 \end{itemize}
 
@@ -945,7 +998,7 @@ After locating where the score calculators are called, we have to understand the
 \noindent As we can see, there are two different actions occurring at the same time. For one side we have all of the requests coming from the users interactions, and for the other hand the programmed jobs that need to be executed every day to update all of the financial information of the stocks, or necessary actions such as sending emails to get authentication pins.
 
 \vspace{0.5cm}
-\noindent Since we are changing the data logic for calculating and storing historical data of the factor scores, we need to assure that the systems capabilities don't exceed the platforms needs, and that the changes don't affect the normal calculation of the factor scores, so we had to look at the code corresponding to the factor scores.
+\noindent Since we are changing the data logic for calculating and storing historical data of the factor scores, we need to assure that the systems capabilities do not exceed the platforms needs, and that the changes do not affect the normal calculation of the factor scores, so we had to look at the code corresponding to the factor scores.
 
 \begin{figure}[H]
     \centering
@@ -1003,7 +1056,7 @@ phs = (
 
 \subsection{Designing new Jobs}
 
-Once all tests have passed and the team had approved the changes, the next step was to create scripts —from now on, \textit{jobs}—to populate the current DB with the historic factor scores while maintaining the servers performance in normal levels. For this, we had to update a basic method, \textit{bulk\_create\_or\_update}, used many times through the whole codebase and add a new conditioning so it can handle conflicts depending if the models are empty or not. After reading the official Django \textcite{django2025queryset}, we saw that in newest versions they had included new fields to its original method \textit{bulk\_create}, so we had to update the Django version in our Docker machine and make sure this didn't introduce any unwanted issues.
+Once all tests have passed and the team had approved the changes, the next step was to create scripts —from now on, \textit{jobs}—to populate the current DB with the historic factor scores while maintaining the servers performance in normal levels. For this, we had to update a basic method, \textit{bulk\_create\_or\_update}, used many times through the whole codebase and add a new conditioning so it can handle conflicts depending if the models are empty or not. After reading the official Django \textcite{django2025queryset}, we saw that in newest versions they had included new fields to its original method \textit{bulk\_create}, so we had to update the Django version in our Docker machine and make sure this did not introduce any unwanted issues.
 
 \vspace{0.5cm}
 \noindent After this was implemented, we decided to create three different jobs for enqueueing the tasks and being able to separate the calculations. This way we could restart them in case something broke during the process (see Appendix \ref{app:historical_scores_job}). Also, we had to manage the server resources, so for assuring the platform's performance, we used the following hierarchy (see Listing \ref{lst:lst:tweenvest_production_workers_management}):
@@ -1035,7 +1088,7 @@ Once all tests have passed and the team had approved the changes, the next step 
     \label{fig:historical_jobs_final_version}
 \end{figure}
 
-\noindent We then changed the day range logic to enqueue a \textit{calculate\_index\_scores\_task} for each day, so the job didn't have to calculate all of the index data for the dates at all at once, as shown in Figure \ref{fig:historical_jobs_final_version}. Also, we modified the function args to only uses models identifiers "id" to reduce the REDIS memory used. The complete implementation of this job can be found in Appendix \ref{app:historical_scores_job}.
+\noindent We then changed the day range logic to enqueue a \textit{calculate\_index\_scores\_task} for each day, so the job did not have to calculate all of the index data for the dates at all at once, as shown in Figure \ref{fig:historical_jobs_final_version}. Also, we modified the function args to only uses models identifiers "id" to reduce the REDIS memory used. The complete implementation of this job can be found in Appendix \ref{app:historical_scores_job}.
 
 \subsection{Telemetry Tracing}
 Finally we had the functional jobs for calculating the scores, and ran the first calculation for a dataset of 1,500 stocks. After the first jobs finished we quickly realized that they were taking too much time to process, and saw a disproportionate amount of queries to the DB so we started a process to check on where was the bottleneck using telemetry tracing tools.
@@ -1073,7 +1126,7 @@ def compute_quality_score(
 \noindent In Django, \textit{select\_related()} and \textit{prefetch\_related()} are designed to stop the deluge of database queries that are caused by accessing related objects. \textit{select\_related()} ``follows'' foreign-key relationships, selecting additional related-object data when it executes its query. \textit{prefetch\_related()} does a separate lookup for each relationship and does the ``joining'' in Python. So one uses \textit{select\_related} when the object that you're going to be selecting is a single object, so \textit{OneToOneField} or a \textit{ForeignKey}.
 
 \vspace{0.5cm}
-\noindent After numerous attempts to improve performance, we were forced to reconsider our approach and began analyzing the problem from a different perspective. It quickly became evident that we were operating on a small virtual machine (Table~\ref{tab:tweenvest_server_specs}) shared with the regular platform workload. Tweenvest’s servers are not designed for high computational demand; rather, they are optimized for routine operations, where standard score calculations typically take between 3 to 4 hours. This setup works well under normal conditions, as calculations are performed after market hours and do not impact the user experience. However, it proved inadequate for our needs—specifically, processing data over five or more years within a reasonable timeframe, even when computing just one score per month.
+\noindent After numerous attempts to improve performance, we were forced to reconsider our approach and began analyzing the problem from a different perspective. It quickly became evident that we were operating on a small virtual machine (Table~\ref{tab:tweenvest_server_specs}) shared with the regular platform workload. Tweenvest's servers are not designed for high computational demand; rather, they are optimized for routine operations, where standard score calculations typically take between 3 to 4 hours. This setup works well under normal conditions, as calculations are performed after market hours and do not impact the user experience. However, it proved inadequate for our needs—specifically, processing data over five or more years within a reasonable timeframe, even when computing just one score per month.
 
 \begin{table}[H]
     \centering
@@ -1126,7 +1179,7 @@ For being able to continue, we needed to create the final dataset with all the n
     \label{fig:first_data_aggregation_schema}
 \end{figure}
 
-\noindent Once we had the final csv file we noticed that we had too many empty values for profits, the problem was because some of the days calculated were empty for a specific company, so there was no price history for them. Since the companies belong to multiple countries, the different holidays could be causing another major loss in the information. To fix this in a general way we implemented an internal method for estimating price histories if they didn't exist for the wanted date. The complete implementation of this data export and price estimation process can be found in Appendix \ref{app:data_export_job}.
+\noindent Once we had the final csv file we noticed that we had too many empty values for profits, the problem was because some of the days calculated were empty for a specific company, so there was no price history for them. Since the companies belong to multiple countries, the different holidays could be causing another major loss in the information. To fix this in a general way we implemented an internal method for estimating price histories if they did not exist for the wanted date. The complete implementation of this data export and price estimation process can be found in Appendix \ref{app:data_export_job}.
 
 \begin{figure}[H]
     \centering
@@ -1192,7 +1245,7 @@ To begin, we looked at the data structure and saw that \textbf{about 50\% of gro
 \end{table}
 
 
-\noindent   But after digging into the data we saw that it was due to the fact that many companies stopped sending reports or selling but kept existing, so we decided to deleted them from our dataset because they weren't behaving as a "normal company", and this could create a bias in the models. Additionally, as noted earlier, we replaced all NaN values in the dividend scores with 0, since Tweenvest's algorithm omits a score when a company does not pay dividends. That's why we don't see any missing values in the dividend scores.
+\noindent   But after digging into the data we saw that it was due to the fact that many companies stopped sending reports or selling but kept existing, so we decided to deleted them from our dataset because they weren't behaving as a "normal company", and this could create a bias in the models. Additionally, as noted earlier, we replaced all NaN values in the dividend scores with 0, since Tweenvest's algorithm omits a score when a company does not pay dividends. That's why we do not see any missing values in the dividend scores.
 
 \subsection{Outlier Detection}
 
@@ -1248,7 +1301,7 @@ When using the SVM we saw a similar detection compared to the IF method, which i
 \newpage
 \subsubsection{Multi-Criteria Outlier Detection}
 
-That's when we realized that if each method was good at detecting some outliers but bad at others, it makes a lot of sense to use them together. Following this approach and after multiple tests, we found that the bests results came when increasing the overall tolerance and then selecting the intersection of outliers between them, so with a tolerance of 20\% we only excluded around 4\% of the data.
+That's when we realized that if each method was good at detecting some outliers but bad at others, it makes a lot of sense to use them together. Following this approach and after multiple tests, we found that the bests results came when increasing the overall tolerance and then selecting the intersection of outliers between them, so with a 20\% tolerance we only excluded around 8\% of the data.
 
 \begin{figure}[H]
     \centering
@@ -1288,7 +1341,7 @@ That's when we realized that if each method was good at detecting some outliers 
         \hline 
         \textbf{Small Data Past} & 83,243 & 48,338 & 46,415 \\
         \hline
-        \textbf{Small Data Future} & 65,166 & 26,214 & 25,220 \\
+        \textbf{Small Data Future} & 65,166 & 26,214 & 24,095 \\
         \hline
         \textbf{Small Data Future USA} & 60,503 & 21,240 & 20,463 \\
         \hline
@@ -1319,7 +1372,7 @@ Before jumping into the model fitting, it is necessary to understand the data th
 \subsection{Variables Distributions}
 
 \subsubsection{Scores}
-Following the scores order, quality's distribution show a \textbf{clear negative skewness}, meaning that there are more companies closer to having a good quality score. This could be due to the fact that we have deleted companies that don't behave as a "normal company", so we will analize the distributions of the profits to see if there is a bias in the data. Also, there is a \textbf{secondary peak arounf the 30-40 scores}, which could be related to the time-frame of the data.
+Following the scores order, quality's distribution show a \textbf{clear negative skewness}, meaning that there are more companies closer to having a good quality score. This could be due to the fact that we have deleted companies that do not behave as a "normal company", so we will analize the distributions of the profits to see if there is a bias in the data. Also, there is a \textbf{secondary peak arounf the 30-40 scores}, which could be related to the time-frame of the data.
 
 \begin{figure}[H]
     \centering
@@ -1350,7 +1403,7 @@ Following the scores order, quality's distribution show a \textbf{clear negative
 
 
 \vspace{0.5cm}
-\noindent Finishing with quality, there is a "deffect" in the dataset. We don't have 10 year averages for the companies that are in the 2015-2020 period --Tweenvest is only paying for data after 2012-- so the algorithm gives 0 to some of its criterias making the maximum quality be 80. But since this is happening for all of the companies, \textbf{it is not a problem for the model fitting}, altought we won't be analiyzing those criteria's performance.
+\noindent Finishing with quality, there is a "deffect" in the dataset. We do not have 10 year averages for the companies that are in the 2015-2020 period --Tweenvest is only paying for data after 2012-- so the algorithm gives 0 to some of its criterias making the maximum quality be 80. But since this is happening for all of the companies, \textbf{it is not a problem for the model fitting}, altought we won't be analiyzing those criteria's performance.
 
 \vspace{0.5cm}
 \noindent Continuing with growth, we notice that there are many companies with a score of 0 and a score of 100, and something similar happens with the 0s in Diviend. For having a deeper look, we excluded those values for the Figure \ref{fig:scores_deep} where we can see that it is closer to a uniform distribution with a descend slope after 65, which means that most companies have a similar growth rate, but fewer have higher ones.
@@ -1359,7 +1412,7 @@ Following the scores order, quality's distribution show a \textbf{clear negative
 \noindent When looking at the value score, we can see that the distribution almost has an average of 50, and there is a continum of values trough the whole range, so it seems that we have a well scale for distributing the companies.
 
 \vspace{0.5cm}
-\noindent Lastly for the dividend score, as mentioned before, there are many companies that don't pay dividends. But aside from that, we have an irregular distribution for the score, with a peak arounf 85-92 meaning that there are multiple companies that respect their dividend policy.
+\noindent Lastly for the dividend score, as mentioned before, there are many companies that do not pay dividends. But aside from that, we have an irregular distribution for the score, with a peak arounf 85-92 meaning that there are multiple companies that respect their dividend policy.
 
 \subsubsection{Dummies}
 
@@ -1379,7 +1432,7 @@ When it comes to the dummies we see a uniform distribution with the sectors beca
 
 \subsubsection{Profits}
 
-\noindent When analyzing the profit distributions across different time horizons, we observe that the distributions contain a numerous amount of outliers that don't let us see the distributions clearly (Appendix Figures \ref{fig:big_data_future_profits_boxplot} and \ref{fig:big_data_future_profits}). So just for this descriptive analysis purposes, \textbf{we used the IQR method} mentioned in previous chapters to remove the outliers.
+\noindent When analyzing the profit distributions across different time horizons, we observe that the distributions contain a numerous amount of outliers that do not let us see the distributions clearly (Appendix Figures \ref{fig:big_data_future_profits_boxplot} and \ref{fig:big_data_future_profits}). So just for this descriptive analysis purposes, \textbf{we used the IQR method} mentioned in previous chapters to remove the outliers.
 
 \begin{figure}[H]
     \centering
@@ -1399,14 +1452,14 @@ When it comes to the dummies we see a uniform distribution with the sectors beca
 
 
 \vspace{0.5cm}
-\noindent Interestingly, we notice that the short-term profit distributions (1-month and 3-month) are more symmetric and closer to normal distributions, which is consistent with the efficient market hypothesis suggesting that short-term price movements are largely random. 
+\noindent Interestingly, we notice that the \textbf{short-term profit} distributions (1-month and 3-month) are more symmetric and \textbf{closer to normal distributions}, which is consistent with the efficient market hypothesis suggesting that short-term price movements are largely random. 
 
 \vspace{0.5cm}
-\noindent However, as we extend to longer time horizons, the distributions become more positively skewed, which aligns with the general expectation that most companies don't have good returns, except of the market winners that tend to generate extraordinary positive returns due to the mentioned \textbf{economic moats}. This is particularly evident in the longer-term profit distributions (2-year and 5-year), where we see a longer tail extending toward higher positive returns.
+\noindent However, as we extend to \textbf{longer time horizons}, the \textbf{distributions become more positively skewed}, which aligns with the general expectation that most companies do not have good returns, except of the market winners that tend to generate extraordinary positive returns due to the mentioned \textbf{economic moats}. This is particularly evident in the longer-term profit distributions (2-year and 5-year), where we see a \textbf{longer tail extending toward higher positive returns}.
 
 
 \vspace{0.5cm}
-\noindent There is also a tendency to having less negative returns compared to the positive ones the longer the time-frame. Logically, companies with bad returns don't last long.
+\noindent There is also a tendency to having \textbf{less negative returns} compared to the positive ones the longer the time-frame. Logically, companies with bad returns do not last long.
 
 \subsection{Correlations}
 
@@ -1485,7 +1538,7 @@ Finally, we are going to try to compare these results with the pairplots of the 
 
 \noindent Here it is harder to eye-see the data structure that could form clusters since there are many datapoints, but there are some exceptions:
 \begin{itemize}
-    \item \textbf{Profits}. We can see linear correlations between some of the different profits, but for longer horizons the relationships are no longer liner. Which is expected since the further the horizon, more variables take part in the calculation of the profit.
+    \item \textbf{Profits}. We can see linear correlations between some of the different profits, but for longer horizons the relationships are no longer linear. Which is expected since the further the horizon, more variables take part in the calculation of the profit.
     \item \textbf{Market Cap}. Companies with bigger market caps tend to have higher quality and dividend scores. Bigger companies should have a more stable financial situaition, otherwise they wouldn't be as big in the long term. Also there are some sectors that tend to have higher market caps than others, like in Health Care or Consumer Staples.
     \item \textbf{Sector}. It seems that there could be a pattern seen in the sectors distribution for each scores, but it is not clear.
 \end{itemize}

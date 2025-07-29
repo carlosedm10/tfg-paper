@@ -24,6 +24,14 @@
 \usepackage{listings}            % For code listings
 \usepackage{xcolor}              % For syntax highlighting
 
+% Glossaries package for acronyms and glossary
+\usepackage[acronym,nonumberlist,nogroupskip]{glossaries}
+
+\makeglossaries
+
+% Load acronym definitions
+\input{capitals}
+
 % Configure listings for Python-like VSCode white theme
 \lstset{
     basicstyle=\ttfamily\small\color{black},
@@ -91,4 +99,3 @@ A Systematic Review of Tweenvest's Algorithm for Long-Term Stock Investing Using
 \newcommand{\curso}{2024-2025}
 \newcommand{\autor}{Carlos Eduardo Domínguez Martínez}
 \newcommand{\fecha}{June 2025}
-
