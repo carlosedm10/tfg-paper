@@ -101,11 +101,12 @@
         "ignoreRegExpList": [
           "\\\\cite[a-z]*\\{[^}]*\\}",
           "\\\\textcite\\{[^}]*\\}",
+          "\\\\textit\\{[^}]*\\}",
           "\\\\parencite\\{[^}]*\\}",
           "\\\\autocite\\{[^}]*\\}",
           "\\\\gls\\{[^}]*\\}",
           "\\\\acrshort\\{[^}]*\\}",
-          "\\\\newacronym\\{[^}]*\\}\\{[^}]*\\}\\{[^}]*\\}"
+          "\\\\newacronym\\{[^}]*\\}\\{[^}]*\\}\\{[^}]*\\}",
         ]
       }
     ],
@@ -113,6 +114,7 @@
       "abro",
       "acrshort",
       "autocite",
+      "autoregressive",
       "Buffett",
       "matplotlib",
       "newacronym",
