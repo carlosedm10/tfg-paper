@@ -104,7 +104,7 @@ To my parents.
     \item Companies may also establish \textbf{barriers to entry} and \textbf{high switching costs} for customers, making it more difficult for them to move to competitors. These strategies may involve investments in technology, patents, or simply building long-term customer and employees relationships.
 \end{itemize}
 
-\noindent To properly measure these variables, a more exhaustive analysis of each company would be required, pulling from multiple secondary information sources such as news articles, conference transcripts, customer blogs, competitive product reviews, and more; which could also itself affect the market. This task is commonly known as \textit{social listening}~\cite{WANG2022110598}; and is far more difficult to automate via code, as it would require multimodal AI techniques --thus, it will fall outside the scope of this work.
+\noindent To properly measure these variables, a more exhaustive analysis of each company would be required, pulling from multiple secondary information sources such as news articles, conference transcripts, customer blogs, competitive product reviews, and more; which could also itself affect the market. This task is commonly known as \textit{social listening}~\cite{WANG2022110598}; and is far more difficult to automate via code, as it would require multi-modal AI techniques --thus, it will fall outside the scope of this work.
 
 \subsection{Emergent Effects in Complex Systems}
 
@@ -332,7 +332,7 @@ These ratios measure a company's ability to meet short-term obligations with its
 \subsubsection{Per-Share Value Growth}
 \begin{itemize}
     \item \textbf{Diluted \acrshort{eps}}: Tracks per-share earnings growth, accounting for dilution effects
-    \item \textbf{Diluted Shares}: Included to track share count changes, ensuring EPS growth isn't artificially inflated by buybacks or dilution
+    \item \textbf{Diluted Shares}: Included to track share count changes, ensuring EPS growth is not artificially inflated by buybacks or dilution
     \item \textbf{Ordinary \acrshort{dps}}: Tracks the growth of shareholder payouts, a proxy for confidence in future earnings
 \end{itemize}
 
@@ -497,7 +497,7 @@ x_i^{(\lambda)} =
 \end{cases}
 \end{equation}
 
-\noindent Where \(\lambda\) is a power parameter that helps minimize the skewness of the data. And since we have already deleted extreme outliers, the final distribution shouldn't be too distorted.
+\noindent Where \(\lambda\) is a power parameter that helps minimize the skewness of the data. And since we have already deleted extreme outliers, the final distribution should not be too distorted.
 
 \vspace{0.5cm}
 
@@ -519,7 +519,7 @@ instances. The ability to detect anomalies has significant relevance since often
 \vspace{0.5cm}
 \noindent For example, anomalies in credit card transactions could signify fraudulent use of
 credit cards, or an unusual computer network traffic pattern could stand for an
-unauthorised access.
+unauthorized access.
 
 
 \subsection{Inter Quartile Range}
@@ -608,7 +608,7 @@ Given a univariate dataset, the Interquartile Rule identifies outliers based on 
 As we are seeing in this small fraction of outlier detection methodologies, most of the existing anomaly detection approaches are based on the premise of normal distributions, then identify anomalies as those that do not conform to the normal profile.
 
 \vspace{0.5cm}
-\noindent But to solve this issue we can use the Isolation Forest algorithm, which is explained in the original paper \textcite{liu2012isolation}. The algorithm constructs multiple isolation binarytrees (iTrees) from the dataset, where anomalies are identified as data points that exhibit shorter average path lengths across these trees.
+\noindent But to solve this issue we can use the Isolation Forest algorithm, which is explained in the original paper \textcite{liu2012isolation}. The algorithm constructs multiple isolation binary-trees (iTrees) from the dataset, where anomalies are identified as data points that exhibit shorter average path lengths across these trees.
 
 \vspace{0.5cm}
 \noindent Lets consider a dataset $X = \{x_1, \dots, x_n\}$ containing $n$ points in $d$-dimensional space, and a subset $X' \subset X$. An Isolation Tree (iTree) is constructed as follows:
@@ -707,7 +707,7 @@ There is a big controversy in the field about the best method to detect the outl
 
 
 \vspace{0.5cm}
-\noindent As shown in the Figure~\ref{fig:multimodal}, this starts by homogenizing the variables distribution with a common data transformation so they are more Normal, but to make sure that the final data isn't being transformed we copy the original dataset earlier. After this, we use multiple methods to detect the different outliers and then we make the intersection between them to get the common outliers. By the end of this process we have tagged the original dataset rows, assuring that the data that will be excluded is only formed by \textit{"true outliers"}.
+\noindent As shown in the Figure~\ref{fig:multimodal}, this starts by homogenizing the variables distribution with a common data transformation so they are more Normal, but to make sure that the final data is not being transformed we copy the original dataset earlier. After this, we use multiple methods to detect the different outliers and then we make the intersection between them to get the common outliers. By the end of this process we have tagged the original dataset rows, assuring that the data that will be excluded is only formed by \textit{"true outliers"}.
 
 %TODO: maybe move this to the results section
 % \vspace{0.5cm}
@@ -717,7 +717,7 @@ There is a big controversy in the field about the best method to detect the outl
 
 % TODO: explain the island detector.
 
-When looking at the~\ref{fig:multimodal}, we can expect it to save different data points that are not common between all of the methods due to its intersection of \textit{true outliers}. This might be good for many classification tasks but when it comes to regression it can cause bias since there could be \textit{islands} --clusters-- of data that don't follow a normal distribution. Thats why we created a variation of the \acrshort{multi} method that should only keep the normal datapoints but also saving those islands of data for further future analysis. Since those points don't have to be errors in the data,  they could show \textbf{extreme but consistent behavior} that should be modeled separately.
+When looking at the~\ref{fig:multimodal}, we can expect it to save different data points that are not common between all of the methods due to its intersection of \textit{true outliers}. This might be good for many classification tasks but when it comes to regression it can cause bias since there could be \textit{islands} --clusters-- of data that do not follow a normal distribution. Thats why we created a variation of the \acrshort{multi} method that should only keep the normal data but also saving those islands of data for further future analysis. Since those points do not have to be errors in the data,  they could show \textbf{extreme but consistent behavior} that should be modeled separately.
 
 \begin{figure}[H]
     \centering
@@ -801,14 +801,14 @@ In the stock market, the prices of the stocks are not independent from each othe
 \vspace{0.5cm}
 \noindent For this reason, we contemplated two possibilities:
 
-\subsubsection{ARIMA Models}
-To take account the profit tendency, we implemented ARIMA models to improve the regression models performance by using the residues of the already fitted model:
+\subsubsection{\Acrshort{arima} Models}
+To take account the profit tendency, we implemented \acrshort{arima} models to improve the regression models performance by using the residues of the already fitted model:
 
 \begin{equation}
     P_i = \hat{P_i} + {\varepsilon_i} \quad \longleftrightarrow \quad {\varepsilon_i} \sim ARIMA_i(p,d,q)
 \end{equation}
 
-\noindent The ARIMA model is defined as:
+\noindent The \acrshort{arima} model is defined as:
 
 \begin{equation}
     \phi_i(B_i){(1 - B_i)}^{d_i} \varepsilon_i^t = \theta_i(B_i) \eta_i^t
@@ -975,6 +975,15 @@ The first thing we need to see is if the models are able to detect any relations
             R^2_{adjusted} = 1 - \left(1 - R^2\right) \frac{n - 1}{n - p - 1}
         \end{equation}
         where \(n\) is the number of observations and \(p\) is the number of predictors.
+        \par\medskip
+        Since we are also using a \acrshort{nn} Classifier, we cannot use the same statistics as for regression.
+        \item \textbf{F1 Score:}  So for prediction capability in classification, we will use the \textit{F1 Score (macro)} from \textit{sklearn}, which is defined as the harmonic mean of precision and recall:
+        \begin{equation}
+            F1 = 2 \cdot \frac{\text{Precision} \cdot \text{Recall}}{\text{Precision} + \text{Recall}}
+        \end{equation}
+        where \(\text{Precision} = \frac{TP}{TP + FP}\) and \(\text{Recall} = \frac{TP}{TP + FN}\), with \(TP\) being true positives, \(FP\) false positives, and \(FN\) false negatives.
+
+        \vspace{0.05cm} This interprets as how many correct positive predictions the model makes relative to all positive predictions and actual positives, so a higher F1 score indicates better classification performance.
     \end{itemize}
     \item \textbf{Accuracy:} We also need to check on how much error the model is making when adjusted. For this we used:
     \begin{itemize}
@@ -986,6 +995,17 @@ The first thing we need to see is if the models are able to detect any relations
         \begin{equation}
             RMSE = \sqrt{\frac{1}{n} \sum_{i=1}^{n} {(y_i - \hat{y}_i)}^2}
         \end{equation}
+
+        And again, for classification we decided to use:
+        \item \textbf{Accuracy Score:} From \textit{sklearn} we used the accuracy score, which is defined as:
+        \begin{equation}
+            \text{Accuracy} = \frac{\text{Number of Correct Predictions}}{\text{Total Number of Predictions}}
+        \end{equation}
+        \item \textbf{Log Loss}: For mimicking the penalization for large errors we are using the log loss from \textit{sklearn}:
+       \begin{equation} 
+        \text{Log Loss} = -\frac{1}{n} \sum_{i=1}^{n} \sum_{j=1}^{m} y_{i,j} \log(\hat{y}_{i,j})
+       \end{equation}
+       where in this context, \(y_{i,j}\) represents the true class label, and \(\hat{y}_{i,j}\) represents the model's predicted probability for that class.
        
     \end{itemize}
 \end{itemize}
@@ -999,7 +1019,7 @@ We check whether the models reflect stable, interpretable patterns in the relati
     \item \textbf{Number of significant variables:} We will check if the number of significant variables increases with the performance of the models, using the \textit{p-value} criterion.
 \end{itemize}
 
-\noindent And for the \acrshort{nn}, since we can't access the internal structure of the models, we are going to use the \gls{shap} to check the importance of the variables in the predictions, and then use the same criteria for looking at the consistency of the variables in the models--~\textcite{lundberg2017unified}.
+\noindent And for the \acrshort{nn}, since we cannot access the internal structure of the models, we are going to use the \gls{shap} to check the importance of the variables in the predictions, and then use the same criteria for looking at the consistency of the variables in the models--~\textcite{lundberg2017unified}.
 
 \subsection{Robustness of Results}
 The residuals of the models should resemble \textbf{white noise}, indicating the absence of unmodeled structure and valid statistical inference \textcite{enders1948applied}. We will do so by using both, visual and statistical tests.
@@ -1009,10 +1029,10 @@ The residuals of the models should resemble \textbf{white noise}, indicating the
             \item \textbf{Distribution Plots:} Visualize the distribution of residuals to assess if the mean is centered at zero.
             \item \textbf{T-test:} Checks if the mean of the residuals is close to 0.
         \end{itemize}
-    \item \textbf{Heteroscedasticity Tests:} The variance of the residuals should be constant across all time horizons.
+    \item \textbf{Heteroskedasticity Tests:} The variance of the residuals should be constant across all time horizons.
         \begin{itemize}
             \item \textbf{Residuals vs Fitted Plots:} In a model with homoscedasticity (constant variance), the residuals should be randomly scattered around zero with a roughly constant spread.
-            \item \textbf{White Test:} Checks for general forms of heteroscedasticity.
+            \item \textbf{White Test:} Checks for general forms of heteroskedasticity.
             \item \textbf{Breusch-Pagan Test:} Tests whether the variance of the errors depends on the values of the independent variables.
         \end{itemize}
     \item \textbf{Normality Tests:} The distribution of residuals should follow a Normal distribution.
@@ -1174,7 +1194,7 @@ def compute_quality_score(
 \noindent We then looked at the \textit{DataDog} dashboard and clearly saw an excess of queries to the \acrshort{db} when calculating each score, and tried to reduce them by looking for a simple fault in the logic of the queries. Similar issues had been resolved before by adding a \textit{select\_related} in the queries. To clarify what this does, here is the definition with a simple use-case:
 
 \vspace{0.5cm}
-\noindent ``Returns a QuerySet that will follow foreign-key relationships, selecting additional related-object data when it executes its query. This is a performance booster which results in a single more complex query but means later use of foreign-key relationships won't require database queries.'' -- \textcite{django2025selectrelated}.
+\noindent ``Returns a QuerySet that will follow foreign-key relationships, selecting additional related-object data when it executes its query. This is a performance booster which results in a single more complex query but means later use of foreign-key relationships will not require database queries.'' -- \textcite{django2025selectrelated}.
 
 \vspace{0.5cm}
 \noindent In Django, \textit{select\_related()} and \textit{prefetch\_related()} are designed to stop the deluge of database queries that are caused by accessing related objects. \textit{select\_related()} ``follows'' foreign-key relationships, selecting additional related-object data when it executes its query. \textit{prefetch\_related()} does a separate lookup for each relationship and does the ``joining'' in Python. So one uses \textit{select\_related} when the object that you're going to be selecting is a single object, so \textit{OneToOneField} or a \textit{ForeignKey}.
@@ -1284,7 +1304,7 @@ For this study, we have attacked the main objective from multiple perspectives. 
 Even with all of these protocols to create the most reliable and filled datasets, we still had to follow the methodologies explained in the previous chapter to analyze the data.
 
 \subsubsection{Cleaning the Data}
-To begin, we looked at the data structure and saw that \textbf{about 50\% of growth scores were empty}. This turned on many alerts from problems with the scores calculation algorithm, because compared to the rest of the variables there was a significant difference, since the \textbf{normal absence was only around 8\%} taking into account the value score as reference because it doesn't have 10 year averages.
+To begin, we looked at the data structure and saw that \textbf{about 50\% of growth scores were empty}. This turned on many alerts from problems with the scores calculation algorithm, because compared to the rest of the variables there was a significant difference, since the \textbf{normal absence was only around 8\%} taking into account the value score as reference because it does not have 10 year averages.
 \begin{table}[H]
     \centering
     \begin{tabular}{|c|c|c|c|c|c|c|c|c|}
@@ -1299,9 +1319,11 @@ To begin, we looked at the data structure and saw that \textbf{about 50\% of gro
 \end{table}
 
 
-\noindent   But after digging into the data we saw that it was due to the fact that many companies stopped sending reports or selling but kept existing, so we decided to deleted them from our dataset because they weren't behaving as a "normal company", and this could create a bias in the models. Additionally, as noted earlier, we replaced all NaN values in the dividend scores with 0, since Tweenvest's algorithm omits a score when a company does not pay dividends. That's why we do not see any missing values in the dividend scores.
+\noindent   But after digging into the data we saw that it was due to the fact that many companies stopped sending reports or selling but kept existing, so we decided to deleted them from our dataset because they were not behaving as a "normal company", and this could create a bias in the models. Additionally, as noted earlier, we replaced all NaN values in the dividend scores with 0, since Tweenvest's algorithm omits a score when a company does not pay dividends. That's why we do not see any missing values in the dividend scores.
 
 \subsection{Outlier Detection}
+
+% TODO: Cohesionate this with last chapter.
 
 In this section we will present the performance of the different outlier detection methods. But the main analysis of the final datasets will be done in the results chapter.
 
@@ -1315,7 +1337,7 @@ We started of using this technique due to its speed and accuracy for non-linear 
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\textwidth]{images/code/outliers/Small Data future - IF.png}
+    \includegraphics[width=1\textwidth]{images/code/outliers/Small Data future - IF.png}
     \caption{Small Data Future - \acrshort{if} (5\% tolerance)}
     \label{fig:small_data_future_if}
 \end{figure}
@@ -1364,7 +1386,7 @@ That's when we realized that if each method was good at detecting some outliers 
     \label{fig:small_data_future_multi}
 \end{figure}
 
-\noindent As shown in the pairplot, this method is able to mantain most of the structures of the profits and also keep the small clusters for the scores, which is highlighted with the blue circles. But of course, it is not perfect. 
+\noindent As shown in the \acrshort{pairplot}, this method is able to maintain most of the structures of the profits and also keep the small clusters for the scores, which is highlighted with the blue circles. But of course, it is not perfect. 
 
 % TODO: Move this to the future work section-
 
@@ -1407,7 +1429,7 @@ That's when we realized that if each method was good at detecting some outliers 
 % \begin{enumerate}
 %     \item \textbf{\acrshort{svm}} is basically creating geometrical hyper-dimensional frontiers to form a safe hyper-volume of data clusters. So the intuition tells us that this method should probably have a \textbf{higher tolerance} than the rest.
 %     \item \textbf{\acrshort{lof}} is looking for clusters of high density, not taking account the distance between the clusters. So this method is very good for detecting extreme phenomena but that could be consistent. Its \textbf{tolerance could be between the other methods}.
-%     \item \textbf{\acrshort{if}} is looking for the most isolated points following a random forest approach. It is good for detecting those points that seem to make not much sense, so its \textbf{tolerance shouldn't be as high}.
+%     \item \textbf{\acrshort{if}} is looking for the most isolated points following a random forest approach. It is good for detecting those points that seem to make not much sense, so its \textbf{tolerance should not be as high}.
 % \end{enumerate}
 
 % \noindent But this is just a hypothesis, we will have to be studied it in the future with rigorous tests.
@@ -1519,7 +1541,7 @@ Before jumping into the model fitting, it is necessary to understand the data th
 \subsection{Variables Distributions}
 
 \subsubsection{Scores}
-Following the scores order, quality's distribution show a \textbf{clear negative skewness}, meaning that there are more companies closer to having a good quality score. This could be due to the fact that we have deleted companies that do not behave as a "normal company", so we will analize the distributions of the profits to see if there is a bias in the data. Also, there is a \textbf{secondary peak arounf the 30-40 scores}, which could be related to the time-frame of the data.
+Following the scores order, quality's distribution show a \textbf{clear negative skewness}, meaning that there are more companies closer to having a good quality score. This could be due to the fact that we have deleted companies that do not behave as a "normal company", so we will analyze the distributions of the profits to see if there is a bias in the data. Also, there is a \textbf{secondary peak arounf the 30-40 scores}, which could be related to the time-frame of the data.
 
 \begin{figure}[H]
     \centering
@@ -1537,7 +1559,7 @@ Following the scores order, quality's distribution show a \textbf{clear negative
     \end{minipage}
 \end{figure}
 
-\noindent Around 2015-2020 interest rates were at a historical low, so there could be more companies with more debt than normal. Some central banks, particularly in Europe, experimented with negative interest rate policies on deposit facilities during this period (Figure~\ref{fig:euribor}). This possibility should be studied in more detail, but knowing that this doesn't happen for the dataset between 2020-2025 where interest rates are higher, we have a clue that this could be whats causing it (see Appendix Figure~\ref{fig:past_scores_deep}).
+\noindent Around 2015-2020 interest rates were at a historical low, so there could be more companies with more debt than normal. Some central banks, particularly in Europe, experimented with negative interest rate policies on deposit facilities during this period (Figure~\ref{fig:euribor}). This possibility should be studied in more detail, but knowing that this does not happen for the dataset between 2020-2025 where interest rates are higher, we have a clue that this could be whats causing it (see Appendix Figure~\ref{fig:past_scores_deep}).
 
 
 \begin{figure}[H]
@@ -1550,16 +1572,16 @@ Following the scores order, quality's distribution show a \textbf{clear negative
 
 
 \vspace{0.5cm}
-\noindent Finishing with quality, there is a "deffect" in the dataset. We do not have 10 year averages for the companies that are in the 2015-2020 period --Tweenvest is only paying for data after 2012-- so the algorithm gives 0 to some of its criterias making the maximum quality be 80. But since this is happening for all of the companies, \textbf{it is not a problem for the model fitting}, altought we won't be analiyzing those criteria's performance.
+\noindent Finishing with quality, there is a "defect" in the dataset. We do not have 10 year averages for the companies that are in the 2015-2020 period --Tweenvest is only paying for data after 2012-- so the algorithm gives 0 to some of its criteria making the maximum quality be 80. But since this is happening for all of the companies, \textbf{it is not a problem for the model fitting}, altought we will not be analiyzing those criteria's performance.
 
 \vspace{0.5cm}
-\noindent Continuing with growth, we notice that there are many companies with a score of 0 and a score of 100, and something similar happens with the 0s in Diviend. For having a deeper look, we excluded those values for the Figure~\ref{fig:scores_deep} where we can see that it is closer to a uniform distribution with a descend slope after 65, which means that most companies have a similar growth rate, but fewer have higher ones.
+\noindent Continuing with growth, we notice that there are many companies with a score of 0 and a score of 100, and something similar happens with the 0s in Dividend. For having a deeper look, we excluded those values for the Figure~\ref{fig:scores_deep} where we can see that it is closer to a uniform distribution with a descend slope after 65, which means that most companies have a similar growth rate, but fewer have higher ones.
 
 \vspace{0.5cm}
-\noindent When looking at the value score, we can see that the distribution almost has an average of 50, and there is a continum of values trough the whole range, so it seems that we have a well scale for distributing the companies.
+\noindent When looking at the value score, we can see that the distribution almost has an average of 50, and there is a continuum of values trough the whole range, so it seems that we have a well scale for distributing the companies.
 
 \vspace{0.5cm}
-\noindent Lastly for the dividend score, as mentioned before, there are many companies that do not pay dividends. But aside from that, we have an irregular distribution for the score, with a peak arounf 85-92 meaning that there are multiple companies that respect their dividend policy.
+\noindent Lastly for the dividend score, as mentioned before, there are many companies that do not pay dividends. But aside from that, we have an irregular distribution for the score, with a peak around 85-92 meaning that there are multiple companies that respect their dividend policy.
 
 \subsubsection{Dummies}
 
@@ -1572,7 +1594,7 @@ When it comes to the dummies we see a uniform distribution with the sectors beca
     \label{fig:small_future_dummies}
 \end{figure}
 
-\noindent  Also, their auditors often lack true independence, especially when auditing state-owned enterprises (SOEs) or firms with strong political ties. The Chinese government tightly controls domestic accounting firms and imposes restrictions on foreign auditors. Even international firms like \textit{PwC-China} operate under local joint ventures, often with limited autonomy, as reviewd in \textcite{LIU2012782}. So we will have to check if the dummies variables are enough to take this effect into account, or if we need a different approach for modeling the geographical effects.
+\noindent  Also, their auditors often lack true independence, especially when auditing state-owned enterprises (SOEs) or firms with strong political ties. The Chinese government tightly controls domestic accounting firms and imposes restrictions on foreign auditors. Even international firms like \textit{PwC-China} operate under local joint ventures, often with limited autonomy, as reviewed in \textcite{LIU2012782}. So we will have to check if the dummies variables are enough to take this effect into account, or if we need a different approach for modeling the geographical effects.
 
 \vspace{0.5cm}
 \noindent It is worth noting that the distribution of companies across sectors varies significantly over time, as shown in Appendix Figures~\ref{fig:future_dummies} and~\ref{fig:past_dummies}. This temporal variation in sector representation presents an interesting opportunity for future research.
@@ -1640,7 +1662,7 @@ For analizing the correlations between the variables, we will start firstly with
 \end{itemize}
 
 \subsubsection{Outliers Datasets}
-But as it has been seen multiple times through the analysis, the outliers create a big bias that doesn't allow us to see the real correlations occurring for "normal companies". So as shown in the table~\ref{tab:datasets_summary}, we will use the Big datasets fitered with the Isolation Forest method to remove outliers as a first approach, but for the model fitting we will use the multi-criteria outlier detection.
+But as it has been seen multiple times through the analysis, the outliers create a big bias that does not allow us to see the real correlations occurring for "normal companies". So as shown in the table~\ref{tab:datasets_summary}, we will use the Big datasets filtered with the Isolation Forest method to remove outliers as a first approach, but for the model fitting we will use the multi-criteria outlier detection.
 
 \begin{figure}[H]
     \centering
@@ -1668,13 +1690,13 @@ But as it has been seen multiple times through the analysis, the outliers create
     \end{itemize}
     \item \textbf{Long term stock returns affect the company's growth}. This is a very interesting result, since it explains the reason why companies try to go to the market to raise capital and help the company grow.
     \item \textbf{Quality is correlated to future profits}. This could be explained by the fact that a company with good quality is more likely to have good future profits, but also by the fact that the market is efficient and the price of a company will reflect all of the information available.
-    \item There is a \textbf{mild correlation between most scores}, which could be explain by the fact that a company that does well in one aspect, is more likely to do well in the others. This correlation won't affect the models because they are separated by score.
+    \item There is a \textbf{mild correlation between most scores}, which could be explain by the fact that a company that does well in one aspect, is more likely to do well in the others. This correlation will not affect the models because they are separated by score.
 \end{itemize}
 
-\noindent Althought we have to make clear that these correlations do not stand along all of the datasets separated by region (see Appendix Figures from~\ref{fig:small_data_future_usa_correlations} to~\ref{fig:small_data_future_as_multi_correlations}), so we aren't sure yet if these relationships will be properly explained with linear models.
+\noindent Althought we have to make clear that these correlations do not stand along all of the datasets separated by region (see Appendix Figures from~\ref{fig:small_data_future_usa_correlations} to~\ref{fig:small_data_future_as_multi_correlations}), so we are not sure yet if these relationships will be properly explained with linear models.
 
 \subsection{Data clusters}
-Finally, we are going to try to compare these results with the pairplots of the datasets, to look for clusters of data when comparing many variables at once.
+Finally, we are going to try to compare these results with the \acrshort{pairplot} of the datasets, to look for clusters of data when comparing many variables at once.
 
 \begin{figure}[H]
     \centering
@@ -1686,32 +1708,173 @@ Finally, we are going to try to compare these results with the pairplots of the 
 \noindent Here it is harder to eye-see the data structure that could form clusters since there are many datapoints, but there are some exceptions:
 \begin{itemize}
     \item \textbf{Profits}. We can see linear correlations between some of the different profits, but for longer horizons the relationships are no longer linear. Which is expected since the further the horizon, more variables take part in the calculation of the profit.
-    \item \textbf{Market Cap}. Companies with bigger market caps tend to have higher quality and dividend scores. Bigger companies should have a more stable financial situaition, otherwise they wouldn't be as big in the long term. Also there are some sectors that tend to have higher market caps than others, like in Health Care or Consumer Staples.
+    \item \textbf{Market Cap}. Companies with bigger market caps tend to have higher quality and dividend scores. Bigger companies should have a more stable financial situaition, otherwise they would not be as big in the long term. Also there are some sectors that tend to have higher market caps than others, like in Health Care or Consumer Staples.
     \item \textbf{Sector}. It seems that there could be a pattern seen in the sectors distribution for each scores, but it is not clear.
 \end{itemize}
 
-\noindent Althought, these results are not as clear and they also variate deppending on the dataset. Showing early results of non-linear relationships with the dummy variables.
+\noindent Althought, these results are not as clear and they also variate depending on the dataset. Showing early results of non-linear relationships with the dummy variables.
 
 \section{Predictive Models}
 
+Now that we understand the data, and the different datasets created. We are going to explain how was the process of refining the methodologies and improving the results.
+
 \subsection{Linear Regression}
 
-\subsection{The problem with ARIMA}
+First of all, we started with a simple linear regression model with very few variables and not excluding the outliers. Which of course resulted in a very bad model that could not predict anything. But after the first outliers removal used for the first series of datasets. We started to see some results:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{images/code/models/linear_regression/first_model/regression_performance_summary.png}
+    \caption{Small Data Future - \acrshort{multi} 5\%}
+    \label{fig:first_linear_regression}
+\end{figure}
+
+\noindent Here we can see a pattern that is going to be constant in all of the models, the longer we go in the future the more the model is able to predict the profits. But at the same time, the higher the error is going to be. This is very normal, since on the long term variances are higher but also if a company is stable it will have a more predictable behavior. Also we can see that the \acrshort{rmse} is almost the double from the \acrshort{mae}, which is a good sign that there could be a lot of outliers in the data. 
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.32\textwidth]{images/code/models/linear_regression/first_model/Multi/quality_profit_1m_residuals.png}
+    \includegraphics[width=0.32\textwidth]{images/code/models/linear_regression/first_model/Multi/quality_profit_1y_residuals.png}
+    \includegraphics[width=0.32\textwidth]{images/code/models/linear_regression/first_model/Multi/quality_profit_5y_residuals.png}
+    \caption{Small Data Future - \acrshort{multi} 5\% - Residuals}
+    \label{fig:first_linear_regression_residuals}
+\end{figure}
+
+\vspace{0.5cm}
+\noindent Also we went to see the residues and saw that they were multiple problems with them:
+
+\begin{itemize}
+    \item \textbf{Normality}. When looking at the Q-Q plot, we can see that the residuals are not normally distributed, but there appears to be a section where normality is achieved.
+    \item \textbf{Heteroskedasticity}. When looking at the residuals vs fitted values plot, we can see that the variance is not constant across all time horizons.
+    \item \textbf{Autocorrelation}. When looking at the residuals vs fitted values plot, we can see that the residuals are not independent of each other.
+\end{itemize}
+
+
+\vspace{0.5cm}
+\noindent Finally we didn't even see any consistency with the scores since its effect (sign) kept changing and the coefficients themselves didn't have statistical significance.
+
+\begin{table}[H]
+    \centering
+    \caption{Regression Results by Score and Time Horizon}
+    \begin{tabular}{lccccccc}
+        \toprule
+        \textbf{Score} & \textbf{Metric} & \textbf{1M} & \textbf{3M} & \textbf{6M} & \textbf{1Y} & \textbf{2Y} & \textbf{5Y} \\
+        \midrule
+        \multirow{3}{*}{\textbf{Dividend}} 
+            & Coef.   & -0.0013 & --      & -0.0004 & -0.0026 & --      & 0.0003 \\
+            & Sign    & --      & 0       & --      & --      & 0       & +      \\
+            & t-value & -6.38   & --      & -3.22   & -6.92   & --      & 6.44   \\
+        \midrule
+        \multirow{3}{*}{\textbf{Growth}} 
+            & Coef.   & 0.0018  & --      & 0.0007  & 0.0047  & 0.0001  & --     \\
+            & Sign    & +       & 0       & +       & +       & +       & 0      \\
+            & t-value & 11.27   & --      & 5.75    & 13.86   & 1.62    & --     \\
+        \midrule
+        \multirow{3}{*}{\textbf{Quality}} 
+            & Coef.   & -0.0038 & -0.0059 & -0.0010 & -0.0076 & -0.0003 & 0.0002 \\
+            & Sign    & --      & --      & --      & --      & --      & +      \\
+            & t-value & -6.93   & -4.54   & -4.29   & -8.61   & -1.87   & 2.47   \\
+        \midrule
+        \multirow{3}{*}{\textbf{Value}} 
+            & Coef.   & 0.0015  & -0.0054 & --      & --      & --      & -0.0002 \\
+            & Sign    & +       & --      & 0       & 0       & 0       & --      \\
+            & t-value & 4.64    & -4.36   & --      & --      & --      & -1.81   \\
+        \bottomrule
+    \end{tabular}
+    \label{tab:regression_results_scores}
+\end{table}
+
+TODO: CONTINUE
+
+    
+\subsubsection{The problem with \acrshort{arima}}
+
+\noindent The first thing we tried seeing the clear autocorrelation problems with the residues was to use the \acrshort{arima} models to improve the performance of the linear regression models and also fix that autocorrelation. This worked like a charm, and we were able to get a better model:
+
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{images/code/models/linear_regression/ARIMA_performance.png}
+    \caption{Small Data Future - \acrshort{multi} 5\% - \acrshort{arima}}
+    \label{fig:arima_linear_regression}
+\end{figure}
+
+TODO: CONTINUE
+
+\subsubsection{Geographical Effects}
+
+\noindent As we have already mentioned, the countries and sectors have both a big effect on the profits. Tweenvest's algorithm already takes into account the sector effect, but we thought that the regions could be having a big effect on the models, so we separated the data by regions and proceed to analyze the models' results:
+
+
+\subsubsection{The importance of a clean dataset}
+
+\noindent We saw that there were countries with far more outliers than others, so we decided to create a new dataset with less outliers in total and balancing the regions and sectors. Doing this improved a lot the models' performance, and residues.
+
+TODO: CONTINUE
 
 \subsection{GAM}
 
+\noindent But of course, these results did not complete all of the objectives of this work, such as seeing the non-linear relationships between the variables and also help Tweenvest set its scores for a better understanding of how they work.
+
+\vspace{0.5cm}
+\noindent Also as expected, we improved the models' performance and residues:
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{images/code/models/general_regression/Small Data future - IF_performance.png}
+    \caption{Small Data Future - \acrshort{multi} 5\% - \acrshort{gam}}
+    \label{fig:gam_linear_regression}
+\end{figure}
+
+\subsubsection{Non-linear relationships}
+
+\noindent We also wanted to see if there were any non-linear relationships between the variables, so we tried to use the \acrshort{gam} model. This model is able to capture non-linear relationships between the variables, and it is also able to capture the geographical effects.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{images/code/models/general_regression/splines/2D/Small Data future - IF/quality_quality_avg_24m.png}
+    \caption{Small Data Future - \acrshort{multi} 5\% - \acrshort{gam} - Avg 24M Quality}
+    \label{fig:gam_quality_quality_avg_24m}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{images/code/models/general_regression/splines/3D/Small Data future - IF/quality_quality×volume.png}
+    \caption{Small Data Future - \acrshort{multi} 5\% - \acrshort{gam} - Quality x Volume}
+    \label{fig:gam_quality_volume}
+\end{figure}
+
+
+
 \subsection{Neural Network}
 
-\section{Back-testing}
+\subsubsection{Regressor}
+
+\subsubsection{Binary Classifier}
+
+\subsubsection{Multi-class Classifier}
 
 
 
-% ############################### DISCUSSION #######################
-\chapter{Discussion}
-% Analysis and interpretation
 
 % ############################### CONCLUSION #######################
-\chapter{Conclusion}
+\chapter{Conclusion and Discussion}
+
+\section{Conclusions}
+
+\subsection{Goals achieved}
+
+\subsection{Goals not achieved}
+
+\subsection{Future work}
+
+
+\section{Discussion}
+\subsection{Limitations of the study}
+
+\subsection{Recommendations to Tweenvest}
+
+
 % Summary and conclusions
 
 % ############################### BIBLIOGRAPHY #######################
