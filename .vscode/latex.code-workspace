@@ -140,8 +140,8 @@
       "tamasfe.even-better-toml",              // Extra config formats
       "mechatroner.rainbow-csv",               // CSV highlighting
       "foxundermoon.shell-format",             // Shell script formatter
-      "donjayamanne.githistory",
-      "nickfode.latex-formatter" // Git visual history
+      "donjayamanne.githistory",               // Git visual history
+      "nickfode.latex-formatter"               // LaTeX formatter
     ]
   }
 }

@@ -29,7 +29,7 @@
 
 \vspace{0.5cm}
 
-\noindent The study incorporates an interdisciplinary approach, combining financial theory and econometrics with advanced programming, data engineering, and artificial intelligence. This integration bridges Business Management and Telecommunications Engineering, offering insights into the practical application of Tweenvest's scoring algorithm and contributing to the advancement of financial technology analytics.
+\noindent The study incorporates an interdisciplinary approach, combining financial theory and econometrics with advanced programming, data engineering, and machine learning. This integration bridges Business Management and Telecommunications Engineering, offering insights into the practical application of Tweenvest's scoring algorithm and contributing to the advancement of financial technology analytics.
 
 
 % ############################### DEDICATION #######################
@@ -874,7 +874,7 @@ A \textbf{regressor neural network} is a type of artificial neural network speci
 
 \subsubsection{Classifier Neural Networks}
 
-\noindent To simplify the implementation, we are going to use two different quantifications of the profits:
+\noindent To simplify the implementation, we are going to use two different quantification of the profits:
 
 \begin{itemize}
     \item \textbf{Binary Classification:} In this approach, we partition the profit variable into two classes using the following rule:
@@ -951,14 +951,12 @@ Knowing this, as we already explained, we will use the linear models and the \ac
 
 \begin{itemize}
     \item \textbf{Training:} We will use 80\% of the stocks of the dataset to train the models, excluding the last 4 months of each stock.
-    \item \textbf{Testing:} When it comes to testing, we want to check the models in two different situations:
+    \item \textbf{Testing:} When it comes to testing, we want to check the \acrshort{nn}-models in two different situations:
     \begin{itemize}
-        \item \textbf{Unkown stocks:} Here we are using the 20\% of the stocks left of the dataset, to see if just with the explanatory variables we can predict the future profits of those stocks.
-        \item \textbf{Known stocks:} For these tests we will use the 80\% of the stocks, that we used to train the models, but we will use the last 4 months of each stock to test if the models are able to predict, already knowing past behavior of the stock.
+        \item \textbf{Unknown stocks:} Here we are using 20\% of the stocks left of the dataset, to see if just with the explanatory variables we can predict the future profits of those stocks.
+        \item \textbf{Known stocks:} For these tests we will use 80\% of the stocks, that we used to train the models, but we will use the last 4 months of each stock to test if the models are able to predict when they already know past behavior of the stock.
     \end{itemize}
 \end{itemize}
-
-\noindent
 
 \subsection{Performance}
 The first thing we need to see is if the models are able to detect any relationships between the co-variables and the response variable, and how accurate they are:
@@ -1012,17 +1010,17 @@ The first thing we need to see is if the models are able to detect any relations
 
 
 \subsection{Consistency and Overfitting}
-We check whether the models reflect stable, interpretable patterns in the relationships between scores and the \textit{alpha}. For this, we will use the following criteria:
+But a good performance does not mean that the models are explaining the behavior of the variables, they could be overfitting the data. To detect this, we need to check if the models reflect stable, interpretable patterns in the relationships between scores and the \textit{alpha}. For this, we will use the following criteria:
 \begin{itemize}
     \item \textbf{Sign of coefficients:} We will check if the sign of the scores coefficients remains stable across different time horizons. This would tell us that the score behaves as expected. 
     \item \textbf{Shape of functions:} We will check if the shape of the spline functions of the GAMs remains stable across different time horizons. 
     \item \textbf{Number of significant variables:} We will check if the number of significant variables increases with the performance of the models, using the \textit{p-value} criterion.
 \end{itemize}
 
-\noindent And for the \acrshort{nn}, since we cannot access the internal structure of the models, we are going to use the \gls{shap} to check the importance of the variables in the predictions, and then use the same criteria for looking at the consistency of the variables in the models--~\textcite{lundberg2017unified}.
+\noindent And for the \acrshort{nn}, since we cannot access the internal structure of the models, we are going to use the \textbf{\gls{shap}} to check the importance of the variables in the predictions, and then use the same criteria for looking at the consistency of the variables in the models--~\textcite{lundberg2017unified}.
 
 \subsection{Robustness of Results}
-The residuals of the models should resemble \textbf{white noise}, indicating the absence of unmodeled structure and valid statistical inference \textcite{enders1948applied}. We will do so by using both, visual and statistical tests.
+Even when the models perform well and have a good consistency, we need to check if the the residuals of the models resemble \textbf{white noise}, indicating the absence of non-modeled structure and valid statistical inference \textcite{enders1948applied}. We will do so by using both, visual and statistical tests.
 \begin{itemize}
     \item \textbf{Mean Value Test:} The mean of the residuals should be close to 0.
         \begin{itemize}
@@ -1056,11 +1054,14 @@ The residuals of the models should resemble \textbf{white noise}, indicating the
 \noindent At the current moment of beginning this work, Tweenvest kept a large \acrshort{db} of most of the needed information for creating the dataset. This included all of the price histories, historical currency multipliers to dollar, dividends payed per stock… but when it came to the scores we had a traceability problem.
 
 \vspace{0.5cm}
-\noindent For optimizing the costs and structure of the \acrshort{db}, Tweenvest chose to only save the latest score for each company and overwriting it each day when calculating the newest one, which led to the first main task.
+\noindent For optimizing the costs and structure of the \acrshort{db}, Tweenvest chose to only save the latest score for each company and overwriting it each day when calculating the newest one, which led to the \textbf{first main task}.
 
 \subsection{Updating Tweenvest Code}
 
-After locating where the score calculators are called, we have to understand the code's architecture and the relationships between the different database models to see exactly what needs to be changed. Tweenvest uses Django as the main backend's technology to handle a relational database with PostgreSQL, this is due to the nature of the financial data where one the information is related to another.
+After locating where the score calculators were called, we had to understand the code's architecture and the relationships between the different database models to see exactly what needs to be changed. Tweenvest uses \textit{Django} as the main backend's technology to handle a relational database with \textit{PostgreSQL}, this \acrshort{db} was chosen due to the nature of the financial data where information is related to another.
+
+\vspace{0.5cm}
+\noindent For handling all of the different technologies and environments, Tweenvest uses \textbf{\textcite{dockercompose2024}} to create a virtual machine that contains all of the needed dependencies to run the platform. This way, they have a consistent environment for developing, testing and deploying the code separately. So as we can see in Figure~\ref{fig:general_architecture}, each of the components is running in a different container.
 
 \begin{figure}[H]
     \centering
@@ -1069,10 +1070,17 @@ After locating where the score calculators are called, we have to understand the
     \label{fig:general_architecture}
 \end{figure}
 
-\noindent As we can see, there are two different actions occurring at the same time. For one side we have all of the requests coming from the users interactions, and for the other hand the programmed jobs that need to be executed every day to update all of the financial information of the stocks, or necessary actions such as sending emails to get authentication pins.
+\noindent Once we had a clear understanding of the architecture, we could look at the two different actions occurring at the same time: 
+\begin{enumerate}
+    \item Requests originating from user interactions.
+    \item \acrshort{job}s that must be executed daily, weekly or at the moment, such as:
+    \begin{itemize}
+        \item Updating all financial information of the stocks.
+        \item Performing necessary actions like sending emails to deliver authentication pins.
+    \end{itemize}
+\end{enumerate}
 
-\vspace{0.5cm}
-\noindent Since we are changing the data logic for calculating and storing historical data of the factor scores, we need to assure that the systems capabilities do not exceed the platforms needs, and that the changes do not affect the normal calculation of the factor scores, so we had to look at the code corresponding to the factor scores.
+\noindent Since we were changing the data logic for calculating and storing historical data of the factor scores, we needed to assure that the systems capabilities do not exceed the platforms needs, and that the changes do not affect the normal calculation of the factor scores, so we had to look at the corresponding code of the factor scores.
 
 \begin{figure}[H]
     \centering
@@ -1081,8 +1089,7 @@ After locating where the score calculators are called, we have to understand the
     \label{fig:scores_schema}
 \end{figure}
 
-\noindent With this schema we have simplified the logic behind several functions related to the calculations of each factor score. Quickly we realized that we had to modify the queries to include an extra filter, \textit{calculation\_date} to get the models related to the score at any time, this way we can set it as ``today whenever we are calculating the present scores.
-
+\noindent The code integrates several methods and data-flows, so we created the schema shown in Figure~\ref{fig:scores_schema} to simplify the logic behind several functions related to the calculations of each factor score. Seeing the chronology of the events, and the different queries to the \acrshort{db}, we quickly realized that we had to modify the queries to include an extra filter-- \textit{calculation\_date}-- to get the models related to the score at any time, this way we could set it as ``today'' whenever we are calculating the present scores, not modifying the normal behavior of the system; while also having the ability to propagate the calculation to a specific past date.
 
 \begin{figure}[H]
     \centering
@@ -1092,7 +1099,7 @@ After locating where the score calculators are called, we have to understand the
 \end{figure}
 
 \vspace{0.5cm}
-\noindent Following the propagation schema in Figure~\ref{fig:propagation_schema}, the root change comes from the functions \textit{calculate\_scores}, \textit{get\_indexes\_information} and \textit{get\_quality\_ratios\_by\_index}. These are the ones used by the production cron jobs to calculate the factor scores daily, so for a normal function call we set the \textit{calculation\_date} to None and whenever we want to calculate the scores for a specific date we set it to the desired date. 
+\noindent For not adding redundant code, we had to inspect the propagation schema shown in Figure~\ref{fig:propagation_schema} to determine the root changes from the main functions: \textit{calculate\_scores}, \textit{get\_indexes\_information} and \textit{get\_quality\_ratios\_by\_index}. These are the ones used by the production \textit{\acrshort{cron}} to calculate the factor scores daily, so for a normal function call we set the \textit{calculation\_date} to None and whenever we want to calculate the scores for a specific date we set it to the desired date. 
 
 \vspace{0.5cm}
 \noindent This helped us create very readable logic to adapt the filters to both scenarios, for example in the value score shown in Listing~\ref{lst:value_score_filtering}:
@@ -1118,19 +1125,18 @@ phs = (
 \noindent So as we can observe, the main change for this part of the code was to add a date filter to get only data "lower than or equal" to the \textit{calculation\_date}. This may seem a bad approximation, but it has to be done this way due to the nature of the data: most of the financial data come from annual, semestral, and quarterly reports, except to the price history that is updated daily.
 
 \vspace{0.5cm}
-\noindent Along the way of analyzing the code's structure we made some adjustments to simplify the legibility:
+\noindent Along the way of analyzing the code's structure we made a small refactoring to simplify the legibility:
 \begin{itemize}
     \item \textbf{Renaming functions} whenever they are internal methods or generic auxiliary methods called by different functions.
-    \item \textbf{Externalizing mocking functions} that help create fake models and data for unit testing.
+    \item \textbf{Externalizing mocking functions} that help create fake models and data for \textit{\acrshort{unittest}s}.
     \item \textbf{Homogenize the code's structure}, field types, to help with readability and keeping a standard order along the backend and frontend.
 \end{itemize}
 
-\vspace{0.5cm}
-\noindent Another very important part of these updating procedure was to \textbf{adapt the unit tests} to make sure that the original code still behaved as expected, and creating new ones to check that the changes calculated the factor scores properly.
+\noindent Another very important part of these updating procedure was to \textbf{adapt the \acrshort{unittest}s} to make sure that the original code still behaved as expected, \textbf{and creating new ones} to check that the changes calculated the factor scores properly.
 
-\subsection{Designing new Jobs}
+\subsection{Designing new \acrshort{job}s}
 
-Once all tests have passed and the team had approved the changes, the next step was to create scripts —from now on, \textit{jobs}—to populate the current \acrshort{db} with the historic factor scores while maintaining the servers performance in normal levels. For this, we had to update a basic method, \textit{bulk\_create\_or\_update}, used many times through the whole codebase and add a new conditioning so it can handle conflicts depending if the models are empty or not. After reading the official Django \textcite{django2025queryset}, we saw that in newest versions they had included new fields to its original method \textit{bulk\_create}, so we had to update the Django version in our Docker machine and make sure this did not introduce any unwanted issues.
+Once all tests have passed and the team had approved the changes, the next step was to create new \acrshort{job}s to populate the current \acrshort{db} with the historic factor scores while maintaining the servers performance in normal levels. For this, we had to update a basic method, \textit{bulk\_create\_or\_update}, used many times through the whole codebase and add a new conditioning so it can handle conflicts depending if the models are empty or not. After reading the official Django \textcite{django2025queryset}, we saw that in the newest version available they had included the needed fields to its original method \textit{bulk\_create}, so \textbf{we had to update the \textit{Django} version} in our \textit{Docker} machine, making sure that it did not introduce any unwanted issues.
 
 \vspace{0.5cm}
 \noindent After this was implemented, we decided to create three different jobs for enqueueing the tasks and being able to separate the calculations. This way we could restart them in case something broke during the process (see Appendix~\ref{app:historical_scores_job}). Also, we had to manage the server resources, so for assuring the platform's performance, we used the following hierarchy (see Listing~\ref{lst:tweenvest_production_workers_management}):
@@ -1304,7 +1310,7 @@ For this study, we have attacked the main objective from multiple perspectives. 
 Even with all of these protocols to create the most reliable and filled datasets, we still had to follow the methodologies explained in the previous chapter to analyze the data.
 
 \subsubsection{Cleaning the Data}
-To begin, we looked at the data structure and saw that \textbf{about 50\% of growth scores were empty}. This turned on many alerts from problems with the scores calculation algorithm, because compared to the rest of the variables there was a significant difference, since the \textbf{normal absence was only around 8\%} taking into account the value score as reference because it does not have 10 year averages.
+To begin, when looking at the data structure we saw that \textbf{about 50\% of growth scores were empty}. This turned on many alerts from problems with the scores calculation algorithm, because compared to the rest of the variables there was a significant difference, since the \textbf{normal absence was only around 8\%} taking into account the value score as reference because it does not have 10 year averages.
 \begin{table}[H]
     \centering
     \begin{tabular}{|c|c|c|c|c|c|c|c|c|}
