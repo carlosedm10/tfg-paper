@@ -1157,9 +1157,11 @@ Once all tests have passed and the team had approved the changes, the next step 
 
 \noindent We created the first jobs with the schema shown in Figure~\ref{fig:historical_jobs_first_iteration}, and during the first small test it worked in local, but when tested with the production \acrshort{db} we started to see important issues with how the functions where designed due to the large amount of data being processed:
 \begin{itemize}
-    \item Passing incorrect arguments between jobs—such as entire lists of stock objects—led to the REDIS database reaching its maximum storage capacity.
-    \item Jobs ran out of time.
+    \item Passing incorrect arguments between jobs—such as entire lists of stock objects—led to the \acrshort{redis} \acrshort{db} reaching its maximum storage capacity.
+    \item Jobs ran out of time, due to the large amount of data being processed.
 \end{itemize}
+
+\noindent We then changed the day range logic to enqueue a \textit{calculate\_index\_scores\_task} for each day, so the job did not have to calculate all of the index data for the dates all at once, as shown in Figure~\ref{fig:historical_jobs_final_version}. Also, we modified the function \textit{args} to only uses models identifiers "id" to reduce the \acrshort{redis} memory used. The complete implementation of this job can be found in Appendix~\ref{app:historical_scores_job}.
 
 \begin{figure}[H]
     \centering
@@ -1168,7 +1170,7 @@ Once all tests have passed and the team had approved the changes, the next step 
     \label{fig:historical_jobs_final_version}
 \end{figure}
 
-\noindent We then changed the day range logic to enqueue a \textit{calculate\_index\_scores\_task} for each day, so the job did not have to calculate all of the index data for the dates at all at once, as shown in Figure~\ref{fig:historical_jobs_final_version}. Also, we modified the function args to only uses models identifiers "id" to reduce the REDIS memory used. The complete implementation of this job can be found in Appendix~\ref{app:historical_scores_job}.
+
 
 \subsection{Telemetry Tracing}
 Finally we had the functional jobs for calculating the scores, and ran the first calculation for a dataset of 1,500 stocks. After the first jobs finished we quickly realized that they were taking too much time to process, and saw a disproportionate amount of queries to the \acrshort{db} so we started a process to check on where was the bottleneck using telemetry tracing tools.
@@ -1177,7 +1179,7 @@ Finally we had the functional jobs for calculating the scores, and ran the first
 \noindent To do so, we had to inspect each method and function that was being used through the calculations of the factor scores. Luckily we had just recently implemented \textit{DataDog} which is a software that provides monitoring and analytics for applications and infrastructure, offering real-time metrics, event monitoring, and end-to-end tracing.
 
 \vspace{0.5cm}
-\noindent To apply the tracer, we simply had to add a specific decorator before each method and set up the environment for being able to trace not only production launched jobs, but also development tests.
+\noindent To apply the tracer, we simply had to add a specific \textit{\acrshort*{decorator}} before each method and set up the environment for being able to trace not only production launched jobs, but also development tests.
 
 \vspace{0.5cm}
 \noindent Here's an example of how the tracer was implemented in the quality score calculation:
@@ -1197,7 +1199,7 @@ def compute_quality_score(
     return final_score
 \end{lstlisting}
 
-\noindent We then looked at the \textit{DataDog} dashboard and clearly saw an excess of queries to the \acrshort{db} when calculating each score, and tried to reduce them by looking for a simple fault in the logic of the queries. Similar issues had been resolved before by adding a \textit{select\_related} in the queries. To clarify what this does, here is the definition with a simple use-case:
+\noindent We then looked at the \textit{DataDog} dashboard and clearly saw an excess of queries to the \acrshort{db} when calculating each score, and tried to reduce them by looking for a simple fault in the logic of the queries. Similar issues were resolved before by adding a \textit{select\_related} in the queries. To clarify what this does, here is the definition with a simple use-case:
 
 \vspace{0.5cm}
 \noindent ``Returns a QuerySet that will follow foreign-key relationships, selecting additional related-object data when it executes its query. This is a performance booster which results in a single more complex query but means later use of foreign-key relationships will not require database queries.'' -- \textcite{django2025selectrelated}.
@@ -1206,7 +1208,7 @@ def compute_quality_score(
 \noindent In Django, \textit{select\_related()} and \textit{prefetch\_related()} are designed to stop the deluge of database queries that are caused by accessing related objects. \textit{select\_related()} ``follows'' foreign-key relationships, selecting additional related-object data when it executes its query. \textit{prefetch\_related()} does a separate lookup for each relationship and does the ``joining'' in Python. So one uses \textit{select\_related} when the object that you're going to be selecting is a single object, so \textit{OneToOneField} or a \textit{ForeignKey}.
 
 \vspace{0.5cm}
-\noindent After numerous attempts to improve performance, we were forced to reconsider our approach and began analyzing the problem from a different perspective. It quickly became evident that we were operating on a small virtual machine (Table~\ref{tab:tweenvest_server_specs}) shared with the regular platform workload. Tweenvest's servers are not designed for high computational demand; rather, they are optimized for routine operations, where standard score calculations typically take between 3 to 4 hours. This setup works well under normal conditions, as calculations are performed after market hours and do not impact the user experience. However, it proved inadequate for our needs—specifically, processing data over five or more years within a reasonable timeframe, even when computing just one score per month.
+\noindent After numerous attempts to improve performance, we were forced to reconsider our approach and began analyzing the problem from a different perspective. It quickly became evident that we were operating on a small virtual machine (Table~\ref{tab:tweenvest_server_specs}) shared with the regular platform workload. Tweenvest's servers were not designed for high computational demand; rather, they were optimized for routine operations, where standard score calculations typically take between 3 to 4 hours. This setup works well under normal conditions, as calculations are performed after market hours and do not impact the user experience. However, it proved inadequate for our needs—specifically, processing data over five or more years within a reasonable timeframe, even when computing just one score per month.
 
 \begin{table}[H]
     \centering
@@ -1259,7 +1261,7 @@ For being able to continue, we needed to create the final dataset with all the n
     \label{fig:first_data_aggregation_schema}
 \end{figure}
 
-\noindent Once we had the final csv file we noticed that we had too many empty values for profits, the problem was because some of the days calculated were empty for a specific company, so there was no price history for them. Since the companies belong to multiple countries, the different holidays could be causing another major loss in the information. To fix this in a general way we implemented an internal method for estimating price histories if they did not exist for the wanted date. The complete implementation of this data export and price estimation process can be found in Appendix~\ref{app:data_export_job}.
+\noindent Once we had the final csv file we noticed that we had too many empty values for profits, the problem was that some of the days calculated were empty for a specific company, so there was no price history for them. Since companies belong to multiple countries, different holidays could be causing another major loss in the information. To fix this in a general way \textbf{we implemented an internal method} for estimating price histories when they did not exist for the wanted date. The complete implementation of this data export and price estimation process can be found in Appendix~\ref{app:data_export_job}.
 
 \begin{figure}[H]
     \centering
@@ -1268,11 +1270,11 @@ For being able to continue, we needed to create the final dataset with all the n
     \label{fig:final_data_aggregation_schema}
 \end{figure}
 
-\noindent This can be done due to the fact that we are only looking for long term profitabilities, so we can \textbf{approximate the price} on a day $x$ by interpolating the price on $x-y$ and $x+z$, weighted by how close they are to the original day $x$, with a maximum distance from $x$ of 15 days. This significantly reduced the amount of missing values.
+\noindent By looking at the Figure~\ref{fig:final_data_aggregation_schema} we can see that we are interpolating those price histories. Since we are only looking for long term profitabilities, we can \textbf{approximate the price} on a day $x$ by interpolating the price on $x-y$ and $x+z$, weighted by how close they are to the original day $x$, with a maximum distance from $x$ of 15 days. This significantly reduced the amount of missing values.
 
 \subsection{Datasets Construction}
 
-For this study, we have attacked the main objective from multiple perspectives. First we made a descriptive analysis to understand the data, and then we proposed different models to see if there were any relationships between the scores factors and long term profitabilities. Thats why when creating the datasets, we made two different approaches to have more information for the analysis:
+For this study, we have attacked the objectives from multiple perspectives. First we are making a descriptive analysis to understand the data, and then we are proposing different models to see if there are any relationships between the scores factors and long term profitabilities. Thats why when creating the datasets, we made two different approaches to have more information for the analysis:
 
 \begin{figure}[H]
     \begin{minipage}{0.48\textwidth}
@@ -1298,7 +1300,7 @@ For this study, we have attacked the main objective from multiple perspectives. 
 \noindent Which interprets to \textbf{how earlier profits have influenced on the explanatory variables}. This will give us valuable information in the descriptive analysis.
 
 \vspace{0.5cm}
-\noindent For the model fitting, \textbf{we want to know if the current scores are good predictors of the future profits}. So we calculated the scores for the range 2015-2020 and related them to the profits obtained from that date to the future. For example, the date 1-1-2021 would be linked to the 2 years' profitability that will be obtained in the future: 
+\noindent For the model fitting, \textbf{we want to know if the current scores are good predictors of future profits}. So we calculated the scores for the range 2015-2020 and related them to the profits obtained from that date to the future. For example, the date 1-1-2021 would be linked to the 2 years' profitability that will be obtained in the future: 
 
 \begin{equation}
     Profit_{1\text{-}1\text{-}2021}(\%) = \frac{P_{1\text{-}1\text{-}2023} - P_{1\text{-}1\text{-}2021} + D_{\text{acc}}}{P_{1\text{-}1\text{-}2021}}
@@ -1307,10 +1309,10 @@ For this study, we have attacked the main objective from multiple perspectives. 
 \noindent As this approach is what we actually want to use for the predictive models, we will be using the future dataset structure for most of the analysis.
 
 \subsection{Preprocessing}
-Even with all of these protocols to create the most reliable and filled datasets, we still had to follow the methodologies explained in the previous chapter to analyze the data.
+Even with all of the protocols created to have the most reliable and filled datasets, we still had to follow the methodologies explained in the previous chapter to analyze the data and see if there were any problems not solved.
 
 \subsubsection{Cleaning the Data}
-To begin, when looking at the data structure we saw that \textbf{about 50\% of growth scores were empty}. This turned on many alerts from problems with the scores calculation algorithm, because compared to the rest of the variables there was a significant difference, since the \textbf{normal absence was only around 8\%} taking into account the value score as reference because it does not have 10 year averages.
+To begin, when looking at the data structure we saw that \textbf{about 50\% of growth scores were empty}. This turned on many alerts from problems with the scores calculation algorithm, because compared to the rest of the variables there was a significant difference, since the \textbf{normal absence was only around 8\%}.
 \begin{table}[H]
     \centering
     \begin{tabular}{|c|c|c|c|c|c|c|c|c|}
@@ -1348,7 +1350,7 @@ We started of using this technique due to its speed and accuracy for non-linear 
     \label{fig:small_data_future_if}
 \end{figure}
 
-\noindent This pairplot shows how the \acrshort{if} method is detecting outliers in the profits data. In this case it is detecting as outliers much of the data that seems to form a structure in the profits. Also, it is deleting some interesting clusters when comparing the profits with the scores, and here we might lose some important information-- this is highlighted with the red circles.
+\noindent This \acrshort{pairplot} shows how the \acrshort{if} method is detecting outliers in the profits data. In this case it is detecting as outliers much of the data that seems to form a structure in the profits. Also, it is deleting some interesting clusters when comparing the profits with the scores, and here we might lose some important information-- this is highlighted with the red circles.
 
 \newpage
 
@@ -1364,7 +1366,7 @@ When using the \acrshort{svm} we saw a similar detection compared to the \acrsho
     \label{fig:small_data_future_svm}
 \end{figure}
 
-\noindent But in this case also see a slight improvement with recuperating the structures in some of the profits--  this is circled with the green color.
+\noindent But in this case we also see a slight improvement with recuperating the structures in some of the profits--  this is circled with the green color.
 
 \newpage
 \subsubsection{Local Outlier Factor}
@@ -1383,7 +1385,7 @@ When using the \acrshort{svm} we saw a similar detection compared to the \acrsho
 \newpage
 \subsubsection{Multi-Criteria Outlier Detection}
 
-That's when we realized that if each method was good at detecting some outliers but bad at others, it makes a lot of sense to use them together. Following this approach and after multiple tests, we found that the bests results came when increasing the overall tolerance and then selecting the intersection of outliers between them, so with a 20\% tolerance we only excluded around 8\% of the data.
+That's when we realized that if each method was good at detecting some outliers but bad at others, so it made a lot of sense to use them together. Following this approach and after multiple tests, we found that the bests results came when increasing the overall tolerance and then selecting the intersection of outliers between them, so with a 20\% tolerance we only excluded around 8\% of the data.
 
 \begin{figure}[H]
     \centering
@@ -1392,43 +1394,40 @@ That's when we realized that if each method was good at detecting some outliers 
     \label{fig:small_data_future_multi}
 \end{figure}
 
-\noindent As shown in the \acrshort{pairplot}, this method is able to maintain most of the structures of the profits and also keep the small clusters for the scores, which is highlighted with the blue circles. But of course, it is not perfect. 
+\noindent As shown in the \acrshort{pairplot}, this method is able to maintain most of the structures of the profits and also keep the small clusters for the scores, which is highlighted with the blue circles. But of course, it is not perfect and could be missing important information for extreme cases --highlighted with the red shapes. 
 
-% TODO: Move this to the future work section-
 
 \subsubsection{Islands of Outliers}
 
-\noindent After the previous results, we quickly realized that those clusters that were not being deleted, on purpose, were affecting the results. So we decided to take a big look at the data again to see what was happening:
+\noindent After the previous results we started working with the models, but we quickly noticed that those clusters that were not being deleted, on purpose, were affecting the results. So we decided to take a big look at the data again to see what was happening:
 
 \begin{figure}[H]
     \centering
     \begin{minipage}{0.32\textwidth}
         \centering
         \includegraphics[width=\textwidth]{images/code/outliers/IF 15.png}
-        \caption*{(a) \acrshort{if} 15\% Tolerance}
     \end{minipage}
     \hfill
     \begin{minipage}{0.32\textwidth}
         \centering
         \includegraphics[width=\textwidth]{images/code/outliers/SVM 15.png}
-        \caption*{(b) \acrshort{svm} 15\% Tolerance}
     \end{minipage}
     \hfill
     \begin{minipage}{0.32\textwidth}
         \centering
         \includegraphics[width=\textwidth]{images/code/outliers/LOF 15.png}
-        \caption*{(c) \acrshort{lof} 15\% Tolerance}
     \end{minipage}
     \caption{Correlations between variables for different outlier detection methods}
     \label{fig:island_cases_examples}
 \end{figure}
 
-\noindent As we can see, the \acrshort{if} and \acrshort{svm} methods are showing some correlations between the profits and some scores, where the \acrshort{lof} is not showing any correlation and even negative ones. And that is what made us think about the clusters of anomalies that were not being deleted by the \acrshort{lof} method, so we built the \acrshort{islandcase}, mentioned in the previous section.
+\noindent As we can see, the \acrshort{if} and \acrshort{svm} methods are showing some correlations between the profits and the scores, but the \acrshort{lof} is not showing any correlations, even negative ones. And that is what made us think about the clusters of anomalies that were not being deleted by the \acrshort{lof} method, so we built the \acrshort{islandcase}, mentioned in the previous section.
 
 
 
 
 
+% TODO: Move this to the future work section:
 
 % \vspace{0.5cm}
 % \noindent For future developments of these type of techniques, we have to mention that understanding the main core ideas of each method we could probably optimize the results by changing the tolerance parameters individually by applying multipliers for each method:
@@ -1443,10 +1442,10 @@ That's when we realized that if each method was good at detecting some outliers 
 
 \subsection{Summary}
 
-\noindent To summarize how we have treated the data, we ended up with different datasets groups, each with 17 columns for the explained variables, and also the company's name and stock ticker (see Appendix Figure~\ref{fig:number_of_columns}).
+\noindent To summarize how we have treated the data, we ended up with different datasets groups, each with 17 columns for the explained variables, the date and also the company's name and stock ticker (see Appendix Figure~\ref{fig:number_of_columns}).
 
 \subsubsection{Simple Datasets}
-\noindent For the first part of the analysis we started by using the Big Datasets, that contain all of the Tweenvest's data for the past 10 years. This way we could see the the real distributions and correlations, as we will explain in the results chapter. Also we created the 2 subsets of Small Data with only 1,500 stocks for quicker calculations, making sure that the sectors were balanced, and using a 4\% tolerance for the \acrshort{multi} method.
+\noindent For the first part of the analysis that consisted of the descriptive analysis, we started by using the Big Datasets, that contain all of the Tweenvest's data for the past 10 years. This way we could see the real distributions and correlations, as we will explain in the next chapter. Also we created the 2 subsets of Small Data with only 1,500 stocks for quicker calculations, making sure that the sectors were balanced, and using a 4\% tolerance for the \acrshort{multi} method.
 
 \begin{table}[H]
     \centering
@@ -1464,15 +1463,15 @@ That's when we realized that if each method was good at detecting some outliers 
         \hline
         \end{tabular}
 
-    \caption{Simple Datasets Summary}
-    \label{tab:simple_datasets_summary}
+    \caption{Simple Datasets Total Rows}
+    \label{tab:simple_datasets_rows}
 \end{table}
 
 \noindent $^\dagger$ In the \textit{Big Data Past} and \textit{Big Data Future} datasets, we removed the outliers using the \acrshort{if} method for saving computational time.
 
 \subsubsection{Geographical Datasets}
-\vspace{0.5cm}
-\noindent For the second part of the analysis we had to inspect how the geographical regions were affecting the results, so we created one dataset per region also applying the same sector balancing. Here  we kept using the 4\% tolerance with the \acrshort{multi}.
+
+\noindent For the second part of the analysis, that consists of exploring the regression models, while advancing with it we had to inspect how the geographical regions were affecting the results, so we created one dataset per region applying the same sector balancing. Here  we kept using the 4\% tolerance with the \acrshort{multi}.
 
 \begin{table}[H]
     \centering
@@ -1492,33 +1491,36 @@ That's when we realized that if each method was good at detecting some outliers 
         \hline
         \end{tabular}
 
-    \caption{Rows per Dataset}
-    \label{tab:datasets_summary}
+    \caption{Geographical Datasets Total Rows}
+    \label{tab:geographical_datasets_rows}
 \end{table}
 
-\subsubsection{Restricted Outliers Datasets}
-\noindent For the third part of the analysis, we realized how much the outliers and countries were affecting the results. Here we applied the \acrshort{islandcase} and the \acrshort{if} method with higher tolerances, on the Small Data Future.
+\subsubsection{Restrictive Datasets}
+\noindent For the third part of the analysis, once we had seen the nature of the data and the simple models results, we realized how much the outliers and countries were affecting the results, thats why we chose the \acrshort{gam} non-linear models. So for improving the consistency we used the \acrshort{islandcase} and the \acrshort{if} method with higher tolerances.
+
+% TODO: Check which datasets were being used here.
 
 \begin{table}[H]
     \centering
-    \begin{tabular}{|l|l|l|l|}
+    \begin{tabular}{|l|l|l|l|l|}
         \hline  
-        \textbf{Dataset} & \textbf{Raw} & \textbf{ \acrshort{islandcase} 8\%} & \textbf{ \acrshort{if} 15\%} \\
-
+        \textbf{Dataset} & \textbf{Raw} & \textbf{Cleaned} & \textbf{ \acrshort{islandcase} 8\%} & \textbf{ \acrshort{if} 15\%} \\
+        \hline
+        \textbf{Small Data Future} & 65,166 & 26,214 & 22,214 & 22,282 \\
         \hline
         \end{tabular}
 
-    \caption{Geographical Datasets Summary}
-    \label{tab:geographical_datasets_summary}
+    \caption{Restrictive Datasets Total Rows}
+    \label{tab:restrictive_datasets_rows}
 \end{table}
 
 \subsubsection{Validation Dataset}
 
-\noindent For the last part of the analysis, we went back to the Big Data Future and applied the same if method with a very high tolerance of 35\% and also balanced for regions and sectors.
+\noindent For the last part of the analysis since we wanted to see if after all, we could get realistic results, we went back to the Big Data Future and applied the \acrshort{if} method with a very high tolerance of 35\% and also balanced for regions and sectors, which caused a significant reduction in the number of rows.
 
 \begin{table}[H]
     \centering
-    \begin{tabular}{|l|l|l|l|}
+    \begin{tabular}{|l|l|l|l|l|}
         \hline  
         \textbf{Dataset} & \textbf{Raw} & \textbf{ \acrshort{if} 35\%} & \textbf{{Balanced}} \\
         \hline
@@ -1532,11 +1534,12 @@ That's when we realized that if each method was good at detecting some outliers 
 
 \noindent These restrictions resulted on a surprisingly higher simple correlations of the profits with the scores, showing that we were going in the right path. But this will be explained in the following section.
 
-
-
 \subsubsection{Conclusion}
 
 \noindent Finally, we have to clarify that outliers are anomalies in the \textit{normal} behavior of the data, so even thought we are excluding them for obtaining a general set of models, we could be missing valuable information such as the possible structures shown with the red structures in the Figure~\ref{fig:small_data_future_multi}. That is why we propose for future work a separate analysis for the outliers, to see if really good profits (or bad ones) have any characteristics, such as average high or low scores.
+
+
+%  TODO: Try to make a small analysis of the outliers.
 
 
 \chapter{Results}
@@ -1668,7 +1671,7 @@ For analizing the correlations between the variables, we will start firstly with
 \end{itemize}
 
 \subsubsection{Outliers Datasets}
-But as it has been seen multiple times through the analysis, the outliers create a big bias that does not allow us to see the real correlations occurring for "normal companies". So as shown in the table~\ref{tab:datasets_summary}, we will use the Big datasets filtered with the Isolation Forest method to remove outliers as a first approach, but for the model fitting we will use the multi-criteria outlier detection.
+% But as it has been seen multiple times through the analysis, the outliers create a big bias that does not allow us to see the real correlations occurring for "normal companies". So as shown in the table~\ref{tab:datasets_summary}, we will use the Big datasets filtered with the Isolation Forest method to remove outliers as a first approach, but for the model fitting we will use the multi-criteria outlier detection.
 
 \begin{figure}[H]
     \centering
