@@ -1538,19 +1538,17 @@ That's when we realized that if each method was good at detecting some outliers 
 
 \noindent Finally, we have to clarify that outliers are anomalies in the \textit{normal} behavior of the data, so even thought we are excluding them for obtaining a general set of models, we could be missing valuable information such as the possible structures shown with the red structures in the Figure~\ref{fig:small_data_future_multi}. That is why we propose for future work a separate analysis for the outliers, to see if really good profits (or bad ones) have any characteristics, such as average high or low scores.
 
-
 %  TODO: Try to make a small analysis of the outliers.
-
 
 \chapter{Results}
 \section{Descriptive Analysis}
 
-Before jumping into the model fitting, it is necessary to understand the data that we are working with.
+Before jumping into the model fitting, it is necessary to understand the data that we are working with. For doing so, we will be looking at the variables distributions, correlations and possible structures.
 
 \subsection{Variables Distributions}
 
 \subsubsection{Scores}
-Following the scores order, quality's distribution show a \textbf{clear negative skewness}, meaning that there are more companies closer to having a good quality score. This could be due to the fact that we have deleted companies that do not behave as a "normal company", so we will analyze the distributions of the profits to see if there is a bias in the data. Also, there is a \textbf{secondary peak arounf the 30-40 scores}, which could be related to the time-frame of the data.
+When looking at the scores in the Figure~\ref{fig:scores}, we see that there are several scores that saturate. So for a better visualization we created a temporal dataset where the dividend and growth scores saturating at 0 were deleted, this is shown in the Figure~\ref{fig:scores_deep}. 
 
 \begin{figure}[H]
     \centering
@@ -1568,8 +1566,7 @@ Following the scores order, quality's distribution show a \textbf{clear negative
     \end{minipage}
 \end{figure}
 
-\noindent Around 2015-2020 interest rates were at a historical low, so there could be more companies with more debt than normal. Some central banks, particularly in Europe, experimented with negative interest rate policies on deposit facilities during this period (Figure~\ref{fig:euribor}). This possibility should be studied in more detail, but knowing that this does not happen for the dataset between 2020-2025 where interest rates are higher, we have a clue that this could be whats causing it (see Appendix Figure~\ref{fig:past_scores_deep}).
-
+\noindent Starting with the \textbf{quality score}, we can see that its distribution shows a \textbf{clear negative skewness}, meaning that there are more companies closer to having a good quality score. This could be due to the fact that we had deleted companies that did not behave as a ``normal company'', so we will later analyze the distributions of the profits to see if this was the case. Also, there is a \textbf{secondary peak around the 30-40 scores}, which could be related to the time-frame of the data.
 
 \begin{figure}[H]
     \centering
@@ -1578,19 +1575,19 @@ Following the scores order, quality's distribution show a \textbf{clear negative
     \label{fig:euribor}
 \end{figure}
 
-
-
-\vspace{0.5cm}
-\noindent Finishing with quality, there is a "defect" in the dataset. We do not have 10 year averages for the companies that are in the 2015-2020 period --Tweenvest is only paying for data after 2012-- so the algorithm gives 0 to some of its criteria making the maximum quality be 80. But since this is happening for all of the companies, \textbf{it is not a problem for the model fitting}, altought we will not be analiyzing those criteria's performance.
+\noindent Around 2015--2020 interest rates were at a historical low, so there could be more companies with more debt than normal. Some central banks, particularly in Europe, experimented with negative interest rate policies on deposit facilities during this period (Figure~\ref{fig:euribor}). This possibility should be studied in more detail, but knowing that this does not happen for the dataset between 2020--2025 where interest rates are higher, we have a clue that this could be whats causing it (see Appendix Figure~\ref{fig:past_scores_deep}).
 
 \vspace{0.5cm}
-\noindent Continuing with growth, we notice that there are many companies with a score of 0 and a score of 100, and something similar happens with the 0s in Dividend. For having a deeper look, we excluded those values for the Figure~\ref{fig:scores_deep} where we can see that it is closer to a uniform distribution with a descend slope after 65, which means that most companies have a similar growth rate, but fewer have higher ones.
+\noindent Finishing with quality, there is a ``defect'' in the dataset. We do not have 10 year averages for the companies that are in the 2015--2020 period --Tweenvest only has data after 2012-- so the algorithm gives 0 to some of its criteria making the maximum quality be 80. But since this is happening for all of the companies, \textbf{it is not a problem for the model fitting}, and we could easily rescale to 100.
 
 \vspace{0.5cm}
-\noindent When looking at the value score, we can see that the distribution almost has an average of 50, and there is a continuum of values trough the whole range, so it seems that we have a well scale for distributing the companies.
+\noindent Continuing with \textbf{growth score}, we notice that there are many companies saturating the score at 0 and 100, and the same happens with the Dividend. But looking at the deeper plots, we can see that it is closer to a uniform distribution with a descend slope after 65, which means that most companies have a similar growth rate, but fewer have higher ones.
 
 \vspace{0.5cm}
-\noindent Lastly for the dividend score, as mentioned before, there are many companies that do not pay dividends. But aside from that, we have an irregular distribution for the score, with a peak around 85-92 meaning that there are multiple companies that respect their dividend policy.
+\noindent When looking at the \textbf{value score}, we can see that the distribution almost has an average of 50, and there is a continuum of values trough the whole range decreasing as the score diverges from that average, so it seems that it is a good scale for distributing the companies.
+
+\vspace{0.5cm}
+\noindent Lastly for the \textbf{dividend score}, as mentioned before, there are many companies that do not pay dividends. But aside from that, we have an irregular distribution for the score, with a peak around 85--92 meaning that there are several companies that care about their dividend policy.
 
 \subsubsection{Dummies}
 
@@ -1603,7 +1600,7 @@ When it comes to the dummies we see a uniform distribution with the sectors beca
     \label{fig:small_future_dummies}
 \end{figure}
 
-\noindent  Also, their auditors often lack true independence, especially when auditing state-owned enterprises (SOEs) or firms with strong political ties. The Chinese government tightly controls domestic accounting firms and imposes restrictions on foreign auditors. Even international firms like \textit{PwC-China} operate under local joint ventures, often with limited autonomy, as reviewed in \textcite{LIU2012782}. So we will have to check if the dummies variables are enough to take this effect into account, or if we need a different approach for modeling the geographical effects.
+\noindent Also, their auditors often lack true independence, especially when auditing state-owned enterprises (SOEs) or firms with strong political ties. The Chinese government tightly controls domestic accounting firms and imposes restrictions on foreign auditors. Even international firms like \textit{PwC-China} operate under local joint ventures, often with limited autonomy, as reviewed in \textcite{LIU2012782}. So we will have to check if the dummies variables are enough to take this effect into account, or if we need a different approach for modeling the geographical effects.
 
 \vspace{0.5cm}
 \noindent It is worth noting that the distribution of companies across sectors varies significantly over time, as shown in Appendix Figures~\ref{fig:future_dummies} and~\ref{fig:past_dummies}. This temporal variation in sector representation presents an interesting opportunity for future research.
