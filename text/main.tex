@@ -175,7 +175,7 @@ To relate the profits with the scores, we need to use different variables:
         \item \textbf{Industry}: \(I_k\) where \(k \in \{\text{Financials; Healthcare; etc.}\}\)
         \item \textbf{Geographical Region}: \(G_l\) where \(l \in \{\text{Europe; North America; etc.}\}\)
     \end{itemize}
-    \item \textbf{Market Variables}, these are numeric variables that represent the companies \textit{``size''} using the: \textbf{Market Cap} and \textbf{Volume}.
+    \item \textbf{Market Variables}, these are numeric variables that represent the companies \textit{``size''} using the: \textbf{\acrshort{marketcap}} and \textbf{Volume}.
 \end{itemize}
 
 
@@ -376,8 +376,8 @@ These ratios measure a company's ability to meet short-term obligations with its
 \vspace{0.5cm}
 \noindent \textbf{Note:}
 \begin{itemize}
-    \item \textit{Market Cap = Share Price × Total Outstanding Shares}
-    \item \textit{Enterprise Value = Market Capitalization + Total Debt - Cash + Marketable Securities}
+    \item \textit{\acrshort{marketcap} = Share Price × Total Outstanding Shares}
+    \item \textit{Enterprise Value = \acrshort{marketcap}italization + Total Debt - Cash + Marketable Securities}
 \end{itemize}
 
 \begin{figure}[H]
@@ -1578,7 +1578,7 @@ When looking at the scores in the Figure~\ref{fig:scores}, we see that there are
 \noindent Around 2015--2020 interest rates were at a historical low, so there could be more companies with more debt than normal. Some central banks, particularly in Europe, experimented with negative interest rate policies on deposit facilities during this period (Figure~\ref{fig:euribor}). This possibility should be studied in more detail, but knowing that this does not happen for the dataset between 2020--2025 where interest rates are higher, we have a clue that this could be whats causing it (see Appendix Figure~\ref{fig:past_scores_deep}).
 
 \vspace{0.5cm}
-\noindent Finishing with quality, there is a ``defect'' in the dataset. We do not have 10 year averages for the companies that are in the 2015--2020 period --Tweenvest only has data after 2012-- so the algorithm gives 0 to some of its criteria making the maximum quality be 80. But since this is happening for all of the companies, \textbf{it is not a problem for the model fitting}, and we could easily rescale to 100.
+\noindent Finishing with quality, there is a \textit{``defect''} in the dataset. We do not have 10 year averages for the companies that are in the 2015--2020 period --Tweenvest only has data after 2012-- so the algorithm gives 0 to some of its criteria making the maximum quality be 80. But since this is happening for all of the companies, \textbf{it is not a problem for the model fitting}, and we could easily rescale to 100.
 
 \vspace{0.5cm}
 \noindent Continuing with \textbf{growth score}, we notice that there are many companies saturating the score at 0 and 100, and the same happens with the Dividend. But looking at the deeper plots, we can see that it is closer to a uniform distribution with a descend slope after 65, which means that most companies have a similar growth rate, but fewer have higher ones.
@@ -1591,7 +1591,7 @@ When looking at the scores in the Figure~\ref{fig:scores}, we see that there are
 
 \subsubsection{Dummies}
 
-When it comes to the dummies we see a uniform distribution with the sectors because this condition was forced in the data creation process. But with the regions we have a different result, seeing a clear \textbf{predomination of the Asiatic region}, which happens in all of the datasets. Which could create issues for the model fitting, since it is known that in countries like China have more volatility and lower returns \textcite{chen2024economic}.
+We have already explored the scores, so now we have to see if there distributions of the dummies could be affecting the model fitting. We started looking at the sectors distributions for the small dataset since it will be the most used one in the analysis.
 
 \begin{figure}[H]
     \centering
@@ -1600,14 +1600,17 @@ When it comes to the dummies we see a uniform distribution with the sectors beca
     \label{fig:small_future_dummies}
 \end{figure}
 
-\noindent Also, their auditors often lack true independence, especially when auditing state-owned enterprises (SOEs) or firms with strong political ties. The Chinese government tightly controls domestic accounting firms and imposes restrictions on foreign auditors. Even international firms like \textit{PwC-China} operate under local joint ventures, often with limited autonomy, as reviewed in \textcite{LIU2012782}. So we will have to check if the dummies variables are enough to take this effect into account, or if we need a different approach for modeling the geographical effects.
+\noindent As it was expected, in Figure~\ref{fig:small_future_dummies} we see a \textbf{uniform distribution for the sectors} because this condition was forced in the data creation process. But with the regions we have a different result, seeing a \textbf{clear predomination of the Asiatic region}, which happens for all of the datasets. This could create issues for the model fitting, since it is known that in countries like China have more volatility and lower returns \textcite{chen2024economic}.
 
 \vspace{0.5cm}
-\noindent It is worth noting that the distribution of companies across sectors varies significantly over time, as shown in Appendix Figures~\ref{fig:future_dummies} and~\ref{fig:past_dummies}. This temporal variation in sector representation presents an interesting opportunity for future research.
+\noindent Also, their auditors often lack true independence, especially when auditing \gls{soe} or firms with strong political ties. The Chinese government tightly controls domestic accounting firms and imposes restrictions on foreign auditors. Even international firms like \textit{PwC-China} operate under local joint ventures, often with limited autonomy, as reviewed in \textcite{LIU2012782}. So we will have to check if the dummies variables are enough to take this effect into account, or if we need a different approach for modeling the geographical effects.
+
+\vspace{0.5cm}
+\noindent It is worth noting that the distribution of companies across sectors varies significantly over time, as shown in Appendix Figures~\ref{fig:future_dummies} and~\ref{fig:past_dummies}. This \textbf{temporal variation in sector representation} presents an interesting opportunity for future research.
 
 \subsubsection{Profits}
 
-\noindent When analyzing the profit distributions across different time horizons, we observe that the distributions contain a numerous amount of outliers that do not let us see the distributions clearly (Appendix Figures~\ref{fig:big_data_future_profits_boxplot} and~\ref{fig:big_data_future_profits}). So just for this descriptive analysis purposes, \textbf{we used the \acrshort{iqr} method} mentioned in previous chapters to remove the outliers.
+\noindent Finally, when analyzing the profit distributions across different time horizons, we observe that the distributions contain a numerous amount of outliers that do not let us see the distributions clearly (Appendix Figures~\ref{fig:big_data_future_profits_boxplot} and~\ref{fig:big_data_future_profits}). So just for this descriptive analysis purposes, \textbf{we used the \acrshort{iqr} method} mentioned in previous chapters to remove the outliers.
 
 \begin{figure}[H]
     \centering
@@ -1627,10 +1630,10 @@ When it comes to the dummies we see a uniform distribution with the sectors beca
 
 
 \vspace{0.5cm}
-\noindent Interestingly, we notice that the \textbf{short-term profit} distributions (1-month and 3-month) are more symmetric and \textbf{closer to normal distributions}, which is consistent with the efficient market hypothesis suggesting that short-term price movements are largely random. 
+\noindent Interestingly, we notice that the \textbf{short-term profit} distributions (1-month and 3-month) are more symmetric and closer to \textbf{normal distributions}, which is consistent with the efficient market hypothesis suggesting that short-term price movements are largely random. 
 
 \vspace{0.5cm}
-\noindent However, as we extend to \textbf{longer time horizons}, the \textbf{distributions become more positively skewed}, which aligns with the general expectation that most companies do not have good returns, except of the market winners that tend to generate extraordinary positive returns due to the mentioned \textbf{economic moats}. This is particularly evident in the longer-term profit distributions (2-year and 5-year), where we see a \textbf{longer tail extending toward higher positive returns}.
+\noindent However, as we extend to \textbf{longer time horizons}, the \textbf{distributions become more positively skewed}, which aligns with the general expectation that most companies do not have good returns, except of the market winners that tend to generate extraordinary positive returns due to the mentioned \textbf{\textit{economic moats}}. This is particularly evident in the longer-term profit distributions (2-year and 5-year), where we see a \textbf{longer tail extending toward higher positive returns}.
 
 
 \vspace{0.5cm}
@@ -1638,7 +1641,7 @@ When it comes to the dummies we see a uniform distribution with the sectors beca
 
 \subsection{Correlations}
 
-For analizing the correlations between the variables, we will start firstly with just the cleaned big datasets, and then we will use also the datasets without the outliers, since these are the ones that will be used for the model fitting in most of the analysis.
+For analyzing the correlations between the variables, we will start firstly with just the cleaned big datasets, and then we will use also the datasets without the outliers, since these are the ones that will be used for the model fitting in most of the analysis.
 
 \vspace{0.5cm}
 \noindent Here is the only section that we will be using the past Datasets, to see if past profits are being reflected in current scores.
@@ -1660,11 +1663,11 @@ For analizing the correlations between the variables, we will start firstly with
     \end{minipage}
 \end{figure}
 
-\noindent We can appretiate three main expected correlations:
+\noindent We can appreciate three main expected correlations:
 \begin{itemize}
-    \item \textbf{Companies with good quality} --that is so, they have consisten growth, good liquidity and healthy debt-- \textbf{are more likely to give dividends}.
-    \item There is a strong relationship betwen the market cap of a company and the volume of the shares traded.
-    \item \textbf{Companies have inertia}, or how it is called \textit{Momentum}, meaning that the profit of a company is positively correlated with the profit of the previous period.
+    \item \textbf{Companies with good quality} --that is so, they have consistent growth, good liquidity and healthy debt-- \textbf{are more likely to give dividends}.
+    \item There is a strong relationship between the market cap of a stock and the volume of the shares traded.
+    \item \textbf{Companies have inertia}, or how it is mostly called \textit{Momentum}, meaning that the profit of a company is positively correlated with the profit of the previous period.
 \end{itemize}
 
 \subsubsection{Outliers Datasets}
@@ -1699,7 +1702,7 @@ For analizing the correlations between the variables, we will start firstly with
     \item There is a \textbf{mild correlation between most scores}, which could be explain by the fact that a company that does well in one aspect, is more likely to do well in the others. This correlation will not affect the models because they are separated by score.
 \end{itemize}
 
-\noindent Althought we have to make clear that these correlations do not stand along all of the datasets separated by region (see Appendix Figures from~\ref{fig:small_data_future_usa_correlations} to~\ref{fig:small_data_future_as_multi_correlations}), so we are not sure yet if these relationships will be properly explained with linear models.
+\noindent Although we have to make clear that these correlations do not stand along all of the geographical datasets (see Appendix Figures from~\ref{fig:small_data_future_usa_correlations} to~\ref{fig:small_data_future_as_multi_correlations}), so we cannot be sure if these correlations will be properly explained by the linear models.
 
 \subsection{Data clusters}
 Finally, we are going to try to compare these results with the \acrshort{pairplot} of the datasets, to look for clusters of data when comparing many variables at once.
@@ -1707,18 +1710,18 @@ Finally, we are going to try to compare these results with the \acrshort{pairplo
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{images/code/descriptive analysis/correlations/Small Data future - Multi - pairplot.png}
-    \caption{Pairplot of Small Data Future - \acrshort{multi}}
+    \caption{\acrshort{pairplot} of Small Data Future - \acrshort{multi}}
     \label{fig:pairplot_small_data_future_multi}
 \end{figure}
 
-\noindent Here it is harder to eye-see the data structure that could form clusters since there are many datapoints, but there are some exceptions:
+\noindent Here it is harder to eye-see the data structure that could form clusters since there are many data-points, but there are some exceptions:
 \begin{itemize}
     \item \textbf{Profits}. We can see linear correlations between some of the different profits, but for longer horizons the relationships are no longer linear. Which is expected since the further the horizon, more variables take part in the calculation of the profit.
-    \item \textbf{Market Cap}. Companies with bigger market caps tend to have higher quality and dividend scores. Bigger companies should have a more stable financial situaition, otherwise they would not be as big in the long term. Also there are some sectors that tend to have higher market caps than others, like in Health Care or Consumer Staples.
+    \item \textbf{\acrshort{marketcap}}. Companies with bigger market caps tend to have higher quality and dividend scores. Bigger companies should have a more stable financial situation, otherwise they would not be as big in the long term. Also there are some sectors that tend to have higher market caps than others, like \textit{Health Care} or \textit{Consumer Staples}.
     \item \textbf{Sector}. It seems that there could be a pattern seen in the sectors distribution for each scores, but it is not clear.
 \end{itemize}
 
-\noindent Althought, these results are not as clear and they also variate depending on the dataset. Showing early results of non-linear relationships with the dummy variables.
+\noindent Although, these results are not as clear and they also variate depending on the dataset. Showing early results of non-linear relationships with the dummy variables.
 
 \section{Predictive Models}
 
