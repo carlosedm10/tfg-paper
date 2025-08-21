@@ -63,7 +63,7 @@ To my parents.
 
 
 % ############################### ACRONYMS / CAPITALIZED TERMS #######################
-\printglossary[type=\acronymtype, title=Acronyms]
+\printglossary[type=\acronymtype, title=Acronyms and Abreviations]
 
 % ############################### START OF CONTENT #######################
 \clearpage
@@ -445,7 +445,7 @@ Since all of the data is coming from a data provider that uses \acrshort{ocr} as
 \noindent This is one of the biggest \textbf{limitations to the study}: we will be missing the data of companies that stopped existing or that were acquired by other companies, if they did not exist for 10 or more years.
 
 \vspace{0.5cm}
-\noindent For inspecting the data we will be using Python as the main language, enhanced with: \textit{pandas}~\cite{pandas2024}, \textit{matplotlib}~\cite{matplotlib2025doc}, and \textit{seaborn}~\cite{seaborn2024}, which are powerful tools for data manipulation and analysis. The focus will be on the following aspects:
+\noindent For inspecting the data we will be using Python as the main language, enhanced with: \textit{pandas}~\cite{pandas2025}, \textit{matplotlib}~\cite{matplotlib2025doc}, and \textit{seaborn}~\cite{seaborn2025}, which are powerful tools for data manipulation and analysis. The focus will be on the following aspects:
 \begin{itemize}
   \item \textbf{Missing Values}: We need to check if there are any missing values in the data.
   \item \textbf{Data Distributions}: We need to make sure that the data is distributed in a way that is suitable for the modeling.
@@ -1035,13 +1035,13 @@ Even when the models perform well and have a good consistency, we need to check 
         \end{itemize}
     \item \textbf{Normality Tests:} The distribution of residuals should follow a Normal distribution.
         \begin{itemize}
-            \item \textbf{Q-Q Plots:} Visual tool to compare the quantiles of the residuals to a normal distribution. If the data points in the Q-Q plot fall close to a straight diagonal line, it suggests that the data's distribution is similar to the theoretical distribution
+            \item \textbf{\acrshort{qq} Plots:} Visual tool to compare the quantiles of the residuals to a normal distribution. If the data points in the \acrshort{qq} plot fall close to a straight diagonal line, it suggests that the data's distribution is similar to the theoretical distribution
             \item \textbf{Shapiro-Wilk Test:} Statistical test for normality.
             \item \textbf{Jarque-Bera Test:} Tests whether sample data have the skewness and kurtosis matching a normal distribution.
         \end{itemize}
     \item \textbf{Autocorrelation Test:} The errors should not be correlated with each other.
         \begin{itemize}
-            \item \textbf{ACF and PACF Plots:} Visualize the autocorrelation and partial autocorrelation of residuals.
+            \item \textbf{\gls{acf} and \gls{pacf} Plots:} Visualize the autocorrelation and partial autocorrelation of residuals.
             \item \textbf{Durbin-Watson Test:} Checks for the presence of autocorrelation in the residuals.
         \end{itemize}
 \end{itemize}
@@ -1061,7 +1061,7 @@ Even when the models perform well and have a good consistency, we need to check 
 After locating where the score calculators were called, we had to understand the code's architecture and the relationships between the different database models to see exactly what needs to be changed. Tweenvest uses \textit{Django} as the main backend's technology to handle a relational database with \textit{PostgreSQL}, this \acrshort{db} was chosen due to the nature of the financial data where information is related to another.
 
 \vspace{0.5cm}
-\noindent For handling all of the different technologies and environments, Tweenvest uses \textbf{\textcite{dockercompose2024}} to create a virtual machine that contains all of the needed dependencies to run the platform. This way, they have a consistent environment for developing, testing and deploying the code separately. So as we can see in Figure~\ref{fig:general_architecture}, each of the components is running in a different container.
+\noindent For handling all of the different technologies and environments, Tweenvest uses \textbf{\textcite{dockercompose2025}} to create a virtual machine that contains all of the needed dependencies to run the platform. This way, they have a consistent environment for developing, testing and deploying the code separately. So as we can see in Figure~\ref{fig:general_architecture}, each of the components is running in a different container.
 
 \begin{figure}[H]
     \centering
@@ -1445,7 +1445,7 @@ That's when we realized that if each method was good at detecting some outliers 
 \noindent To summarize how we have treated the data, we ended up with different datasets groups, each with 17 columns for the explained variables, the date and also the company's name and stock ticker (see Appendix Figure~\ref{fig:number_of_columns}).
 
 \subsubsection{Simple Datasets}
-\noindent For the first part of the analysis that consisted of the descriptive analysis, we started by using the Big Datasets, that contain all of the Tweenvest's data for the past 10 years. This way we could see the real distributions and correlations, as we will explain in the next chapter. Also we created the 2 subsets of Small Data with only 1,500 stocks for quicker calculations, making sure that the sectors were balanced, and using a 4\% tolerance for the \acrshort{multi} method.
+\noindent For the first part of the analysis that consisted of the descriptive analysis, we started by using the Big Datasets, that contain all of the Tweenvest's data for the past 10 years. This way we could see the real distributions and correlations, as we will explain in the next chapter. Also we created the 2 subsets of Small Data with only 1,500 stocks for quicker calculations, making sure that the sectors were balanced, and using a \textbf{4\% removal rate} for the \acrshort{multi} method.
 
 \begin{table}[H]
     \centering
@@ -1471,7 +1471,7 @@ That's when we realized that if each method was good at detecting some outliers 
 
 \subsubsection{Geographical Datasets}
 
-\noindent For the second part of the analysis, that consists of exploring the regression models, while advancing with it we had to inspect how the geographical regions were affecting the results, so we created one dataset per region applying the same sector balancing. Here  we kept using the 4\% tolerance with the \acrshort{multi}.
+\noindent For the second part of the analysis, that consists of exploring the regression models, while advancing with it we had to inspect how the geographical regions were affecting the results, so we created one dataset per region applying the same sector balancing. Here  we kept using the \textbf{4\% removal rate} with the \acrshort{multi}.
 
 \begin{table}[H]
     \centering
@@ -1516,7 +1516,7 @@ That's when we realized that if each method was good at detecting some outliers 
 
 \subsubsection{Validation Dataset}
 
-\noindent In the final stage of our analysis, our goal was to obtain the most realistic results possible, which required retaining as much data as we could. To achieve this, we revisited the Big Data Future dataset and applied the \acrshort{if} method with a very high tolerance of 35\%. Additionally, we balanced the data by regions and sectors. These steps, however, led to a substantial reduction in the number of rows.
+\noindent In the final stage of our analysis, our goal was to obtain the most realistic results possible, which required retaining as much data as we could. To achieve this, we revisited the Big Data Future dataset and applied the \acrshort{if} method with a \textbf{very high removal rate of 35\%}. Additionally, we balanced the data by regions and sectors. These steps, however, led to a substantial reduction in the number of rows.
 
 \begin{table}[H]
     \centering
@@ -1532,7 +1532,7 @@ That's when we realized that if each method was good at detecting some outliers 
     \label{tab:validation_datasets_summary}
 \end{table}
 
-\noindent These restrictions resulted on a surprisingly higher simple correlations of the profits with the scores, showing that we were going in the right path. But this will be explained in the following section.
+\noindent These restrictions resulted on a surprisingly higher simple correlations, showing that we were going in the right path.
 
 \subsubsection{Conclusion}
 
@@ -1740,16 +1740,16 @@ Now that we understand the data, and the different datasets created. We are goin
 
 \subsection{Linear Regression}
 
-First of all, we started with a family of simple linear regression models with very few variables and not excluding the outliers. Which of course resulted in a very bad model that could not predict anything. But after the first outliers removal used for the first series of datasets. We started to see some results:
+First of all, we started with a family of simple linear regression models with very few variables and not excluding the outliers. This, of course, resulted in a very poor model that could not predict anything (see Appendix Figure~\ref{fig:first_linear_regression_performance}). However, after applying the first outlier removal for the initial series of datasets, we started to see some results:
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\textwidth]{images/code/models/linear_regression/first_model/regression_performance_summary.png}
+    \includegraphics[width=1\textwidth]{images/code/models/linear_regression/first_model/Small Data future - Multi performance.png}
     \caption{Small Data Future - \acrshort{multi} (4\%)}
     \label{fig:first_linear_regression}
 \end{figure}
 
-\noindent Here we can see a pattern that is going to be constant in all of the models, the longer we go in the future the more the model is able to predict the profits. But at the same time, the higher the error is going to be. This is very normal, since on the long term variances are higher but also if a company is stable it will have a more predictable behavior. Also we can see that the \acrshort{rmse} is almost the double from the \acrshort{mae}, which is a good sign that there could be a lot of outliers in the data. 
+\noindent In Figure~\ref{fig:first_linear_regression} we observe a consistent pattern across all models: the further into the future we try to predict profits, the better the model performs in terms of capturing trends, but the prediction error also increases. This is expected, as \textbf{long-term forecasts naturally involve greater variance}; however, stable companies tend to exhibit more predictable behavior over time. Additionally, we notice that the \acrshort{rmse} is nearly twice as large as the \acrshort{mae}, which suggests the \textbf{presence of numerous outliers in the data}. Also it is worth mentioning that the number of variables increase at the same time as the models' performance improves, which could be a \textbf{sign of overfitting}.
 
 \begin{figure}[H]
     \centering
@@ -1761,21 +1761,19 @@ First of all, we started with a family of simple linear regression models with v
 \end{figure}
 
 \vspace{0.5cm}
-\noindent Also we went to see the residues and saw that they were multiple problems with them:
+\noindent Examining the residuals in Figure~\ref{fig:first_linear_regression_residuals}, we identified several issues:
 
 \begin{itemize}
-    \item \textbf{Normality}. When looking at the Q-Q plot, we can see that the residuals are not normally distributed, but there appears to be a section where normality is achieved.
-    \item \textbf{Heteroskedasticity}. When looking at the residuals vs fitted values plot, we can see that the variance is not constant across all time horizons.
-    \item \textbf{Autocorrelation}. When looking at the residuals vs fitted values plot, we can see that the residuals are not independent of each other.
+    \item \textbf{Normality}. The \acrshort{qq} plot reveals that the residuals are not normally distributed, although there is a section where normality appears to hold.
+    \item \textbf{Heteroskedasticity}. The residuals vs fitted values plot indicates that the variance is not constant across all time horizons.
+    \item \textbf{Autocorrelation}. The \acrshort{acf} and \acrshort{pacf} plots also shows that the residuals are not independent of each other.
+    \item \textbf{Outliers}. When looking at the residuals against time, we see big spikes that show that there are many outliers in the data.
 \end{itemize}
 
-
-\vspace{0.5cm}
-\noindent Finally we didn't even see any consistency with the scores since its effect (sign) kept changing and the coefficients themselves didn't have statistical significance.
+\noindent Finally we did not even see any consistency with the scores since its effect (sign) kept changing and the coefficients themselves did not have statistical significance.
 
 \begin{table}[H]
     \centering
-    \caption{Regression Results by Score and Time Horizon}
     \begin{tabular}{lccccccc}
         \toprule
         \textbf{Score} & \textbf{Metric} & \textbf{1M} & \textbf{3M} & \textbf{6M} & \textbf{1Y} & \textbf{2Y} & \textbf{5Y} \\
@@ -1801,25 +1799,79 @@ First of all, we started with a family of simple linear regression models with v
             & t-value & 4.64    & -4.36   & --      & --      & --      & -1.81   \\
         \bottomrule
     \end{tabular}
+    \caption{Small Data Future - \acrshort{multi} (4\%) Consistency}
     \label{tab:regression_results_scores}
 \end{table}
 
-TODO: CONTINUE
+\newpage
 
-    
 \subsubsection{The problem with \acrshort{arima}}
 
-\noindent The first thing we tried seeing the clear autocorrelation problems with the residues was to use the \acrshort{arima} models to improve the performance of the linear regression models and also fix that autocorrelation. This worked like a charm, and we were able to get a better model:
-
+\noindent Before jumping into trying to improve the results by refining the data or the models themselves, the first main issue we tried to fix was the autocorrelations seen in the residues. So used an automatic \acrshort{arima} fitter from \textit{PyPI} \textcite{pmdarima2025} to see if it improved the performance of the linear regression models and also fix the issue all together.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{images/code/models/linear_regression/ARIMA_performance.png}
-    \caption{Small Data Future - \acrshort{multi} 5\% - \acrshort{arima}}
+    \caption{Small Data Future - \acrshort{multi} (4\%)}
     \label{fig:arima_linear_regression}
 \end{figure}
 
-TODO: CONTINUE
+\noindent And of course, this worked like a charm, it solved completely the autocorrelations of the residues and it improved a lot the performance of the model (Figure~\ref{fig:arima_linear_regression}). But this came with a major issue that made us abandon the idea of using \acrshort{arima} models; \textbf{we were using future profits as inputs for the \acrshort{arima} model}, which only could make sense for an ad-hoc model to explain past behavior, but not for a model that is supposed to predict future behavior.
+
+\subsubsection{Artificial Normality}
+
+\noindent So before continuing with the autocorrelations issue, we tried to solve the normality and heteroskedasticity issues. And since it is well known that regression models are not very robust to non-normal data fixing these should also improve the models' performance. 
+
+\vspace{0.5cm}
+\noindent We used the mentioned \textit{Yeo-Johnson} and saw some \textbf{improvements with the performances and the \acrshort{rmse} for long term models (5y)} but showed complete noise for the short term (1m to 1y), which suggest that this transformation helped coping with the tails of the 5y-profits distribution. In general, we see a \textbf{worsening of the accuracy} in most of the models, except in the long term.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{images/code/models/linear_regression/first_model/Small Data future - Multi Gaussian performance.png}
+    \caption{Small Data Future \textit{Yeo-Johnson} - \acrshort{multi} (4\%)}
+    \label{fig:first_linear_regression_gaussian}
+\end{figure}
+
+\noindent When looking at the residuals in Figure~\ref{fig:first_linear_regression_gaussian_residuals}, we can see that the \textbf{normality had improved a lot} for the mid and long term models --which aligns with the accuracies changes--, but we still have issues in the tails of the \acrshort{qq} plot and the same peaks in the time series plots.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.32\textwidth]{images/code/models/linear_regression/first_model/Multi/quality_profit_1m_residuals - Gaussian.png}
+    \includegraphics[width=0.32\textwidth]{images/code/models/linear_regression/first_model/Multi/quality_profit_1y_residuals - Gaussian.png}
+    \includegraphics[width=0.32\textwidth]{images/code/models/linear_regression/first_model/Multi/quality_profit_5y_residuals - Gaussian.png}
+    \caption{Small Data Future \textit{Yeo-Johnson} - \acrshort{multi} (4\%)}
+    \label{fig:first_linear_regression_gaussian_residuals}
+\end{figure}
+
+\noindent Also, after this transformation we still didn't see any consistency and statistical significance (see Appendix Table~\ref{tab:regression_results_scores_gaussian}). But since it improved both the performance and the normality \textbf{we applied this transformation for the rest of the models}.
+
+\subsubsection{Windowed Models}
+
+\noindent Before seeing if the regions' non-linear effects were causing the some of issues, we wanted to try to improve the autocorrelations by using a different approach. In this case, we used a new family of windowed models with the different statistics explained to see if the market had any memory with past financial performances.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{images/code/models/linear_regression/third_model/Small Data future - Multi performance.png}
+    \caption{Small Data Future (Windowed) - \acrshort{multi} (4\%)}
+    \label{fig:third_linear_regression_summary}
+\end{figure}
+
+\noindent In Figure~\ref{fig:third_linear_regression_summary} it appears to be a general improvement into all of the models' performance and accuracy, but this could be due to the increase of explanatory variables --overfitting--. But we encounter a new patter that will be happening in all of the models that uses these windows: \textbf{increase in the Value's models performance and accuracy, with a peak around 6m-profits}.
+
+\vspace{0.5cm}
+\noindent To understand this, we have to go back to the definition of the Value Score seen in chapter 2, where it was clear that the score contains the price movements within it. So we have figured out a way to implement some of the price's momentum into the models including also financial data into it. This showed us that \textbf{the market has memory of a company's price multiples}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.32\textwidth]{images/code/models/linear_regression/third_model/Multi/quality_profit_1m_residuals.png}
+    \includegraphics[width=0.32\textwidth]{images/code/models/linear_regression/third_model/Multi/quality_profit_1y_residuals.png}
+    \includegraphics[width=0.32\textwidth]{images/code/models/linear_regression/third_model/Multi/quality_profit_5y_residuals.png}
+    \caption{Small Data Future (Windowed) - \acrshort{multi} (4\%)}
+    \label{fig:third_linear_regression_residuals}
+\end{figure}
+
+\noindent The residues kept having the same issues as the previous models, but we finally see consistency and significance with the value score.
+
 
 \subsubsection{Geographical Effects}
 
@@ -1830,7 +1882,7 @@ TODO: CONTINUE
 
 \noindent We saw that there were countries with far more outliers than others, so we decided to create a new dataset with less outliers in total and balancing the regions and sectors. Doing this improved a lot the models' performance, and residues.
 
-TODO: CONTINUE
+% TODO: CONTINUE
 
 \subsection{GAM}
 
@@ -2756,4 +2808,47 @@ Here we have all of the not shown images for further analysis, if needed.
         \label{fig:small_data_future_as_multi_correlations}
     \end{minipage}
 \end{figure}
+
+\subsection{Models}
+
+\subsubsection{Linear Regression}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{images/code/models/linear_regression/first_model/basic_models_summary.png}
+    \caption{Small Data Future (Clean) - Performance}
+    \label{fig:first_linear_regression_performance}
+\end{figure}
+
+\begin{table}[H]
+    \centering
+    \begin{tabular}{lccccccc}
+        \toprule
+        \textbf{Score} & \textbf{Metric} & \textbf{1M} & \textbf{3M} & \textbf{6M} & \textbf{1Y} & \textbf{2Y} & \textbf{5Y} \\
+        \midrule
+        \multirow{3}{*}{\textbf{Dividend}} 
+            & Coef.   & --      & --      & --      & --      & -0.0011 & 0.0013 \\
+            & Sign    & 0       & 0       & 0       & 0       & --      & +      \\
+            & t-value & --      & --      & --      & --      & -2.06   & 2.65   \\
+        \midrule
+        \multirow{3}{*}{\textbf{Growth}} 
+            & Coef.   & 0.0031  & --      & --      & 0.0045  & --      & 0.0008 \\
+            & Sign    & +       & 0       & 0       & +       & 0       & +      \\
+            & t-value & 7.35    & --      & --      & 7.79    & --      & 3.11   \\
+        \midrule
+        \multirow{3}{*}{\textbf{Quality}} 
+            & Coef.   & -0.0040 & -0.0020 & --      & -0.0055 & --      & --     \\
+            & Sign    & --      & --      & 0       & --      & 0       & 0      \\
+            & t-value & -3.95   & -2.43   & --      & -5.53   & --      & --     \\
+        \midrule
+        \multirow{3}{*}{\textbf{Value}} 
+            & Coef.   & --      & -0.0023 & --      & -0.0021 & --      & --     \\
+            & Sign    & 0       & --      & 0       & --      & 0       & 0      \\
+            & t-value & --      & -2.90   & --      & -1.92   & --      & --     \\
+        \bottomrule
+    \end{tabular}
+    \caption{Small Data Future \textit{Yeo-Johnson} - \acrshort{multi} (4\%) Consistency}
+    \label{tab:regression_results_scores_gaussian}
+\end{table}
+
 \end{document}
