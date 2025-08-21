@@ -1552,13 +1552,13 @@ When looking at the scores in the Figure~\ref{fig:scores}, we see that there are
 
 \begin{figure}[H]
     \centering
-    \begin{minipage}{0.48\textwidth}
+    \begin{minipage}{0.5\textwidth}
         \centering
         \includegraphics[width=\linewidth]{images/code/descriptive analysis/distributions/Big Data future - Scores.png}
         \caption{Big Data Future - Scores}
         \label{fig:scores}
     \end{minipage}\hfill
-    \begin{minipage}{0.48\textwidth}
+    \begin{minipage}{0.5\textwidth}
         \centering
         \includegraphics[width=\linewidth]{images/code/descriptive analysis/distributions/Big Data future - Scores Deep.png}
         \caption{Big Data Future - Scores Deep}
@@ -1571,11 +1571,11 @@ When looking at the scores in the Figure~\ref{fig:scores}, we see that there are
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\linewidth]{images/macros/Euribor.png}
-    \caption{EMMI - Euribor Interest Rates}
+    \caption{\acrshort{emmi} - Euribor Interest Rates}
     \label{fig:euribor}
 \end{figure}
 
-\noindent Around 2015--2020 interest rates were at a historical low, so there could be more companies with more debt than normal. Some central banks, particularly in Europe, experimented with negative interest rate policies on deposit facilities during this period (Figure~\ref{fig:euribor}). This possibility should be studied in more detail, but knowing that this does not happen for the dataset between 2020--2025 where interest rates are higher, we have a clue that this could be whats causing it (see Appendix Figure~\ref{fig:past_scores_deep}).
+\noindent Comparing the interest rates between 2015--2020 and 2020--2025, we can see that the first period was at a historical low, so there could be more companies with higher debt rates than normal. Some central banks, particularly in Europe, experimented with negative interest rate policies on deposit facilities during this period (Figure~\ref{fig:euribor}), \cite{euribor_emmi}. This possibility should be studied in more detail, but knowing that this does not happen for the dataset between 2020--2025 where interest rates are higher, we have a clue that this could be whats causing it (see Appendix Figure~\ref{fig:past_scores_deep}).
 
 \vspace{0.5cm}
 \noindent Finishing with quality, there is a \textit{``defect''} in the dataset. We do not have 10 year averages for the companies that are in the 2015--2020 period --Tweenvest only has data after 2012-- so the algorithm gives 0 to some of its criteria making the maximum quality be 80. But since this is happening for all of the companies, \textbf{it is not a problem for the model fitting}, and we could easily rescale to 100.
@@ -1608,28 +1608,28 @@ We have already explored the scores, so now we have to see if there distribution
 \vspace{0.5cm}
 \noindent It is worth noting that the distribution of companies across sectors varies significantly over time, as shown in Appendix Figures~\ref{fig:future_dummies} and~\ref{fig:past_dummies}. This \textbf{temporal variation in sector representation} presents an interesting opportunity for future research.
 
+\newpage
+
 \subsubsection{Profits}
 
 \noindent Finally, when analyzing the profit distributions across different time horizons, we observe that the distributions contain a numerous amount of outliers that do not let us see the distributions clearly (Appendix Figures~\ref{fig:big_data_future_profits_boxplot} and~\ref{fig:big_data_future_profits}). So just for this descriptive analysis purposes, \textbf{we used the \acrshort{iqr} method} mentioned in previous chapters to remove the outliers.
 
 \begin{figure}[H]
     \centering
-    \begin{minipage}{0.48\textwidth}
+    \begin{minipage}{0.5\textwidth}
         \centering
-        \includegraphics[width=0.8\linewidth]{images/code/descriptive analysis/distributions/Big Data future IQR - Profits Boxplot.png}
+        \includegraphics[width=1\linewidth]{images/code/descriptive analysis/distributions/Big Data future IQR - Profits Boxplot.png}
         \caption{Big Data Future \acrshort{iqr} - Profits Boxplot}
         \label{fig:big_data_future_iqr_profits_boxplot}
     \end{minipage}\hfill
-    \begin{minipage}{0.48\textwidth}
+    \begin{minipage}{0.5\textwidth}
         \centering
-        \includegraphics[width=0.8\linewidth]{images/code/descriptive analysis/distributions/Big Data Future IQR - Profits.png}
+        \includegraphics[width=1\linewidth]{images/code/descriptive analysis/distributions/Big Data Future IQR - Profits.png}
         \caption{Big Data Future \acrshort{iqr} - Profits}
         \label{fig:big_data_future_iqr_profits_iqr}
     \end{minipage}
 \end{figure}
 
-
-\vspace{0.5cm}
 \noindent Interestingly, we notice that the \textbf{short-term profit} distributions (1-month and 3-month) are more symmetric and closer to \textbf{normal distributions}, which is consistent with the efficient market hypothesis suggesting that short-term price movements are largely random. 
 
 \vspace{0.5cm}
@@ -1644,21 +1644,20 @@ We have already explored the scores, so now we have to see if there distribution
 For analyzing the correlations between the variables, we will start firstly with just the cleaned big datasets, and then we will use also the datasets without the outliers, since these are the ones that will be used for the model fitting in most of the analysis.
 
 \vspace{0.5cm}
-\noindent Here is the only section that we will be using the past Datasets, to see if past profits are being reflected in current scores.
+\noindent Here is the only section that \textbf{we will be using the past datasets}, to see if past profits are being reflected in current scores.
 \subsubsection{Clean Datasets}
-
 \begin{figure}[H]
     \centering
     \begin{minipage}{0.48\textwidth}
         \centering
         \includegraphics[width=\linewidth]{images/code/descriptive analysis/correlations/Big Data Past.png}
-        \caption{Big Data Past - Correlations}
+        \caption{Big Data Past (Clean) - Correlations}
         \label{fig:big_data_past_correlations}
     \end{minipage}\hfill
     \begin{minipage}{0.48\textwidth}
         \centering
         \includegraphics[width=\linewidth]{images/code/descriptive analysis/correlations/Big Data future.png}
-        \caption{Big Data Future - Correlations}
+        \caption{Big Data Future (Clean) - Correlations}
         \label{fig:big_data_future_correlations}
     \end{minipage}
 \end{figure}
@@ -1671,25 +1670,23 @@ For analyzing the correlations between the variables, we will start firstly with
 \end{itemize}
 
 \subsubsection{Outliers Datasets}
-% But as it has been seen multiple times through the analysis, the outliers create a big bias that does not allow us to see the real correlations occurring for "normal companies". So as shown in the table~\ref{tab:datasets_summary}, we will use the Big datasets filtered with the Isolation Forest method to remove outliers as a first approach, but for the model fitting we will use the multi-criteria outlier detection.
-
 \begin{figure}[H]
     \centering
     \begin{minipage}{0.48\textwidth}
         \centering
         \includegraphics[width=\linewidth]{images/code/descriptive analysis/correlations/Big Data Past - IF.png}
-        \caption{Big Data Past \acrshort{if} - Correlations}
+        \caption{Big Data Past \acrshort{if} (4\%) - Correlations}
         \label{fig:big_data_past_if_correlations}
     \end{minipage}\hfill
     \begin{minipage}{0.48\textwidth}
         \centering
         \includegraphics[width=\linewidth]{images/code/descriptive analysis/correlations/Big Data future - IF.png}
-        \caption{Big Data Future \acrshort{if} - Correlations}
+        \caption{Big Data Future \acrshort{if} (4\%) - Correlations}
         \label{fig:big_data_future_if_correlations}
     \end{minipage}
 \end{figure}
 
-\noindent As expected, the correlations already seen stay similar with a slight increase in the \textit{Momentum}, showing more importance of it than other variables. But actually, there are \textbf{new correlations seen} for both datasets:
+\noindent For getting a bigger picture we only used a small outlier removal. And as expected, the correlations already seen before any removal stay similar with a slight increase in the \textit{Momentum}, showing more importance of it than other variables. But actually, there are \textbf{new correlations seen} for both datasets:
 
 \begin{itemize}
     \item  \textbf{Accumulated profits affect the scores}. In the past dataset we can see that long term past profits translate into higher quality and dividend scores-- as expected by their correlation. But also, they make the value score to decrease. This could be explained by two effects:
@@ -1704,13 +1701,27 @@ For analyzing the correlations between the variables, we will start firstly with
 
 \noindent Although we have to make clear that these correlations do not stand along all of the geographical datasets (see Appendix Figures from~\ref{fig:small_data_future_usa_correlations} to~\ref{fig:small_data_future_as_multi_correlations}), so we cannot be sure if these correlations will be properly explained by the linear models.
 
+\subsubsection{Validation Dataset}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.48\textwidth]{images/code/descriptive analysis/correlations/Medium future - IF HARD.png}
+    \caption{Medium Data Future \acrshort{if} (35\%) - Correlations}
+    \label{fig:medium_data_future_if_correlations}
+\end{figure}
+
+
+\noindent Also, as we mentioned in the previous chapter, in Figure~\ref{fig:medium_data_future_if_correlations} we see a huge increase in the previous correlations when we removed more outliers. And a new inverse correlation for market cap and value. It is interesting that this relationship is not as strong as we could expect.
+
+\newpage
+
 \subsection{Data clusters}
 Finally, we are going to try to compare these results with the \acrshort{pairplot} of the datasets, to look for clusters of data when comparing many variables at once.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{images/code/descriptive analysis/correlations/Small Data future - Multi - pairplot.png}
-    \caption{\acrshort{pairplot} of Small Data Future - \acrshort{multi}}
+    \caption{\acrshort{pairplot} of Small Data Future - \acrshort{multi} (4\%)}
     \label{fig:pairplot_small_data_future_multi}
 \end{figure}
 
@@ -1725,16 +1736,16 @@ Finally, we are going to try to compare these results with the \acrshort{pairplo
 
 \section{Predictive Models}
 
-Now that we understand the data, and the different datasets created. We are going to explain how was the process of refining the methodologies and improving the results.
+Now that we understand the data, and the different datasets created. We are going to explain how was the process of refining the methodologies for improving the results.
 
 \subsection{Linear Regression}
 
-First of all, we started with a simple linear regression model with very few variables and not excluding the outliers. Which of course resulted in a very bad model that could not predict anything. But after the first outliers removal used for the first series of datasets. We started to see some results:
+First of all, we started with a family of simple linear regression models with very few variables and not excluding the outliers. Which of course resulted in a very bad model that could not predict anything. But after the first outliers removal used for the first series of datasets. We started to see some results:
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{images/code/models/linear_regression/first_model/regression_performance_summary.png}
-    \caption{Small Data Future - \acrshort{multi} 5\%}
+    \caption{Small Data Future - \acrshort{multi} (4\%)}
     \label{fig:first_linear_regression}
 \end{figure}
 
