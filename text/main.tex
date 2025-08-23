@@ -63,7 +63,7 @@ To my parents.
 
 
 % ############################### ACRONYMS / CAPITALIZED TERMS #######################
-\printglossary[type=\acronymtype, title=Acronyms and Abreviations]
+\printglossary[type=\acronymtype, title=Acronyms and Abbreviations]
 
 % ############################### START OF CONTENT #######################
 \clearpage
@@ -1870,7 +1870,7 @@ First of all, we started with a family of simple linear regression models with v
     \label{fig:third_linear_regression_residuals}
 \end{figure}
 
-\noindent The residues kept having the same issues as the previous models, but we finally see \textbf{consistency and significance in the value score} (Table~\ref{tab:third_linear_regression_results_scores}), so the rest of the models will use the windowed variables.
+\noindent The residues kept having the same issues as the previous models, but we finally see \textbf{consistency and significance}. In Table~\ref{tab:third_linear_regression_results_scores} we made a summary of the only relevant results, but for the full data see Appendix Tables 6.2--6.5.
 
 \begin{table}[H]
     \centering
@@ -1944,12 +1944,13 @@ First of all, we started with a family of simple linear regression models with v
     \label{tab:third_linear_regression_results_scores}
 \end{table}
 
+\noindent Examining the results, we observe that a company's 24-month averages for Dividend and Quality are correlated with overall returns, which is consistent with the explained correlations between these scores. The relationship with the Growth score is less intuitive but may still be meaningful: strong growth over the past 24 months suggests stability and should lead to good returns, but if performance in the last 12 months has declined, the market may react negatively. Additionally, there is a clear \textbf{correlation between the most recent Value score and future profits}.
+
+\noindent These results are very promising and indicate a clear trend; however, we cannot be certain of their validity yet because the residuals do not meet the model's assumptions.
 
 \subsubsection{Geographical Effects}
 
-All of these changes made have improved the results so far, but we still are hitting very low 
-\noindent As we have already mentioned, the countries and sectors have both a big effect on the profits. Tweenvest's algorithm already takes into account the sector effect, but we thought that the regions could be having a big effect on the models, so we separated the data by regions and proceed to analyze the models' results:
-
+\noindent All of these changes made have improved the results so far, but we still are hitting very low performances. This is very common when trying to fit a linear model to a non-linear relationship. But before claiming that that was the cause, we want to see if these non-linearities come from the regions; since the sectors effect should have already been taken into account by Tweenvest's algorithm. Additionally, we wanted to check if the outliers were coming from any specific region.
 
 \subsubsection{The importance of a clean dataset}
 
