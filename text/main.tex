@@ -77,20 +77,32 @@ To my parents.
 \chapter{Introduction and Objectives }
 \section{Fundamental Analysis Investing}
 
-\noindent Fundamental Analysis is a methodology used to evaluate the intrinsic value of a company, asset, or market by analyzing various economic, financial, qualitative, and quantitative factors. Unlike technical analysis, which focuses on price movements and chart patterns, fundamental analysis seeks to determine an asset's \textit{``true value''} to identify investment opportunities that may be undervalued or overvalued in the market.
+\subsection{Context}
+
+\noindent Fundamental Analysis is a methodology used to evaluate the intrinsic value of a company, asset, or market by analyzing various economic, financial, qualitative, and quantitative factors. Unlike technical analysis, which focuses on price movements and chart patterns, fundamental analysis seeks to determine an asset's \textit{``true value''} to identify investment opportunities that may be undervalued or overvalued in the market. This intrinsic value is defined by numerous experts and renowned investors -—such as Benjamin Graham, Warren Buffett, and Pat Dorsey~\cite{dorsey2011five}—- as a company's ability to adapt to an ever-changing environment, create value in the market, and establish barriers to entry for competitors; commonly referred to as \textit{economic moats}.
 
 \vspace{0.5cm}
-\noindent This intrinsic value is defined by numerous experts and renowned investors—such as Benjamin Graham, Warren Buffett, and Pat Dorsey~\cite{dorsey2011five}—as a company's ability to adapt to an ever-changing environment, create value in the market, and establish barriers to entry for competitors-- commonly referred to as \textit{economic moats}.
+\noindent Measuring these moats is challenging due to the difficulty of quantifying certain variables, such as brand strength and market influence. However, over the long term most literature show that these \textbf{intangible factors translate into tangible financial data}, which are reflected in a company's reports: balance sheet, income statement, and cash flow statement. When companies are exposed to the public market share, all of this information transforms into the needs of buying or selling the stocks, altering the companies stocks' profitability. So from now on, these \textbf{economic moats will be called \textit{alpha}}~\cite{sharpe1964capm}.
 
 \vspace{0.5cm}
-\noindent Measuring these moats is challenging due to the difficulty of quantifying certain variables, such as brand strength and market influence. However, over the long term most literature show that these \textbf{intangible factors translate into tangible financial data}, which are reflected in a company's reports: balance sheet, income statement, and cash flow statement. When companies are exposed to the public market share, all of this information transforms into the needs of buying or selling the stocks, altering the companies stocks' profitability. So from now on, these \textbf{economic moats will be called \textit{alpha}}, \textcite{sharpe1964capm}.
+\noindent This complexity prompted José Tatay, Tweenvest's founder, to develop a series of algorithms to calculate certain scores, based on the fundamental analysis principles, to help users identify possible \textit{alpha} in a company; which is the main objective for all of the long-term investors. These scores play a key role in this thesis, that is why the generative method will be explained further in the next chapter.
+
+\subsection{Interdisciplinary Nature of the Thesis}
+
+\noindent This work is the result of a real-world problem posed by \textit{Tweenvest}, a company operating in the field of long-term investing. The challenges are complex and require an approach that integrates both technical and economical expertise.
 
 \vspace{0.5cm}
-\noindent This complexity is what made José Tatay, Tweenvest's founder, develop a series of algorithms to calculate certain scores, based on the fundamental analysis principles, to help users identify possible \textit{alpha} in a company; which is the main objective for all of the long-term investors. This methodology will be explained further more in the next chapter.
+\noindent From the perspective of \textbf{Telecommunication Engineering}, the project demands skills in data acquisition, processing, and modeling (machine learning); as well as the design and optimization of computational architectures capable of handling large-scale financial datasets. These competencies ensure that the proposed solutions are not only methodologically sound but also technically feasible and efficient in a production environment.
 
-\section{Possible Problems With the Scores' Algorithm}
+\vspace{0.5cm}
+\noindent From the perspective of \textbf{Business Management}, the work draws on financial theory, econometric modeling and statistics to critically evaluate whether the scoring system truly captures a company’s capacity to generate \textit{alpha}. This dimension provides the economic rationale and market context necessary to interpret the results and propose meaningful improvements.
 
-\noindent In the context of this thesis, we have to explain the need to make a systematic review of the scores to \textbf{check wether the simplifications and hypotheses assumed} by the financial consensus, and the way that they are implemented in Tweenvest's scores, \textbf{truly show a company's ability to create \textit{alpha}} over time or not.
+\vspace{0.5cm}
+\noindent The combination of these two disciplines enables a holistic approach: technical tools and infrastructure are aligned with financial objectives, resulting in solutions that are both operationally robust and economically relevant. This thesis has been carried out under the joint supervision of \textbf{Alberto Albiol Colmener} (Telecommunication Engineering), \textbf{Joaquín Martínez Minaya} (Business Management), and \textbf{José Tatay Sangüesa} (Tweenvest), whose guidance has been essential in bridging the academic and professional perspectives of the work.
+
+\section{Possible Problems With the Scores' Methodology}
+
+\noindent Given the central role of these scores in the investment decision-making process, it is essential to assess whether the simplifications and assumptions underlying their design -—both those inherited from general financial theory and those specific to Tweenvest’s implementation-- accurately capture a company’s capacity to generate \textit{alpha} over time. This motivates the need for a systematic review of the methodology to evaluate its validity and practical reliability.
 
 
 \subsection{Unquantified Variables}
@@ -132,14 +144,14 @@ To my parents.
 
 \subsubsection{Non-stationarity}
 
-\noindent Traditionally, standard growth ratios have been used, based on the assumption that in competitive markets, when a new business model or opportunity emerges with above-average margins, entrepreneurs quickly move in to capitalize on it; eventually saturating the opportunity and driving margins back down to average levels over time. But what happens when there is a significant shift in trend? 
+\noindent Traditionally, \textbf{standard growth ratios have been employed as} a key component in evaluating a company’s performance over time. These ratios, such as revenue growth, earnings growth, or asset growth, provide a normalized measure that facilitates comparison across companies and industries, regardless of size. In the context of score calculation, they serve as a \textbf{consistent benchmark}, allowing the algorithm to assess whether a company’s growth trajectory exceeds, matches, or falls below market expectations. The underlying assumption is that in competitive markets, when a new business model or opportunity emerges with above-average margins, entrepreneurs quickly enter to capitalize on it, eventually saturating the opportunity and driving margins back toward average levels. 
 
 \vspace{0.5cm}
-\noindent Markets are ``fluctuating entities'', so \textbf{static metrics can become problematic when underlying trends change}. A clear example is the rise of artificial intelligence and the surge in stock prices of companies involved in the production and development of the necessary technologies.
+\noindent However, markets are ``fluctuating entities'', so \textbf{static metrics can become problematic when underlying trends change}. A clear example is the rise of artificial intelligence and the surge in stock prices of companies involved in the production and development of the necessary technologies.
 
 \section{Objectives}
 
-\noindent Given the limitations identified mentioned for the current algorithm, the main aim of this work is to \textbf{evaluate if the scores represent \textit{alpha} for different time frames}, \textbf{guide users how to interpret them based on different investment strategies}, and to \textbf{propose possible changes to the scores calculation} in order to present the results with more accuracy. To achieve this, we followed these objectives:
+\noindent Given the limitations identified mentioned for the current algorithm, the main aim of this work is to \textbf{evaluate if the scores provided by Tweenvest represent \textit{alpha} for different time frames}, \textbf{guide users how to interpret them based on different investment strategies}, and to \textbf{propose possible changes to the scores calculation} in order to present the results with more accuracy. To achieve this, we followed these objectives:
 
 \begin{enumerate}
   \item \textbf{System Architecture Enhancement}: Modify Tweenvest's database architecture to enable historical score storage and retrieval and create the datasets for the analysis.
@@ -151,10 +163,11 @@ To my parents.
 
 \section{Variables for the Analysis}
 
-For doing so, we are going to look for correlations between the profits of a company with different scores and other categorical variables.
+To fulfill the objectives, one of the most important variables to consider is the profits of an investment in a company. And for doing so, we are going to look for correlations between the profits of a company with different scores and other categorical variables that we will use in the analysis.
 
 \subsection{Response Variables}
-To help users understand how to use the scores depending on their investment horizon, we used different profits that from now on will be represented as \(P_i\) for each time horizon: \(i \in \{1 \text{ month}; 3 \text{ months}; 6 \text{ months}; 1 \text{ year}; 2 \text{ years}; 5 \text{ years}\}\).
+To help users understand how to use the scores depending on their investment horizon, we computed profits for multiple time intervals, denoted as \(P_i\) for each horizon: \(i \in \{1 \text{ month}; 3 \text{ months};\)\\
+\(6 \text{ months}; 1 \text{ year}; 2 \text{ years}; 5 \text{ years}\}\). These intervals were chosen to capture distinct market perspectives: short-term (1–6 months) to evaluate immediate market reactions and tactical opportunities, medium-term (1–2 years) to reflect cyclical adjustments and strategic positioning, and long-term (5 years) to assess sustained value creation and the durability of a company’s fundamentals.
 
 \vspace{0.5cm}
 \noindent The profits are defined as:
@@ -169,7 +182,7 @@ To help users understand how to use the scores depending on their investment hor
 \subsection{Explanatory Variables}
 To relate the profits with the scores, we need to use different variables:
 \begin{itemize}
-    \item \textbf{Main variables}, these are numerical variables from \textbf{Tweenvest's Scores}, that are in the range of 0 to 100: \(S_j\) where   \(j \in \{\text{ Quality; Value; Dividend; Growth}\}\)
+    \item \textbf{Main variables}, these are numerical variables from \textbf{Tweenvest's Scores}, that are in the range of 0 to 100: \(S_j\) where   \(j \in \{\text{ Quality; Value; Dividend; Growth}\}\). These will explained in the next section.
     \item \textbf{Dummy variables}, these are boolean variables that allow us to tag the companies by:
     \begin{itemize}
         \item \textbf{Industry}: \(I_k\) where \(k \in \{\text{Financials; Healthcare; etc.}\}\)
@@ -185,26 +198,15 @@ To relate the profits with the scores, we need to use different variables:
 % ############################### METHODOLOGY #######################
 \chapter{Methodology \& Theoretical Framework}
 
+\noindent This chapter outlines the methodological and theoretical foundations used to evaluate Tweenvest’s scoring system. The first part describes in detail the structure and computation of the scores, providing a clear understanding of how each factor—Quality, Growth, Value, and Dividend—is defined and measured. This is followed by the data processing, outlier detection, and predictive modeling techniques applied to assess their relationship with company performance over different investment horizons.
 
 \section{Tweenvest's Scores}
 
-The \textbf{long-term advantage} explained earlier in the finance is used in many indexes such as \textcite{msci2024fundamental}, IBEX-35, etc to achieve higher returns than average. So following this approach, Tweenvest developed a series of scores to \textbf{help users identify possible \textit{alpha} in a company}. Upon these scores, we can highlight four --Quality, Growth, Value, and Dividend-- that are strictly related to key focus areas that fundamental-based investors consider before making any decision, these areas are:
-\begin{itemize}
-    \item Profitability
-    \item Financial Health
-    \item Predictability
-    \item Consistent Growth
-    \item Entrance Moment
-    \item Dividends Payed
-\end{itemize}
+The \textbf{long-term advantage} explained earlier in the finance is used in many indexes such as \textcite{msci2024fundamental}, IBEX-35, S\&P 500, etc to achieve higher returns than average. So following this approach, Tweenvest developed a series of scores to \textbf{help users identify possible \textit{alpha} in a company}. Upon these scores, we can highlight four --Quality, Growth, Value, and Dividend-- that are strictly related to key focus areas that fundamental-based investors consider before making any decision, these areas are: profitability, financial health, predictability, consistent growth, entrance moment, and dividends payed.
 
 \subsection{Quality}
 
-\noindent To understand what the Quality score aims to capture, it is useful to consider the three key categories commonly used by successful investors when analyzing financial statements: \textbf{profitability}, \textbf{financial health}, and \textbf{predictability}. Each category encompasses a range of financial ratios that reflect different aspects of a company's performance. By combining these dimensions, we can construct a more comprehensive view of a company's overall financial ``quality''.
-
-
-\vspace{0.5cm}
-\noindent To better understand the score, we need to look at each category separately. Starting with \textbf{profitability} we can separate:
+\noindent To understand what the Quality score aims to capture, it is useful to consider the three key categories commonly used by successful investors when analyzing financial statements: \textbf{profitability}, \textbf{financial health}, and \textbf{predictability}. Each category encompasses a range of financial ratios that reflect different aspects of a company's performance and by combining these dimensions, we can construct a more comprehensive view of a company's overall financial ``quality''. To better understand the score, we need to look at each category separately. Starting with \textbf{profitability} we need to take into consideration two aspects: profitability margins and performance ratios.
 
 \subsubsection{Profitability Margins}
 These are essential for understanding how a company is managing its costs and generating profits from its revenues.
@@ -221,19 +223,19 @@ These are essential for understanding how a company is managing its costs and ge
 \subsubsection{Performance Ratios}
 These are used to measure the overall performance of the company.
 \begin{itemize}
-    \item \textbf{\acrshort{roa}}: Measures how efficiently a company converts its assets into profits. This is especially important in capital-intensive sectors, where efficient asset management can make a significant difference in profitability.
+    \item \textbf{\gls{roa}}: Measures how efficiently a company converts its assets into profits. This is especially important in capital-intensive sectors, where efficient asset management can make a significant difference in profitability.
     
-    \item \textbf{\acrshort{roe}}: Focuses on the profits generated per dollar of equity invested by shareholders. This ratio is crucial for evaluating a company's overall profitability from the shareholders' perspective. It is an especially valuable metric for investors seeking to maximize their returns on equity investment.
+    \item \textbf{\gls{roe}}: Focuses on the profits generated per dollar of equity invested by shareholders. This ratio is crucial for evaluating a company's overall profitability from the shareholders' perspective. It is an especially valuable metric for investors seeking to maximize their returns on equity investment.
     
-    \item \textbf{\acrshort{roic}}: Focuses on the return generated by all the funds invested in the company, including both shareholders' equity and debt. It is a comprehensive measure of a company's ability to generate value from all its sources of financing.
+    \item \textbf{\gls{roic}}: Focuses on the return generated by all the funds invested in the company, including both shareholders' equity and debt. It is a comprehensive measure of a company's ability to generate value from all its sources of financing.
     
-    \item \textbf{\acrshort{roce}}: Measures the funds used to finance operations, regardless of the source. This ratio is useful for comparing the efficiency of companies with different capital structures, as it focuses on total capital employed rather than just equity.
+    \item \textbf{\gls{roce}}: Measures the funds used to finance operations, regardless of the source. This ratio is useful for comparing the efficiency of companies with different capital structures, as it focuses on total capital employed rather than just equity.
 \end{itemize}
 
-\noindent Also, to not only look at actives, Tweenvest uses the cash generated to calculate: \textbf{\acrshort{croic}}, \textbf{\acrshort{croce}}, \textbf{OCF/Sales}, and \textbf{\acrshort{fcf}/Sales}. And lastly it takes account also the Owner's income to calculate: \textbf{Owner's Income/Sales}, \textbf{Owner's \acrshort{croic}} and \textbf{Owner's \acrshort{croce}}.
+\noindent Also, to not only look at actives, Tweenvest uses the cash generated to calculate: \textbf{\gls{croic}}, \textbf{\gls{croce}}, \textbf{OCF/Sales}, and \textbf{\gls{fcf}/Sales}. And lastly it takes account also the Owner's income to calculate: \textbf{Owner's Income/Sales}, \textbf{Owner's \acrshort{croic}} and \textbf{Owner's \acrshort{croce}}.
 
 \vspace{0.5cm}
-\noindent Continuing with the \textbf{financial health}, we need to analyze the company's debt in different aspects:
+\noindent Continuing with the \textbf{financial health}, we need to analyze the company's debt state in different aspects: \textbf{structure of the debt} (leverage ratios, debt coverage ratios, interest coverage ratios), and \textbf{ability to pay} (liquidity ratios).
 
 \subsubsection{Leverage Ratios}
 These ratios assess how much a company relies on debt to finance its assets and operations, and are essential for evaluating financial risk and long-term solvency.
@@ -261,7 +263,7 @@ These metrics evaluate a company's ability to cover its debt using its earnings 
 \end{itemize}
 
 \subsubsection{Interest Coverage Ratios}
-These ratios measure how easily a company can meet its interest payments on outstanding debt — critical for assessing short-term debt service capability.
+These ratios measure how easily a company can meet its interest payments on outstanding debt, critical for assessing short-term debt service capability.
 
 \begin{itemize}
     \item \textbf{\acrshort{ebit}/Interest}: Indicates how many times a company can cover its interest expenses with its operating income.
@@ -288,7 +290,7 @@ These ratios measure a company's ability to meet short-term obligations with its
 
 \subsubsection{Predictability}
 
-\noindent And finally, for the quality score we need to look at the company's predictability. This is achieved by trying to fit values related to the company's success —such as Sales— to a exponential curve, using the ordinary least square method, which is supported by large financial literature \cite{msci2024fundamental}.
+\noindent And finally, for the quality score we need to look at the company's predictability. This is achieved by trying to fit values related to the company's success —such as Sales— to an exponential curve, using the ordinary least square method, which is supported by large financial literature \cite{msci2024fundamental}.
 
 
 \begin{figure}[H]
@@ -298,7 +300,7 @@ These ratios measure a company's ability to meet short-term obligations with its
     \label{fig:quality_score}
 \end{figure}
 
-\noindent After calculating all of this ratios, Tweenvest compares them to the sectors' median and interpolates each of them to create a single score for the ratio, then it aggregates them all using personalized weights to create the final Quality Score, which is then showed to the clients as shown in Figure~\ref{fig:quality_score}.
+\noindent After calculating all of this ratios, Tweenvest compares them to the sectors' median and interpolates each of them to create a single score for the ratio, then it aggregates them all using personalized weights to create the final Quality Score, which is then summarized and shown to the clients as seen in Figure~\ref{fig:quality_score}. In the left we have the total score for the factor and in the right some of the most relevant ratios used to calculate it, comparing them to the sector. This format is consistent for all of the factors studied in this work.
 
 
 \subsection{Growth}
@@ -389,10 +391,7 @@ These ratios measure a company's ability to meet short-term obligations with its
 
 
 \subsection{Dividend}
-\noindent When analyzing Tweenvest most common investors profile, we see a high tendency to income-focused and long-term investors using mainly dividends as their principal concern. Thats why the platform dedicated a full section to this topic. 
-
-\vspace{0.5cm}
-\noindent The Dividend Score measures the attractiveness, reliability, and growth potential of a company's dividend payments. It helps investors assess whether the dividend is both rewarding today and sustainable for tomorrow. To do so, the score was built from three primary components:
+\noindent When analyzing Tweenvest most common investors profile, we see a high tendency to income-focused and long-term investors using mainly dividends as their principal concern. Thats why the platform dedicated a full section to this topic. The Dividend Score measures the attractiveness, reliability, and growth potential of a company's dividend payments. It helps investors assess whether the dividend is both rewarding today and sustainable for tomorrow. To do so, the score was built from three primary components:
 
 \subsubsection{Safety}
 This part of the score is used to assess the sustainability of the dividend.
@@ -424,7 +423,7 @@ This part of the score is used to assess the sustainability of the dividend.
 \noindent Finally, as seen in Figure~\ref{fig:dividend_score}, the algorithm adjusts this score based on how many years the dividend has been maintained or increased, \textbf{rewarding consistency}.
 
 \section{Code practices}
-Since the code that needs to be changed is used in a production environment by Tweenvest, it is important to follow some \textit{good practices} to ensure the code is easy to understand, maintain, and to avoid introducing new bugs.
+Since the code that needs to be changed is used in a production environment by Tweenvest, it is important to follow some \textit{``good practices''} to ensure the code is easy to understand, maintain, and to avoid introducing new bugs.
 
 \begin{itemize}
   \item \textbf{Understanding and Documenting}: Before starting to work on the code, it is important to understand the codebase and the purpose of the code. For this, it is recommended to use some tools like flux diagrams, code comments, and documentation. As it will be shown later on.
@@ -435,14 +434,11 @@ Since the code that needs to be changed is used in a production environment by T
 
 \section{Preprocessing}
 
-Once we have created our raw dataset, we need to inspect it and make sure it is consistent and ready to be used for the modeling. This part is really important to avoid any bias in the modeling process and to only use the data that is actually relevant for the analysis.
+After implementing the required code changes, the updated \acrshort{job}s are executed to extract the necessary information from Tweenvest’s systems. This process generates the raw dataset, which contains the historical scores alongside other financial and market variables required for the analysis. At this stage, the data is in its initial, unrefined form—directly pulled from various sources and potentially containing inconsistencies, missing values, or irrelevant records. Before it can be used for modeling, the dataset must be carefully inspected and processed to ensure it is coherent, complete, and aligned with the objectives of the study. This preprocessing stage is critical to avoid introducing bias, ensure the reliability of the results, and retain only the data that truly contributes to the evaluation of the scores.
 
 \subsection{Data Consistency}
 
-Since all of the data is coming from a data provider that uses \acrshort{ocr} as one of their tools whenever they do not have the data in a structured format, we need to be very restrictive with the data used. Also, as we mentioned before, some of the algorithms for calculating the scores use long-term data such as 10 year growths rates.
-
-\vspace{0.5cm}
-\noindent This is one of the biggest \textbf{limitations to the study}: we will be missing the data of companies that stopped existing or that were acquired by other companies, if they did not exist for 10 or more years.
+Since all of the data is coming from a data provider that uses \acrshort{ocr} as one of their tools whenever they do not have the data in a structured format, we need to be very restrictive with the data used. Also, as we mentioned before, some of the algorithms for calculating the scores use long-term data such as 10 year growths rates. This is one of the biggest \textbf{limitations to the study}: we will be missing the data of companies that stopped existing or that were acquired by other companies, if they did not exist for 10 or more years.
 
 \vspace{0.5cm}
 \noindent For inspecting the data we will be using Python as the main language, enhanced with: \textit{pandas}~\cite{pandas2025}, \textit{matplotlib}~\cite{matplotlib2025doc}, and \textit{seaborn}~\cite{seaborn2025}, which are powerful tools for data manipulation and analysis. The focus will be on the following aspects:
@@ -497,34 +493,26 @@ x_i^{(\lambda)} =
 \end{cases}
 \end{equation}
 
-\noindent Where \(\lambda\) is a power parameter that helps minimize the skewness of the data. And since we have already deleted extreme outliers, the final distribution should not be too distorted.
-
-\vspace{0.5cm}
-
-\noindent In Figure~\ref{fig:yeo-johnson}, we depict some examples of the transformation for different distributions:
+\noindent Where \(\lambda\) is a power parameter that helps minimize the skewness of the data. And since we have already deleted extreme outliers, the final distribution should not be too distorted. In Figure~\ref{fig:yeo-johnson}, we depict some examples of the transformation for different distributions:
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.8\textwidth]{images/code/transformations/yeo-johnson.png}
+    \includegraphics[width=0.5\textwidth]{images/code/transformations/yeo-johnson.png}
     \caption{Yeo-Johnson Transformations examples}
     \label{fig:yeo-johnson}
 \end{figure}
 
-
+\newpage
 \section{Outlier Detection}
-
-Anomalies are data patterns that have different data characteristics from normal
-instances. The ability to detect anomalies has significant relevance since often provide critical and actionable information in many different contexts.
-
-\vspace{0.5cm}
-\noindent For example, anomalies in credit card transactions could signify fraudulent use of
+When we curate a database it is also necessary to consider anomalies. Anomalies are data patterns that have different data characteristics from normal
+instances. The ability to detect anomalies has significant relevance since often provide critical and actionable information in many different contexts. For example, anomalies in credit card transactions could signify fraudulent use of
 credit cards, or an unusual computer network traffic pattern could stand for an
 unauthorized access.
 
 
 \subsection{Inter Quartile Range}
 
-Given a univariate dataset, the Interquartile Rule identifies outliers based on the \acrshort{iqr}. The steps are as follows:
+Given a univariate dataset, the Interquartile Rule identifies outliers based on the \gls{iqr}. The steps are as follows:
 
 \begin{enumerate}
     \item Compute the first quartile (\(Q_1\)), which is the 25th percentile of the data.
@@ -571,16 +559,13 @@ Given a univariate dataset, the Interquartile Rule identifies outliers based on 
 \noindent The \gls{svm} represent a robust family of unsupervised learning algorithms that can be effectively adapted for anomaly detection tasks. This algorithm establishes itself on the premise that the majority of real-world data is inherently normal. Where the goal is to define a boundary encapsulating the normal instances in the feature space, thereby creating a region of familiarity. 
 
 \vspace{0.5cm}
-\noindent To capture the bases of the \textit{scikit-learn} implementation \cite{scikit2025oneclasssvm} used in this work, we can say that the main idea is to find a minimum volume sphere that contain all the training samples. This sphere, described by its center \(c\) and its radius \(r\), is obtained by solving the constrained optimization problem: \cite{zineb2012simple}
+\noindent To capture the bases of the \textit{scikit-learn} implementation \cite{scikit2025oneclasssvm} used in this work, we can say that the main idea is to find a minimum volume sphere that contain all the training samples. This sphere, described by its center \(c\) and its radius \(r\), is obtained by solving the following optimization problem \cite{zineb2012simple}:
 \begin{equation}
 \min_{r,c} r^2 \quad \text{subject to} \quad \|\Phi(x_i) - c\|^2 \leq r^2 \quad \text{for} \quad i = 1, 2, \ldots, n
 \end{equation}
 
 \vspace{0.5cm}
-\noindent This boundary is strategically positioned to maximize the margin around the normal data points, allowing for a clear delineation between what is considered ordinary and what may be deemed unusual. This emphasis on margin maximization is akin to creating a safety buffer around the normal instances, fortifying the model against the influence of potential outliers or anomalies.
-
-\vspace{0.5cm}
-\noindent In summary, this method has the following characteristics:
+\noindent This boundary is strategically positioned to maximize the margin around the normal data points, allowing for a clear delineation between what is considered ordinary and what may be deemed unusual. This emphasis on margin maximization is akin to creating a safety buffer around the normal instances, fortifying the model against the influence of potential outliers or anomalies. In summary, this method has the following characteristics:
 
 \begin{table}[H]
     \centering
@@ -605,29 +590,26 @@ Given a univariate dataset, the Interquartile Rule identifies outliers based on 
     
 \subsection{Isolation Forest}
 
-As we are seeing in this small fraction of outlier detection methodologies, most of the existing anomaly detection approaches are based on the premise of normal distributions, then identify anomalies as those that do not conform to the normal profile.
+As we are seeing in this small fraction of outlier detection methodologies, most of the existing anomaly detection approaches are based on the premise of normal distributions, then identify anomalies as those that do not conform to the normal profile. But to solve this issue we can use the Isolation Forest algorithm, which is explained in the original paper \textcite{liu2012isolation}. The algorithm constructs multiple isolation binary-trees (iTrees) from the dataset, where anomalies are identified as data points that exhibit shorter average path lengths across these trees.
 
 \vspace{0.5cm}
-\noindent But to solve this issue we can use the Isolation Forest algorithm, which is explained in the original paper \textcite{liu2012isolation}. The algorithm constructs multiple isolation binary-trees (iTrees) from the dataset, where anomalies are identified as data points that exhibit shorter average path lengths across these trees.
-
-\vspace{0.5cm}
-\noindent Lets consider a dataset $X = \{x_1, \dots, x_n\}$ containing $n$ points in $d$-dimensional space, and a subset $X' \subset X$. An Isolation Tree (iTree) is constructed as follows:
+\noindent Lets consider a dataset \(X = \{x_1, \dots, x_n\}\) containing \(n\) points in \(d\)-dimensional space, and a subset \(X' \subset X\). An Isolation Tree (iTree) is constructed as follows:
 
 \begin{itemize}
     \item Each node $T$ in the tree is either:
     \begin{itemize}
         \item An external node (leaf) with no children, or
-        \item An internal node with exactly two children ($T_l$ and $T_r$) and a test condition
+        \item An internal node with exactly two children (\(T_l\) and \(T_r\)) and a test condition
     \end{itemize}
     \item The test condition at each internal node consists of:
     \begin{itemize}
-        \item A randomly selected attribute $q$
-        \item A split value $p$
-        \item A test $q < p$ that determines whether a point goes to $T_l$ or $T_r$
+        \item A randomly selected attribute \(q\)
+        \item A split value \(p\)
+        \item A test \(q < p\) that determines whether a point goes to \(T_l\) or \(T_r\)
     \end{itemize}
 \end{itemize}
 
-\noindent The tree construction process recursively partitions $X'$ by randomly selecting attributes and split values until either:
+\noindent The tree construction process recursively partitions \(X'\) by randomly selecting attributes and split values until either:
 \begin{itemize}
     \item The node contains only one instance, or
     \item All instances at the node have identical values
@@ -635,22 +617,21 @@ As we are seeing in this small fraction of outlier detection methodologies, most
 \begin{figure}[H]
     \centering
     \includegraphics[width=0.8\textwidth]{images/code/outliers/IF.jpeg}
-    \caption{Visualization of how Isolation Forest works.}
+    \caption{Visualization of how \acrshort{if} works~\cite{dairi2022efficient}.}
     \label{fig:isolation_forest}
 \end{figure}
 
-\noindent As we can see in Figure~\ref{fig:isolation_forest}, once the iTree is fully constructed, each point $x_i \in X$ is isolated at a leaf node. The path length $h(x_i)$ of a point $x_i$ is defined as the number of edges traversed from the root to its leaf node. Points with shorter path lengths are considered more likely to be anomalies, as they require fewer splits to be isolated from the rest of the data.
+\noindent As we can see in Figure~\ref{fig:isolation_forest}, once the iTree is fully constructed, each point \(x_i \in X\) is isolated at a leaf node. The path length \(h(x_i)\) of a point \(x_i\) is defined as the number of edges traversed from the root to its leaf node. Points with shorter path lengths are considered more likely to be anomalies, as they require fewer splits to be isolated from the rest of the data.
 
 \noindent This method works very good in most cases, but it has also its own limitations:
 
 \begin{table}[H]
     \centering
-    \begin{tabular}{|p{7cm}|p{7cm}|}
-    \hline
+    \begin{tabular}{p{7cm}p{7cm}}
+    \toprule
     \textbf{Pros} & \textbf{Cons} \\
-    \hline
+    \midrule
     Efficient and scalable to large datasets due to its tree-based structure. & Less effective for detecting local outliers in densely clustered regions. \\
-    \hline
     Non-parametric: does not assume any data distribution. & Performance can vary with the choice of parameters like number of estimators and subsample size. \\
     \hline
     Naturally handles high-dimensional data. & Not suitable for detecting subtle anomalies that closely resemble normal data. \\
@@ -665,14 +646,12 @@ As we are seeing in this small fraction of outlier detection methodologies, most
 
 \subsection{Local Outlier Factor}
 
-Since we are looking at outliers from the perspective of correlations between the different response variables to see which companies do not behave naturally. We also checked on the \gls{lof} for being based on hyper-plane densities of data.
-
-\vspace{0.5cm}
-\noindent The algorithm measures the local deviation of the density of a given sample with respect to its neighbors. It is local in that the anomaly score depends on how isolated the object is with respect to the surrounding neighborhood. More precisely, locality is given by k-nearest neighbors, whose distance is used to estimate the local density. By comparing the local density of a sample to the local densities of its neighbors, one can identify samples that have a substantially lower density than their neighbors. These are considered outliers. \textcite{breunig2000lof}
+Since we are looking at outliers from the perspective of correlations between the different response variables to see which companies do not behave naturally. We also checked on the \gls{lof} for being based on hyper-plane densities of data. The algorithm measures the local deviation of the density of a given sample with respect to its neighbors. It is local in that the anomaly score depends on how isolated the object is with respect to the surrounding neighborhood. More precisely, locality is given by k-nearest neighbors, whose distance is used to estimate the local density. By comparing the local density of a sample to the local densities of its neighbors, one can identify samples that have a substantially lower density than their neighbors. These are considered outliers. \cite{breunig2000lof}
 
 
 \begin{table}[H]
     \centering
+    \caption{Pros and Cons of the \acrshort{lof} Method}
     \begin{tabular}{|p{7cm}|p{7cm}|}
     \hline
     \textbf{Pros} & \textbf{Cons} \\
@@ -688,7 +667,6 @@ Since we are looking at outliers from the perspective of correlations between th
     Easily generalizable and adaptable for use in spatial data, temporal data, and network structures. & -- \\
     \hline
     \end{tabular}
-    \caption{Pros and Cons of the \acrshort{lof} Method}
 \end{table}
     
 \subsection{Multi-Criteria Outlier Detection}
@@ -717,7 +695,7 @@ There is a big controversy in the field about the best method to detect the outl
 
 % TODO: explain the island detector.
 
-When looking at the~\ref{fig:multimodal}, we can expect it to save different data points that are not common between all of the methods due to its intersection of \textit{true outliers}. This might be good for many classification tasks but when it comes to regression it can cause bias since there could be \textit{islands} --clusters-- of data that do not follow a normal distribution. Thats why we created a variation of the \acrshort{multi} method that should only keep the normal data but also saving those islands of data for further future analysis. Since those points do not have to be errors in the data,  they could show \textbf{extreme but consistent behavior} that should be modeled separately.
+When looking at the Figure~\ref{fig:multimodal}, we can expect it to save different data points that are not common between all of the methods due to its intersection of \textit{true outliers}. This might be good for many classification tasks but when it comes to regression it can cause bias since there could be \textit{islands} --clusters-- of data that do not follow a normal distribution. Thats why we created a variation of the \acrshort{multi} method that should only keep the normal data but also saving those islands of data for further future analysis. Since those points do not have to be errors in the data,  they could show \textbf{extreme but consistent behavior} that should be modeled separately.
 
 \begin{figure}[H]
     \centering
@@ -731,7 +709,7 @@ When looking at the~\ref{fig:multimodal}, we can expect it to save different dat
 The main objective of this thesis is to check if the scores have any relation with the future profits of the companies. For doing this in the most generalized way, instead of creating a portfolio following some subjective criteria on the scores, markets and other variables, we used predictive modeling to check for the actual relationships between the response variables and the explanatory ones.
 
 \vspace{0.5cm}
-\noindent Since the main objective is to check the relations between the variables, we will use regression models to understand it those relationships. Starting with simple linear regression and then generalizing to non-linear models. And finally to test if we can also predict future profits we will try to use neural networks.
+\noindent Since the main objective is to check the relations between the profits and the scores, we used regression models to understand it those relationships. Starting with simple linear regression and then generalizing to non-linear models. And finally to test if we can also predict future profits we used \gls{nn}.
 
 
 \subsection{Regression Models}
@@ -796,10 +774,7 @@ Since the relationships between the variables are most likely non-linear, we als
 \end{figure}
 
 \subsection{Time Series}
-In the stock market, the prices of the stocks are not independent from each other so as we will see with the descriptive analysis, they are correlated in the time series and they also have memory on past behavior of the company. This is what is known as \textbf{Momentum}, so companies that have a good past performance are more likely to have a good future performance, and vice versa.
-
-\vspace{0.5cm}
-\noindent For this reason, we contemplated two possibilities:
+In the stock market, the prices of the stocks are not independent from each other so as we will see with the descriptive analysis, they are correlated in the time series and they also have memory on past behavior of the company. This is what is known as \textbf{Momentum}, so companies that have a good past performance are more likely to have a good future performance, and vice versa. For this reason, we contemplated two possibilities:
 
 \subsubsection{\Acrshort{arima} Models}
 To take account the profit tendency, we implemented \acrshort{arima} models to improve the regression models performance by using the residues of the already fitted model:
@@ -852,7 +827,10 @@ So for trying to not fall into the same mistake and for capturing possible memor
 \noindent These statistical measures are used as additional features in our predictive models to capture the temporal behavior of each score.
 
 \subsection{Neural Networks}
-\acrshort{nn} are a type of machine learning model that is inspired by the structure and function of the human brain. They are composed of layers of interconnected nodes (neurons) that process information through a process of iterative optimization, as it is shown in Figure~\ref{fig:nn-basic-schema}.
+\acrshort{nn} are a class of machine learning models inspired by the structure and functioning of the human brain. They consist of an \textbf{input layer}, one or more \textbf{hidden layers}, and an \textbf{output layer}. The input layer receives the explanatory variables or regressors, which are then processed through the hidden layers where the model learns to represent and combine them in increasingly abstract ways. Within these hidden layers, nonlinear activation functions allow the network to capture complex, nonlinear relationships between variables—patterns that traditional linear regression or even more flexible methods such as \acrshort{gam} may fail to detect. Finally, the output layer produces the model’s prediction, which in this thesis corresponds to the expected profit or return over a given investment horizon.
+
+\vspace{0.5cm}
+\noindent The motivation for using \acrshort{nn} in this context lies in their ability to approximate highly complex functional relationships without requiring explicit specification of their form. Whereas linear or additive models are constrained by predefined assumptions about the shape of relationships, neural networks can automatically learn intricate dependencies and interactions among variables, making them particularly suitable for modeling financial data where nonlinearity and high-dimensional interactions are common. Figure~\ref{fig:nn-basic-schema} illustrates the basic architecture of a neural network.
 
 \vspace{0.5cm}
 \begin{figure}[H]
@@ -867,10 +845,7 @@ So for trying to not fall into the same mistake and for capturing possible memor
 \subsubsection{Regressor Neural Networks}
 
 \noindent
-A \textbf{regressor neural network} is a type of artificial neural network specifically designed to predict continuous numerical values, rather than discrete categories. In the context of our analysis, these networks are trained to estimate future profit values based on a set of input features, such as historical scores and other relevant company data.
-
-\vspace{0.5cm}
-\noindent For our implementation, we utilize the \textbf{MLPRegressor} from the \textit{scikit-learn} library~\cite{scikit2025mlpregressor}, which provides a flexible and efficient framework for building and training these models.
+A \textbf{regressor neural network} is a type of artificial neural network specifically designed to predict continuous numerical values, rather than discrete categories. In the context of our analysis, these networks are trained to estimate future profit values based on a set of input features, such as historical scores and other relevant company data. For our implementation, we utilize the \textbf{MLPRegressor} from the \textit{scikit-learn} library~\cite{scikit2025mlpregressor}, which provides a flexible and efficient framework for building and training these models.
 
 \subsubsection{Classifier Neural Networks}
 
@@ -943,7 +918,7 @@ This comprehensive set of architectures allows us to compare the impact of netwo
 
 \section{Back-testing}
 
-In order to assess and compare the modeling techniques employed in this thesis, it is important to have a consistent criteria to evaluate them. Firstly we have to make clear that the main intent of this work is not to find the model that best predicts future profits, but to check weather the scores are correlated with the profits, and if so, how.
+In order to assess and compare the modeling techniques employed in this thesis, it is important to have a consistent criteria to evaluate them. Firstly we have to make clear that the main intent of this work is not to find the model that best predicts future profits, but to check whether the scores are correlated with the profits, and if so, how.
 
 \subsection{Training and Testing}
 \noindent
@@ -972,10 +947,8 @@ The first thing we need to see is if the models are able to detect any relations
         \begin{equation}
             R^2_{adjusted} = 1 - \left(1 - R^2\right) \frac{n - 1}{n - p - 1}
         \end{equation}
-        where \(n\) is the number of observations and \(p\) is the number of predictors.
-        \par\medskip
-        Since we are also using a \acrshort{nn} Classifier, we cannot use the same statistics as for regression.
-        \item \textbf{F1 Score:}  So for prediction capability in classification, we will use the \textit{F1 Score (macro)} from \textit{sklearn}, which is defined as the harmonic mean of precision and recall:
+        where \(n\) is the number of observations and \(p\) is the number of predictors. Since we are also using a \acrshort{nn} Classifier, we cannot use the same statistics as for regression.
+        \item Thus, for prediction capability in classification, we will use the \textbf{F1 Score} from \textit{sklearn}, defined as:
         \begin{equation}
             F1 = 2 \cdot \frac{\text{Precision} \cdot \text{Recall}}{\text{Precision} + \text{Recall}}
         \end{equation}
@@ -1020,7 +993,11 @@ But a good performance does not mean that the models are explaining the behavior
 \noindent And for the \acrshort{nn}, since we cannot access the internal structure of the models, we are going to use the \textbf{\gls{shap}} to check the importance of the variables in the predictions, and then use the same criteria for looking at the consistency of the variables in the models--~\textcite{lundberg2017unified}.
 
 \subsection{Robustness of Results}
-Even when the models perform well and have a good consistency, we need to check if the the residuals of the models resemble \textbf{white noise}, indicating the absence of non-modeled structure and valid statistical inference \textcite{enders1948applied}. We will do so by using both, visual and statistical tests.
+Even when the models perform well and show good consistency, it is essential to verify that their residuals resemble \textbf{white noise}. In the context of regression models—such as \acrshort{gam} and linear regression—this requirement stems from the assumptions underlying valid statistical inference. White noise residuals indicate that the model has successfully captured all systematic structure in the data, leaving only random, uncorrelated noise with constant variance. If residuals exhibit autocorrelation, trends, or heteroskedasticity, it suggests that relevant patterns remain unexplained, meaning the model may be misspecified or omitting important variables. 
+
+\vspace{0.5cm}
+\noindent Therefore, ensuring white noise residuals is a key diagnostic step to confirm that the relationships modeled are both complete and interpretable. This will be assessed through a combination of visual inspection and formal statistical tests \textcite{enders1948applied}. 
+
 \begin{itemize}
     \item \textbf{Mean Value Test:} The mean of the residuals should be close to 0.
         \begin{itemize}
@@ -1045,6 +1022,8 @@ Even when the models perform well and have a good consistency, we need to check 
             \item \textbf{Durbin-Watson Test:} Checks for the presence of autocorrelation in the residuals.
         \end{itemize}
 \end{itemize}
+
+\noindent \textit{Note: These residual diagnostics are not required for neural network (NN) models, as NNs do not rely on the same statistical assumptions as regression models.}
 
 % ############################### DEVELOPMENT  ###############################
 \chapter{Development}
@@ -1950,7 +1929,7 @@ First of all, we started with a family of simple linear regression models with v
 
 \subsubsection{Geographical Effects}
 
-\noindent All of these changes made have improved the results so far, but we still are hitting very low performances. This is very common when trying to fit a linear model to a non-linear relationship. But before claiming that that was the cause, we want to see if these non-linearities come from the regions; since the sectors effect should have already been taken into account by Tweenvest's algorithm. Additionally, we wanted to check if the outliers were coming from any specific region.
+\noindent All of the changes made have improved the results so far, but we still are hitting very low performances. This is very common when trying to fit a linear model to non-linear relationships. But before claiming that that was the cause, we want to see if these non-linearities come from the regions; since the sectors effect should have already been taken into account by Tweenvest's algorithm. Additionally, we wanted to check if the outliers were coming from any specific region.
 
 \subsubsection{The importance of a clean dataset}
 
