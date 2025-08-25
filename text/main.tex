@@ -1918,8 +1918,13 @@ First of all, we started with a family of simple linear regression models with v
 
 \vspace{0.5cm}
 
-\noindent Looking at the performances of the first linear regression models in Figure~\ref{fig:region_performance}, we can appreciate that except for the \textit{North America} region the rest are very low; and the same occurs with the accuracies. Regarding the residuals, there are still generally many outliers and non-normal distributions. However, we especially highlight the extreme values from Asia and Latin America. But even with these results, we start to see some statistical significances in the models' coefficients (see Appendix Figure~\ref{fig:linear_regression_USA_residues} to \ref{fig:linear_regression_AF_residues}).
+\noindent Following the same approach as for the general datasets, we start with the simple model and then we keep iterating with the same steps as before. So for not being repetitive we are only showing the finishing results in the section, and the full data is in the Appendix Figures~\ref{fig:region_performance_first_model} to~\ref{fig:africa_first_model_consistency}. Doing this, we see that the first results are very poor in general, but we start to see some behavior that will be constant in all of the models:
 
+\begin{itemize}
+    \item \textbf{North America} has the best performances and accuracies.
+    \item \textbf{Asia \& Oceania} and \textbf{South America}, show more outliers than the rest.
+    \item \textbf{Different Coeficient behavior} between regions, which confirms the non-linearities.
+\end{itemize}
 
 
 \subsubsection{The importance of a clean dataset}
@@ -3133,7 +3138,7 @@ Here we have all of the not shown images for further analysis, if needed.
         \caption{Africa \& Middle East}
     \end{subfigure}
     \caption{Geographical Predictability Analysis - First Model}
-    \label{fig:region_performance}
+    \label{fig:region_performance_first_model}
 \end{figure}
 
 \begin{figure}[H]
