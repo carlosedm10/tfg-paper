@@ -76,6 +76,16 @@
     "latex-workshop.view.pdf.external.viewer.args": [],
     "latex-workshop.view.pdf.external.synctex.command": "",
     "latex-workshop.view.pdf.external.synctex.args": [],
+    
+    // File associations - ensure PDFs are handled by LaTeX Workshop
+    "workbench.editorAssociations": {
+      "*.pdf": "latex-workshop-pdf-hook"
+    },
+    "extensions.disabled": [
+      "tomoki1207.pdf",
+      "vscode-pdfviewer"
+    ],
+
     "latex-workshop.latex.recipes": [
       {
         "name": "latexmk 🔁",
