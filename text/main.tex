@@ -1304,7 +1304,7 @@ To begin, when looking at the data structure we saw that \textbf{about 50\% of g
 \end{table}
 
 
-\noindent   But after digging into the data we saw that it was due to the fact that many companies stopped sending reports or selling but kept existing, so we decided to deleted them from our dataset because they were not behaving as a "normal company", and this could create a bias in the models. Additionally, as noted earlier, we replaced all NaN values in the dividend scores with 0, since Tweenvest's algorithm omits a score when a company does not pay dividends. That's why we do not see any missing values in the dividend scores.
+\noindent   But after digging into the data we saw that it was due to the fact that many companies stopped sending reports or selling but kept existing, so we decided to deleted them from our dataset because they were not behaving as a "normal company", and this could create a bias in the models. Additionally, as noted earlier, we replaced all empty values in the dividend scores with 0, since Tweenvest's algorithm omits a score when a company does not pay dividends. That's why we do not see any missing values in the dividend scores.
 
 \subsection{Outlier Detection}
 
@@ -1790,7 +1790,7 @@ First of all, we started with a family of simple linear regression models with v
 
 \subsubsection{Artificial Normality}
 
-\noindent So before continuing with the autocorrelations issue, we tried to solve the normality and heteroskedasticity issues. And since it is well known that regression models are not very robust to non-normal data fixing these should also improve the models' performance. We used the mentioned \textit{Yeo-Johnson} transformation and saw some \textbf{improvements with the performances and the \acrshort{rmse} for long term models (5y)} but showed complete noise for the short term (1m to 6m), which suggest that this transformation helped coping with the tails of the 5y-profits distribution. In general, we see a \textbf{worsening of the accuracy} in most of the models, except in the long term.
+\noindent So before continuing with the autocorrelations issue, we tried to solve the normality and heteroskedasticity issues. And since it is well known that regression models are not very robust to non-normal data fixing these should also improve the models' performance. We used the mentioned \textit{Yeo-Johnson} transformation and saw some \textbf{improvements with the performances and the \acrshort{rmse} for long term models (5y)} but showed complete noise for the short term (1m to 6m), which suggest that this transformation helped coping with the tails of the 5y-profits distribution and also helped showing the real noise from the short term models. In general, we see a \textbf{worsening of the accuracy} in most of the models, except in the long term.
 
 \begin{figure}[H]
     \centering
@@ -1918,14 +1918,343 @@ First of all, we started with a family of simple linear regression models with v
 
 \vspace{0.5cm}
 
-\noindent Following the same approach as for the general datasets, we start with the simple model and then we keep iterating with the same steps as before. So for not being repetitive we are only showing the finishing results in the section, and the full data is in the Appendix Figures~\ref{fig:region_performance_first_model} to~\ref{fig:africa_first_model_consistency}. Doing this, we see that the first results are very poor in general, but we start to see some behavior that will be constant in all of the models:
+\noindent Following the same approach as for the general datasets, we start with the simple model and then we keep iterating with the same steps as before. So for not being repetitive we are only showing the finishing results in the section, and the full data is in the appendix figures~\ref{fig:region_performance_first_model} to~\ref{fig:linear_regression_AF_residues} and tables~\ref{tab:usa_first_model_consistency} to~\ref{tab:africa_first_model_consistency}. Doing this, we see that the first results are very poor in general, but we start to see some behavior that will be constant in all of the models:
 
 \begin{itemize}
     \item \textbf{North America} has the best performances and accuracies.
-    \item \textbf{Asia \& Oceania} and \textbf{South America}, show more outliers than the rest.
+    \item \textbf{Asia \& Oceania} show more outliers than the rest.
     \item \textbf{Different Coeficient behavior} between regions, which confirms the non-linearities.
 \end{itemize}
 
+\noindent But once we apply the \textit{Yeo-Johnson} transformation, \textbf{the results start to be relevant}. We see \textbf{higher overall predictabilities} in the Figure~\ref{fig:region_performance_second_model} than the ones we had using the original dataset. This also indicates the presence of non-linearities with the geographical regions.
+
+\begin{figure}[H]
+    \centering
+    % First row: 3 images
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/code/models/linear_regression/second_model/USA - performance.png}
+        \caption{North America}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/code/models/linear_regression/second_model/EU - performance.png}
+        \caption{Europe}
+    \end{subfigure}
+    \hfill
+    
+    \vspace{0.5cm}
+    
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/code/models/linear_regression/second_model/AS - performance.png}
+        \caption{Asia \& Oceania}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/code/models/linear_regression/second_model/LAT - performance.png}
+        \caption{South America}
+    \end{subfigure}
+    \hfill
+    
+    \vspace{0.5cm}
+    
+    \begin{subfigure}[b]{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/code/models/linear_regression/second_model/AF - performance.png}
+        \caption{Africa \& Middle East}
+    \end{subfigure}
+    \caption{Geographical Predictability Analysis - \textit{Yeo-Johnson}}
+    \label{fig:region_performance_second_model}
+\end{figure}
+
+\noindent In this case, the residues improve significantly to the point that we are only almost left with the autocorrelations issue for most of the regions and models. And here we can be certain that the big issue we were having with the outliers is comming mostly from \textit{Asia \& Oceania}; which is also the region with more datapoints overall.
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/code/models/linear_regression/second_model/USA/quality_profit_1m_residuals.png}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/code/models/linear_regression/second_model/USA/quality_profit_1y_residuals.png}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/code/models/linear_regression/second_model/USA/quality_profit_5y_residuals.png}
+    \end{subfigure}
+    \caption{USA \textit{Yeo-Johnson} - Model Residuals}
+    \label{fig:linear_regression_USA_residues}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/code/models/linear_regression/second_model/EU/quality_profit_1m_residuals.png}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/code/models/linear_regression/second_model/EU/quality_profit_1y_residuals.png}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/code/models/linear_regression/second_model/EU/quality_profit_5y_residuals.png}
+    \end{subfigure}
+    \caption{EU \textit{Yeo-Johnson} - Model Residuals}
+    \label{fig:linear_regression_EU_residues}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/code/models/linear_regression/second_model/AS/quality_profit_1m_residuals.png}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/code/models/linear_regression/second_model/AS/quality_profit_1y_residuals.png}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/code/models/linear_regression/second_model/AS/quality_profit_5y_residuals.png}
+    \end{subfigure}
+    \caption{Asia \& Oceania \textit{Yeo-Johnson} - Model Residuals}
+    \label{fig:linear_regression_AS_residues}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/code/models/linear_regression/second_model/LAT/quality_profit_1m_residuals.png}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/code/models/linear_regression/second_model/LAT/quality_profit_1y_residuals.png}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.32\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{images/code/models/linear_regression/second_model/LAT/quality_profit_5y_residuals.png}
+    \end{subfigure}
+    \caption{South America \textit{Yeo-Johnson} - Model Residuals}
+    \label{fig:linear_regression_LAT_residues}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/code/models/linear_regression/second_model/AF/quality_profit_1m_residuals.png}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/code/models/linear_regression/second_model/AF/quality_profit_1y_residuals.png}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/code/models/linear_regression/second_model/AF/quality_profit_5y_residuals.png}
+    \end{subfigure}
+    \caption{Africa \& Middle East \textit{Yeo-Johnson} - Model Residuals}
+    \label{fig:linear_regression_AF_residues}
+\end{figure}
+
+
+\noindent With these more stable residues; we can study in more detail the coefficients' behavior. Notting that they stay constant with the results before applying the transformation; which is a good sign of consistency. These results also show patterns that could be supported by economical theory as we are about to explore.
+
+\vspace{0.5cm}
+\noindent Starting with \textbf{North America} in table~\ref{tab:usa_gaussian_model_consistency}, we highlight the following:
+\begin{itemize}
+    \item \textbf{Quality} seems to have a negative impact on the profits, which is strange and should later be examined with the windowed models.
+    \item \textbf{Value} appears to have a clear positive impact on the profits, and since the american market is very volatile it could help investors
+\end{itemize}
+
+\begin{table}[H]
+    \centering
+    \caption{North America \textit{Yeo-Johnson} - Model Consistency}
+    \begin{tabular}{lccccccc}
+        \toprule
+        \textbf{Score} & \textbf{Metric} & \textbf{1M} & \textbf{3M} & \textbf{6M} & \textbf{1Y} & \textbf{2Y} & \textbf{5Y} \\
+        \midrule
+        \multirow{3}{*}{\textbf{Dividend}}
+            & Coef.   & -- & -- & 0.000620 & -- & -0.001933 & 0.000089 \\
+            & Sign    & 0 & 0 & + & 0 & – & + \\
+            & t-value & -- & -- & 2.001277 & -- & -11.59973 & 2.219952 \\
+        \cmidrule{1-8}
+        \multirow{3}{*}{\textbf{Growth}}
+            & Coef.   & -0.000038 & -0.002244 & -- & 0.002143 & -0.000109 & -0.000258 \\
+            & Sign    & – & – & 0 & + & – & – \\
+            & t-value & -1.983310 & -6.684435 & -- & 10.384198 & -2.760117 & -4.029017 \\
+        \cmidrule{1-8}
+        \multirow{3}{*}{\textbf{Quality}}
+            & Coef.   & -0.003752 & -0.019694 & -- & -0.015246 & -0.000893 & -0.001066 \\
+            & \textbf{\textcolor{red}{Sign}}    & \textbf{\textcolor{red}{–}} & \textbf{\textcolor{red}{–}} & 0 & \textbf{\textcolor{red}{–}} & \textbf{\textcolor{red}{–}} & \textbf{\textcolor{red}{–}} \\
+            & \textbf{\textcolor{red}{t-value}} & \textbf{\textcolor{red}{-6.160076}} & \textbf{\textcolor{red}{-13.75983}} & -- & \textbf{\textcolor{red}{-13.64155}} & \textbf{\textcolor{red}{-5.013214}} & \textbf{\textcolor{red}{-4.148951}} \\
+        \cmidrule{1-8}
+        \multirow{3}{*}{\textbf{Value}}
+            & Coef.   & 0.000133 & 0.001205 & 0.007211 & 0.006137 & 0.000503 & 0.000722 \\
+            & \textbf{\textcolor{green}{Sign}} & \textbf{\textcolor{green}{+}} & \textbf{\textcolor{green}{+}} & \textbf{\textcolor{green}{+}} & \textbf{\textcolor{green}{+}} & \textbf{\textcolor{green}{+}} & \textbf{\textcolor{green}{+}} \\
+            & \textbf{\textcolor{green}{t-value}} & \textbf{\textcolor{green}{6.214291}} & \textbf{\textcolor{green}{8.952343}} & \textbf{\textcolor{green}{9.132017}} & \textbf{\textcolor{green}{14.399025}} & \textbf{\textcolor{green}{7.442206}} & \textbf{\textcolor{green}{6.460282}} \\
+        \bottomrule
+    \end{tabular}
+    \label{tab:usa_gaussian_model_consistency}
+\end{table}
+
+\noindent \textbf{Europe} in table~\ref{tab:eu_gaussian_model_consistency}, shows behaviors that are more common to a \textbf{stable market that prioritizes financial health}, which could be related to the EU investment conservative policies:
+\begin{itemize}
+    \item \textbf{Dividend and Quality} show a clear positive impact, with statistical significance. We have already seen this behavior in the previous models and even with simple correlations.
+    \item \textbf{Growth} could have a negative impact, but it is not statistically significant so we can't be sure.
+    \item \textbf{Value} could have a positive impact, but it is not constant across all time horizons.
+\end{itemize}
+
+\begin{table}[H]
+    \centering
+    \caption{Europe \textit{Yeo-Johnson} - Model Consistency}
+    \begin{tabular}{lccccccc}
+        \toprule
+        \textbf{Score} & \textbf{Metric} & \textbf{profit\_1m} & \textbf{profit\_3m} & \textbf{profit\_6m} & \textbf{profit\_1y} & \textbf{profit\_2y} & \textbf{profit\_5y} \\
+        \midrule
+        \multirow{3}{*}{\textbf{Dividend}} 
+            & Coef. & 0.000424 & 0.002823 & 0.000729 & 0.000595 & 0.001202 & 0.000445 \\
+            & Sign & \textbf{\textcolor{green}{+}} & \textbf{\textcolor{green}{+}} & \textbf{\textcolor{green}{+}} & \textbf{\textcolor{green}{+}} & \textbf{\textcolor{green}{+}} & \textbf{\textcolor{green}{+}} \\
+            & t-value & \textbf{\textcolor{green}{5.046673}} & \textbf{\textcolor{green}{16.154619}} & \textbf{\textcolor{green}{6.037506}} & \textbf{\textcolor{green}{3.758153}} & \textbf{\textcolor{green}{7.856079}} & \textbf{\textcolor{green}{3.920517}} \\
+        \midrule
+        \multirow{3}{*}{\textbf{Growth}} 
+            & Coef. & -0.000197 & -0.003022 & -0.001026 & -0.000779 & -0.001040 & -0.000397 \\
+            & Sign & – & – & – & – & – & – \\
+            & t-value & -1.644037 & -11.376062 & -4.547723 & -2.890478 & -2.929000 & -3.077300 \\
+        \midrule
+        \multirow{3}{*}{\textbf{Quality}} 
+            & Coef. & 0.001838 & 0.005873 & 0.004024 & 0.004615 & 0.006613 & 0.002814 \\
+            & Sign & \textbf{\textcolor{green}{+}} & \textbf{\textcolor{green}{+}} & \textbf{\textcolor{green}{+}} & \textbf{\textcolor{green}{+}} & \textbf{\textcolor{green}{+}} & \textbf{\textcolor{green}{+}} \\
+            & t-value & \textbf{\textcolor{green}{5.386076}} & \textbf{\textcolor{green}{15.618397}} & \textbf{\textcolor{green}{11.439039}} & \textbf{\textcolor{green}{14.357360}} & \textbf{\textcolor{green}{18.654053}} & \textbf{\textcolor{green}{7.928337}} \\
+        \midrule
+        \multirow{3}{*}{\textbf{Value}} 
+            & Coef. & -- & 0.002201 & -- & 0.001557 & 0.002308 & -- \\
+            & Sign & 0 & + & 0 & + & + & 0 \\
+            & t-value & -- & 7.980292 & -- & 7.571191 & 10.664820 & -- \\
+        \bottomrule
+    \end{tabular}
+    \label{tab:eu_gaussian_model_consistency}
+\end{table}
+\vspace{0.5cm}
+
+\noindent \textbf{Asia \& Oceania} in table~\ref{tab:asia_gaussian_model_consistency}, shows that for this region \textbf{all factors are positive and significant}. This result could mean that in this growing market, the market makes more rational decisions and since brands are not as strong as in the US or Europe. But at the same time it comes with a less stable market with a lot of volatility and outliers, so we should be careful.
+
+\begin{table}[H]
+    \centering
+    \caption{Asia \& Oceania \textit{Yeo-Johnson} - Model Consistency}
+    \begin{tabular}{lccccccc}
+        \toprule
+        \textbf{Score} & \textbf{Metric} & \textbf{profit\_1m} & \textbf{profit\_3m} & \textbf{profit\_6m} & \textbf{profit\_1y} & \textbf{profit\_2y} & \textbf{profit\_5y} \\
+        \midrule
+        \multirow{3}{*}{\textbf{Dividend}} 
+            & Coef. & 0.002706 & 0.001996 & 0.002103 & 0.002697 & 0.001314 & 0.000921 \\
+            & Sign & \textbf{\textcolor{green}{+}} & \textbf{\textcolor{green}{+}} & \textbf{\textcolor{green}{+}} & \textbf{\textcolor{green}{+}} & \textbf{\textcolor{green}{+}} & \textbf{\textcolor{green}{+}} \\
+            & t-value & \textbf{\textcolor{green}{16.305686}} & \textbf{\textcolor{green}{15.822070}} & \textbf{\textcolor{green}{14.489915}} & \textbf{\textcolor{green}{17.023119}} & \textbf{\textcolor{green}{12.235443}} & \textbf{\textcolor{green}{5.669478}} \\
+        \midrule
+        \multirow{3}{*}{\textbf{Growth}} 
+            & Coef. & 0.000821 & 0.000922 & 0.000713 & 0.001069 & 0.000602 & 0.000293 \\
+            & Sign & \textbf{\textcolor{green}{+}} & \textbf{\textcolor{green}{+}} & \textbf{\textcolor{green}{+}} & \textbf{\textcolor{green}{+}} & \textbf{\textcolor{green}{+}} & \textbf{\textcolor{green}{+}} \\
+            & t-value & \textbf{\textcolor{green}{4.280952}} & \textbf{\textcolor{green}{4.795172}} & \textbf{\textcolor{green}{3.697878}} & \textbf{\textcolor{green}{5.763015}} & \textbf{\textcolor{green}{3.114600}} & \textbf{\textcolor{green}{2.687339}} \\
+        \midrule
+        \multirow{3}{*}{\textbf{Quality}} 
+            & Coef. & 0.007622 & 0.008248 & 0.007712 & 0.009832 & 0.003962 & 0.002321 \\
+            & Sign & \textbf{\textcolor{green}{+}} & \textbf{\textcolor{green}{+}} & \textbf{\textcolor{green}{+}} & \textbf{\textcolor{green}{+}} & \textbf{\textcolor{green}{+}} & \textbf{\textcolor{green}{+}} \\
+            & t-value & \textbf{\textcolor{green}{22.085857}} & \textbf{\textcolor{green}{25.980872}} & \textbf{\textcolor{green}{8.327695}} & \textbf{\textcolor{green}{25.002458}} & \textbf{\textcolor{green}{12.139435}} & \textbf{\textcolor{green}{6.139051}} \\
+        \midrule
+        \multirow{3}{*}{\textbf{Value}} 
+            & Coef. & 0.001930 & 0.003812 & 0.000879 & 0.003423 & 0.001265 & 0.000900 \\
+            & Sign & \textbf{\textcolor{green}{+}} & \textbf{\textcolor{green}{+}} & \textbf{\textcolor{green}{+}} & \textbf{\textcolor{green}{+}} & \textbf{\textcolor{green}{+}} & \textbf{\textcolor{green}{+}} \\
+            & t-value & \textbf{\textcolor{green}{10.168522}} & \textbf{\textcolor{green}{22.223979}} & \textbf{\textcolor{green}{4.377369}} & \textbf{\textcolor{green}{21.304016}} & \textbf{\textcolor{green}{9.347055}} & \textbf{\textcolor{green}{6.903840}} \\
+        \bottomrule
+    \end{tabular}
+    \label{tab:asia_gaussian_model_consistency}
+\end{table}
+
+\noindent \textbf{South America} in table~\ref{tab:latam_gaussian_model_consistency}, shows a very similar behavior to \textbf{Asia \& Oceania}, but with less consistency across time horizons.:
+\begin{itemize}
+    \item \textbf{Dividend} is slightly positive and significant for the mid and long term.
+    \item \textbf{Growth} and \textbf{Quality} are positive and significant for all time horizons.
+    \item \textbf{Value} is positive and significant except for 3M and 1Y.
+\end{itemize}
+
+\begin{table}[H]
+    \centering
+    \caption{South America \textit{Yeo-Johnson} - Model Consistency}
+    \begin{tabular}{lccccccc}
+        \toprule
+        \textbf{Score} & \textbf{Metric} & \textbf{profit\_1m} & \textbf{profit\_3m} & \textbf{profit\_6m} & \textbf{profit\_1y} & \textbf{profit\_2y} & \textbf{profit\_5y} \\
+        \midrule
+        \multirow{3}{*}{\textbf{Dividend}} 
+            & Coef. & 0.000589 & -0.001633 & 0.001206 & 0.000545 & 0.000703 & 0.000570 \\
+            & Sign & + & – & + & + & + & + \\
+            & t-value & 2.993752 & -4.461563 & 8.253964 & 2.915853 & 5.427420 & 4.236314 \\
+        \midrule
+        \multirow{3}{*}{\textbf{Growth}} 
+            & Coef. & 0.003605 & 0.004210 & 0.001985 & 0.006252 & 0.001384 & 0.000641 \\
+            & Sign & \textbf{\textcolor{green}{+}} & \textbf{\textcolor{green}{+}} & \textbf{\textcolor{green}{+}} & \textbf{\textcolor{green}{+}} & \textbf{\textcolor{green}{+}} & \textbf{\textcolor{green}{+}} \\
+            & t-value & \textbf{\textcolor{green}{10.886228}} & \textbf{\textcolor{green}{16.229706}} & \textbf{\textcolor{green}{5.589288}} & \textbf{\textcolor{green}{17.793972}} & \textbf{\textcolor{green}{3.952738}} & \textbf{\textcolor{green}{3.416957}} \\
+        \midrule
+        \multirow{3}{*}{\textbf{Quality}} 
+            & Coef. & 0.009461 & 0.005873 & 0.005789 & 0.014780 & 0.003928 & 0.002168 \\
+            & Sign & \textbf{\textcolor{green}{+}} & \textbf{\textcolor{green}{+}} & \textbf{\textcolor{green}{+}} & \textbf{\textcolor{green}{+}} & \textbf{\textcolor{green}{+}} & \textbf{\textcolor{green}{+}} \\
+            & t-value & \textbf{\textcolor{green}{10.912310}} & \textbf{\textcolor{green}{10.844574}} & \textbf{\textcolor{green}{12.511430}} & \textbf{\textcolor{green}{8.968703}} & \textbf{\textcolor{green}{9.048040}} & \textbf{\textcolor{green}{6.211781}} \\
+        \midrule
+        \multirow{3}{*}{\textbf{Value}} 
+            & Coef. & 0.005235 & -- & 0.002801 & -- & 0.002318 & 0.002174 \\
+            & Sign & + & 0 & + & 0 & + & + \\
+            & t-value & 9.745774 & -- & 11.726903 & -- & 10.919653 & 6.196305 \\
+        \bottomrule
+    \end{tabular}
+    \label{tab:latam_gaussian_model_consistency}
+\end{table}
+
+\noindent Finally, the region \textbf{Africa \& Middle East} --in table~\ref{tab:africa_gaussian_model_consistency}-- is very unpredictable with this model, where we can only highlight that \textbf{Quality is positive and significant for all time horizons} and Dividend seems to have a small negative impact; but since the effects are so small it could be overfitting.
+
+\begin{table}[H]
+    \centering
+    \caption{Africa \& Middle East \textit{Yeo-Johnson} - Model Consistency}
+    \begin{tabular}{lccccccc}
+        \toprule
+        \textbf{Score} & \textbf{Metric} & \textbf{profit\_1m} & \textbf{profit\_3m} & \textbf{profit\_6m} & \textbf{profit\_1y} & \textbf{profit\_2y} & \textbf{profit\_5y} \\
+        \midrule
+        \multirow{3}{*}{\textbf{\textcolor{red}{Dividend}}} 
+            & Coef. & -0.000866 & -0.004017 & -0.000262 & -0.001265 & -0.000145 & -- \\
+            & Sign & \textbf{\textcolor{red}{–}} & \textbf{\textcolor{red}{–}} & \textbf{\textcolor{red}{–}} & \textbf{\textcolor{red}{–}} & \textbf{\textcolor{red}{–}} & 0 \\
+            & t-value & \textbf{\textcolor{red}{-7.56}} & \textbf{\textcolor{red}{-7.76}} & \textbf{\textcolor{red}{-4.84}} & \textbf{\textcolor{red}{-6.82}} & \textbf{\textcolor{red}{-4.30}} & -- \\
+        \midrule
+        \multirow{3}{*}{\textbf{Growth}} 
+            & Coef. & -- & -- & -- & 0.000679 & -- & -- \\
+            & Sign & 0 & 0 & 0 & + & 0 & 0 \\
+            & t-value & -- & -- & -- & 2.80 & -- & -- \\
+        \midrule
+        \multirow{3}{*}{\textbf{\textcolor{green}{Quality}}} 
+            & Coef. & 0.002288 & 0.007478 & 0.001800 & 0.005933 & 0.000984 & 0.000373 \\
+            & Sign & \textbf{\textcolor{green}{+}} & \textbf{\textcolor{green}{+}} & \textbf{\textcolor{green}{+}} & \textbf{\textcolor{green}{+}} & \textbf{\textcolor{green}{+}} & \textbf{\textcolor{green}{+}} \\
+            & t-value & \textbf{\textcolor{green}{7.99}} & \textbf{\textcolor{green}{10.52}} & \textbf{\textcolor{green}{6.65}} & \textbf{\textcolor{green}{9.34}} & \textbf{\textcolor{green}{7.50}} & \textbf{\textcolor{green}{5.22}} \\
+        \midrule
+        \multirow{3}{*}{\textbf{Value}} 
+            & Coef. & 0.000324 & 0.005205 & -- & 0.001033 & -- & -- \\
+            & Sign & + & + & 0 & + & 0 & 0 \\
+            & t-value & 2.34 & 5.91 & -- & 3.27 & -- & -- \\
+        \bottomrule
+    \end{tabular}
+    \label{tab:africa_gaussian_model_consistency}
+\end{table}
 
 \subsubsection{The importance of a clean dataset}
 
@@ -2687,10 +3016,10 @@ def pairplot(
 \end{lstlisting}
 
 
-\section{Extra Images}
-\subsection{Data}
+\chapter{Extra Images and Tables}
+\section{Data}
 
-\subsubsection{Columns and variables}
+\subsection{Columns and Variables}
 
 \begin{figure}[H]
     \centering
@@ -3102,37 +3431,36 @@ Here we have all of the not shown images for further analysis, if needed.
 \end{table}
 
 \subsubsection{Geographical Analysis}
-
 \begin{figure}[H]
     \centering
-    % First row: 3 images
-    \begin{subfigure}[b]{0.3\textwidth}
+    \begin{subfigure}[b]{0.48\textwidth}
         \centering
         \includegraphics[width=\textwidth]{images/code/models/linear_regression/first_model/USA - performance.png}
         \caption{North America}
     \end{subfigure}
     \hfill
-    \begin{subfigure}[b]{0.3\textwidth}
+    \begin{subfigure}[b]{0.48\textwidth}
         \centering
         \includegraphics[width=\textwidth]{images/code/models/linear_regression/first_model/EU - performance.png}
         \caption{Europe}
     \end{subfigure}
+
+    \vspace{0.5cm}
     \hfill
-    \begin{subfigure}[b]{0.3\textwidth}
+    \begin{subfigure}[b]{0.48\textwidth}
         \centering
         \includegraphics[width=\textwidth]{images/code/models/linear_regression/first_model/AS - performance.png}
         \caption{Asia \& Oceania}
     \end{subfigure}
-
-    \vspace{0.5cm} % Second row: 2 images
-
-    \begin{subfigure}[b]{0.3\textwidth}
+    \hfill
+    \begin{subfigure}[b]{0.48\textwidth}
         \centering
         \includegraphics[width=\textwidth]{images/code/models/linear_regression/first_model/LAT - performance.png}
         \caption{South America}
     \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.3\textwidth}
+
+    \vspace{0.5cm}
+    \begin{subfigure}[b]{0.48\textwidth}
         \centering
         \includegraphics[width=\textwidth]{images/code/models/linear_regression/first_model/AF - performance.png}
         \caption{Africa \& Middle East}
@@ -3243,7 +3571,7 @@ Here we have all of the not shown images for further analysis, if needed.
 
 \begin{table}[H]
     \centering
-    \caption{USA - First Model Consistency}
+    \caption{North America - First Model Consistency}
     \begin{tabular}{lccccccc}
         \toprule
         \textbf{Score} & \textbf{Metric} & \textbf{1M} & \textbf{3M} & \textbf{6M} & \textbf{1Y} & \textbf{2Y} & \textbf{5Y} \\
@@ -3366,20 +3694,20 @@ Here we have all of the not shown images for further analysis, if needed.
 
 \begin{table}[H]
     \centering
-    \caption{Africa - First Model Consistency}
+    \caption{Africa \& Middle East - First Model Consistency}
     \begin{tabular}{lccccccc}
         \toprule
         \textbf{Score} & \textbf{Metric} & \textbf{profit\_1m} & \textbf{profit\_3m} & \textbf{profit\_6m} & \textbf{profit\_1y} & \textbf{profit\_2y} & \textbf{profit\_5y} \\
         \midrule
         \multirow{3}{*}{\textbf{\textcolor{red}{Dividend}}} 
-            & Coef. & \textbf{\textcolor{red}{-0.000866}} & \textbf{\textcolor{red}{-0.004017}} & \textbf{\textcolor{red}{-0.000262}} & \textbf{\textcolor{red}{-0.001265}} & \textbf{\textcolor{red}{-0.000145}} & NaN \\
+            & Coef. & \textbf{\textcolor{red}{-0.000866}} & \textbf{\textcolor{red}{-0.004017}} & \textbf{\textcolor{red}{-0.000262}} & \textbf{\textcolor{red}{-0.001265}} & \textbf{\textcolor{red}{-0.000145}} & -- \\
             & Sign & \textbf{\textcolor{red}{–}} & \textbf{\textcolor{red}{–}} & \textbf{\textcolor{red}{–}} & \textbf{\textcolor{red}{–}} & \textbf{\textcolor{red}{–}} & 0 \\
-            & t-value & \textbf{\textcolor{red}{-7.56}} & \textbf{\textcolor{red}{-7.76}} & \textbf{\textcolor{red}{-4.84}} & \textbf{\textcolor{red}{-6.82}} & \textbf{\textcolor{red}{-4.30}} & NaN \\
+            & t-value & \textbf{\textcolor{red}{-7.56}} & \textbf{\textcolor{red}{-7.76}} & \textbf{\textcolor{red}{-4.84}} & \textbf{\textcolor{red}{-6.82}} & \textbf{\textcolor{red}{-4.30}} & -- \\
         \midrule
         \multirow{3}{*}{Growth} 
-            & Coef. & NaN & NaN & NaN & 0.000679 & NaN & NaN \\
+            & Coef. & -- & -- & -- & 0.000679 & -- & -- \\
             & Sign & 0 & 0 & 0 & + & 0 & 0 \\
-            & t-value & NaN & NaN & NaN & 2.80 & NaN & NaN \\
+            & t-value & -- & -- & -- & 2.80 & -- & -- \\
         \midrule
         \multirow{3}{*}{\textbf{\textcolor{green}{Quality}}} 
             & Coef. & \textbf{\textcolor{green}{0.002288}} & \textbf{\textcolor{green}{0.007478}} & \textbf{\textcolor{green}{0.001800}} & \textbf{\textcolor{green}{0.005933}} & \textbf{\textcolor{green}{0.000984}} & \textbf{\textcolor{green}{0.000373}} \\
@@ -3387,12 +3715,228 @@ Here we have all of the not shown images for further analysis, if needed.
             & t-value & \textbf{\textcolor{green}{7.99}} & \textbf{\textcolor{green}{10.52}} & \textbf{\textcolor{green}{6.65}} & \textbf{\textcolor{green}{9.34}} & \textbf{\textcolor{green}{7.50}} & \textbf{\textcolor{green}{5.22}} \\
         \midrule
         \multirow{3}{*}{Value} 
-            & Coef. & 0.000324 & 0.005205 & NaN & 0.001033 & NaN & NaN \\
+            & Coef. & 0.000324 & 0.005205 & -- & 0.001033 & -- & -- \\
             & Sign & + & + & 0 & + & 0 & 0 \\
-            & t-value & 2.34 & 5.91 & NaN & 3.27 & NaN & NaN \\
+            & t-value & 2.34 & 5.91 & -- & 3.27 & -- & -- \\
         \bottomrule
     \end{tabular}
     \label{tab:africa_first_model_consistency}
+\end{table}
+
+% =========================
+% DIVIDEND
+% =========================
+\begin{table}[H]
+    \centering
+    \caption{Europe (Windowed) - Dividend Consistency}
+    \begin{tabular}{lccccccc}
+        \toprule
+        \textbf{Variable} & \textbf{Metric} & \textbf{1M} & \textbf{3M} & \textbf{6M} & \textbf{1Y} & \textbf{2Y} & \textbf{5Y} \\
+        \midrule
+        \multirow{3}{*}{\textbf{Dividend}}
+            & Coef.   & -0.002319 & --        & --        & 0.002447  & --        & --        \\
+            & Sign    & –         & 0         & 0         & +         & 0         & 0         \\
+            & t-value & -4.627    & --        & --        & 4.727     & --        & --        \\
+        \cmidrule{1-8}
+        \multirow{3}{*}{\textbf{Avg 3M}}
+            & Coef.   & --        & --        & -0.004990 & --        & -0.001809 & -0.001703 \\
+            & Sign    & 0         & 0         & –         & 0         & –         & –         \\
+            & t-value & --        & --        & -7.015    & --        & -3.330    & -2.839    \\
+        \cmidrule{1-8}
+        \multirow{3}{*}{\textbf{Avg 6M}}
+            & Coef.   & --        & -0.011594 & --        & --        & 0.003648  & --        \\
+            & Sign    & 0         & –         & 0         & 0         & +         & 0         \\
+            & t-value & --        & -11.971   & --        & --        & 2.709     & --        \\
+        \cmidrule{1-8}
+        \multirow{3}{*}{\textbf{Avg 12M}}
+            & Coef.   & -0.003771 & -0.005616 & --        & --        & -0.005270 & -0.008001 \\
+            & Sign    & –         & –         & 0         & 0         & –         & –         \\
+            & t-value & -4.862    & -5.298    & --        & --        & -5.813    & -6.342    \\
+        \cmidrule{1-8}
+        \multirow{3}{*}{\textbf{Avg 24M}}
+            & Coef.   & 0.006838  & 0.012544  & --        & 0.011382  & 0.009546  & 0.010074  \\
+            & \textbf{\textcolor{green}{Sign}}
+                     & \textbf{\textcolor{green}{+}}
+                     & \textbf{\textcolor{green}{+}}
+                     & 0
+                     & \textbf{\textcolor{green}{+}}
+                     & \textbf{\textcolor{green}{+}}
+                     & \textbf{\textcolor{green}{+}} \\
+            & \textbf{\textcolor{green}{t-value}}
+                     & \textbf{\textcolor{green}{9.487}}
+                     & \textbf{\textcolor{green}{13.741}}
+                     & --
+                     & \textbf{\textcolor{green}{14.584}}
+                     & \textbf{\textcolor{green}{13.924}}
+                     & \textbf{\textcolor{green}{11.231}} \\
+        \bottomrule
+    \end{tabular}
+    \label{tab:europe_dividend_consistency}
+\end{table}
+
+% =========================
+% GROWTH
+% =========================
+\begin{table}[H]
+    \centering
+    \caption{Europe (Windowed) - Growth Consistency}
+    \begin{tabular}{lccccccc}
+        \toprule
+        \textbf{Variable} & \textbf{Metric} & \textbf{1M} & \textbf{3M} & \textbf{6M} & \textbf{1Y} & \textbf{2Y} & \textbf{5Y} \\
+        \midrule
+        \multirow{3}{*}{\textbf{Growth}}
+            & Coef.   & -0.003834 & --        & --        & -0.001480 & -0.001226 & -0.004033 \\
+            & Sign    & –         & 0         & 0         & –         & –         & –         \\
+            & t-value & -4.728    & --        & --        & -2.964    & -3.101    & -5.267    \\
+        \cmidrule{1-8}
+        \multirow{3}{*}{\textbf{Avg 3M}}
+            & Coef.   & 0.005981  & --        & --        & --        & 0.007625  & --        \\
+            & Sign    & +         & 0         & 0         & 0         & +         & 0         \\
+            & t-value & 4.451     & --        & --        & --        & 4.221     & --        \\
+        \cmidrule{1-8}
+        \multirow{3}{*}{\textbf{Avg 6M}}
+            & Coef.   & -0.004325 & --        & --        & 0.002594  & --        & -0.004810 \\
+            & Sign    & –         & 0         & 0         & +         & 0         & –         \\
+            & t-value & -4.204    & --        & --        & 2.585     & --        & -2.468    \\
+        \cmidrule{1-8}
+        \multirow{3}{*}{\textbf{Avg 12M}}
+            & Coef.   & --        & -0.012226 & --        & -0.008831 & -0.004896 & -0.009216 \\
+            & Sign    & 0         & –         & 0         & –         & –         & –         \\
+            & t-value & --        & -9.180    & --        & -10.960   & -3.653    & -11.507   \\
+        \cmidrule{1-8}
+        \multirow{3}{*}{\textbf{Avg 24M}}
+            & Coef.   & 0.002266  & 0.006223  & 0.009021  & 0.010648  & 0.009251  & 0.005465  \\
+            & \textbf{\textcolor{green}{Sign}}
+                     & \textbf{\textcolor{green}{+}}
+                     & \textbf{\textcolor{green}{+}}
+                     & \textbf{\textcolor{green}{+}}
+                     & \textbf{\textcolor{green}{+}}
+                     & \textbf{\textcolor{green}{+}}
+                     & \textbf{\textcolor{green}{+}} \\
+            & \textbf{\textcolor{green}{t-value}}
+                     & \textbf{\textcolor{green}{4.977}}
+                     & \textbf{\textcolor{green}{8.715}}
+                     & \textbf{\textcolor{green}{9.367}}
+                     & \textbf{\textcolor{green}{10.281}}
+                     & \textbf{\textcolor{green}{12.791}}
+                     & \textbf{\textcolor{green}{7.113}} \\
+        \bottomrule
+    \end{tabular}
+    \label{tab:europe_growth_consistency}
+\end{table}
+
+% =========================
+% QUALITY
+% =========================
+\begin{table}[H]
+    \centering
+    \caption{Europe (Windowed) - Quality Consistency}
+    \begin{tabular}{lccccccc}
+        \toprule
+        \textbf{Variable} & \textbf{Metric} & \textbf{1M} & \textbf{3M} & \textbf{6M} & \textbf{1Y} & \textbf{2Y} & \textbf{5Y} \\
+        \midrule
+        \multirow{3}{*}{\textbf{Quality}}
+            & Coef.   & -0.012149 & --        & --        & --        & -0.017072 & -0.010249 \\
+            & Sign    & –         & 0         & 0         & 0         & –         & –         \\
+            & t-value & -3.717    & --        & --        & --        & -6.212    & -5.986    \\
+        \cmidrule{1-8}
+        \multirow{3}{*}{\textbf{Avg 3M}}
+            & Coef.   & 0.011110  & --        & --        & --        & --        & --        \\
+            & Sign    & +         & 0         & 0         & 0         & 0         & 0         \\
+            & t-value & 2.037     & --        & --        & --        & --        & --        \\
+        \cmidrule{1-8}
+        \multirow{3}{*}{\textbf{Avg 6M}}
+            & Coef.   & -0.015817 & 0.011698  & --        & -0.031290 & -0.020334 & --        \\
+            & Sign    & –         & +         & 0         & –         & –         & 0         \\
+            & t-value & -3.508    & 1.499     & --        & -6.743    & -4.466    & --        \\
+        \cmidrule{1-8}
+        \multirow{3}{*}{\textbf{Avg 12M}}
+            & Coef.   & --        & -0.040263 & -0.047057 & -0.057587 & -0.032370 & -0.036177 \\
+            & Sign    & 0         & –         & –         & –         & –         & –         \\
+            & t-value & --        & -6.852    & -5.470    & -8.507    & -6.638    & -7.096    \\
+        \cmidrule{1-8}
+        \multirow{3}{*}{\textbf{Avg 24M}}
+            & Coef.   & 0.019378  & 0.088280  & 0.073143  & 0.086730  & 0.099170  & 0.046953  \\
+            & \textbf{\textcolor{green}{Sign}}
+                     & \textbf{\textcolor{green}{+}}
+                     & \textbf{\textcolor{green}{+}}
+                     & \textbf{\textcolor{green}{+}}
+                     & \textbf{\textcolor{green}{+}}
+                     & \textbf{\textcolor{green}{+}}
+                     & \textbf{\textcolor{green}{+}} \\
+            & \textbf{\textcolor{green}{t-value}}
+                     & \textbf{\textcolor{green}{10.140}}
+                     & \textbf{\textcolor{green}{19.679}}
+                     & \textbf{\textcolor{green}{12.576}}
+                     & \textbf{\textcolor{green}{18.025}}
+                     & \textbf{\textcolor{green}{18.959}}
+                     & \textbf{\textcolor{green}{10.833}} \\
+        \bottomrule
+    \end{tabular}
+    \label{tab:europe_quality_consistency}
+\end{table}
+
+% =========================
+% VALUE
+% =========================
+\begin{table}[H]
+    \centering
+    \caption{Europe (Windowed) - Value Consistency}
+    \begin{tabular}{lccccccc}
+        \toprule
+        \textbf{Variable} & \textbf{Metric} & \textbf{1M} & \textbf{3M} & \textbf{6M} & \textbf{1Y} & \textbf{2Y} & \textbf{5Y} \\
+        \midrule
+        \multirow{3}{*}{\textbf{Value}}
+            & Coef.   & 0.041385  & 0.007550  & 0.017503  & 0.012756  & 0.009658  & 0.033926  \\
+            & \textbf{\textcolor{green}{Sign}}
+                     & \textbf{\textcolor{green}{+}}
+                     & \textbf{\textcolor{green}{+}}
+                     & \textbf{\textcolor{green}{+}}
+                     & \textbf{\textcolor{green}{+}}
+                     & \textbf{\textcolor{green}{+}}
+                     & \textbf{\textcolor{green}{+}} \\
+            & \textbf{\textcolor{green}{t-value}}
+                     & \textbf{\textcolor{green}{26.063}}
+                     & \textbf{\textcolor{green}{12.232}}
+                     & \textbf{\textcolor{green}{23.779}}
+                     & \textbf{\textcolor{green}{17.162}}
+                     & \textbf{\textcolor{green}{16.896}}
+                     & \textbf{\textcolor{green}{26.338}} \\
+        \cmidrule{1-8}
+        \multirow{3}{*}{\textbf{Avg 3M}}
+            & Coef.   & -0.050866 & --        & 0.008328  & --        & --        & -0.015267 \\
+            & Sign    & –         & 0         & +         & 0         & 0         & –         \\
+            & t-value & -24.956   & --        & 9.516     & --        & --        & -9.707    \\
+        \cmidrule{1-8}
+        \multirow{3}{*}{\textbf{Avg 6M}}
+            & Coef.   & 0.012620  & 0.007815  & -0.011331 & 0.014378  & 0.006061  & -0.018148 \\
+            & Sign    & +         & +         & –         & +         & +         & –         \\
+            & t-value & 9.974     & 6.317     & -10.855   & 10.532    & 6.007     & -21.376   \\
+        \cmidrule{1-8}
+        \multirow{3}{*}{\textbf{Avg 12M}}
+            & Coef.   & -0.003519 & 0.002363  & -0.014963 & -0.019574 & 0.006115  & --        \\
+            & Sign    & –         & +         & –         & –         & +         & 0         \\
+            & t-value & -3.676    & 2.055     & -12.965   & -15.114   & 5.640     & --        \\
+        \cmidrule{1-8}
+        \multirow{3}{*}{\textbf{Avg 24M}}
+            & Coef.   & -0.003632 & -0.019976 & -0.006693 & -0.014679 & -0.027589 & -0.006000 \\
+            & \textbf{\textcolor{red}{Sign}}
+                     & \textbf{\textcolor{red}{–}}
+                     & \textbf{\textcolor{red}{–}}
+                     & \textbf{\textcolor{red}{–}}
+                     & \textbf{\textcolor{red}{–}}
+                     & \textbf{\textcolor{red}{–}}
+                     & \textbf{\textcolor{red}{–}} \\
+            & \textbf{\textcolor{red}{t-value}}
+                     & \textbf{\textcolor{red}{-4.981}}
+                     & \textbf{\textcolor{red}{-20.202}}
+                     & \textbf{\textcolor{red}{-8.512}}
+                     & \textbf{\textcolor{red}{-17.659}}
+                     & \textbf{\textcolor{red}{-22.505}}
+                     & \textbf{\textcolor{red}{-9.887}} \\
+        \bottomrule
+    \end{tabular}
+    \label{tab:europe_value_consistency}
 \end{table}
 
 
