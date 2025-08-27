@@ -958,23 +958,23 @@ The first thing we need to see is if the models are able to detect any relations
     \item \textbf{Accuracy:} We also need to check on how much error the model is making when adjusted. For this we used:
     \begin{itemize}
         \item \textbf{The Mean Absolute Error}, defined as:
-        \begin{equation}
-            MAE = \frac{1}{n} \sum_{i=1}^{n} |y_i - \hat{y}_i|
-        \end{equation}
+            \begin{equation}
+                MAE = \frac{1}{n} \sum_{i=1}^{n} |y_i - \hat{y}_i|
+            \end{equation}
         \item \textbf{The Root Mean Square Error}, for penalizing the larger errors or possible excess of outliers:
-        \begin{equation}
-            RMSE = \sqrt{\frac{1}{n} \sum_{i=1}^{n} {(y_i - \hat{y}_i)}^2}
-        \end{equation}
+            \begin{equation}
+                RMSE = \sqrt{\frac{1}{n} \sum_{i=1}^{n} {(y_i - \hat{y}_i)}^2}
+            \end{equation}
 
-        And again, for classification we decided to use:
-        \item \textbf{Accuracy Score:} From \textit{sklearn} we used the accuracy score, which is defined as:
-        \begin{equation}
-            \text{Accuracy} = \frac{\text{Number of Correct Predictions}}{\text{Total Number of Predictions}}
-        \end{equation}
+        And again, for classification we decided to use an equivalent to the \acrshort{mae}:
+        \item \textbf{Accuracy Score:} Using the \textit{scikit-learn} implementation, the accuracy score measures the proportion of correct predictions relative to the total number of predictions made. To express this metric as an average error rate, we subtract the accuracy score from 1, yielding:
+            \begin{equation}
+            \text{Error Rate} = 1 - \frac{\text{Number of Correct Predictions}}{\text{Total Number of Predictions}}
+            \end{equation}
         \item \textbf{Log Loss}: For mimicking the penalization for large errors we are using the log loss from \textit{sklearn}:
-       \begin{equation} 
-        \text{Log Loss} = -\frac{1}{n} \sum_{i=1}^{n} \sum_{j=1}^{m} y_{i,j} \log(\hat{y}_{i,j})
-       \end{equation}
+        \begin{equation} 
+            \text{Log Loss} = -\frac{1}{n} \sum_{i=1}^{n} \sum_{j=1}^{m} y_{i,j} \log(\hat{y}_{i,j})
+        \end{equation}
        where in this context, \(y_{i,j}\) represents the true class label, and \(\hat{y}_{i,j}\) represents the model's predicted probability for that class.
        
     \end{itemize}
@@ -1474,20 +1474,22 @@ That's when we realized that if each method was good at detecting some outliers 
 
 % TODO: Check which datasets were being used here.
 
+
+TODO: REFINAR ESTAS DB
 \begin{table}[H]
     \centering
     \caption{Restrictive Datasets Total Rows}
     \begin{tabular}{|l|l|l|l|l|}
         \hline  
-        \textbf{Dataset} & \textbf{Raw} & \textbf{Cleaned} & \textbf{ \acrshort{islandcase} 15\%} & \textbf{ \acrshort{if} 15\%} \\
+        \textbf{Dataset} & \textbf{Raw} & \textbf{Cleaned} & \textbf{ \acrshort{if} 15\%} & \textbf{ \acrshort{if} 35\%} \\
         \hline
-        \textbf{Small Data Future} & 65,166 & 26,214 & 22,214 & 22,282 \\
+        \textbf{Small Data Future} & 65,166 & 26,214 & 22,282 & 19,851 \\
         \hline
         \end{tabular}
     \label{tab:restrictive_datasets_rows}
 \end{table}
 
-\subsubsection{Validation Dataset}
+\subsubsection{Balanced Dataset}
 
 \noindent In the final stage of our analysis, our goal was to obtain the most realistic results possible, which required retaining as much data as we could. To achieve this, we revisited the Big Data Future dataset and applied the \acrshort{if} method with a \textbf{very high removal rate of 35\%}. Additionally, we balanced the data by regions and sectors. These steps, however, led to a substantial reduction in the number of rows.
 
@@ -1704,11 +1706,11 @@ Finally, we are going to try to compare these results with the \acrshort{pairplo
 
 \noindent Although, these results are not as clear and they also variate depending on the dataset. Showing early results of non-linear relationships with the dummy variables.
 
-\section{Predictive Models}
+\section{Linear Regression}
 
-Now that we understand the data, and the different datasets created. We are going to explain how was the process of refining the methodologies for improving the results.
+Now that we understood the data, and the different datasets created. We are going to explain how was the process of refining the methodologies for improving the results.
 
-\subsection{Linear Regression}
+\subsection{General Models}
 
 First of all, we started with a family of simple linear regression models with very few variables and not excluding the outliers. This, of course, resulted in a very poor model that could not predict anything (see appendix figure~\ref{fig:first_linear_regression_performance}). However, after applying the first outlier removal for the initial series of datasets, we started to see some results:
 
@@ -1911,13 +1913,13 @@ First of all, we started with a family of simple linear regression models with v
 
 \noindent These results are very promising and indicate a clear trend; however, we cannot be certain of their validity yet because the residuals do not meet the model's assumptions.
 
-\subsubsection{Geographical Effects}
+\subsection{Geographical Effects}
 
 \noindent All of the changes made have improved the results so far, but we still are hitting very low performances. This is very common when trying to fit a linear model to non-linear relationships. And we want to see if these non-linearities come from the regions; since the sectors effects should have already been taken into account by Tweenvest's algorithm. Additionally, we wanted to check if the outliers were coming from any specific region.
 
-\vspace{0.5cm}
+\subsubsection{Simple Models}
 
-\noindent Following the same approach as for the general datasets, we start with the simple model and then we keep iterating with the same steps as before. So for not being repetitive we are only showing the finishing results in the section, and the full data is in the appendix figures~\ref{fig:region_performance_first_model} to~\ref{fig:linear_regression_AF_residues} and tables~\ref{tab:usa_first_model_consistency} to~\ref{tab:africa_first_model_consistency}. Doing this, we see that the first results are very poor in general, but we start to see some behavior that will be constant in all of the models:
+\noindent Following the same approach as for the general datasets, we started with the simple model and then we kept iterating with the same steps as before. So for not being repetitive we are only showing the finishing results in the section, and the full data is in the appendix figures~\ref{fig:region_performance_first_model} to~\ref{fig:linear_regression_AF_residues} and tables~\ref{tab:usa_first_model_consistency} to~\ref{tab:africa_first_model_consistency}. Doing this, we see that the first results are very poor in general, but we start to see some behavior that will be constant in all of the models:
 
 \begin{itemize}
     \item \textbf{North America} has the best performances and accuracies.
@@ -1925,7 +1927,7 @@ First of all, we started with a family of simple linear regression models with v
     \item \textbf{Different Coeficient behavior} between regions, which confirms the non-linearities.
 \end{itemize}
 
-\noindent But once we apply the \textit{Yeo-Johnson} transformation, \textbf{the results start to be relevant}. We see \textbf{higher overall predictabilities} in the figure~\ref{fig:region_performance_first_model_gaussian} than the ones we had using the original dataset. This also indicates the presence of non-linearities with the geographical regions.
+\noindent But once we applied the \textit{Yeo-Johnson} transformation, \textbf{the results started to be relevant}. In figure~\ref{fig:region_performance_first_model_gaussian} we see \textbf{higher overall predictabilities}  than the ones we had using the original dataset. This also indicates the presence of non-linearities with the geographical regions.
 
 \begin{figure}[H]
     \centering
@@ -1969,7 +1971,7 @@ First of all, we started with a family of simple linear regression models with v
     \label{fig:region_performance_first_model_gaussian}
 \end{figure}
 
-\noindent In this case, the residues improved significantly in terms of normality, which are along the improvement in predictability a good sign of progress. But we still have heteroskedasticity and, of course, the autocorrelations issue for most of the regions and models. Although we don't have perfect models, looking at the \acrshort{qq} plots and more from~\ref{fig:linear_regression_AS_residues_gaussian}, we can be certain that \textbf{most of the outliers are coming from \textit{Asia \& Oceania}}; which is also the region with more data-points in the complete dataset.
+\noindent In this case, the \textbf{residues' normality improved significantly}, which is along the improvement in predictability a good sign of progress. But we still have heteroskedasticity and, of course, the autocorrelations issue for most of the regions and models. Although we don't have perfect models, looking at the \acrshort{qq} plots and more from~\ref{fig:linear_regression_AS_residues_gaussian}, we can be certain that \textbf{most of the outliers are coming from \textit{Asia \& Oceania}}; which is also the region with more data-points in the complete dataset.
 
 \begin{figure}[H]
     \centering
@@ -2072,13 +2074,13 @@ First of all, we started with a family of simple linear regression models with v
 \end{figure}
 
 
-\noindent Also, with these more stable residues; we can study in detail the coefficients' results. And before starting going in depth with it, we have to note that they behave similarly than the results before applying the \textit{Yeo-Johnson} transformation; which is a good sign of consistency and robustness. Now we will explore all of the regions individually and try to see if the patterns presented could be supported by economical theory.
+\noindent Also, with these more stable residues; we can study in detail the \textbf{coefficients' results}. And before starting going in depth with them, we have to note that they \textbf{behave similarly than before applying the transformation}; which is a good sign of consistency and robustness. Now we will explore all of the regions individually and try to see if the patterns presented could be supported by economical theory.
 
 \vspace{0.5cm}
 \noindent Starting with \textbf{North America} in table~\ref{tab:usa_gaussian_model_consistency}, we highlight the following:
 \begin{itemize}
-    \item \textbf{Quality} seems to have a negative impact on the profits, which is strange and should later be examined with the windowed models.
-    \item \textbf{Value} appears to have a clear positive impact on the profits, and since the american market is very volatile it could help investors
+    \item \textbf{Dividend} seems to have a positive correlation with the profits.
+    \item \textbf{Value} appears to have a small positive impact on the profits, and since the american market is very volatile it could help investors decide when to enter it.
 \end{itemize}
 
 \begin{table}[H]
@@ -2089,24 +2091,24 @@ First of all, we started with a family of simple linear regression models with v
         \textbf{Score} & \textbf{Metric} & \textbf{1M} & \textbf{3M} & \textbf{6M} & \textbf{1Y} & \textbf{2Y} & \textbf{5Y} \\
         \midrule
         \multirow{3}{*}{\textbf{Dividend}}
-            & Coef.   & -- & -- & 0.000620 & -- & -0.001933 & 0.000089 \\
-            & Sign    & 0 & 0 & + & 0 & – & + \\
-            & t-value & -- & -- & 2.001277 & -- & -11.59973 & 2.219952 \\
+            & Coef.   & -- & 0.003705 & 0.001228 & 0.001495 & 0.000676 & 0.000867 \\
+            & \textbf{\textcolor{green}{Sign}}    & 0 & \textbf{\textcolor{green}{+}} & \textbf{\textcolor{green}{+}} & \textbf{\textcolor{green}{+}} & \textbf{\textcolor{green}{+}} & \textbf{\textcolor{green}{+}} \\
+            & \textbf{\textcolor{green}{t-value}} & -- & \textbf{\textcolor{green}{15.100}} & \textbf{\textcolor{green}{6.625}} & \textbf{\textcolor{green}{8.088}} & \textbf{\textcolor{green}{4.972}} & \textbf{\textcolor{green}{6.361}} \\
         \cmidrule{1-8}
         \multirow{3}{*}{\textbf{Growth}}
-            & Coef.   & -0.000038 & -0.002244 & -- & 0.002143 & -0.000109 & -0.000258 \\
-            & Sign    & – & – & 0 & + & – & – \\
-            & t-value & -1.983310 & -6.684435 & -- & 10.384198 & -2.760117 & -4.029017 \\
+            & Coef.   & 0.000722 & -0.000367 & -0.001513 & -0.000498 & -0.000654 & -0.002101 \\
+            & Sign    & + & – & – & – & – & – \\
+            & t-value & 3.096 & -2.106 & -4.907 & -1.868 & -3.320 & -4.838 \\
         \cmidrule{1-8}
         \multirow{3}{*}{\textbf{Quality}}
-            & Coef.   & -0.003752 & -0.019694 & -- & -0.015246 & -0.000893 & -0.001066 \\
-            & \textbf{\textcolor{red}{Sign}}    & \textbf{\textcolor{red}{–}} & \textbf{\textcolor{red}{–}} & 0 & \textbf{\textcolor{red}{–}} & \textbf{\textcolor{red}{–}} & \textbf{\textcolor{red}{–}} \\
-            & \textbf{\textcolor{red}{t-value}} & \textbf{\textcolor{red}{-6.160076}} & \textbf{\textcolor{red}{-13.75983}} & -- & \textbf{\textcolor{red}{-13.64155}} & \textbf{\textcolor{red}{-5.013214}} & \textbf{\textcolor{red}{-4.148951}} \\
+            & Coef.   & 0.003300 & -- & 0.001479 & -- & -0.001368 & -- \\
+            & Sign    & + & 0 & + & 0 & – & 0 \\
+            & t-value & 7.982 & -- & 6.710 & -- & -2.353 & -- \\
         \cmidrule{1-8}
         \multirow{3}{*}{\textbf{Value}}
-            & Coef.   & 0.000133 & 0.001205 & 0.007211 & 0.006137 & 0.000503 & 0.000722 \\
-            & \textbf{\textcolor{green}{Sign}} & \textbf{\textcolor{green}{+}} & \textbf{\textcolor{green}{+}} & \textbf{\textcolor{green}{+}} & \textbf{\textcolor{green}{+}} & \textbf{\textcolor{green}{+}} & \textbf{\textcolor{green}{+}} \\
-            & \textbf{\textcolor{green}{t-value}} & \textbf{\textcolor{green}{6.214291}} & \textbf{\textcolor{green}{8.952343}} & \textbf{\textcolor{green}{9.132017}} & \textbf{\textcolor{green}{14.399025}} & \textbf{\textcolor{green}{7.442206}} & \textbf{\textcolor{green}{6.460282}} \\
+            & Coef.   & -0.002220 & 0.001054 & 0.000481 & 0.001541 & 0.001650 & 0.001226 \\
+            & Sign    & – & \textbf{\textcolor{green}{+}} & \textbf{\textcolor{green}{+}} & \textbf{\textcolor{green}{+}} & \textbf{\textcolor{green}{+}} & \textbf{\textcolor{green}{+}} \\
+            & t-value & -8.957 & \textbf{\textcolor{green}{6.194}} & \textbf{\textcolor{green}{2.244}} & \textbf{\textcolor{green}{7.961}} & \textbf{\textcolor{green}{5.649}} & \textbf{\textcolor{green}{4.921}} \\
         \bottomrule
     \end{tabular}
     \label{tab:usa_gaussian_model_consistency}
@@ -2150,7 +2152,7 @@ First of all, we started with a family of simple linear regression models with v
     \label{tab:eu_gaussian_model_consistency}
 \end{table}
 
-\noindent For the resgions of \textbf{Asia \& Oceania} in table~\ref{tab:asia_gaussian_model_consistency}, it seems that \textbf{all factors are positive and significant}. This result could mean that in a growing market, investors makes more rational decisions also because unmeasurable effects --such as brand strength-- are not as relevant as in North America or Europe causing less effects like \acrshort{fomo}. But at the same time, these markets come with a less stability and a lot of volatility --outliers--, so we should be careful.
+\noindent For the regions of \textbf{Asia \& Oceania} in table~\ref{tab:asia_gaussian_model_consistency}, it seems that \textbf{all factors are positive and significant}. This result could mean that in a growing market, investors makes more rational decisions also because unmeasurable effects --such as brand strength-- are not as relevant as in North America or Europe causing less effects like \acrshort{fomo}. But at the same time, these markets come with a less stability and a lot of volatility --outliers--, so we should be careful.
 
 \begin{table}[H]
     \centering
@@ -2254,7 +2256,8 @@ First of all, we started with a family of simple linear regression models with v
     \label{tab:africa_gaussian_model_consistency}
 \end{table}
 
-\noindent Continuing with the methodology, we applied the windowed models to all of the regions model, and we ended up with the most robust results so far. Looking at the performances in figure~\ref{fig:region_performance_windowed_models}, we can see the similar results as before:  
+\subsubsection{Windowed Models}
+\noindent Continuing with the methodology, we applied the windowed models to all of the regions datasets, and we ended up with the most robust results so far. Looking at the performances in figure~\ref{fig:region_performance_windowed_models}, we can see the similar results as before:  
 
 \begin{itemize}
     \item \textbf{Predictability}: \textbf{North America} has the best performances and accuracies. On the other side,  \textbf{Asia \& Oceania} and \textbf{Africa \& Middle East} have the worst performances and accuracies; the first due to their outliers and the second probably because of its financial and political instability.
@@ -2303,8 +2306,7 @@ First of all, we started with a family of simple linear regression models with v
     \label{fig:region_performance_windowed_models}
 \end{figure}
 
-\noindent Before analyzing the coefficients, we have to check the residuals. Finally, we see that not only is normality good, but we also start to observe some homoscedasticity in figures~\ref{fig:linear_regression_USA_residues_windowed} to~\ref{fig:linear_regression_AF_residues_windowed}.
-
+\noindent Before analyzing the coefficients, we have to check on the residuals. Finally, we see that not only is normality good, but we also start to observe some homoscedasticity in figures~\ref{fig:linear_regression_USA_residues_windowed} to~\ref{fig:linear_regression_AF_residues_windowed}. Looking closely, North America and Europe are show similar patterns in terms of outliers and with a slight underestimation on the long term (\acrshort{rmse}).
 
 \begin{figure}[H]
     \centering
@@ -2407,7 +2409,7 @@ First of all, we started with a family of simple linear regression models with v
 \end{figure}
 
 \vspace{0.5cm}
-\noindent We created a summary table per region ~\ref{tab:north_america_windowed_consistency_summary}. Starting with North America.
+\noindent We created a summary table per region (full data in appendix figures~\ref{tab:north_america_dividend_consistency} to~\ref{tab:africa_middle_east_value_consistency}) . Starting with North America and Europe in figures~\ref{tab:north_america_windowed_consistency_summary} to~\ref{tab:europe_windowed_consistency_summary} , we see a comon behavior between them and previous results, where only long term is negatively correlated to profits, and stable scores increase overall returns.
 
 \begin{table}[H]
     \centering
@@ -2452,8 +2454,6 @@ First of all, we started with a family of simple linear regression models with v
 \end{table}
 
 
-\noindent Now for Europe.
-
 \begin{table}[H]
     \centering
     \caption{Europe (Windowed) - Consistency Summary}
@@ -2468,8 +2468,8 @@ First of all, we started with a family of simple linear regression models with v
         \midrule
         \multirow{3}{*}{\textbf{Growth\_24m\_avg}}
             & Coef.   & 0.002266  & 0.006223  & 0.009021  & 0.010648  & 0.009251  & 0.005465  \\
-            & Sign    & +         & +         & +         & +         & +         & +         \\
-            & t-value & 4.977     & 8.715     & 9.367     & 10.281    & 12.791    & 7.113     \\
+            & \textbf{\textcolor{green}{Sign}}    & \textbf{\textcolor{green}{+}}         & \textbf{\textcolor{green}{+}}         & \textbf{\textcolor{green}{+}}         & \textbf{\textcolor{green}{+}}         & \textbf{\textcolor{green}{+}}         & \textbf{\textcolor{green}{+}}         \\
+            & \textbf{\textcolor{green}{t-value}} & \textbf{\textcolor{green}{4.977}}     & \textbf{\textcolor{green}{8.715}}     & \textbf{\textcolor{green}{9.367}}     & \textbf{\textcolor{green}{10.281}}    & \textbf{\textcolor{green}{12.791}}    & \textbf{\textcolor{green}{7.113}}     \\
         \midrule
         \multirow{3}{*}{\textbf{Quality\_24m\_avg}}
             & Coef.   & 0.019378 & 0.088280 & 0.073143 & 0.086730 & 0.099170 & 0.046953 \\
@@ -2490,7 +2490,7 @@ First of all, we started with a family of simple linear regression models with v
     \label{tab:europe_windowed_consistency_summary}
 \end{table}
 
-\noindent Now for Asia and Oceania.
+\noindent Surprisingly, when looking at figures~\ref{tab:asia_oceania_windowed_consistency_summary} to~\ref{tab:africa_middle_east_windowed_consistency_summary}  they all behave almost the exact same way: short-term growth is negatively correlated. This pattern has appeared before, which is a very good signal of similar markets behavior.
 
 
 \begin{table}[H]
@@ -2608,36 +2608,195 @@ First of all, we started with a family of simple linear regression models with v
     \label{tab:africa_middle_east_windowed_consistency_summary}
 \end{table}
 
-\subsubsection{The importance of a clean dataset}
+\subsection{Balanced Dataset}
 
-\noindent We saw that there were countries with far more outliers than others, so we decided to create a new dataset with less outliers in total and balancing the regions and sectors. Doing this improved a lot the models' performance, and residues.
+We have seen the importance of non-linear relationships from regions, and the amount of outliers in this data. So before continuing with the models, we created a new dataset with less outliers in total and balancing the regions and sectors, that will be the one being used from now on. Doing this improved a lot the models' performance, and residues as we can see in the figures: 
 
-% TODO: CONTINUE
+TODO: PONGO MAS AQUI? O ELIMINO ESTA SECCION?
 
-\subsection{GAM}
 
-\noindent But of course, these results did not complete all of the objectives of this work, such as seeing the non-linear relationships between the variables and also help Tweenvest set its scores for a better understanding of how they work.
+% TODO: Add the pictures once the code executes
 
+\section{GAM}
+
+Observing the consistent improvements in the results suggests that the decisions made regarding the treatment and structure of the data have been effective. The next logical step is to incorporate models capable of capturing the non-linear relationships between variables, thereby enhancing predictive accuracy. At the same time, and in line with the objectives established at the outset of this work, we aim to assist Tweenvest in defining recommended score ranges that will help investors better interpret and apply them. This becomes straightforward once the spline functions for each variable are analyzed and understood.
 \vspace{0.5cm}
-\noindent Also as expected, we improved the models' performance and residues:
+
+\subsection{Limitations and Considerations}
+
+\noindent One limitation of \acrshort{gam}s is their tendency to overfit, partly due to the nature of the spline functions, which are constructed from polynomial and trigonometric components. To address this, we adopt the following precautions:
+\begin{itemize}
+    \item The extreme ends of the spline curves may lack statistical significance because of the mathematical form of the fitted functions. For this reason, we focus our interpretation on overall trends rather than on boundary values.
+    \item To minimize the risk of misinterpretation caused by overfitting—and to maintain consistency with the findings from the linear models—we concentrate primarily on variables that have demonstrated significance across multiple modeling approaches.
+\end{itemize}
+
+\subsection{Results}
+
+\noindent As we could have expected, the \acrshort{gam} models have \textbf{improved the overall predictability}. Seeing for the first time \textbf{performances over the 40\%} mark combined with better accuracies than before. Unfortunatelly, these results still are not good enough to be used in a real test with non-trained data.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{images/code/models/general_regression/Big Data future - IF HARD Balanced performance.png}
-    \caption{Small Data Future - \acrshort{multi} 5\% - \acrshort{gam}}
+    \caption{Big Data Future - IF Balanced - \acrshort{gam}}
     \label{fig:gam_linear_regression}
 \end{figure}
 
-\subsubsection{Non-linear relationships}
+\subsection{Non-linear relationships}
 
-\noindent We also wanted to see if there were any non-linear relationships between the variables, so we tried to use the \acrshort{gam} model. This model is able to capture non-linear relationships between the variables, and it is also able to capture the geographical effects.
+\noindent Here we will be exploring the results of the \acrshort{gam} models to check if they are consistent with earlier findings or not.
+
+\subsubsection{Simple Splines}
+
+\noindent Looking at the splines in Figures~\ref{fig:spline_dividend_dividend_avg_24m} to~\ref{fig:spline_value_value_24m}, we only see \textbf{consistent and clear results with the Value scores}, showing the exact same behavior as the linear models.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\textwidth]{images/code/models/general_regression/splines/2D/Small Data future - IF/quality_quality_avg_24m.png}
-    \caption{Small Data Future - \acrshort{multi} 5\% - \acrshort{gam} - Avg 24M Quality}
-    \label{fig:gam_quality_quality_avg_24m}
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/code/models/general_regression/splines/2D/Small Data future - IF/dividend_dividend_avg_24m.png}
+        \caption{Small Data Future - \acrshort{if} 15\% - (\acrshort{gam}) Dividend 24M Average}
+        \label{fig:spline_dividend_dividend_avg_24m}
+    \end{minipage}\hfill
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/code/models/general_regression/splines/2D/Big Data future - IF HARD Balanced/dividend_dividend_avg_24m.png}
+        \caption{Big Data Future - \acrshort{if} 35\% - (\acrshort{gam}) Quality 24M Average}
+        \label{fig:spline_dividend_dividend_avg_24m_balanced}
+    \end{minipage}
 \end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/code/models/general_regression/splines/2D/Small Data future - IF/growth_growth_avg_12m.png}
+        \caption{Small Data Future - \acrshort{if} 15\% - (\acrshort{gam}) Growth 12M Average}
+        \label{fig:spline_growth_growth_avg_12m}
+    \end{minipage}\hfill
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/code/models/general_regression/splines/2D/Big Data future - IF HARD Balanced/growth_growth_avg_12m.png}
+        \caption{Big Data Future - \acrshort{if} 35\% - (\acrshort{gam}) Growth 12M Average}
+        \label{fig:spline_growth_growth_avg_12m_balanced}
+    \end{minipage}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/code/models/general_regression/splines/2D/Small Data future - IF/growth_growth_avg_24m.png}
+        \caption{Small Data Future - \acrshort{if} 15\% - (\acrshort{gam}) Growth 24M Average}
+        \label{fig:spline_growth_growth_avg_12m}
+    \end{minipage}\hfill
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/code/models/general_regression/splines/2D/Big Data future - IF HARD Balanced/growth_growth_avg_24m.png}
+        \caption{Big Data Future - \acrshort{if} 35\% - (\acrshort{gam}) Growth 24M Average}
+        \label{fig:spline_growth_growth_avg_12m_balanced}
+    \end{minipage}
+\end{figure}
+
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/code/models/general_regression/splines/2D/Small Data future - IF/quality_quality_avg_24m.png}
+        \caption{Small Data Future - \acrshort{if} 15\% - (\acrshort{gam}) Quality 24M Average}
+        \label{fig:spline_quality_quality_avg_24m}
+    \end{minipage}\hfill
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/code/models/general_regression/splines/2D/Big Data future - IF HARD Balanced/quality_quality_avg_24m.png}
+        \caption{Big Data Future - \acrshort{if} 35\% - (\acrshort{gam}) Quality 24M Average}
+        \label{fig:spline_quality_quality_avg_24m_balanced}
+    \end{minipage}
+\end{figure}
+
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/code/models/general_regression/splines/2D/Small Data future - IF/value_value.png}
+        \caption{Small Data Future - \acrshort{if} 15\% - (\acrshort{gam}) Value}
+        \label{fig:spline_value_value}
+    \end{minipage}\hfill
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/code/models/general_regression/splines/2D/Big Data future - IF HARD Balanced/value_value.png}
+        \caption{Big Data Future - \acrshort{if} 35\% - (\acrshort{gam}) Value}
+        \label{fig:spline_value_value_balanced}
+    \end{minipage}
+\end{figure}
+
+
+
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/code/models/general_regression/splines/2D/Small Data future - IF/value_value_avg_24m.png}
+        \caption{Small Data Future - \acrshort{if} 15\% - (\acrshort{gam}) Value 24M Average}
+        \label{fig:spline_value_value_avg_24m}
+    \end{minipage}\hfill
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/code/models/general_regression/splines/2D/Big Data future - IF HARD Balanced/value_value_avg_24m.png}
+        \caption{Big Data Future - \acrshort{if} 35\% - (\acrshort{gam}) Value 24M Average}
+        \label{fig:spline_value_value_avg_24m_balanced}
+    \end{minipage}
+\end{figure}
+
+
+
+\subsubsection{Tensor Splines}
+
+Except from the \textbf{Value} variable, the splines do not show consistencty with the linear models, so we have to check if looking at their tensor splines, we can see a similar pattern as when we were separating by regions. For interpreting the results, we have to share the encoding of the region variable:
+\begin{itemize}
+    \item \textbf{Africa \& Middle East}: 0
+    \item \textbf{Asia \& Oceania}: 1
+    \item \textbf{Europe}: 2
+    \item \textbf{South America}: 3
+    \item \textbf{North America}: 4
+\end{itemize}
+
+
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/code/models/general_regression/splines/3D/Big Data future - IF HARD Balanced/dividend_dividend_avg_24m×region_code.png}
+        \caption{Big Data Future - \acrshort{if} 35\% - (\acrshort{gam}) Region x Dividend 24M Average}
+        \label{fig:tensor_dividend_dividend_avg_24m}
+    \end{minipage}\hfill
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/code/models/general_regression/splines/3D/Big Data future - IF HARD Balanced/quality_quality_avg_24m×region_code.png}
+        \caption{Big Data Future - \acrshort{if} 35\% - (\acrshort{gam}) Region x Quality 24M Average}
+        \label{fig:tensor_quality_quality_avg_24m}
+    \end{minipage}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/code/models/general_regression/splines/3D/Big Data future - IF HARD Balanced/growth_growth_avg_12m×region_code.png}
+        \caption{Big Data Future - \acrshort{if} 35\% - (\acrshort{gam}) Region x Growth 12M Average}
+        \label{fig:tensor_growth_growth_avg_12m}
+    \end{minipage}\hfill
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/code/models/general_regression/splines/3D/Big Data future - IF HARD Balanced/growth_growth_avg_24m×region_code.png}
+        \caption{Big Data Future - \acrshort{if} 35\% - (\acrshort{gam}) Region x Growth 24M Average}
+        \label{fig:tensor_growth_growth_avg_24m}
+    \end{minipage}
+\end{figure}
+
 
 \begin{figure}[H]
     \centering
@@ -2648,13 +2807,47 @@ First of all, we started with a family of simple linear regression models with v
 
 
 
-\subsection{Neural Network}
+\section{Neural Network}
 
-\subsubsection{Regressor}
+We have checked that both, linear regression models and the \acrshort{gam}, show consistency between them and a significant improvement when introducing non-linear functions. But even though the results have improved, we have to remember that we are only using these models to identify patterns, and not for a real test with non-trained data because their low accuracy and performance even when knowing the full datasets.
 
-\subsubsection{Binary Classifier}
+\vspace{0.5cm}
 
-\subsubsection{Multi-class Classifier}
+\noindent Now we are going to check if we can actually predict when not knowing the data. For this we are going to use different \acrshort{nn}s, starting from a simple binary classifiers, to regressors.
+
+\subsection{Hyper-Parameter Optimization}
+
+Before running the simulations for each model, it is recommended to search for the most optimized group of hyperparameters to obtain a better performance. But surpsisingly, we found in figures: that most of the architectures obtained similar results, for the 3 different types of \acrshort{nn}. % TODO: add pictures here
+
+\noindent Since the results were not going to change much, we decided to use the same architecture to all of the models. In this case: (64,16) %TODO: change this
+
+\subsection{Binary Classifier}
+
+Starting with the most simple \acrshort{nn} possible, we obtained promising results:
+
+\begin{itemize}
+    \item Performance
+    \item Accuracy
+    \item Stability
+\end{itemize}
+
+\subsection{Multi-class Classifier}
+
+Continuing with a more sophisticated approach, we encoded the annualized profits with an investor-like point of view \acrshort{nn}, and we surprisingly were able to predict more than random using Tweenvest's Scores:
+
+\begin{itemize}
+    \item Performance
+    \item Accuracy
+    \item Stability
+\end{itemize}
+
+
+\subsection{Regressor}
+
+Unfortunately, the results when trying to point fit the profits are bad. This is very normal, trying to predict a continuous variable with \textit{''simple models''} such a normal \acrshort{nn} is very difficult. 
+
+% TODO: continue here
+
 
 
 
