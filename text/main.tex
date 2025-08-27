@@ -1496,9 +1496,9 @@ That's when we realized that if each method was good at detecting some outliers 
     \caption{Validation Datasets Summary}
     \begin{tabular}{|l|l|l|l|l|}
         \hline  
-        \textbf{Dataset} & \textbf{Raw} & \textbf{ \acrshort{if} 35\%} & \textbf{{Balanced}} \\
+        \textbf{Dataset} & \textbf{Cleaned} & \textbf{ \acrshort{if} 35\%} & \textbf{{Balanced}} \\
         \hline
-        \textbf{Medium Data Future} & 14,518,624 & 9,437,105 & 110,203 \\
+        \textbf{Big Data Future} & 14,518,624 & 9,437,105 & 110,203 \\
         \hline
         \end{tabular}
     \label{tab:validation_datasets_summary}
@@ -1907,7 +1907,7 @@ First of all, we started with a family of simple linear regression models with v
     \label{tab:third_linear_regression_results_scores}
 \end{table}
 
-\noindent Examining the results, we observe that a company's 24-month averages for Dividend and Quality are correlated with overall returns, which is consistent with the explained correlations between these scores and economic theory. The relationship with the Growth score is less intuitive but may still be meaningful: strong growth over the past 24 months suggests a \textbf{stable growth lead to good returns}, but \textbf{short term decreases affects the market's perception} of the company. Additionally, there is a clear \textbf{correlation between the most recent Value score and future profits}.
+\noindent Examining the results, we observe that a company's \textbf{24-month averages for Dividend and Quality are positively correlated with overall returns}, which aligns with the theoretical link between these scores and long-term value creation. The relationship with the Growth score is less straightforward but still relevant: \textbf{long term growth (24-months averages) is correlated with the profits}. However, temporary slowdowns in short-term growth (12 months averages) can negatively influence market sentiment, often leading to a decline in share price relative to fundamentals. This compression results in more attractive value multiples—reflected in \textbf{Value scores which show a positive correlation} with future profitability.
 
 \noindent These results are very promising and indicate a clear trend; however, we cannot be certain of their validity yet because the residuals do not meet the model's assumptions.
 
@@ -2440,17 +2440,10 @@ First of all, we started with a family of simple linear regression models with v
         \midrule
         \multirow{3}{*}{\textbf{Value}}
             & Coef.   & 0.046496  & 0.035204  & 0.020768  & 0.012553  & 0.008890  & 0.006598  \\
-            & Sign    & +         & +         & +         & +         & +         & +         \\
-            & t-value & 55.124    & 45.616    & 25.571    & 17.930    & 16.524    & 15.597    \\
-            & \textbf{\textcolor{green}{t-value}}
-                     & \textbf{\textcolor{green}{8.63}}
-                     & \textbf{\textcolor{green}{8.53}}
-                     & \textbf{\textcolor{green}{18.98}}
-                     & \textbf{\textcolor{green}{14.57}}
-                     & \textbf{\textcolor{green}{15.59}}
-                     & \textbf{\textcolor{green}{9.03}} \\
+            & \textbf{\textcolor{green}{Sign}}    & \textbf{\textcolor{green}{+}}         & \textbf{\textcolor{green}{+}}         & \textbf{\textcolor{green}{+}}         & \textbf{\textcolor{green}{+}}         & \textbf{\textcolor{green}{+}}         & \textbf{\textcolor{green}{+}}         \\
+            & \textbf{\textcolor{green}{t-value}} & \textbf{\textcolor{green}{55.124}}    & \textbf{\textcolor{green}{45.616}}    & \textbf{\textcolor{green}{25.571}}    & \textbf{\textcolor{green}{17.930}}    & \textbf{\textcolor{green}{16.524}}    & \textbf{\textcolor{green}{15.597}}    \\
         \multirow{3}{*}{\textbf{Value\_24m\_avg}} 
-            & \textbf{\textcolor{red}{Coef.}}   & \textbf{\textcolor{red}{-0.003114}} & \textbf{\textcolor{red}{-0.016167}} & \textbf{\textcolor{red}{-0.011902}} & \textbf{\textcolor{red}{-0.012283}} & \textbf{\textcolor{red}{-0.028632}} & \textbf{\textcolor{red}{-0.027899}} \\
+            & \textbf{Coef.}   & -0.003114 & -0.016167 & -0.011902 & -0.012283 & -0.028632 & -0.027899 \\
             & \textbf{\textcolor{red}{Sign}}    & \textbf{\textcolor{red}{–}}         & \textbf{\textcolor{red}{–}}         & \textbf{\textcolor{red}{–}}         & \textbf{\textcolor{red}{–}}         & \textbf{\textcolor{red}{–}}         & \textbf{\textcolor{red}{–}}         \\
             & \textbf{\textcolor{red}{t-value}} & \textbf{\textcolor{red}{-5.754}}    & \textbf{\textcolor{red}{-5.969}}    & \textbf{\textcolor{red}{-10.147}}   & \textbf{\textcolor{red}{-12.061}}   & \textbf{\textcolor{red}{-29.415}}   & \textbf{\textcolor{red}{-26.523}}   \\
         \bottomrule
@@ -2630,7 +2623,7 @@ First of all, we started with a family of simple linear regression models with v
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\textwidth]{images/code/models/general_regression/Small Data future - IF_performance.png}
+    \includegraphics[width=1\textwidth]{images/code/models/general_regression/Big Data future - IF HARD Balanced performance.png}
     \caption{Small Data Future - \acrshort{multi} 5\% - \acrshort{gam}}
     \label{fig:gam_linear_regression}
 \end{figure}
