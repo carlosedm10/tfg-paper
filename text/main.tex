@@ -35,11 +35,15 @@
 % ############################### DEDICATION #######################
 \newpage
 \thispagestyle{empty}
-\vfill
-\begin{flushright}
-To my parents.
-\end{flushright}
-\vfill\vfill
+\section*{Dedication}
+
+\noindent This work is dedicated to my family, specifically: to my mother who has always supported and encouraged me to go one step further and enjoy the journey; to Jorge, the most honorable person I know and that has taught me so much in life about what type of person I want to be; to my grand parents, \textit{``Piro y Tita''}, who have always given me love and time to take care of me; and finally to María, my partner in life, who has had to wait for me during this long journey that has taken us to the present day.
+
+\vspace{0.5cm}
+\noindent None of this would have been possible without the help from my tutors. I can't be more thankful to have had such wonderful and generous people guiding me to this point: Pepe, for always believing and trusting in me with my crazy ideas, that were far more complicated that I could have imagined, because without you this definitely wouldn't have happened; Gabi, for being a constant inspiration and support with that extraordinary sense of humor; Alberto, for taking your time to listen to me with all of that condensation of ideas that I didn't quite understand completely and bringing me light to see the right path, and for being such a wonderful professor that doesn't give up on whats wrong; and finally, to Joaquín, a teacher, a colleague and a friend, that has taught me that curiosity is the key to everything, I really appreciate all you have done for me and all of your effort, support and time that you have spent in this project.
+
+\vspace{0.5cm}
+\noindent Finally, I want to encourage everyone who is reading this to always do that extra mile, spend a little more time and effort. It will be worth it. And please, if you are a student and have the opportunity to choose a thesis, don't look at it as a burden or \textit{``just the last work in college''}, because it can literally change your life. It is the moment to really spend as much time as you want learning something you enjoy, and if you do it right, you can even align it with your future professional career.
 
 % ############################### TABLE OF CONTENTS #######################
 % \newpage
@@ -378,7 +382,7 @@ These ratios measure a company's ability to meet short-term obligations with its
 \noindent \textbf{Note:}
 \begin{itemize}
     \item \textit{\acrshort{marketcap} = Share Price × Total Outstanding Shares}
-    \item \textit{Enterprise Value = \acrshort{marketcap}italization + Total Debt - Cash + Marketable Securities}
+    \item \textit{Enterprise Value = \acrshort{marketcap} + Total Debt - Cash + Marketable Securities}
 \end{itemize}
 
 \begin{figure}[H]
@@ -1469,29 +1473,9 @@ That's when we realized that if each method was good at detecting some outliers 
     \label{tab:geographical_datasets_rows}
 \end{table}
 
-\subsubsection{Restrictive Datasets}
-\noindent For the third part of the analysis, once we had seen the nature of the data and the simple models results, we realized how much the outliers and countries were affecting the results, thats why we chose the \acrshort{gam} non-linear models. So for improving the consistency we used the \acrshort{islandcase} and the \acrshort{if} method with higher tolerances.
+\subsubsection{Validation Datasets}
 
-% TODO: Check which datasets were being used here.
-
-
-TODO: REFINAR ESTAS DB
-\begin{table}[H]
-    \centering
-    \caption{Restrictive Datasets Total Rows}
-    \begin{tabular}{|l|l|l|l|l|}
-        \hline  
-        \textbf{Dataset} & \textbf{Raw} & \textbf{Cleaned} & \textbf{ \acrshort{if} 15\%} & \textbf{ \acrshort{if} 35\%} \\
-        \hline
-        \textbf{Small Data Future} & 65,166 & 26,214 & 22,282 & 19,851 \\
-        \hline
-        \end{tabular}
-    \label{tab:restrictive_datasets_rows}
-\end{table}
-
-\subsubsection{Balanced Dataset}
-
-\noindent In the final stage of our analysis, our goal was to obtain the most realistic results possible, which required retaining as much data as we could. To achieve this, we revisited the Big Data Future dataset and applied the \acrshort{if} method with a \textbf{very high removal rate of 35\%}. Additionally, we balanced the data by regions and sectors. These steps, however, led to a substantial reduction in the number of rows.
+\noindent  Once we had seen the nature of the data and the simple models results, we realized how much the outliers and countries were affecting the results. So for improving the consistency we used the \acrshort{if} method with higher tolerances and additionally, we balanced the data by regions and sectors for the Big Dataset. However, these steps led to a substantial reduction in the number of rows. 
 
 \begin{table}[H]
     \centering
@@ -1500,31 +1484,31 @@ TODO: REFINAR ESTAS DB
         \hline  
         \textbf{Dataset} & \textbf{Cleaned} & \textbf{ \acrshort{if} 35\%} & \textbf{{Balanced}} \\
         \hline
+        \textbf{Small Data Future} & 26,214 & 19,851 & -- \\
+        \hline
         \textbf{Big Data Future} & 14,518,624 & 9,437,105 & 110,203 \\
         \hline
         \end{tabular}
     \label{tab:validation_datasets_summary}
 \end{table}
 
-\noindent These restrictions resulted on a surprisingly higher simple correlations, showing that we were going in the right path.
+\noindent These restrictions resulted on a surprisingly higher simple correlations, better performances and a more consistent model fitting as we will see in the results chapter.
 
 \subsubsection{Conclusion}
 
 \noindent Finally, we have to clarify that outliers are anomalies in the \textit{normal} behavior of the data, so even thought we are excluding them for obtaining a general set of models, we could be missing valuable information such as the possible structures shown with the red structures in the figure~\ref{fig:small_data_future_multi}. That is why we propose for future work a separate analysis for the outliers, to see if really good profits (or bad ones) have any characteristics, such as average high or low scores.
 
-%  TODO: Try to make a small analysis of the outliers.
-
 \chapter{Results}
-This chapter presents the outcomes of the analyses and modeling procedures applied to the curated datasets. The results are organized into two main parts. First, a descriptive analysis explores the underlying characteristics of the data, examining distributions, correlations, and clustering patterns to identify preliminary relationships between the scores and company performance. Second, the predictive modeling results evaluate the extent to which the scores --and other explanatory variables-- can be used to anticipate future profitability over different investment horizons.
+This chapter presents the outcomes of the analysis and modeling procedures applied to the curated datasets. The results are organized into two main parts. First, a descriptive analysis explores the underlying characteristics of the data, examining distributions, correlations, and clustering patterns to identify preliminary relationships between the scores and company performance. Second, the predictive modeling results evaluate the extent to which the scores --and other explanatory variables-- can be used to anticipate future profitability over different investment horizons.
 
 \section{Descriptive Analysis}
 
-Before jumping into the model fitting, it is necessary to understand the data that we are working with. For doing so, we will be looking at the variables distributions, correlations and possible structures.Through this analysis we will be first looking at the big datasets for understanding the data, and then we will be checking if the small subsets behave similarly. Also, because there are a few outliers in the \textit{Big Data} that makes the profits distributions not very clear, we will be using the \acrshort{iqr} method to remove them.
+Before jumping into the model fitting, it is necessary to understand the data that we are working with. For doing so, we will be looking at the variables distributions, correlations and possible structures. The analysis begins with the complete dataset to capture the overall patterns, followed by an evaluation of smaller subsets to verify whether they exhibit similar behavior. Additionally, because a small number of outliers in the \textit{Big Data} obscure the profit distribution plots, we will be using the \acrshort{iqr} method to remove them.
 
 \subsection{Variables Distributions}
 
 \subsubsection{Scores}
- When looking at the scores in the figure~\ref{fig:scores}, we see that there are several scores that saturate. So for a better visualization we created a temporal dataset where the dividend and growth scores saturating at 0 were deleted, this is shown in the figure~\ref{fig:scores_deep}. 
+ When looking at the scores in the figure~\ref{fig:scores}, we see that there are several scores that saturate. So for a better visualization we created a temporal dataset where the dividend and growth scores saturating at 0 were deleted, this is shown in the figure~\ref{fig:scores_deep}. Starting with the \textbf{quality score}, we can see that its distribution shows a \textbf{clear negative skewness}, meaning that there are more companies closer to having a good quality score. This could be due to the fact that we had deleted companies that did not behave as a ``normal company'', so we will later analyze the distributions of the profits to see if this was the case. Also, there is a \textbf{secondary peak around the 30-40 scores}, which could be related to the time-frame of the data. 
 
 \begin{figure}[H]
     \centering
@@ -1542,7 +1526,7 @@ Before jumping into the model fitting, it is necessary to understand the data th
     \end{minipage}
 \end{figure}
 
-\noindent Starting with the \textbf{quality score}, we can see that its distribution shows a \textbf{clear negative skewness}, meaning that there are more companies closer to having a good quality score. This could be due to the fact that we had deleted companies that did not behave as a ``normal company'', so we will later analyze the distributions of the profits to see if this was the case. Also, there is a \textbf{secondary peak around the 30-40 scores}, which could be related to the time-frame of the data.
+\noindent Comparing the interest rates between 2015--2020 and 2020--2025, we can see that the first period was at a historical low, so there could be more companies with higher debt rates than normal. Some central banks, particularly in Europe, experimented with negative interest rate policies on deposit facilities during this period (figure~\ref{fig:euribor}), \cite{euribor_emmi}. This possibility should be studied in more detail, but knowing that this does not happen for the dataset between 2020--2025 where interest rates are higher, we have a clue that this could be whats causing it (see appendix figure~\ref{fig:past_scores_deep}).
 
 \begin{figure}[H]
     \centering
@@ -1551,26 +1535,25 @@ Before jumping into the model fitting, it is necessary to understand the data th
     \label{fig:euribor}
 \end{figure}
 
-\noindent Comparing the interest rates between 2015--2020 and 2020--2025, we can see that the first period was at a historical low, so there could be more companies with higher debt rates than normal. Some central banks, particularly in Europe, experimented with negative interest rate policies on deposit facilities during this period (figure~\ref{fig:euribor}), \cite{euribor_emmi}. This possibility should be studied in more detail, but knowing that this does not happen for the dataset between 2020--2025 where interest rates are higher, we have a clue that this could be whats causing it (see appendix figure~\ref{fig:past_scores_deep}).
 
 \vspace{0.5cm}
-\noindent Finishing with quality, there is a \textit{``defect''} in the dataset. We do not have 10 year averages for the companies that are in the 2015--2020 period --Tweenvest only has data after 2012-- so the algorithm gives 0 to some of its criteria making the maximum quality be 80. But since this is happening for all of the companies, \textbf{it is not a problem for the model fitting}, and we could easily rescale to 100.
+\noindent Finishing with quality, there is a \textit{``defect''} in the dataset. We do not have 10 year averages for the companies that are in the 2015--2020 period --Tweenvest only has data after 2012-- so the algorithm gives 0 to some of its criteria, making the maximum quality be 80. But since this is happening to all of the companies, \textbf{it is not a problem for the model fitting}, and we could easily rescale it to 100. And since we see a descent slope after 65, we can rescale it to 100, being in this case approximately \textbf{81 the descent point}.
 
 \vspace{0.5cm}
-\noindent Continuing with \textbf{growth score}, we notice that there are many companies saturating the score at 0 and 100, and the same happens with the Dividend. But looking at the deeper plots, we can see that it is closer to a uniform distribution with a descend slope after 65, which means that most companies have a similar growth rate, but fewer have higher ones.
+\noindent Continuing with \textbf{growth score}, we notice that there are many companies saturating at 0 and 100, and the same happens with Dividend. But looking at the deeper plots, we can see that it is closer to a uniform distribution with a \textbf{descend slope after 65}, which means that most companies have a similar growth rate, but fewer have higher ones.
 
 \vspace{0.5cm}
-\noindent When looking at the \textbf{value score}, we can see that the distribution almost has an average of 50, and there is a continuum of values trough the whole range decreasing as the score diverges from that average, so it seems that it is a good scale for distributing the companies.
+\noindent When looking at the \textbf{value score}, we can see that the distribution almost has an average of 50, and there is a continuum of values trough the whole range decreasing as the score diverges from that average, so it seems that it is a balanced scale for distributing the companies.
 
 \vspace{0.5cm}
-\noindent Lastly for the \textbf{dividend score}, as mentioned before, there are many companies that do not pay dividends. But aside from that, we have an irregular distribution for the score, with a peak around 85--92 meaning that there are several companies that care about their dividend policy.
+\noindent Lastly for the \textbf{dividend score}, as mentioned before, there are many companies that do not pay dividends. But aside from that, we have an irregular distribution for the score, with a \textbf{peak around 85--92}, meaning that there are several companies that care about their dividend policy.
 
 \vspace{0.5cm}
 \noindent \textit{\textbf{Note}: We get very similar distributions for the Small Data datasets, but with lower resolutions of the scores distributions due to the sampling process (see appendix figures~\ref{fig:small_future_scores} and~\ref{fig:small_future_scores_deep}).}
 
 \subsubsection{Dummies}
 
-We have already explored the scores, so now we have to see if there distributions of the dummies could be affecting the model fitting. We started looking at the sectors distributions for the \textit{Big Data Future} to see what is full picture of the market, and then we will look at the \textit{Small Data Future} dataset since it will be the most used one in the analysis.
+We have already explored the scores, so now we have to see if there distributions of the dummies could create a bias in the models. We started looking at the sectors distributions for the \textit{Big Data Future} to see what is full picture of the market, and then we will look at the \textit{Small Data Future} dataset since it will be the most used one in the analysis.
 
 \begin{figure}[H]
     \centering
@@ -1588,14 +1571,14 @@ We have already explored the scores, so now we have to see if there distribution
     \end{minipage}
 \end{figure}
 
-\noindent As it was expected, in figure~\ref{fig:small_future_dummies} we see a \textbf{uniform distribution for the sectors} because this condition was forced in the data creation process, but in the full dataset we have a different distribution, which could show some interesting information about how the market behaves. This made us also check the distributions for the past datasets (see appendix figures~\ref{fig:past_dummies}) where we saw a noticeable difference. This \textbf{temporal variation in sector representation} presents an interesting opportunity for future research. When it comes to the regions variables, we have a different result, seeing a \textbf{clear predomination of the Asiatic region}, which happens for all of the datasets. 
+\noindent As it was expected, in figure~\ref{fig:small_future_dummies} we see a \textbf{uniform distribution for the sectors} because this condition was forced in the data creation process, but in the full dataset we have a different distribution, which could show some interesting information about how the market behaves. This made us also check the distributions for the past datasets (see appendix figure~\ref{fig:past_dummies}) where we saw a noticeable difference. This \textbf{temporal variation in sector density} presents an interesting opportunity for future research. When it comes to the regions variables, we have a different result, seeing a \textbf{clear predomination of the Asiatic region}, which happens for all of the datasets. 
 
-\vspace{0.5cm}
-\noindent This could create issues for the model fitting, since it is known that in countries like China have more volatility and lower returns~\cite{chen2024economic}. Also, their auditors often lack true independence, especially when auditing \gls{soe} or firms with strong political ties. The Chinese government tightly controls domestic accounting firms and imposes restrictions on foreign auditors. Even international firms like \textit{PwC-China} operate under local joint ventures, often with limited autonomy, as reviewed in~\cite{LIU2012782}. So we will have to check if the dummies variables are enough to take this effect into account, or if we need a different approach for modeling the geographical effects.
+\newpage
+\noindent This could create issues for the model fitting, since it is known that in countries like China have more volatility and lower returns~\cite{chen2024economic}. Also, their auditors often lack true independence, especially when auditing \gls{soe} or firms with strong political ties. The Chinese government tightly controls domestic accounting firms and imposes restrictions on foreign auditors. Even international firms like \textit{PwC-China} operate under local joint ventures, often with limited autonomy, as reviewed in~\cite{LIU2012782}. So we will have to check if the geographical variables are enough to take this effect into account, or if we need a different approach for modeling these effects.
 
 \subsubsection{Profits}
 
-\noindent Finally, when analyzing the profit distributions across different time horizons, we observe that the distributions contain a numerous amount of outliers that do not let us see the distributions clearly (appendix figures~\ref{fig:big_data_future_profits_boxplot} and~\ref{fig:big_data_future_profits}).
+\noindent Finally, when analyzing the profit distributions across different time horizons, we observe that the distributions contain a numerous amount of outliers that do not let us see the distributions clearly (appendix figures~\ref{fig:big_data_future_profits_boxplot} and~\ref{fig:big_data_future_profits}). So for this reason we are seeing the datasets with the \acrshort{iqr} method applied in figures~\ref{fig:big_data_future_iqr_profits_boxplot} and~\ref{fig:big_data_future_iqr_profits_iqr}.
 
 \begin{figure}[H]
     \centering
@@ -1613,7 +1596,7 @@ We have already explored the scores, so now we have to see if there distribution
     \end{minipage}
 \end{figure}
 
-\noindent Interestingly, we notice that the \textbf{short-term profit} distributions (1-month and 3-month) are more symmetric and closer to \textbf{normal distributions}, which is consistent with the efficient market hypothesis suggesting that short-term price movements are largely random. However, as we extend to \textbf{longer time horizons}, the \textbf{distributions become more positively skewed}, which aligns with the general expectation that most companies do not have good returns, except of the market winners that tend to generate extraordinary positive returns due to the mentioned \textbf{\textit{economic moats}}. This is particularly evident in the longer-term profit distributions (2-year and 5-year), where we see a \textbf{longer tail extending toward higher positive returns}. Finally, there is also a tendency to having \textbf{less negative returns} compared to the positive ones the longer the time-frame. Logically, companies with bad returns do not last long.
+\noindent Interestingly, we notice that the \textbf{short-term profit} distributions (1-month to 6-month) are more symmetric and closer to \textbf{normal distributions}, which is consistent with the efficient market hypothesis, suggesting that short-term price movements are largely random. However, as we extend to \textbf{longer time horizons}, the \textbf{distributions become more positively skewed}, which aligns with the general expectation that most companies do not have good returns, except of the market winners that tend to generate extraordinary positive returns due to the mentioned \textit{economic moats}. This is particularly evident in the longer-term profit distributions (2-year and 5-year), where we see a \textbf{longer tail extending toward higher positive returns}. Lastly, in the figure~\ref{fig:big_data_future_iqr_profits_boxplot} we see a tendency to having \textbf{less negative returns} compared to the positive ones \textbf{the longer the time-frame}. Logically, companies with bad returns do not last long.
 
 \subsection{Correlations}
 
@@ -1663,7 +1646,7 @@ For analyzing the correlations between the variables, we will start firstly with
 \noindent For getting a bigger picture we only used a small outlier removal. And as expected, the correlations already seen before any removal stay similar with a slight increase in the \textit{Momentum}, showing more importance of it than other variables. But actually, there are \textbf{new correlations seen} for both datasets:
 
 \begin{itemize}
-    \item  \textbf{Accumulated profits affect the scores}. In the past dataset we can see that long term past profits translate into higher growth, quality and dividend scores, these were expected to increase together due to their correlation. But also, we see that \textbf{accumulated stock performance make the value score decrease}. This could be explained by two effects:
+    \item  \textbf{Accumulated profits affect the scores}. In the past dataset we can see that long term past profits translate into higher growth, quality and dividend scores, these were expected to increase together due to their correlation. But also, we see that \textbf{accumulated stock performance makes the value score decrease}. This could be explained by two effects:
     \begin{itemize}
         \item \textbf{Bull markets}. As explained in the second chapter, a company can experience returns in the stock market that cannot be followed by financial growth. This makes their value multiples to raise, making their value score to decrease.
         \item \textbf{Unknown companies}. There is a possibility that the company is not well known, so the market price is lower than it could while their finances are good. This hypothesis could be supported if Value score is correlated to future market profits, which we will see soon.
@@ -1677,18 +1660,19 @@ For analyzing the correlations between the variables, we will start firstly with
 
 \subsubsection{Validation Dataset}
 
+\noindent Also, as we mentioned in the previous chapter, in figure~\ref{fig:medium_data_future_if_correlations} we see a huge increase in the previous correlations when we removed more outliers. And a new inverse correlation for \textit{Market Cap} and \textit{Value}. It is interesting that this relationship is not as strong as we could expect.
+
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.48\textwidth]{images/code/descriptive analysis/correlations/Medium future - IF HARD.png}
-    \caption{Medium Data Future \acrshort{if} (35\%) - Correlations}
+    \includegraphics[width=0.4\textwidth]{images/code/descriptive analysis/correlations/Medium future - IF HARD.png}
+    \caption{Big Data Future \acrshort{if} (35\%) - Correlations}
     \label{fig:medium_data_future_if_correlations}
 \end{figure}
 
 
-\noindent Also, as we mentioned in the previous chapter, in figure~\ref{fig:medium_data_future_if_correlations} we see a huge increase in the previous correlations when we removed more outliers. And a new inverse correlation for \textit{Market Cap} and \textit{Value}. It is interesting that this relationship is not as strong as we could expect.
 
 \subsection{Data clusters}
-Finally, we are going to try to compare these results with the \acrshort{pairplot} of the datasets, to look for clusters of data when comparing many variables at once.
+Before ending the descriptive analysis, we are going to try to compare these results with the \acrshort{pairplot} of the datasets, to look for clusters of data when comparing many variables at once.
 
 \begin{figure}[H]
     \centering
@@ -1699,7 +1683,7 @@ Finally, we are going to try to compare these results with the \acrshort{pairplo
 
 \noindent Here it is harder to eye-see the data structure that could form clusters since there are many data-points, but there are some exceptions:
 \begin{itemize}
-    \item \textbf{Profits}. We can see linear correlations between some of the different profits, but for longer horizons the relationships are no longer linear. Which is expected since the further the horizon, more variables take part in the calculation of the profit.
+    \item \textbf{Profits}. We can see linear correlations between some of the nearby profits, but for longer horizons the relationships are no longer linear. Which is expected since the further the horizon, more variables take part in the calculation of the profit.
     \item \textbf{\acrshort{marketcap}}. Companies with bigger market caps tend to have higher quality and dividend scores. Bigger companies should have a more stable financial situation, otherwise they would not be as big in the long term. Also there are some sectors that tend to have higher market caps than others, like \textit{Health Care} or \textit{Consumer Staples}.
     \item \textbf{Sector}. It seems that there could be a pattern seen in the sectors distribution for each scores, but it is not clear.
 \end{itemize}
@@ -1708,11 +1692,11 @@ Finally, we are going to try to compare these results with the \acrshort{pairplo
 
 \section{Linear Regression}
 
-Now that we understood the data, and the different datasets created. We are going to explain how was the process of refining the methodologies for improving the results.
+Now that we understood the data, and the different datasets created. We are going to explain how was the process of refining the methodologies the results obtained.
 
 \subsection{General Models}
 
-First of all, we started with a family of simple linear regression models with very few variables and not excluding the outliers. This, of course, resulted in a very poor model that could not predict anything (see appendix figure~\ref{fig:first_linear_regression_performance}). However, after applying the first outlier removal for the initial series of datasets, we started to see some results:
+First of all, we started with a family of simple linear regression models with just the plain explanatory variables and not excluding the outliers. This, of course, resulted in a very poor model that could not predict anything (see appendix figure~\ref{fig:first_linear_regression_performance}). However, after applying the first outlier removal for the initial series of datasets, we started to see some results:
 
 \begin{figure}[H]
     \centering
@@ -1732,12 +1716,11 @@ First of all, we started with a family of simple linear regression models with v
     \label{fig:first_linear_regression_residuals}
 \end{figure}
 
-\noindent Examining the residuals, they all show a similar patter that we captured in figure~\ref{fig:first_linear_regression_residuals} with quality for 1m, 1y and 5y profits. We identified several issues:
-
+\noindent Examining the residuals, they all show a similar pattern for all of the scores, so from now on we will show just the quality residuals --as seen in figure~\ref{fig:first_linear_regression_residuals}-- for 1m, 1y and 5y profits. Often we see the same issues:
 \begin{itemize}
-    \item \textbf{Normality}. The \acrshort{qq} plot reveals that the residuals are not normally distributed, although there is a section where normality appears to hold.
+    \item \textbf{Normality}. The \acrshort{qq} and the distribution plot reveals that the residuals are not normally distributed, although there is a section where normality appears to hold.
     \item \textbf{Heteroskedasticity}. The residuals vs fitted values plot indicates that the variance is not constant across all time horizons.
-    \item \textbf{Autocorrelation}. The \acrshort{acf} and \acrshort{pacf} plots also shows that the residuals are not independent of each other.
+    \item \textbf{Autocorrelation}. The \acrshort{acf} and \acrshort{pacf} plots also shows that the residuals are not independent of each other, which reinforces the momentum correlation seen.
     \item \textbf{Outliers}. When looking at the residuals against time, we see big spikes that show that there are many outliers in the data.
 \end{itemize}
 
@@ -1778,7 +1761,7 @@ First of all, we started with a family of simple linear regression models with v
 
 \subsubsection{The problem with \acrshort{arima}}
 
-\noindent Before jumping into trying to improve the results by refining the data or the models themselves, the first main issue we tried to fix was the autocorrelations seen in the residues. So used an automatic \acrshort{arima} fitter from \textit{PyPI} \textcite{pmdarima2025} to see if it improved the performance of the linear regression models and also fix the issue all together.
+\noindent Before jumping into trying to improve the results by refining the data or adding new variables, the first main issue we tried to fix was the autocorrelations seen in the residues. So we used an automatic \acrshort{arima} fitter from \textit{PyPI} \textcite{pmdarima2025} to see if it improved the predictability and also fixed the issue all at once.
 
 \begin{figure}[H]
     \centering
@@ -1787,11 +1770,11 @@ First of all, we started with a family of simple linear regression models with v
     \label{fig:arima_linear_regression}
 \end{figure}
 
-\noindent And of course, this worked amazingly: it solved completely the autocorrelations of the residues and it improved a lot the performance of the model (figure~\ref{fig:arima_linear_regression}). But this came with a major issue that made us abandon the idea of using \acrshort{arima} models; \textbf{we had to use future profits as inputs for the \acrshort{arima} model}, which only could make sense for an ad-hoc model to explain past behavior, but not for a model that is supposed to predict future behavior.
+\noindent And of course, this worked amazingly: it solved completely the autocorrelations of the residues and it improved a lot the results of the model (figure~\ref{fig:arima_linear_regression}). But this came with a major issue that made us abandon the idea of using \acrshort{arima} models; \textbf{we had to use future profits as inputs for the \acrshort{arima} model}, which only could make sense for an ad-hoc model as a way to explain past behavior, but not for a model that is supposed to predict future behavior.
 
 \subsubsection{Artificial Normality}
 
-\noindent So before continuing with the autocorrelations issue, we tried to solve the normality and heteroskedasticity issues. And since it is well known that regression models are not very robust to non-normal data fixing these should also improve the models' performance. We used the mentioned \textit{Yeo-Johnson} transformation and saw some \textbf{improvements with the performances and the \acrshort{rmse} for long term models (5y)} but showed complete noise for the short term (1m to 6m), which suggest that this transformation helped coping with the tails of the 5y-profits distribution and also helped showing the real noise from the short term models. In general, we see a \textbf{worsening of the accuracy} in most of the models, except in the long term.
+\noindent So before continuing with the autocorrelations issue, we tried to solve the normality and heteroskedasticity issues. And since it is well known that regression models are not very robust to non-normal data, fixing that should also improve the models' performance. We used the mentioned \textit{Yeo-Johnson} transformation and saw some \textbf{improvements with the predictability and the \acrshort{rmse} for long term models (5y)} but showed complete noise for the short term (1m to 6m), which suggest that this transformation helped coping with the tails of the 5y-profits distribution and also helped showing the real noise from the short term models. In general, we see a \textbf{worsening of the accuracy} in most of the models, except in the long term.
 
 \begin{figure}[H]
     \centering
@@ -1800,7 +1783,7 @@ First of all, we started with a family of simple linear regression models with v
     \label{fig:first_linear_regression_gaussian}
 \end{figure}
 
-\noindent When looking at the residuals in figure~\ref{fig:first_linear_regression_gaussian_residuals}, we can see that the \textbf{normality had improved a lot} for the mid and long term models --which aligns with the accuracies changes--, but we still have issues in the tails of the \acrshort{qq} plot and the same peaks in the time series plots.
+\noindent When looking at the residuals in figure~\ref{fig:first_linear_regression_gaussian_residuals}, we can see that the \textbf{normality had improved a lot} for the mid and long term models --which aligns with the performance changes--, but we still have issues in the tails of the \acrshort{qq} plot and the same peaks in the time series plots due to the outliers.
 
 \begin{figure}[H]
     \centering
@@ -1811,11 +1794,11 @@ First of all, we started with a family of simple linear regression models with v
     \label{fig:first_linear_regression_gaussian_residuals}
 \end{figure}
 
-\noindent Also, after this transformation we still didn't see any consistency and statistical significance (see appendix Table~\ref{tab:first_linear_regression_results_scores_gaussian}). But since it improved both the performance and the normality \textbf{we applied this transformation for the rest of the models}.
+\noindent Also, after this transformation we still didn't see any consistency and statistical significance (see appendix Table~\ref{tab:first_linear_regression_results_scores_gaussian}). But since it improved both the predictability and the normality \textbf{we applied this transformation for the rest of the models}.
 
 \subsubsection{Windowed Models}
 
-\noindent Before seeing if the regions' non-linear effects were causing the some of issues, we wanted to try to improve the autocorrelations by using a different approach. In this case, we used a new family of windowed models with the different statistics explained to see if the market had any memory with past financial performances.
+\noindent Before seeing if the regions' non-linear effects were causing the some of issues, we wanted to try to improve the autocorrelations by using a different approach. In this case, we used a new family of windowed models using different statistics to \textbf{see if the market has any memory} with past financial performances.
 
 \begin{figure}[H]
     \centering
@@ -1824,7 +1807,7 @@ First of all, we started with a family of simple linear regression models with v
     \label{fig:third_linear_regression_summary}
 \end{figure}
 
-\noindent In figure~\ref{fig:third_linear_regression_summary} it appears to be a general improvement into all of the models' performance and accuracy, but this could be due to the increase of explanatory variables --overfitting--. But we encounter a new patter that will be happening in all of the models that uses these windows: \textbf{increase in the Value's models performance and accuracy, with a peak around 6m-profits}. To understand this, we have to go back to the definition of the Value Score seen in chapter 2, where it was clear that the score contains the price movements within it. So we have figured out a way to implement some of the price's momentum into the models including also financial data into it. This showed us that \textbf{the market has memory of a company's price multiples}.
+\noindent In figure~\ref{fig:third_linear_regression_summary} it appears to be a \textbf{general improvement into all of the models' predictability and accuracy}, which could be caused by overfitting but it appears not to be the case since the amount of significant variables does not increase with the performance. Surprisingly, we encounter a new patter that will be happening in all of the models that uses these windows: \textbf{increase in the Value's models performance, with a peak around 6m-profits}. To understand this, we have to go back to the definition of the Value Score seen in chapter 2, where it was clear that the score contained the price movements within it. So we have figured out a way to implement some of the price's momentum into the models including also financial data into it. This showed us that \textbf{the market has memory of a company's price multiples}.
 
 \begin{figure}[H]
     \centering
@@ -1835,8 +1818,7 @@ First of all, we started with a family of simple linear regression models with v
     \label{fig:third_linear_regression_residuals}
 \end{figure}
 
-\noindent The residues kept having the same issues as the previous models, but we finally see \textbf{consistency and significance}. In Table~\ref{tab:third_linear_regression_results_scores} we made a summary of the only relevant results, but for the full data see appendix Tables 6.2--6.5.
-
+\noindent The residues kept having the same issues as the previous models, but \textbf{we finally see consistency and significance}. In the table~\ref{tab:third_linear_regression_results_scores} we made a summary with relevant results, but for the full data see appendix tables~\ref{tab:dividend_windowed_reformat} to~\ref{tab:value_windowed_reformat}.
 \begin{table}[H]
     \centering
     \caption{Small Data Future (Windowed) - \acrshort{multi} (4\%) Consistency Summary}
@@ -1909,22 +1891,21 @@ First of all, we started with a family of simple linear regression models with v
     \label{tab:third_linear_regression_results_scores}
 \end{table}
 
-\noindent Examining the results, we observe that a company's \textbf{24-month averages for Dividend and Quality are positively correlated with overall returns}, which aligns with the theoretical link between these scores and long-term value creation. The relationship with the Growth score is less straightforward but still relevant: \textbf{long term growth (24-months averages) is correlated with the profits}. However, temporary slowdowns in short-term growth (12 months averages) can negatively influence market sentiment, often leading to a decline in share price relative to fundamentals. This compression results in more attractive value multiples—reflected in \textbf{Value scores which show a positive correlation} with future profitability.
+\noindent Examining the results, we observe that a company's \textbf{24-month averages for Dividend and Quality are positively correlated with overall returns}, where we have highlight the effect of the \textbf{Quality score}; this aligns with the theoretical link between these scores and long-term value creation. The relationship with the Growth score is less intuitive but still relevant: \textbf{long term growth (24-months averages) is correlated with the profits}. However, temporary slowdowns in short-term growth (12 months averages) can negatively influence market sentiment, often leading to a decline in share price relative to fundamentals. This compression could result in more attractive value multiples—reflected in \textbf{Value scores which show a positive correlation} with future profitability.
 
-\noindent These results are very promising and indicate a clear trend; however, we cannot be certain of their validity yet because the residuals do not meet the model's assumptions.
+\noindent These results are very promising and indicate a clear trend; however, we cannot be certain of their validity yet because the residuals do not meet all of the model's assumptions.
 
 \subsection{Geographical Effects}
 
-\noindent All of the changes made have improved the results so far, but we still are hitting very low performances. This is very common when trying to fit a linear model to non-linear relationships. And we want to see if these non-linearities come from the regions; since the sectors effects should have already been taken into account by Tweenvest's algorithm. Additionally, we wanted to check if the outliers were coming from any specific region.
-
+\noindent Although all modifications implemented so far have led to improvements, the overall performance remains relatively low. This outcome is common when attempting to fit a linear model to data that exhibits inherently non-linear relationships. To investigate this further, we examined whether these non-linearities could be attributed to regional effects. In contrast, sector-related effects should already be accounted for within Tweenvest’s algorithm. Additionally, we assessed whether the presence of outliers could be linked to specific regions.
 \subsubsection{Simple Models}
 
-\noindent Following the same approach as for the general datasets, we started with the simple model and then we kept iterating with the same steps as before. So for not being repetitive we are only showing the finishing results in the section, and the full data is in the appendix figures~\ref{fig:region_performance_first_model} to~\ref{fig:linear_regression_AF_residues} and tables~\ref{tab:usa_first_model_consistency} to~\ref{tab:africa_first_model_consistency}. Doing this, we see that the first results are very poor in general, but we start to see some behavior that will be constant in all of the models:
+\noindent Following the same approach as for the general datasets, we started with the simple model and then we kept iterating with the same steps as before. So for not being redundant we are only showing the significant results in the section, and the full data is in the appendix figures~\ref{fig:region_performance_first_model} to~\ref{fig:linear_regression_AF_residues} and tables~\ref{tab:usa_first_model_consistency} to~\ref{tab:africa_first_model_consistency}. When implementing this first model, we see similar poor results in performances, but we start to see some behavior that will be constant in all of the models:
 
 \begin{itemize}
-    \item \textbf{North America} has the best performances and accuracies.
+    \item \textbf{North America} has the best predictabilities and accuracies.
     \item \textbf{Asia \& Oceania} show more outliers than the rest.
-    \item \textbf{Different Coeficient behavior} between regions, which confirms the non-linearities.
+    \item \textbf{Different Coefficient behavior} between regions, which confirms the non-linearities.
 \end{itemize}
 
 \noindent But once we applied the \textit{Yeo-Johnson} transformation, \textbf{the results started to be relevant}. In figure~\ref{fig:region_performance_first_model_gaussian} we see \textbf{higher overall predictabilities}  than the ones we had using the original dataset. This also indicates the presence of non-linearities with the geographical regions.
@@ -1971,7 +1952,8 @@ First of all, we started with a family of simple linear regression models with v
     \label{fig:region_performance_first_model_gaussian}
 \end{figure}
 
-\noindent In this case, the \textbf{residues' normality improved significantly}, which is along the improvement in predictability a good sign of progress. But we still have heteroskedasticity and, of course, the autocorrelations issue for most of the regions and models. Although we don't have perfect models, looking at the \acrshort{qq} plots and more from~\ref{fig:linear_regression_AS_residues_gaussian}, we can be certain that \textbf{most of the outliers are coming from \textit{Asia \& Oceania}}; which is also the region with more data-points in the complete dataset.
+\newpage
+\noindent In this case, the \textbf{residues' normality improved significantly}, which is along the improvement in performance a good sign of progress. But we still have heteroskedasticity and, of course, the autocorrelations issue for most of the regions and models. Although we don't have perfect models, looking at the \acrshort{qq} plots and more from~\ref{fig:linear_regression_AS_residues_gaussian}, we can be certain that \textbf{most of the outliers are coming from \textit{Asia \& Oceania}}; which is also the region with more data-points in the complete dataset.
 
 \begin{figure}[H]
     \centering
@@ -2074,7 +2056,7 @@ First of all, we started with a family of simple linear regression models with v
 \end{figure}
 
 
-\noindent Also, with these more stable residues; we can study in detail the \textbf{coefficients' results}. And before starting going in depth with them, we have to note that they \textbf{behave similarly than before applying the transformation}; which is a good sign of consistency and robustness. Now we will explore all of the regions individually and try to see if the patterns presented could be supported by economical theory.
+\noindent Also, with these more stable residues; we can study in detail the \textbf{coefficients' results}. But before starting going in depth with them, we have to note that they \textbf{behave similarly than before applying the transformation}; which is a good sign of consistency and robustness. Now we will explore all of the regions individually and try to see if the patterns presented could be supported by economical theory.
 
 \vspace{0.5cm}
 \noindent Starting with \textbf{North America} in table~\ref{tab:usa_gaussian_model_consistency}, we highlight the following:
@@ -2260,7 +2242,7 @@ First of all, we started with a family of simple linear regression models with v
 \noindent Continuing with the methodology, we applied the windowed models to all of the regions datasets, and we ended up with the most robust results so far. Looking at the performances in figure~\ref{fig:region_performance_windowed_models}, we can see the similar results as before:  
 
 \begin{itemize}
-    \item \textbf{Predictability}: \textbf{North America} has the best performances and accuracies. On the other side,  \textbf{Asia \& Oceania} and \textbf{Africa \& Middle East} have the worst performances and accuracies; the first due to their outliers and the second probably because of its financial and political instability.
+    \item \textbf{Predictability}: \textbf{North America} has the best predictabilities and accuracies. On the other side,  \textbf{Asia \& Oceania} and \textbf{Africa \& Middle East} have the worst performances; the first due to their outliers and the second probably because of its financial and political instability.
     \item \textbf{Relevant Scores}: in all of the regions we see that \textbf{Value and Quality} models are outperforming the rest.
 \end{itemize}
 
@@ -2408,8 +2390,7 @@ First of all, we started with a family of simple linear regression models with v
     \label{fig:linear_regression_AF_residues_windowed}
 \end{figure}
 
-\vspace{0.5cm}
-\noindent We created a summary table per region (full data in appendix figures~\ref{tab:north_america_dividend_consistency} to~\ref{tab:africa_middle_east_value_consistency}) . Starting with North America and Europe in figures~\ref{tab:north_america_windowed_consistency_summary} to~\ref{tab:europe_windowed_consistency_summary} , we see a comon behavior between them and previous results, where only long term is negatively correlated to profits, and stable scores increase overall returns.
+\noindent For analyzing the coefficients, we created a summary table per region (full data in appendix figures~\ref{tab:north_america_dividend_consistency} to~\ref{tab:africa_middle_east_value_consistency}). Starting with North America and Europe in figures~\ref{tab:north_america_windowed_consistency_summary} to~\ref{tab:europe_windowed_consistency_summary}, we see a como behavior between them and previous results, where only \textbf{long term Value is negatively correlated to profits}, and stable scores increase overall returns.
 
 \begin{table}[H]
     \centering
@@ -2490,7 +2471,7 @@ First of all, we started with a family of simple linear regression models with v
     \label{tab:europe_windowed_consistency_summary}
 \end{table}
 
-\noindent Surprisingly, when looking at figures~\ref{tab:asia_oceania_windowed_consistency_summary} to~\ref{tab:africa_middle_east_windowed_consistency_summary}  they all behave almost the exact same way: short-term growth is negatively correlated. This pattern has appeared before, which is a very good signal of similar markets behavior.
+\noindent Surprisingly, when looking at figures~\ref{tab:asia_oceania_windowed_consistency_summary} to~\ref{tab:africa_middle_east_windowed_consistency_summary} they all behave almost the exact same way as the first two regions and also it appears that short-term growth is negatively correlated. This similarity in patterns is a very good sign of stable behavior.
 
 
 \begin{table}[H]
@@ -2524,19 +2505,18 @@ First of all, we started with a family of simple linear regression models with v
             & \textbf{\textcolor{green}{t-value}} & \textbf{\textcolor{green}{4.614}}    & \textbf{\textcolor{green}{10.375}}   & \textbf{\textcolor{green}{14.268}}   & \textbf{\textcolor{green}{19.246}}   & \textbf{\textcolor{green}{20.388}}   & \textbf{\textcolor{green}{14.657}}   \\
         \midrule
         \multirow{3}{*}{\textbf{Value}}
-            & Coef.   & 0.033626  & 0.026984  & 0.015424  & 0.011372  & 0.008776  & 0.005103  \\
+            & Coef.   & 0.042605  & 0.026478  & 0.012090  & 0.012708  & 0.008177  & 0.004550  \\
             & \textbf{\textcolor{green}{Sign}}    & \textbf{\textcolor{green}{+}}        & \textbf{\textcolor{green}{+}}        & \textbf{\textcolor{green}{+}}        & \textbf{\textcolor{green}{+}}        & \textbf{\textcolor{green}{+}}        & \textbf{\textcolor{green}{+}}        \\
-            & \textbf{\textcolor{green}{t-value}} & \textbf{\textcolor{green}{48.474}}    & \textbf{\textcolor{green}{38.593}}    & \textbf{\textcolor{green}{24.273}}    & \textbf{\textcolor{green}{19.666}}    & \textbf{\textcolor{green}{15.566}}    & \textbf{\textcolor{green}{9.407}}    \\
+            & \textbf{\textcolor{green}{t-value}} & \textbf{\textcolor{green}{33.253}}   & \textbf{\textcolor{green}{26.853}}   & \textbf{\textcolor{green}{16.222}}   & \textbf{\textcolor{green}{17.911}}   & \textbf{\textcolor{green}{12.156}}   & \textbf{\textcolor{green}{7.702}}    \\
         \multirow{3}{*}{\textbf{Value\_24m\_avg}} 
-            & Coef.   & -0.001221 & -0.002786 & -0.002022 & -0.013676 & -0.026588 & -0.013843 \\
-            & \textbf{\textcolor{red}{Sign}}    & \textbf{\textcolor{red}{–}}         & \textbf{\textcolor{red}{–}}         & \textbf{\textcolor{red}{–}}         & \textbf{\textcolor{red}{–}}         & \textbf{\textcolor{red}{–}}         & \textbf{\textcolor{red}{–}}         \\
-            & \textbf{\textcolor{red}{t-value}} & \textbf{\textcolor{red}{-1.557}}    & \textbf{\textcolor{red}{-3.581}}    & \textbf{\textcolor{red}{-2.360}}    & \textbf{\textcolor{red}{-12.981}}   & \textbf{\textcolor{red}{-15.264}}   & \textbf{\textcolor{red}{-11.707}}   \\
+            & Coef.   & -- & -- & -- & -0.010340 & -0.028875 & -0.021639 \\
+            & Sign    & 0 & 0 & 0 & \textbf{\textcolor{red}{–}} & \textbf{\textcolor{red}{–}} & \textbf{\textcolor{red}{–}} \\
+            & t-value & -- & -- & -- & \textbf{\textcolor{red}{-14.361}} & \textbf{\textcolor{red}{-30.132}} & \textbf{\textcolor{red}{-13.536}} \\
         \bottomrule
     \end{tabular}
     \label{tab:asia_oceania_windowed_consistency_summary}
 \end{table}
 
-\noindent Now for south america:
 \begin{table}[H]
     \centering
     \caption{South America (Windowed) - Consistency Summary}
@@ -2572,8 +2552,6 @@ First of all, we started with a family of simple linear regression models with v
     \label{tab:south_america_windowed_consistency_summary}
 \end{table}
 
-
-\noindent Now for africa and middle east:
 \begin{table}[H]
     \centering
     \caption{Africa \& Middle East (Windowed) - Consistency Summary}
@@ -2592,8 +2570,8 @@ First of all, we started with a family of simple linear regression models with v
         \midrule
         \multirow{3}{*}{\textbf{Quality\_24m\_avg}}
             & Coef.   & 0.011701 & 0.010906 & 0.017645 & 0.029879 & 0.022980 & 0.046570 \\
-            & Sign    & + & + & + & + & + & + \\
-            & t-value & 9.041 & 5.147 & 6.630 & 7.643 & 5.528 & 13.094 \\
+            & \textbf{\textcolor{green}{Sign}}    & \textbf{\textcolor{green}{+}} & \textbf{\textcolor{green}{+}} & \textbf{\textcolor{green}{+}} & \textbf{\textcolor{green}{+}} & \textbf{\textcolor{green}{+}} & \textbf{\textcolor{green}{+}} \\
+            & \textbf{\textcolor{green}{t-value}} & \textbf{\textcolor{green}{9.041}} & \textbf{\textcolor{green}{5.147}} & \textbf{\textcolor{green}{6.630}} & \textbf{\textcolor{green}{7.643}} & \textbf{\textcolor{green}{5.528}} & \textbf{\textcolor{green}{13.094}} \\
         \midrule
         \multirow{3}{*}{\textbf{Value}}
             & Coef.   & 0.036820  & 0.026390  & 0.015372  & 0.010815  & 0.008244  & 0.005772  \\
@@ -2601,8 +2579,8 @@ First of all, we started with a family of simple linear regression models with v
             & \textbf{\textcolor{green}{t-value}} & \textbf{\textcolor{green}{42.388}}    & \textbf{\textcolor{green}{39.243}}    & \textbf{\textcolor{green}{23.029}}    & \textbf{\textcolor{green}{17.932}}    & \textbf{\textcolor{green}{18.351}}    & \textbf{\textcolor{green}{15.446}}    \\
         \multirow{3}{*}{\textbf{Value\_24m\_avg}} 
             & Coef.   & -- & -0.005729 & -0.003473 & -0.015642 & -0.029044 & -0.013761 \\
-            & \textbf{\textcolor{red}{Sign}}    & \textbf{\textcolor{red}{0}}  & \textbf{\textcolor{red}{–}}         & \textbf{\textcolor{red}{–}}         & \textbf{\textcolor{red}{–}}         & \textbf{\textcolor{red}{–}}         & \textbf{\textcolor{red}{–}}         \\
-            & \textbf{\textcolor{red}{t-value}} & \textbf{\textcolor{red}{--}} & \textbf{\textcolor{red}{-5.946}}    & \textbf{\textcolor{red}{-4.516}}    & \textbf{\textcolor{red}{-15.917}}   & \textbf{\textcolor{red}{-32.465}}   & \textbf{\textcolor{red}{-15.460}}   \\
+            & \textbf{\textcolor{red}{Sign}}    & 0  & \textbf{\textcolor{red}{–}}         & \textbf{\textcolor{red}{–}}         & \textbf{\textcolor{red}{–}}         & \textbf{\textcolor{red}{–}}         & \textbf{\textcolor{red}{–}}         \\
+            & \textbf{\textcolor{red}{t-value}} & -- & \textbf{\textcolor{red}{-5.946}}    & \textbf{\textcolor{red}{-4.516}}    & \textbf{\textcolor{red}{-15.917}}   & \textbf{\textcolor{red}{-32.465}}   & \textbf{\textcolor{red}{-15.460}}   \\
         \bottomrule
     \end{tabular}
     \label{tab:africa_middle_east_windowed_consistency_summary}
@@ -2610,35 +2588,42 @@ First of all, we started with a family of simple linear regression models with v
 
 \subsection{Balanced Dataset}
 
-We have seen the importance of non-linear relationships from regions, and the amount of outliers in this data. So before continuing with the models, we created a new dataset with less outliers in total and balancing the regions and sectors, that will be the one being used from now on. Doing this improved a lot the models' performance, and residues as we can see in the figures: 
-
-TODO: PONGO MAS AQUI? O ELIMINO ESTA SECCION?
+We have seen the importance of non-linear relationships from regions, and the amount of outliers in this data. So before continuing with the models, we created a new dataset with less outliers in total and balancing the regions, and confirmed that \textbf{it improved the performances and residues}, see appendix figures~\ref{fig:linear_regression_performance_if_hard_balanced_gaussian} and ~\ref{fig:linear_regression_AF_residues_windowed}, but it worsened the effect of the \textit{momentum}, showing higher \acrshort{acf} values.
 
 
 % TODO: Add the pictures once the code executes
 
 \section{GAM}
 
-Observing the consistent improvements in the results suggests that the decisions made regarding the treatment and structure of the data have been effective. The next logical step is to incorporate models capable of capturing the non-linear relationships between variables, thereby enhancing predictive accuracy. At the same time, and in line with the objectives established at the outset of this work, we aim to assist Tweenvest in defining recommended score ranges that will help investors better interpret and apply them. This becomes straightforward once the spline functions for each variable are analyzed and understood.
+Observing the consistent improvements in the results suggests that the decisions made regarding the treatment and structure of the data have been effective. The next logical step is to incorporate models capable of capturing the non-linear relationships between variables, thereby enhancing performance. At the same time, and in line with the objectives established at the outset of this work, we aim to assist Tweenvest in defining recommended score ranges that will help investors better interpret and apply them. This could become straightforward once the spline functions for each variable are analyzed and understood.
 \vspace{0.5cm}
 
 \subsection{Limitations and Considerations}
 
-\noindent One limitation of \acrshort{gam}s is their tendency to overfit, partly due to the nature of the spline functions, which are constructed from polynomial and trigonometric components. To address this, we adopt the following precautions:
+\noindent One big limitation of \acrshort{gam}s is \textbf{their tendency to overfitting}, partly due to the nature of the spline functions, which are constructed from polynomial and trigonometric components. To address this, we adopt the following precautions:
 \begin{itemize}
-    \item The extreme ends of the spline curves may lack statistical significance because of the mathematical form of the fitted functions. For this reason, we focus our interpretation on overall trends rather than on boundary values.
-    \item To minimize the risk of misinterpretation caused by overfitting—and to maintain consistency with the findings from the linear models—we concentrate primarily on variables that have demonstrated significance across multiple modeling approaches.
+    \item The extreme ends of the spline curves may lack statistical significance because of the mathematical form of the fitted functions; also known as Runge's phenomenon \cite{runge1901empirische} and Gibbs phenomenon \cite{carslaw1930fourier}, for polynomial and trigonometric functions respectively. For this reason, \textbf{we focus our interpretation on overall trends} rather than on boundary values.
+    \item To minimize the risk of misinterpretation caused by overfitting -—and to maintain consistency with the findings from the linear models-— we concentrate primarily on variables that have demonstrated significance across multiple datasets.
 \end{itemize}
 
 \subsection{Results}
 
-\noindent As we could have expected, the \acrshort{gam} models have \textbf{improved the overall predictability}. Seeing for the first time \textbf{performances over the 40\%} mark combined with better accuracies than before. Unfortunatelly, these results still are not good enough to be used in a real test with non-trained data.
+\noindent As we could have expected, the \acrshort{gam} models have \textbf{improved the overall predictability}. Seeing in~\ref{fig:gam_balanced_performance} for the first time \textbf{performances over the 40\%} mark combined with better accuracies than ever. Unfortunately, these results still are not good enough to be used in a real test with non-trained data.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\textwidth]{images/code/models/general_regression/Big Data future - IF HARD Balanced performance.png}
-    \caption{Big Data Future - IF Balanced - \acrshort{gam}}
-    \label{fig:gam_linear_regression}
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=1\textwidth]{images/code/models/general_regression/Small Data future - IF performance.png}
+        \caption{Small Data Future IF - \acrshort{gam} Performance}
+        \label{fig:gam_small_performance}
+    \end{minipage}\hfill
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=1\textwidth]{images/code/models/general_regression/Big Data future - IF HARD Balanced performance.png}
+        \caption{Big Data Future IF Balanced - \acrshort{gam} Performance}
+        \label{fig:gam_balanced_performance}
+    \end{minipage}
 \end{figure}
 
 \subsection{Non-linear relationships}
@@ -2647,36 +2632,37 @@ Observing the consistent improvements in the results suggests that the decisions
 
 \subsubsection{Simple Splines}
 
-\noindent Looking at the splines in Figures~\ref{fig:spline_dividend_dividend_avg_24m} to~\ref{fig:spline_value_value_24m}, we only see \textbf{consistent and clear results with the Value scores}, showing the exact same behavior as the linear models.
+\noindent The first thing we are going to do is to look at simple splines, that relate each explanatory variable with a profit time-frame. Starting with Dividend in figures~\ref{fig:spline_dividend_dividend_avg_24m} to~\ref{fig:spline_dividend_dividend_avg_24m_balanced}, we see better and clearer results for the non-balanced data set, but they both seem to have the a positive slope tendency for most profits horizons, which aligns with the linear regression results. 
 
 \begin{figure}[H]
     \centering
     \begin{minipage}{0.48\textwidth}
         \centering
         \includegraphics[width=\textwidth]{images/code/models/general_regression/splines/2D/Small Data future - IF/dividend_dividend_avg_24m.png}
-        \caption{Small Data Future - \acrshort{if} 15\% - (\acrshort{gam}) Dividend 24M Average}
+        \caption{Small Data Future - \acrshort{if} 15\% - Dividend 24M Average Splines}
         \label{fig:spline_dividend_dividend_avg_24m}
     \end{minipage}\hfill
     \begin{minipage}{0.48\textwidth}
         \centering
         \includegraphics[width=\textwidth]{images/code/models/general_regression/splines/2D/Big Data future - IF HARD Balanced/dividend_dividend_avg_24m.png}
-        \caption{Big Data Future - \acrshort{if} 35\% - (\acrshort{gam}) Quality 24M Average}
+        \caption{Big Data Future - \acrshort{if} 35\% - Quality 24M Average Splines}
         \label{fig:spline_dividend_dividend_avg_24m_balanced}
     \end{minipage}
 \end{figure}
 
+\noindent When it comes to the 2 Growth's splines in figures~\ref{fig:spline_growth_growth_avg_12m} to~\ref{fig:spline_growth_growth_avg_12m_balanced}, we have inconsistent result. For each dataset we have different general tendencies, so we can't be sure that the behavior seen before is actually true. But it is worth noting that \textbf{for the non-balanced dataset we get less variability} in the splines and the expected results.
 \begin{figure}[H]
     \centering
     \begin{minipage}{0.48\textwidth}
         \centering
         \includegraphics[width=\textwidth]{images/code/models/general_regression/splines/2D/Small Data future - IF/growth_growth_avg_12m.png}
-        \caption{Small Data Future - \acrshort{if} 15\% - (\acrshort{gam}) Growth 12M Average}
+        \caption{Small Data Future - \acrshort{if} 15\% - Growth 12M Average Splines}
         \label{fig:spline_growth_growth_avg_12m}
     \end{minipage}\hfill
     \begin{minipage}{0.48\textwidth}
         \centering
         \includegraphics[width=\textwidth]{images/code/models/general_regression/splines/2D/Big Data future - IF HARD Balanced/growth_growth_avg_12m.png}
-        \caption{Big Data Future - \acrshort{if} 35\% - (\acrshort{gam}) Growth 12M Average}
+        \caption{Big Data Future - \acrshort{if} 35\% - Growth 12M Average Splines}
         \label{fig:spline_growth_growth_avg_12m_balanced}
     \end{minipage}
 \end{figure}
@@ -2686,16 +2672,18 @@ Observing the consistent improvements in the results suggests that the decisions
     \begin{minipage}{0.48\textwidth}
         \centering
         \includegraphics[width=\textwidth]{images/code/models/general_regression/splines/2D/Small Data future - IF/growth_growth_avg_24m.png}
-        \caption{Small Data Future - \acrshort{if} 15\% - (\acrshort{gam}) Growth 24M Average}
+        \caption{Small Data Future - \acrshort{if} 15\% - Growth 24M Average Splines}
         \label{fig:spline_growth_growth_avg_12m}
     \end{minipage}\hfill
     \begin{minipage}{0.48\textwidth}
         \centering
         \includegraphics[width=\textwidth]{images/code/models/general_regression/splines/2D/Big Data future - IF HARD Balanced/growth_growth_avg_24m.png}
-        \caption{Big Data Future - \acrshort{if} 35\% - (\acrshort{gam}) Growth 24M Average}
+        \caption{Big Data Future - \acrshort{if} 35\% - Growth 24M Average Splines}
         \label{fig:spline_growth_growth_avg_12m_balanced}
     \end{minipage}
 \end{figure}
+
+\noindent For \textbf{Quality, we see the positive relationship} in figure~\ref{fig:spline_quality_quality_avg_24m}, but it is harder in the figure~\ref{fig:spline_quality_quality_avg_24m_balanced} since the extreme values are less stable. But it seems that around 50-60, which then rescales to 60-75, we start to see a switch in tendency. Notice that \textbf{the partial dependence with profits is the second highest one} of all. So it does seem that the results accompany earlier findings.
 
 
 \begin{figure}[H]
@@ -2703,30 +2691,31 @@ Observing the consistent improvements in the results suggests that the decisions
     \begin{minipage}{0.48\textwidth}
         \centering
         \includegraphics[width=\textwidth]{images/code/models/general_regression/splines/2D/Small Data future - IF/quality_quality_avg_24m.png}
-        \caption{Small Data Future - \acrshort{if} 15\% - (\acrshort{gam}) Quality 24M Average}
+        \caption{Small Data Future - \acrshort{if} 15\% - Quality 24M Average Splines}
         \label{fig:spline_quality_quality_avg_24m}
     \end{minipage}\hfill
     \begin{minipage}{0.48\textwidth}
         \centering
         \includegraphics[width=\textwidth]{images/code/models/general_regression/splines/2D/Big Data future - IF HARD Balanced/quality_quality_avg_24m.png}
-        \caption{Big Data Future - \acrshort{if} 35\% - (\acrshort{gam}) Quality 24M Average}
+        \caption{Big Data Future - \acrshort{if} 35\% - Quality 24M Average Splines}
         \label{fig:spline_quality_quality_avg_24m_balanced}
     \end{minipage}
 \end{figure}
 
+\noindent Looking at the Value splines in figures~\ref{fig:spline_value_value} and~\ref{fig:spline_value_value_avg_24m_balanced}, we observe \textbf{consistent and clear alignment with the Value scores} across both datasets, showing the same behavior as the linear models and \textbf{producing the strongest impact on profits so far}. Notably, there is a breaking point around a score of 50, beyond which profits begin to improve; as seen in the descriptive analysis, this corresponds to the same change point identified in the distribution.
 
 \begin{figure}[H]
     \centering
     \begin{minipage}{0.48\textwidth}
         \centering
         \includegraphics[width=\textwidth]{images/code/models/general_regression/splines/2D/Small Data future - IF/value_value.png}
-        \caption{Small Data Future - \acrshort{if} 15\% - (\acrshort{gam}) Value}
+        \caption{Small Data Future - \acrshort{if} 15\% - Value Splines}
         \label{fig:spline_value_value}
     \end{minipage}\hfill
     \begin{minipage}{0.48\textwidth}
         \centering
         \includegraphics[width=\textwidth]{images/code/models/general_regression/splines/2D/Big Data future - IF HARD Balanced/value_value.png}
-        \caption{Big Data Future - \acrshort{if} 35\% - (\acrshort{gam}) Value}
+        \caption{Big Data Future - \acrshort{if} 35\% - Value Splines}
         \label{fig:spline_value_value_balanced}
     \end{minipage}
 \end{figure}
@@ -2754,7 +2743,7 @@ Observing the consistent improvements in the results suggests that the decisions
 
 \subsubsection{Tensor Splines}
 
-Except from the \textbf{Value} variable, the splines do not show consistencty with the linear models, so we have to check if looking at their tensor splines, we can see a similar pattern as when we were separating by regions. For interpreting the results, we have to share the encoding of the region variable:
+Except from the \textbf{Value} variable, the splines do not show consistency with the linear models, so we have to check if looking at their tensor splines, we can see a similar pattern as when we were separating by regions. For interpreting the results, we have to share the encoding of the region variable:
 \begin{itemize}
     \item \textbf{Africa \& Middle East}: 0
     \item \textbf{Asia \& Oceania}: 1
@@ -2817,40 +2806,75 @@ We have checked that both, linear regression models and the \acrshort{gam}, show
 
 \subsection{Hyper-Parameter Optimization}
 
-Before running the simulations for each model, it is recommended to search for the most optimized group of hyperparameters to obtain a better performance. But surpsisingly, we found in figures: that most of the architectures obtained similar results, for the 3 different types of \acrshort{nn}. % TODO: add pictures here
+Before running the simulations for each model, it is recommended to search for the most optimized group of hyperparameters to obtain a better performance. But surprisingly, we found in figures~\ref{fig:hidden_layer} that most of the architectures obtained similar results, for the 3 different types of \acrshort{nn}. 
 
-\noindent Since the results were not going to change much, we decided to use the same architecture to all of the models. In this case: (64,16) %TODO: change this
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{images/code/models/neural_network/hidden layer.png}
+    \caption{Hidden Layer Optimization Search}
+    \label{fig:hidden_layer}
+\end{figure}
+
+% TODO: add pictures here
+
+\noindent Since the results were not going to change much, we decided to use the same architecture to all of the models. In this case: (64,64)
 
 \subsection{Binary Classifier}
 
-Starting with the most simple \acrshort{nn} possible, we obtained promising results:
-
+\noindent Starting with the most simple \acrshort{nn} possible, to properly interpret the results, we have clarify that since we have transformed the predictive problem into a binary classification problem, a complete random guess would get a 50\% predictability and a 50\% error rate. Knowing this, we can see that the results in figure~\ref{fig:binary_classifier} are quite good, since the model is able to predict more than random. With performances over 60\% and an error rates under 30\%, for both validating datasets: with known and unknown stocks. Also it is interesting that some of the past behavior still occurs:
 \begin{itemize}
-    \item Performance
-    \item Accuracy
-    \item Stability
+    \item Value scores perform better at short horizons and have the nest performances in most cases.
+    \item Quality scores outperform all of the models for known stocks, but in this case on a validation set.
 \end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{images/code/models/neural_network/binary_classifier_nn/Big Data future - IF HARD Balanced/performance.png}
+    \caption{Binary Classifier Performance}
+    \label{fig:binary_classifier}
+\end{figure}
+
 
 \subsection{Multi-class Classifier}
 
-Continuing with a more sophisticated approach, we encoded the annualized profits with an investor-like point of view \acrshort{nn}, and we surprisingly were able to predict more than random using Tweenvest's Scores:
-
+Continuing with a more sophisticated approach, we encoded the annualized profits with an investor-like point of view \acrshort{nn}, and surprisingly we were able to predict again more than random using Tweenvest's Scores. In this case, we annualized the profits to not create a bias since the profits for longer horizons have higher variances, and the encoding scale is constant. Refreshing the codification, we have 6 different categories:
 \begin{itemize}
-    \item Performance
-    \item Accuracy
-    \item Stability
+    \item \textbf{Extremely Bad}: -infinity to -10\%
+    \item \textbf{Bad}: -10\% to -4\%
+    \item \textbf{Somewhat Bad}: -4\% to 0\%
+    \item \textbf{Neutral}: 0\% to 4\%
+    \item \textbf{Somewhat Good}: 4\% to 10\%
+    \item \textbf{Good}: 10\% to infinity
 \end{itemize}
+
+\noindent The is means that complete noise should obtain a 16\% of performance and error rate. But the results in figure~\ref{fig:multi_class_classifier} are very good. The model is able to predict a lot more than random, looking at the resultd deeply we see that:
+\begin{itemize}
+    \item For unknown stocks the worst predictability is 23\% and the best is 52\%, with error rates of 73\% and 44\% respectively. 
+    \item For known stocks the worst predictability is 31\% and the best is 62\%, with error rates of 62\% and 35\% respectively.
+    \item Again value beats the rest of the scores.
+    \item Quality has lost its importance, but it is still the second best predictor.
+\end{itemize}
+
+\noindent In this case, the model has higher predictabilities than the expected error rates. But we have to make clear that, even thought this results are very good for our purposes, they are far away to be used as a real investment tool since their log Loss are higher than we should have for a safe estimation.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{images/code/models/neural_network/encoder results.png}
+    \caption{Multi-class Classifier Performance}
+    \label{fig:multi_class_classifier}
+\end{figure}
 
 
 \subsection{Regressor}
 
-Unfortunately, the results when trying to point fit the profits are bad. This is very normal, trying to predict a continuous variable with \textit{''simple models''} such a normal \acrshort{nn} is very difficult. 
+Unfortunately, the results when trying to predict the exact profits are bad. This is very normal, trying to predict a continuous variable as stocks' profits with \textit{''simple models''} such these normal \acrshort{nn} is very difficult. And there is a whole industry dedicated to this problem, called \textit{quantitative finance}, that uses complex models that incorporate differential equations and other advanced techniques to obtain 1\% more profits than the market using algorithmic trading.
 
-% TODO: continue here
-
-
-
-
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{images/code/models/neural_network/regressor results.png}
+    \caption{Regressor Performance}
+    \label{fig:regressor}
+\end{figure}
 
 % ############################### CONCLUSION #######################
 \chapter{Conclusion and Discussion}
@@ -3781,7 +3805,7 @@ Here we have all of the not shown images for further analysis, if needed.
 % =========================
 \begin{table}[H]
     \centering
-    \caption{Small Data Future (Windowed) - \acrshort{multi} (4\%) Dividend}
+    \caption{Small Data Future (Windowed) - \acrshort{multi} (4\%) Dividend Consistency}
     \begin{tabular}{lccccccc}
         \toprule
         \textbf{Variable} & \textbf{Metric} & \textbf{1M} & \textbf{3M} & \textbf{6M} & \textbf{1Y} & \textbf{2Y} & \textbf{5Y} \\
@@ -3831,7 +3855,7 @@ Here we have all of the not shown images for further analysis, if needed.
 % =========================
 \begin{table}[H]
     \centering
-    \caption{Small Data Future (Windowed) - \acrshort{multi} (4\%) Growth}
+    \caption{Small Data Future (Windowed) - \acrshort{multi} (4\%) Growth Consistency}
     \begin{tabular}{lccccccc}
         \toprule
         \textbf{Variable} & \textbf{Metric} & \textbf{1M} & \textbf{3M} & \textbf{6M} & \textbf{1Y} & \textbf{2Y} & \textbf{5Y} \\
@@ -3882,7 +3906,7 @@ Here we have all of the not shown images for further analysis, if needed.
 % =========================
 \begin{table}[H]
     \centering
-    \caption{Small Data Future (Windowed) - \acrshort{multi} (4\%) Quality}
+    \caption{Small Data Future (Windowed) - \acrshort{multi} (4\%) Quality Consistency}
     \begin{tabular}{lccccccc}
         \toprule
         \textbf{Variable} & \textbf{Metric} & \textbf{1M} & \textbf{3M} & \textbf{6M} & \textbf{1Y} & \textbf{2Y} & \textbf{5Y} \\
@@ -3929,7 +3953,7 @@ Here we have all of the not shown images for further analysis, if needed.
 % =========================
 \begin{table}[H]
     \centering
-    \caption{Small Data Future (Windowed) - \acrshort{multi} (4\%) Value}
+    \caption{Small Data Future (Windowed) - \acrshort{multi} (4\%) Value Consistency}
     \begin{tabular}{lccccccc}
         \toprule
         \textbf{Variable} & \textbf{Metric} & \textbf{1M} & \textbf{3M} & \textbf{6M} & \textbf{1Y} & \textbf{2Y} & \textbf{5Y} \\
@@ -4268,85 +4292,85 @@ Here we have all of the not shown images for further analysis, if needed.
     \label{tab:africa_first_model_consistency}
 \end{table}
 
-\begin{figure}[H]
-    \centering
-    \begin{subfigure}[b]{0.32\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{images/code/models/linear_regression/third_model/USA/quality_profit_1m_residuals.png}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.32\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{images/code/models/linear_regression/third_model/USA/quality_profit_1y_residuals.png}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.32\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{images/code/models/linear_regression/third_model/USA/quality_profit_5y_residuals.png}
-    \end{subfigure}
-    \caption{USA - Windowed Model Residuals}
-    \label{fig:linear_regression_USA_residues_windowed}
-\end{figure}
+% \begin{figure}[H]
+%     \centering
+%     \begin{subfigure}[b]{0.32\textwidth}
+%         \centering
+%         \includegraphics[width=\textwidth]{images/code/models/linear_regression/third_model/USA/quality_profit_1m_residuals.png}
+%     \end{subfigure}
+%     \hfill
+%     \begin{subfigure}[b]{0.32\textwidth}
+%         \centering
+%         \includegraphics[width=\textwidth]{images/code/models/linear_regression/third_model/USA/quality_profit_1y_residuals.png}
+%     \end{subfigure}
+%     \hfill
+%     \begin{subfigure}[b]{0.32\textwidth}
+%         \centering
+%         \includegraphics[width=\textwidth]{images/code/models/linear_regression/third_model/USA/quality_profit_5y_residuals.png}
+%     \end{subfigure}
+%     \caption{USA - Windowed Model Residuals}
+%     \label{fig:linear_regression_USA_residues_windowed}
+% \end{figure}
 
-\begin{figure}[H]
-    \centering
-    \begin{subfigure}[b]{0.32\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{images/code/models/linear_regression/third_model/EU/quality_profit_1m_residuals.png}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.32\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{images/code/models/linear_regression/third_model/EU/quality_profit_1y_residuals.png}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.32\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{images/code/models/linear_regression/third_model/EU/quality_profit_5y_residuals.png}
-    \end{subfigure}
-    \caption{EU - Windowed Model Residuals}
-    \label{fig:linear_regression_EU_residues_windowed}
-\end{figure}
+% \begin{figure}[H]
+%     \centering
+%     \begin{subfigure}[b]{0.32\textwidth}
+%         \centering
+%         \includegraphics[width=\textwidth]{images/code/models/linear_regression/third_model/EU/quality_profit_1m_residuals.png}
+%     \end{subfigure}
+%     \hfill
+%     \begin{subfigure}[b]{0.32\textwidth}
+%         \centering
+%         \includegraphics[width=\textwidth]{images/code/models/linear_regression/third_model/EU/quality_profit_1y_residuals.png}
+%     \end{subfigure}
+%     \hfill
+%     \begin{subfigure}[b]{0.32\textwidth}
+%         \centering
+%         \includegraphics[width=\textwidth]{images/code/models/linear_regression/third_model/EU/quality_profit_5y_residuals.png}
+%     \end{subfigure}
+%     \caption{EU - Windowed Model Residuals}
+%     \label{fig:linear_regression_EU_residues_windowed}
+% \end{figure}
 
-\begin{figure}[H]
-    \centering
-    \begin{subfigure}[b]{0.32\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{images/code/models/linear_regression/third_model/AS/quality_profit_1m_residuals.png}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.32\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{images/code/models/linear_regression/third_model/AS/quality_profit_1y_residuals.png}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.32\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{images/code/models/linear_regression/third_model/AS/quality_profit_5y_residuals.png}
-    \end{subfigure}
-    \caption{Asia \& Oceania - Windowed Model Residuals}
-    \label{fig:linear_regression_AS_residues_windowed}
-\end{figure}
+% \begin{figure}[H]
+%     \centering
+%     \begin{subfigure}[b]{0.32\textwidth}
+%         \centering
+%         \includegraphics[width=\textwidth]{images/code/models/linear_regression/third_model/AS/quality_profit_1m_residuals.png}
+%     \end{subfigure}
+%     \hfill
+%     \begin{subfigure}[b]{0.32\textwidth}
+%         \centering
+%         \includegraphics[width=\textwidth]{images/code/models/linear_regression/third_model/AS/quality_profit_1y_residuals.png}
+%     \end{subfigure}
+%     \hfill
+%     \begin{subfigure}[b]{0.32\textwidth}
+%         \centering
+%         \includegraphics[width=\textwidth]{images/code/models/linear_regression/third_model/AS/quality_profit_5y_residuals.png}
+%     \end{subfigure}
+%     \caption{Asia \& Oceania - Windowed Model Residuals}
+%     \label{fig:linear_regression_AS_residues_windowed}
+% \end{figure}
 
-\begin{figure}[H]
-    \centering
-    \begin{subfigure}[b]{0.32\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{images/code/models/linear_regression/third_model/LAT/quality_profit_1m_residuals.png}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.32\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{images/code/models/linear_regression/third_model/LAT/quality_profit_1y_residuals.png}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}[b]{0.32\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{images/code/models/linear_regression/third_model/LAT/quality_profit_5y_residuals.png}
-    \end{subfigure}
-    \caption{South America - Windowed Model Residuals}
-    \label{fig:linear_regression_LAT_residues_windowed}
-\end{figure}
+% \begin{figure}[H]
+%     \centering
+%     \begin{subfigure}[b]{0.32\textwidth}
+%         \centering
+%         \includegraphics[width=\textwidth]{images/code/models/linear_regression/third_model/LAT/quality_profit_1m_residuals.png}
+%     \end{subfigure}
+%     \hfill
+%     \begin{subfigure}[b]{0.32\textwidth}
+%         \centering
+%         \includegraphics[width=\textwidth]{images/code/models/linear_regression/third_model/LAT/quality_profit_1y_residuals.png}
+%     \end{subfigure}
+%     \hfill
+%     \begin{subfigure}[b]{0.32\textwidth}
+%         \centering
+%         \includegraphics[width=\textwidth]{images/code/models/linear_regression/third_model/LAT/quality_profit_5y_residuals.png}
+%     \end{subfigure}
+%     \caption{South America - Windowed Model Residuals}
+%     \label{fig:linear_regression_LAT_residues_windowed}
+% \end{figure}
 
 % TODO: Add Africa \& Middle East
 % \begin{figure}[H]
@@ -5377,6 +5401,34 @@ Here we have all of the not shown images for further analysis, if needed.
     \label{tab:africa_middle_east_value_consistency}
 \end{table}
 
+\subsubsection{Validation Dataset}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{images/code/models/linear_regression/first_model/Big Data future - IF HARD Balanced - Gaussian performance.png}
+    \caption{Big Data Future - \acrshort{if} (35\%) Balanced Performance}
+    \label{fig:linear_regression_performance_if_hard_balanced_gaussian}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/code/models/linear_regression/first_model/IF HARD Balanced/quality_profit_1m_residuals - Gaussian.png}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/code/models/linear_regression/first_model/IF HARD Balanced/quality_profit_1y_residuals - Gaussian.png}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}[b]{0.32\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/code/models/linear_regression/first_model/IF HARD Balanced/quality_profit_5y_residuals - Gaussian.png}
+    \end{subfigure}
+    \caption{Big Data Future - \acrshort{if} (35\%) Balanced Residues}
+    \label{fig:linear_regression_AF_residues_windowed}
+\end{figure}
 
 
 
