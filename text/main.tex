@@ -154,14 +154,14 @@
 
 \section{Objectives}
 
-\noindent Given the limitations identified mentioned for the current algorithm, the main aim of this work is to \textbf{evaluate if the scores provided by Tweenvest represent \textit{alpha} for different time frames}, \textbf{guide users how to interpret them based on different investment strategies}, and to \textbf{propose possible changes to the scores calculation} in order to present the results with more accuracy. To achieve this, we followed these objectives:
+\noindent Given the limitations identified mentioned for the current algorithm, the main aim of this work is to \textbf{evaluate if the scores provided by Tweenvest represent \textit{alpha} for different time frames}, \textbf{guide users how to interpret them based on different investment strategies}, and to \textbf{propose possible changes to the scores calculation} in order to present the results with more accuracy. To achieve this, we followed this procedure:
 
 \begin{enumerate}
   \item \textbf{System Architecture Enhancement}: Modify Tweenvest's database architecture to enable historical score storage and retrieval and create the datasets for the analysis.
   \item \textbf{Data Curation}: Clean and preprocess the collected data to ensure consistency and reliability, handling missing values and outliers appropriately.
   \item \textbf{Exploratory Analysis}: Process and analyze the data to check the distributions and correlations between variables, looking for early on patterns to later compare and use in the modeling.
   \item \textbf{Predictive Modeling}: Develop multiple predictive models to better understand the scores and their relations with other variables and time frames.
-  \item \textbf{Validation \& Benchmarking}: Back-test the algorithms to check their performance and consistency to see if the scores generate positive \textit{alpha} over time.
+  \item \textbf{Validation \& Benchmarking}: Back-test the algorithms to check their performance and consistency to see if the scores generate positive \textit{alpha} over the different time frames.
 \end{enumerate}
 
 \section{Variables for the Analysis}
@@ -205,7 +205,7 @@ To relate the profits with the scores, we need to use different variables:
 
 \section{Tweenvest's Scores}
 
-The \textbf{long-term advantage} explained earlier in the finance is used in many indexes such as \textcite{msci2024fundamental}, IBEX-35, S\&P 500, etc to achieve higher returns than average. So following this approach, Tweenvest developed a series of scores to \textbf{help users identify possible \textit{alpha} in a company}. Upon these scores, we can highlight four --Quality, Growth, Value, and Dividend-- that are strictly related to key focus areas that fundamental-based investors consider before making any decision, these areas are: profitability, financial health, predictability, consistent growth, entrance moment, and dividends payed.
+The \textbf{long-term advantage} explained earlier in the finance is used in many indexes such as \textcite{msci2024fundamental}, IBEX-35, \acrshort{sp500}, etc to achieve higher returns than average. So following this approach, Tweenvest developed a series of scores to \textbf{help users identify possible \textit{alpha} in a company}. Upon these scores, we can highlight four --Quality, Growth, Value, and Dividend-- that are strictly related to key focus areas that fundamental-based investors consider before making any decision, these areas are: profitability, financial health, predictability, consistent growth, entrance moment, and dividends payed.
 
 \subsection{Quality}
 
@@ -322,7 +322,7 @@ These ratios measure a company's ability to meet short-term obligations with its
     \item \textbf{Operating Cash Flow}: Measures growth in cash generation from operations
     \item \textbf{Simple FCF}: A straightforward proxy for available cash after essential investments
     \item \textbf{Levered/Unlevered FCF}: Provide detailed views of free cash flow with and without debt impact
-    \item \textbf{Owner Earnings}: Useful for volatile capex cases, emphasizing cash available to shareholders
+    \item \textbf{Owner Earnings}: Useful for volatile \gls{capex} cases, emphasizing cash available to shareholders
 \end{itemize}
 
 \subsubsection{Capital Base Expansion}
@@ -865,7 +865,7 @@ A \textbf{regressor neural network} is a type of artificial neural network speci
     \end{equation}
     where \(P\) denotes the profit for a given time horizon, and \(y\) is the resulting binary class label.
 
-    \item \textbf{Multi-class Classification:} Here we created different intervals of profits, using the average inflation rate and the S\&P 500 index as references--~\cite{global_inflation, sp500}.
+    \item \textbf{Multi-class Classification:} Here we created different intervals of profits, using the average inflation rate and the \acrshort{sp500} index as references--~\cite{global_inflation, sp500}.
     \begin{equation}
         y =
         \begin{cases}
@@ -1404,22 +1404,6 @@ That's when we realized that if each method was good at detecting some outliers 
 \noindent As we can see, the \acrshort{if} and \acrshort{svm} methods are showing some correlations between the profits and the scores, but the \acrshort{lof} is not showing any correlations, even negative ones. And that is what made us think about the clusters of anomalies that were not being deleted by the \acrshort{lof} method, so we built the \acrshort{islandcase}, mentioned in the previous section.
 
 
-
-
-
-% TODO: Move this to the future work section:
-
-% \vspace{0.5cm}
-% \noindent For future developments of these type of techniques, we have to mention that understanding the main core ideas of each method we could probably optimize the results by changing the tolerance parameters individually by applying multipliers for each method:
-% \begin{enumerate}
-%     \item \textbf{\acrshort{svm}} is basically creating geometrical hyper-dimensional frontiers to form a safe hyper-volume of data clusters. So the intuition tells us that this method should probably have a \textbf{higher tolerance} than the rest.
-%     \item \textbf{\acrshort{lof}} is looking for clusters of high density, not taking account the distance between the clusters. So this method is very good for detecting extreme phenomena but that could be consistent. Its \textbf{tolerance could be between the other methods}.
-%     \item \textbf{\acrshort{if}} is looking for the most isolated points following a random forest approach. It is good for detecting those points that seem to make not much sense, so its \textbf{tolerance should not be as high}.
-% \end{enumerate}
-
-% \noindent But this is just a hypothesis, we will have to be studied it in the future with rigorous tests.
-
-
 \subsection{Summary}
 
 \noindent To summarize how we have treated the data, we ended up with different datasets groups, each with 17 columns for the explained variables, the date and also the company's name and stock ticker (see appendix figure~\ref{fig:number_of_columns}).
@@ -1953,7 +1937,7 @@ First of all, we started with a family of simple linear regression models with j
 \end{figure}
 
 \newpage
-\noindent In this case, the \textbf{residues' normality improved significantly}, which is along the improvement in performance a good sign of progress. But we still have heteroskedasticity and, of course, the autocorrelations issue for most of the regions and models. Although we don't have perfect models, looking at the \acrshort{qq} plots and more from~\ref{fig:linear_regression_AS_residues_gaussian}, we can be certain that \textbf{most of the outliers are coming from \textit{Asia \& Oceania}}; which is also the region with more data-points in the complete dataset.
+\noindent In this case, the \textbf{residues' normality improved significantly}, which is along the improvement in performance a good sign of progress. But we still have heteroskedasticity and, of course, the autocorrelations issue for most of the regions and models. Although we do not have perfect models, looking at the \acrshort{qq} plots and more from~\ref{fig:linear_regression_AS_residues_gaussian}, we can be certain that \textbf{most of the outliers are coming from \textit{Asia \& Oceania}}; which is also the region with more data-points in the complete dataset.
 
 \begin{figure}[H]
     \centering
@@ -2821,7 +2805,10 @@ Before running the simulations for each model, it is recommended to search for t
 
 \subsection{Binary Classifier}
 
-\noindent Starting with the most simple \acrshort{nn} possible, to properly interpret the results, we have clarify that since we have transformed the predictive problem into a binary classification problem, a complete random guess would get a 50\% predictability and a 50\% error rate. Knowing this, we can see that the results in figure~\ref{fig:binary_classifier} are quite good, since the model is able to predict more than random. With performances over 60\% and an error rates under 30\%, for both validating datasets: with known and unknown stocks. Also it is interesting that some of the past behavior still occurs:
+\noindent Starting with the most simple \acrshort{nn} possible, to properly interpret the results, we have clarify that since we have transformed the predictive problem into a binary classification problem, a complete random guess would get a 50\% predictability and a 50\% error rate.
+
+\subsubsection{Performance}
+Knowing this, we can see that the results in figure~\ref{fig:binary_classifier} are quite good, since the model is able to predict more than random. With performances over 60\% and an error rates under 30\%, for both validating datasets: with known and unknown stocks. Also it is interesting that some of the past behavior still occurs:
 \begin{itemize}
     \item Value scores perform better at short horizons and have the nest performances in most cases.
     \item Quality scores outperform all of the models for known stocks, but in this case on a validation set.
@@ -2834,17 +2821,38 @@ Before running the simulations for each model, it is recommended to search for t
     \label{fig:binary_classifier}
 \end{figure}
 
+\subsubsection{\acrshort{shap}-Consistency}
+
+\noindent As we have mentioned, \gls{shap} is a numerical technique that allows us to understand the contribution of each variable to the \acrshort{nn}s predictions. Following the same criteria as for the linear regression models and the \acrshort{gam} models, we will only analyze on the past significant variables.
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/code/models/neural_network/binary_classifier_nn/Big Data future - IF HARD Balanced/shap/SHAP analysis.png}
+        \caption{Small Data Future \acrshort{if} (35\%) - \gls{shap} Consistency}
+        \label{fig:small_binary_shap_consistency}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/code/models/neural_network/binary_classifier_nn/Big Data future - IF HARD Balanced/shap/SHAP analysis.png}
+        \caption{Big Data Future \acrshort{if} Balanced - \gls{shap} Consistency}
+        \label{fig:big_binary_shap_consistency}
+    \end{subfigure}
+    \caption{\gls{shap} Consistency for Small and Big Data Future \acrshort{if} (35\%)}
+\end{figure}
 
 \subsection{Multi-class Classifier}
 
-Continuing with a more sophisticated approach, we encoded the annualized profits with an investor-like point of view \acrshort{nn}, and surprisingly we were able to predict again more than random using Tweenvest's Scores. In this case, we annualized the profits to not create a bias since the profits for longer horizons have higher variances, and the encoding scale is constant. Refreshing the codification, we have 6 different categories:
+Continuing with a more sophisticated approach, we applied an investor-oriented encoding of the annualized profits using a \acrshort{nn}. Remarkably, Tweenvest’s Scores once again allowed us to achieve predictive performance above random chance. Annualizing the profits was essential to avoid bias, as longer investment horizons naturally exhibit higher variance, while the encoding scale remains fixed. To recall the coding scheme, the profits were classified into six distinct categories:
 \begin{itemize}
-    \item \textbf{Extremely Bad}: -infinity to -10\%
+    \item \textbf{Very Bad}: -infinity to -10\%
     \item \textbf{Bad}: -10\% to -4\%
-    \item \textbf{Somewhat Bad}: -4\% to 0\%
-    \item \textbf{Neutral}: 0\% to 4\%
-    \item \textbf{Somewhat Good}: 4\% to 10\%
-    \item \textbf{Good}: 10\% to infinity
+    \item \textbf{Quite Bad}: -4\% to 0\%
+    \item \textbf{Neutral}: 0\% to 4\%, mimicking keeping the money in the bank.
+    \item \textbf{Normal}: 4\% to 10\%, this is what we would expect from investing in a diversified index like the \acrshort{sp500}.
+    \item \textbf{Very Good}: 10\% to infinity, 
 \end{itemize}
 
 \noindent The is means that complete noise should obtain a 16\% of performance and error rate. But the results in figure~\ref{fig:multi_class_classifier} are very good. The model is able to predict a lot more than random, looking at the resultd deeply we see that:
@@ -2855,6 +2863,8 @@ Continuing with a more sophisticated approach, we encoded the annualized profits
     \item Quality has lost its importance, but it is still the second best predictor.
 \end{itemize}
 
+\subsubsection{Performance}
+
 \noindent In this case, the model has higher predictabilities than the expected error rates. But we have to make clear that, even thought this results are very good for our purposes, they are far away to be used as a real investment tool since their log Loss are higher than we should have for a safe estimation.
 
 \begin{figure}[H]
@@ -2864,10 +2874,34 @@ Continuing with a more sophisticated approach, we encoded the annualized profits
     \label{fig:multi_class_classifier}
 \end{figure}
 
+\subsubsection{\acrshort{shap}-Consistency}
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/code/models/neural_network/binary_classifier_nn/Big Data future - IF HARD Balanced/shap/SHAP analysis.png}
+        \caption{Small Data Future \acrshort{if} (35\%) - \gls{shap} Consistency}
+        \label{fig:small_binary_shap_consistency}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/code/models/neural_network/binary_classifier_nn/Big Data future - IF HARD Balanced/shap/SHAP analysis.png}
+        \caption{Big Data Future \acrshort{if} Balanced - \gls{shap} Consistency}
+        \label{fig:big_binary_shap_consistency}
+    \end{subfigure}
+    \caption{\gls{shap} Consistency for Small and Big Data Future \acrshort{if} (35\%)}
+\end{figure}
 
 \subsection{Regressor}
 
-Unfortunately, the results when trying to predict the exact profits are bad. This is very normal, trying to predict a continuous variable as stocks' profits with \textit{''simple models''} such these normal \acrshort{nn} is very difficult. And there is a whole industry dedicated to this problem, called \textit{quantitative finance}, that uses complex models that incorporate differential equations and other advanced techniques to obtain 1\% more profits than the market using algorithmic trading.
+\noindent For regresors, we have implemented a simple \acrshort{nn} with one hidden layer of 64 neurons. And we have done this for both, the small and big data future \acrshort{if} (35\%).
+
+\subsubsection{Performance}
+
+
+\noindent Unfortunately, the results when trying to predict the exact profits are bad. This is very normal, trying to predict a continuous variable as stocks' profits with \textit{''simple models''} such these normal \acrshort{nn} is very difficult. And there is a whole industry dedicated to this problem, called \textit{quantitative finance}, that uses complex models that incorporate differential equations and other advanced techniques to obtain 1\% more profits than the market using algorithmic trading.
 
 \begin{figure}[H]
     \centering
@@ -2876,28 +2910,150 @@ Unfortunately, the results when trying to predict the exact profits are bad. Thi
     \label{fig:regressor}
 \end{figure}
 
+\subsubsection{\acrshort{shap}-Consistency}
+
+\begin{figure}[H]
+    \centering
+    \begin{subfigure}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/code/models/neural_network/binary_classifier_nn/Big Data future - IF HARD Balanced/shap/SHAP analysis.png}
+        \caption{Small Data Future \acrshort{if} (35\%) - \gls{shap} Consistency}
+        \label{fig:small_binary_shap_consistency}
+    \end{subfigure}
+    \hfill
+    \begin{subfigure}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/code/models/neural_network/binary_classifier_nn/Big Data future - IF HARD Balanced/shap/SHAP analysis.png}
+        \caption{Big Data Future \acrshort{if} Balanced - \gls{shap} Consistency}
+        \label{fig:big_binary_shap_consistency}
+    \end{subfigure}
+    \caption{\gls{shap} Consistency for Small and Big Data Future \acrshort{if} (35\%)}
+\end{figure}
+
 % ############################### CONCLUSION #######################
 \chapter{Conclusion and Discussion}
 
+Along this project we have been through many different paths. We started by learning how Tweenvest worked internally, and how they calculated the scores. At that point we had to find a way to calculate and store past scores in a production environment. For doing this we learned about \acrshort{job}s, \acrshort{cron}s, \acrshort{api}s, telemetry, data-pipelines, and server deployment. Eventually, we ended up with an excellent work environment to calculate and integrate all the necessary data, which also worked for running all of the model fitting simulations.
+
+\vspace{0.5cm}
+\noindent After that, we began the journey to understand and interpret the data. We identified patterns, and developed a complete outlier detection system. Later, we explored multiple approaches through different models and datasets to try to see if there was any correlation between the explanatory variables and future stocks' profits. And finally, when analyzing the results obtained we started to see a series of common behavior. In this final chapter we will summarize all of the conclussions, discuss the limitations of the study, and give recommendations to Tweenvest and its users.
+
 \section{Conclusions}
 
-\subsection{Goals achieved}
+The main goal of this work was to \textbf{evaluate if the Factor Scores represented \textit{alpha} for different time frames}, \textbf{guide users} how to interpret them, \textbf{and propose improvements}.
 
-\subsection{Goals not achieved}
+\subsection{Clear Statements}
+
+\noindent During the anaylis we have identified a series of common patterns with enough consistency, significance, and coherence to be taken into account.
+
+\subsubsection{Investment Strategies}
+
+\noindent Firstly, we want to emphasize some well-known facts from the financial literature that we have confirmed with multiple methods in this work:
+\begin{itemize}
+    \item \textbf{Short-term or Trading}. On the short-term, the market is mostly random brownian movements, making this type of investment very difficult since it cannot be analyzed from the financial perspective. We have seen this in both descriptive analysis of the distributions and the models capabilities to predict.
+    \item \textbf{Long-term or Investing}. Long-term investing has been shown to be closely linked to economic growth and, on average, \textbf{yields higher returns} than short- or medium-term strategies. This pattern is also evident in our profit distribution analysis and in the models’ ability to generate more accurate predictions over longer horizons.
+    \item \textbf{Variance and Risk}: As we have just said, most of the models could only predict something after the 24 months, but these \textbf{long-term predictions came with a higher variance} for most of the models. When trying to predict future profits, it is more probable to miss by a lot on the exact number, but also it is more probable to obtain better returns.
+    \item \textbf{Market Variability}: it is trivial that each market has its own characteristics. So before making any investment decision, it is important to understand the market since \textbf{the analysis of a company can differ a lot depending on the region, sector, and other factors}. We have seen this in the amount of outliers, predictabilities and the different effects of the variables per region.
+\end{itemize}
+
+\subsubsection{Profits}
+
+\noindent Secondly, one of the clearest findings is that \textbf{profits exhibit inertia}, meaning they depend on prior performance. This is evident in:
+\begin{itemize}
+    \item \textbf{Simple correlations}. Past profits show a stronger correlation with future profits than would be expected solely from the portion of overlapping data. For example, although an annual return includes 50\% of the data from the corresponding semestral returns, the correlation between them is even higher. This pattern was observed consistently across all datasets and time frames.
+    \item \textbf{\acrshort{pairplot}s}. As discussed in chapter 4, short-term profit horizons display clearly visible linear relationships in the plots.
+    \item \textbf{\acrshort{acf}s and \acrshort{pacf}s}. The autocorrelation functions show a clear pattern of high dependency for all of the profits.
+    \item \textbf{\acrshort{arima} models}. The \acrshort{arima} models demonstrated a remarkable improvement in both predictability and accuracy, which was consistent with the autocorrelation patterns previously observed. However, these models could not be applied in our final analysis.
+\end{itemize}
+
+\noindent Also, we have seen that \textbf{accumulated past profits affects current scores}, causing:
+\begin{itemize}
+    \item \textbf{Decreases in the Value score}. When a company is in a bull market, its multiples will increase, making the Value score to decrease. So when interpreting the Value score, it is interesting to see how the company has been performing; to therefore use this score for interpretation or to ignore it. This can happen for companies with a very strong growth in popularity and brand strength, such as Apple or NVIDIA.
+    \item \textbf{Increases in the Growth score}. If a company rises a lot in the stock market, it could mean that the market has anticipated future financial growth.
+\end{itemize}
+
+
+\subsubsection{Scores}
+
+\noindent Interpreting and understanding the scores and their relationships is crucial for the users to make the best decisions. First of all, we have checked that \textbf{the four scores have a mild correlation} between them, so we should expect that if the company is doing well in one of them, it could do well in the others. But what is very interesting is that \textbf{Quality and Dividend are very correlated}, companies that do well financially tend to have a good dividend yield.
+
+\vspace{0.5cm}
+
+\noindent In terms of their effect on the future profits, we have strong evidence that on the data we have, \textbf{average scores have a significant effect on the future profits}, highlighting:
+\begin{itemize}
+    \item \textbf{Quality's 24-months average} has the \textbf{second highest positive effect} to future profits. This relationship happens \textbf{for most of the datasets, models and timeframes}.
+    \item \textbf{Value's 24-months average} is the only score \textbf{with a negative effect} to future profits. This relationship occurs \textbf{in all of the datasets, models and timeframes}.
+    \item \textbf{Value's last score} has the \textbf{highest positive effect} to future profits. This relationship is seen \textbf{in all of the datasets, models and timeframes}.
+    \item \textbf{Growth's 24-month average} may have a \textbf{modest positive effect} on future profits. While this effect is neither as strong nor as statistically significant as those observed for other variables, it has appeared consistently across multiple analyses.
+\end{itemize}
+
+\noindent Also, we have seen that \textbf{accumulated past profits affects current scores}, causing:
+\begin{itemize}
+    \item \textbf{Decreases in the Value score}. When a company is in a bull market, its multiples will increase, making the Value score to decrease. So when interpreting the Value score, it is interesting to see how has the company been performing; to therefore use this score for interpreting or to ignore it. This happens for companies with a very strong growth in popularity and brand strength such as Apple, NVIDIA, etc.
+    \item \textbf{Increases in the Growth score}. If a company rises a lot in the stock market it could be mean that the market has anticipated future financial growth.
+\end{itemize}
+
+\section{Discussion}
+
+\subsection{Limitations of the study}
+\noindent All of the results we have seen have been obtained with a couple of limitations:
+\begin{itemize}
+    \item \textbf{Data Availability}. We have only used the data available in the database, which was limited to 2012-2025. Were we only tested 2020-2025 profits based on 2015-2020 financial data.
+    \item \textbf{Outliers}. Even taking all the cautions possible, we had to leave out many outliers from the data analysis due to their effect on the results. This could be a problem for the inference, making the results not to be reliable for all of the real companies.
+    \item \textbf{Residues}. The linear regression models are only valid when the data is linear, and the residues follow the white noise assumption. We have gotten close to this by the final datasets and models, but we could not achieve complete homoscedasticity, and it was also impossible to not have autocorrelation due to the nature of the data. 
+    \item \textbf{Overfitting}. As we have explained, the \acrshort{gam} models tend to overfit the data, this makes the predictability to be higher when training but useless for validation. But luckily, we were able to obtain good interpretations from the splines.
+\end{itemize}
 
 \subsection{Future work}
 
+\noindent There has been multiple occasions where we have found an interesting hypothesis to investigate further, but due to the scope of this project, the time and proper knowledge of the subject, we had to leave them aside.
 
-\section{Discussion}
-\subsection{Limitations of the study}
+\subsubsection{Hyper-parameter Optimization}
+
+\noindent In the process of improving the \acrshort{multi} and its equivalent \acrshort{islandcase}, we identified a potential opportunity to better distinguish between random extreme cases and consistently extreme behaviors. In this work, the hyperparameters were approximated through a combination of trial runs and a conceptual understanding of each method’s underlying principles:
+\begin{enumerate}
+    \item \textbf{\acrshort{svm}} creates geometrical hyper-dimensional frontiers to form a safe hyper-volume of data clusters. So the intuition tells us that this method should probably have a \textbf{higher tolerance} than the rest.
+    \item \textbf{\acrshort{if}} looks for the most isolated points following a random forest approach. It is good for detecting those points that seem to make not much sense, so its \textbf{tolerance should not be as high}.
+    \item \textbf{\acrshort{lof}} searches for clusters of high density points, not taking account the distance between the clusters. So this method is very good for detecting extreme phenomena that could be consistent. Its \textbf{tolerance could be between the other methods}.
+\end{enumerate}
+
+\noindent But this is just an idea, and for future developments of these type of techniques it should be study in depth and tested with rigorous tests.
+
+\subsubsection{Extreme-cases Modeling}
+
+\noindent In financial data, achieving a truly \textit{normal} distribution is uncommon. To simplify this project, outliers were excluded from the main analysis; however, these extreme cases often contain valuable information about companies that perform exceptionally well or poorly. We propose a dedicated analysis of the removed outliers to investigate potential relationships with the scores. For instance, companies with severe stock market losses may systematically exhibit low Quality scores, while top performers might be associated with high Growth scores.
+
+\subsubsection{More Factors}
+
+\noindent In this work, we chose to only analyze four of the available factors: Quality, Growth, Value, and Dividend; we chose these because they are the most relevant in the platform, since they also have their own separate sections. But there are still many other already developed by tweenvest that should be analyzed, such as we see in figure~\ref{fig:factor_scores_overview}.
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.5\textwidth]{images/tweenvest/All of the scores.png}
+    \caption{Tweenvest Scores Overview}
+    \label{fig:factor_scores_overview}
+\end{figure}
+
+\subsubsection{Multivariate Analysis}
+
+\noindent To obtain more interpretable results, we have analyzed the models separately by scores and profits. However, it would be valuable to perform a multivariate analysis that incorporates all factors along with the other explanatory variables, in order to assess their combined contribution to future profits. Methods such as \gls{pca} or \gls{pls} could be applied for this purpose.
+
+\subsubsection{Bayesian Approach}
+
+\noindent Throughout this work we have seen that \textbf{patterns and distributions can change over time}: factor effects drift, and relationships differ by market and period. This weakens the assumptions behind static models, so a Bayesian approach could be especially interesting here because it is designed to \textbf{learn under non-stationarity}.
 
 \subsection{Recommendations to Tweenvest}
 
+Finally, to conclude the work, we want to give some recommendations for future development of the platform:
+\begin{itemize}
+    \item \textbf{Historical Scores}. We have seen that most of the scores alone are not enough to get clear insights. But if we combine them with the historical profits, we can get a better understanding of the company and the future profits. So we propose to, first calculate all of the past scores and then include the posibility to either see their time series, or just \textbf{include the 24 months average}.
+    \item \textbf{Momentum development}. It is undeniable that \textbf{momentum is a very important factor} to predict future profits, actually the most relevant we have seen so far. So even thought that many fundamental investors do not like it due to lack of knowledge, in most cases, it really is an excellent indicator.
+    \item \textbf{User Guide}. The factor score methodology is very interesting and definitely gives Tweenvest a true differentiator in the market, but investors tend to be very skeptical. It could be interesting to have a section for users to dive into the methodology so they can understand it better and trust the scores more. Also, adding a small guide in each section for interpretation could give a lot of Value and increase their use.
+\end{itemize}
 
-% Summary and conclusions
-
+\noindent Personally, I hope this work can help Tweenvest to keep growing and help its users to make better decisions.
 % ############################### BIBLIOGRAPHY #######################
-\printbibliography[heading=bibintoc, title=Bibliography]
+\printbibliography[heading=bibintoc, title=References and Bibliography]
 \label{sec:biblio}
 \newpage
 

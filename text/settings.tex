@@ -4,11 +4,11 @@
 \usepackage[T1]{fontenc}         % Font encoding
 \usepackage{mathpazo}            % Cursive text support
 \usepackage[english]{babel}      % Language support
-\usepackage{microtype}            % Micro-typography for better line breaking
+\usepackage{microtype}           % Micro-typography for better line breaking
 \usepackage[a4paper, margin=2.5cm]{geometry}  % Page size and margins
 \usepackage{setspace}            % Line spacing
-\raggedbottom                     % Allow variable page heights to prevent underfull vbox
-\setlength{\parskip}{0.5em}       % Consistent paragraph spacing
+\raggedbottom                    % Allow variable page heights to prevent underfull vbox
+\setlength{\parskip}{0.5em}      % Consistent paragraph spacing
 \usepackage{graphicx}            % Include images
 \usepackage{amsmath, amssymb}    % Math packages
 \usepackage{float}               % Improved float control
@@ -19,10 +19,10 @@
 \usepackage{lscape}              % Landscape pages
 \usepackage{longtable}           % Tables spanning multiple pages
 \usepackage{fancyhdr}            % Header/footer customization
-\usepackage{titlesec}            % titulo formatting
+\usepackage{titlesec}            % Title formatting
 \usepackage{caption}             % Caption formatting
 \usepackage{subcaption}          % Subfigures
-\usepackage{biblatex}            % Bibliography handling
+\usepackage[backend=biber,bibstyle=apa,citestyle=numeric-comp,sorting=none,sortcites=true]{biblatex}            % APA refs with numeric citations
 \usepackage{csquotes}            % Required by biblatex
 \usepackage{tikz}                % For the cover page
 \usepackage{ifthen}              % For the cover page
@@ -67,6 +67,22 @@
 
 % Load bibliography file
 \addbibresource{bibliography.bib}
+
+% APA language mappings for babel
+\DeclareLanguageMapping{english}{english-apa}
+
+% Force numbered labels in the References list while keeping APA entry format
+\DeclareFieldFormat{labelnumber}{#1}
+\defbibenvironment{bibliography}
+  {\list{\printfield{labelnumber}}
+    {\setlength{\labelwidth}{\labelnumberwidth}%
+     \setlength{\leftmargin}{\labelwidth}%
+     \setlength{\labelsep}{\biblabelsep}%
+     \addtolength{\leftmargin}{\labelsep}%
+     \setlength{\itemsep}{\bibitemsep}%
+     \setlength{\parsep}{\bibparsep}}}
+  {\endlist}
+  {\item}
 
 % Section color
 \definecolor{azul}{rgb}{0.1,0.2,0.4}
