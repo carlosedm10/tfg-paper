@@ -2755,7 +2755,7 @@ Before running the simulations for each model, it is always recommended to searc
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\textwidth]{images/code/models/neural_network/binary_classifier_nn/class_architecture_analysis_quality.png}
+    \includegraphics[width=1\textwidth]{images/code/models/neural_network/binary_classifier_nn/class_architecture_analysis_quality.png} %TODO: change oic here
     \caption{Encoder Classifier - (Quality) Hidden Layer Optimization}
     \label{fig:encoder_quality_hidden_layer}
 \end{figure}
@@ -2789,7 +2789,7 @@ Knowing this, we can see that the results in figure~\ref{fig:binary_classifier} 
 
 \subsubsection{\acrshort{shap}-Consistency}
 
-\noindent As previously discussed, \gls{shap} is a numerical technique that enables us to quantify the contribution of each variable to the predictions made by the \acrshort{nn}s. Applying the same criteria used for the linear regression and \acrshort{gam} models, we restrict our analysis to variables that were previously identified as significant. Interestingly, the results mirror those obtained from both the linear regression and \acrshort{gam} models, displaying the same patterns and involving the same variables—although these relationships are even clearer for the small-data future \acrshort{if}. In summary, \textbf{Dividend, Growth, and Quality 24-month averages, as well as the most recent Value score, show a clear positive impact on profits, whereas Value 24-month averages exhibit a negative impact}.
+\noindent As previously discussed, \gls{shap} is a numerical technique that enables us to quantify the contribution of each variable to the predictions made by the \acrshort{nn}s. Applying the same criteria used for the linear regression and \acrshort{gam} models, we restrict our analysis to variables that were previously identified as significant. Interestingly, the results seen in figures~\ref{fig:big_binary_shap_consistency}ñ and\ref{fig:small_binary_shap_consistency} mirror those obtained from both the linear regression and \acrshort{gam} models, displaying the same patterns and involving the same variables—although these relationships are even clearer for the small-data future \acrshort{if}. In summary, \textbf{Dividend, Growth, and Quality 24-month averages, as well as the most recent Value score, show a clear positive impact on profits, whereas Value 24-month averages exhibit a negative impact}.
 
 \begin{figure}[H]
     \centering
@@ -2797,6 +2797,7 @@ Knowing this, we can see that the results in figure~\ref{fig:binary_classifier} 
     \caption{Small Data Future \acrshort{if} - Binary \gls{shap} Consistency}
     \label{fig:small_binary_shap_consistency}
 \end{figure}
+
 
 \begin{figure}[H]
     \centering
@@ -2843,14 +2844,7 @@ Continuing with a more sophisticated approach, we applied an investor-oriented e
 
 \subsubsection{\acrshort{shap}-Consistency}
 
-If we look at the results of the \gls{shap} plots in figures~\ref{fig:small_encoder_shap_consistency} and~\ref{fig:big_encoder_shap_consistency}, we can see that these results are similar to the binary classifier, with less consistency except for the Value scores. This could be due to ability of the model to overfit the data, losing some of the interpretability; but as we have also seen, the model does perform well for unknown stocks so we cannot say it is due to the overfitting.
-
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.9\textwidth]{images/code/models/neural_network/binary_classifier_nn/Big Data future - IF HARD Balanced/shap_table_analysis.png}
-    \caption{Small Data Future \acrshort{if} - Encoder \gls{shap} Consistency}
-    \label{fig:small_encoder_shap_consistency}
-\end{figure}
+If we look at the results of the \gls{shap} plots in figure~\ref{fig:small_encoder_shap_consistency} and appendix figure~\ref{fig:big_encoder_shap_consistency}, we can see that these results are similar to the binary classifier, with less consistency except for the Value scores. This could be due to ability of the model to overfit the data, losing some of the interpretability; but as we have also seen, the model does perform well for unknown stocks so we cannot assure it is due to the overfitting.
 
 \begin{figure}[H]
     \centering
@@ -2876,13 +2870,7 @@ If we look at the results of the \gls{shap} plots in figures~\ref{fig:small_enco
 
 \subsubsection{\acrshort{shap}-Consistency}
 
-Knowing this, we can see in figures~\ref{fig:regressor_small_binary_shap_consistency} and~\ref{fig:regressor_big_binary_shap_consistency} that also the \acrshort{shap} plots reveal complete noise.
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=0.9\textwidth]{images/code/models/neural_network/regressor_nn/Small Data future - Multi 2/shap_table_analysis.png}
-    \caption{Small Data Future \acrshort{if} - Regreesor \gls{shap} Consistency}
-    \label{fig:regressor_small_binary_shap_consistency}
-\end{figure}
+Knowing this, we can see in figures~\ref{fig:regressor_small_binary_shap_consistency} and appendix figure~\ref{fig:regressor_big_binary_shap_consistency} that the \acrshort{shap} plots reveal complete noise.
 
 \begin{figure}[H]
     \centering
@@ -2991,13 +2979,13 @@ The main goal of this work was to \textbf{evaluate if the Factor Scores represen
 
 \noindent In financial data, achieving a truly \textit{normal} distribution is uncommon. To simplify this project, outliers were excluded from the main analysis; however, these extreme cases often contain valuable information about companies that perform exceptionally well or poorly. We propose a dedicated analysis of the removed outliers to investigate potential relationships with the scores. For instance, companies with severe stock market losses may systematically exhibit low Quality scores, while top performers might be associated with high Growth scores.
 
-\subsubsection{More Factors}
+\subsubsection{Other Factors}
 
 \noindent In this work, we chose to only analyze four of the available factors: Quality, Growth, Value, and Dividend; we chose these because they are the most relevant in the platform, since they also have their own separate sections. But there are still many other already developed by tweenvest that should be analyzed, such as we see in figure~\ref{fig:factor_scores_overview}.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=0.5\textwidth]{images/tweenvest/All of the scores.png}
+    \includegraphics[width=1\textwidth]{images/tweenvest/All of the scores.png}
     \caption{Tweenvest Scores Overview}
     \label{fig:factor_scores_overview}
 \end{figure}
@@ -3014,12 +3002,11 @@ The main goal of this work was to \textbf{evaluate if the Factor Scores represen
 
 Finally, to conclude the work, we want to give some recommendations for future development of the platform:
 \begin{itemize}
-    \item \textbf{Historical Scores}. We have seen that most of the scores alone are not enough to get clear insights. But if we combine them with the historical profits, we can get a better understanding of the company and the future profits. So we propose to, first calculate all of the past scores and then include the possibility to either see their time series, or just \textbf{include the 24 months average}.
-    \item \textbf{Momentum development}. It is undeniable that \textbf{momentum is a very important factor} to predict future profits, actually the most relevant we have seen so far. So even thought that many fundamental investors do not like it due to lack of knowledge, in most cases, it really is an excellent indicator.
-    \item \textbf{User Guide}. The factor score methodology is very interesting and definitely gives Tweenvest a true differentiator in the market, but investors tend to be very skeptical. It could be interesting to have a section for users to dive into the methodology so they can understand it better and trust the scores more. Also, adding a small guide in each section for interpretation could give a lot of Value and increase their use.
+    \item \textbf{Historical Scores}. We have seen that most of the scores alone are not enough to get clear insights. But if we combine them with the historical profits, we can get a better understanding of the company and the future profits. So we propose to, first \textbf{calculate all of the past scores} and then include the possibility to either see their time series, or just \textbf{include the 24 months average} along the current score.
+    \item \textbf{Momentum development}. It is undeniable that \textbf{momentum is a very important factor} to predict future profits, actually the most relevant we have seen so far. So we propose to take back a look at it and include it again in the platform.
+    \item \textbf{User Guide}. The factor score methodology is very interesting and definitely gives Tweenvest a true differentiator in the market, but investors tend to be very skeptical. It could be interesting to have a section for users to dive into the methodology so they can understand it better and trust the scores more. Also, adding a small guide in each section for interpretation could give a lot of Value and increase their use. 
 \end{itemize}
 
-\noindent Personally, I hope this work can help Tweenvest to keep growing and help its users to make better decisions.
 % ############################### BIBLIOGRAPHY #######################
 \printbibliography[heading=bibintoc, title=References and Bibliography]
 \label{sec:biblio}
@@ -5615,5 +5602,22 @@ Encoding of the regions:
     \end{minipage}\hfill
 \end{figure}
 
+\subsection{\acrshort{nn}}
+
+\subsubsection{Encoder Classifier}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/code/models/neural_network/binary_classifier_nn/Small Data future - IF/shap_table_analysis.png}
+    \caption{Small Data Future \acrshort{if} - Encoder \gls{shap} Consistency}
+    \label{fig:small_encoder_shap_consistency}
+\end{figure}
+
+\subsubsection{Regressor}
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/code/models/neural_network/regressor_nn/Small Data future - Multi 2/shap_table_analysis.png}
+    \caption{Small Data Future \acrshort{if} - Regreesor \gls{shap} Consistency}
+    \label{fig:regressor_small_binary_shap_consistency}
+\end{figure}
 
 \end{document}
