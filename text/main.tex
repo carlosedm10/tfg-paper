@@ -688,17 +688,11 @@ There is a big controversy in the field about the best method to detect the outl
 
 
 \vspace{0.5cm}
-\noindent As shown in the figure~\ref{fig:multimodal}, this starts by homogenizing the variables distribution with a common data transformation so they are more Normal, but to make sure that the final data is not being transformed we copy the original dataset earlier. After this, we use multiple methods to detect the different outliers and then we make the intersection between them to get the common outliers. By the end of this process we have tagged the original dataset rows, assuring that the data that will be excluded is only formed by \textit{"true outliers"}.
-
-%TODO: maybe move this to the results section
-% \vspace{0.5cm}
-% \noindent We noticed that since this method is very restrictive, we had to set threshold multipliers to the original dataset to get the final outliers. So for example, a 20\% threshold would only exclude around 8\% of the original dataset because of the intersection of all the methods makes it very restrictive.
+\noindent As shown in the figure~\ref{fig:multimodal}, this starts by homogenizing the variables distribution with a common data transformation so they are more Normal, but to make sure that the final data is not being transformed we copy the original dataset earlier. After this, we use multiple methods to detect the different outliers and then we make the intersection between them to get the common outliers. By the end of this process we have tagged the original dataset rows, assuring that the data that will be excluded is only formed by \textit{``true outliers''}.
 
 \subsubsection{Island Cases detector}
 
-% TODO: explain the island detector.
-
-When looking at the figure~\ref{fig:multimodal}, we can expect it to save different data points that are not common between all of the methods due to its intersection of \textit{true outliers}. This might be good for many classification tasks but when it comes to regression it can cause bias since there could be \textit{islands} --clusters-- of data that do not follow a normal distribution. Thats why we created a variation of the \acrshort{multi} method that should only keep the normal data but also saving those islands of data for further future analysis. Since those points do not have to be errors in the data,  they could show \textbf{extreme but consistent behavior} that should be modeled separately.
+Later on we will see how this method was causing to save some points that should be excluded, causing a worsening in the performance. So after expecting the behavior of each of the individual methods, we saw where the flaw was and decided to create a simple variation of the \acrshort{multi} method that should only keep the normal data but also saving those islands of data for further future analysis.
 
 \begin{figure}[H]
     \centering
@@ -706,6 +700,12 @@ When looking at the figure~\ref{fig:multimodal}, we can expect it to save differ
     \caption{\acrshort{islandcase} Schema}
     \label{fig:islands_of_outliers}
 \end{figure}
+
+\noindent When looking at the figure~\ref{fig:multimodal}, we see that the \acrshort{lof} is saving different data points that are not common with the rest of the methods, this will be our detector of \textit{islands}. Also we create a similar intersection between the other methods that will get the \textit{``true outliers''}. Later we take the difference between these two new datasets to get the \textbf{\textit{normal data}}, the \textbf{\textit{extreme but consistent data}} and the \textbf{\textit{true outliers}}. We will see how this worked out in the results chapter.
+
+\vspace{0.5cm}
+\noindent \textbf{Important:} Following the aim of this work, we will not be analyzing the \textbf{\textit{extreme cases}} but we propose it for future work.
+
 
 % ############################### PREDICTIVE MODELS #######################
 \section{Predictive Models}
@@ -838,7 +838,7 @@ So for trying to not fall into the same mistake and for capturing possible memor
 \vspace{0.5cm}
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\textwidth]{images/code/neural_network/basic_schema.png}
+    \includegraphics[width=1\textwidth]{images/code/models/neural_network/basic_schema.png}
     \caption{Simple Architecture of a \acrshort{nn}}
     \label{fig:nn-basic-schema}
 \end{figure}
@@ -1466,7 +1466,7 @@ That's when we realized that if each method was good at detecting some outliers 
     \caption{Validation Datasets Summary}
     \begin{tabular}{|l|l|l|l|l|}
         \hline  
-        \textbf{Dataset} & \textbf{Cleaned} & \textbf{ \acrshort{if} 35\%} & \textbf{{Balanced}} \\
+        \textbf{Dataset} & \textbf{Cleaned} & \textbf{ \acrshort{if}} & \textbf{{Balanced}} \\
         \hline
         \textbf{Small Data Future} & 26,214 & 19,851 & -- \\
         \hline
@@ -2580,7 +2580,6 @@ We have seen the importance of non-linear relationships from regions, and the am
 \section{GAM}
 
 Observing the consistent improvements in the results suggests that the decisions made regarding the treatment and structure of the data have been effective. The next logical step is to incorporate models capable of capturing the non-linear relationships between variables, thereby enhancing performance. At the same time, and in line with the objectives established at the outset of this work, we aim to assist Tweenvest in defining recommended score ranges that will help investors better interpret and apply them. This could become straightforward once the spline functions for each variable are analyzed and understood.
-\vspace{0.5cm}
 
 \subsection{Limitations and Considerations}
 
@@ -2771,37 +2770,40 @@ Except from the \textbf{Value} variable, the splines do not show consistency wit
 \end{figure}
 
 
-\begin{figure}[H]
-    \centering
-    \includegraphics[width=1\textwidth]{images/code/models/general_regression/splines/3D/Small Data future - IF/quality_quality×volume.png}
-    \caption{Small Data Future - \acrshort{multi} 5\% - \acrshort{gam} - Quality x Volume}
-    \label{fig:gam_quality_volume}
-\end{figure}
-
-
-
 \section{Neural Network}
 
-We have checked that both, linear regression models and the \acrshort{gam}, show consistency between them and a significant improvement when introducing non-linear functions. But even though the results have improved, we have to remember that we are only using these models to identify patterns, and not for a real test with non-trained data because their low accuracy and performance even when knowing the full datasets.
+We have checked that both, linear regression models and the \acrshort{gam}, show consistency between them and a significant improvement when introducing non-linear functions. But even though the results have improved, we have to remember that we were only using these models to identify patterns, and not for real testing with non-trained data due to their low accuracy and performance even when knowing the full datasets.
 
 \vspace{0.5cm}
 
 \noindent Now we are going to check if we can actually predict when not knowing the data. For this we are going to use different \acrshort{nn}s, starting from a simple binary classifiers, to regressors.
 
-\subsection{Hyper-Parameter Optimization}
+\subsection{Architecture Optimization}
 
-Before running the simulations for each model, it is recommended to search for the most optimized group of hyperparameters to obtain a better performance. But surprisingly, we found in figures~\ref{fig:hidden_layer} that most of the architectures obtained similar results, for the 3 different types of \acrshort{nn}. 
+Before running the simulations for each model, it is always recommended to search for the most optimized group of hyper-parameters to obtain a better performance. In this case, the packages we used from \acrshort{scikitlearn} already had pre-built optimizations, so we only looked for the best hidden layers and number of neurons per each one. But surprisingly, we found in figures~\ref{fig:binary_quality_hidden_layer} to ~\ref{fig:regressor_quality_hidden_layer} that most of the architectures obtained similar results, for the 3 different types of \acrshort{nn}. And because the results were not going to change much, we decided to use the same architecture for all of the models, in this case, a standard (64,64).
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\textwidth]{images/code/models/neural_network/hidden layer.png}
-    \caption{Hidden Layer Optimization Search}
-    \label{fig:hidden_layer}
+    \includegraphics[width=1\textwidth]{images/code/models/neural_network/binary_classifier_nn/class_architecture_analysis_quality.png}
+    \caption{Binary Classifier - (Quality)Hidden Layer Optimization}
+    \label{fig:binary_quality_hidden_layer}
 \end{figure}
 
-% TODO: add pictures here
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{images/code/models/neural_network/binary_classifier_nn/class_architecture_analysis_quality.png}
+    \caption{Encoder Classifier - (Quality) Hidden Layer Optimization}
+    \label{fig:encoder_quality_hidden_layer}
+\end{figure}
 
-\noindent Since the results were not going to change much, we decided to use the same architecture to all of the models. In this case: (64,64)
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=1\textwidth]{images/code/models/neural_network/regressor_nn/reg_architecture_analysis_quality.png}
+    \caption{Regressor Classifier - (Quality) Hidden Layer Optimization}
+    \label{fig:regressor_quality_hidden_layer}
+\end{figure}
+
+\noindent The plots reveal a consistent pattern observed across all models: \textbf{long-term models consistently achieve higher performance}. Furthermore, as this is the first instance in which validation sets have been used, two additional insights emerge. First, knowing past behavior of a stock it achieves higher performance. Second, \textbf{performance decreases for companies that are entirely new to the model}. But this will be discussed individually in the following sections.
 
 \subsection{Binary Classifier}
 
@@ -2816,7 +2818,7 @@ Knowing this, we can see that the results in figure~\ref{fig:binary_classifier} 
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\textwidth]{images/code/models/neural_network/binary_classifier_nn/Big Data future - IF HARD Balanced/performance.png}
+    \includegraphics[width=1\textwidth]{images/code/models/neural_network/binary_classifier_nn/Big Data future - IF HARD Balanced/performance summary.png}
     \caption{Binary Classifier Performance}
     \label{fig:binary_classifier}
 \end{figure}
@@ -2825,23 +2827,21 @@ Knowing this, we can see that the results in figure~\ref{fig:binary_classifier} 
 
 \noindent As we have mentioned, \gls{shap} is a numerical technique that allows us to understand the contribution of each variable to the \acrshort{nn}s predictions. Following the same criteria as for the linear regression models and the \acrshort{gam} models, we will only analyze on the past significant variables.
 
-\begin{figure}[H]
+
+\begin{figure}{0.48\textwidth}
     \centering
-    \begin{subfigure}{0.48\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{images/code/models/neural_network/binary_classifier_nn/Big Data future - IF HARD Balanced/shap/SHAP analysis.png}
-        \caption{Small Data Future \acrshort{if} (35\%) - \gls{shap} Consistency}
-        \label{fig:small_binary_shap_consistency}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}{0.48\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{images/code/models/neural_network/binary_classifier_nn/Big Data future - IF HARD Balanced/shap/SHAP analysis.png}
-        \caption{Big Data Future \acrshort{if} Balanced - \gls{shap} Consistency}
-        \label{fig:big_binary_shap_consistency}
-    \end{subfigure}
-    \caption{\gls{shap} Consistency for Small and Big Data Future \acrshort{if} (35\%)}
+    \includegraphics[width=\textwidth]{images/code/models/neural_network/binary_classifier_nn/Small Test - IF/shap_table_analysis.png}
+    \caption{Small Data Future \acrshort{if} - \gls{shap} Consistency}
+    \label{fig:small_binary_shap_consistency}
 \end{figure}
+
+\begin{figure}{0.48\textwidth}
+    \centering
+    \includegraphics[width=\textwidth]{images/code/models/neural_network/binary_classifier_nn/Big Data future - IF HARD Balanced/shap_table_analysis.png}
+    \caption{Big Data Future \acrshort{if} Balanced - \gls{shap} Consistency}
+    \label{fig:big_binary_shap_consistency}
+\end{figure}
+
 
 \subsection{Multi-class Classifier}
 
@@ -2855,7 +2855,11 @@ Continuing with a more sophisticated approach, we applied an investor-oriented e
     \item \textbf{Very Good}: 10\% to infinity, 
 \end{itemize}
 
-\noindent The is means that complete noise should obtain a 16\% of performance and error rate. But the results in figure~\ref{fig:multi_class_classifier} are very good. The model is able to predict a lot more than random, looking at the resultd deeply we see that:
+
+\subsubsection{Performance}
+
+
+\noindent The is means that complete noise should obtain a 16\% of performance and error rate. But the results in figure~\ref{fig:multi_class_classifier} are very good. The model is able to predict a lot more than random, looking at the results deeply we see that:
 \begin{itemize}
     \item For unknown stocks the worst predictability is 23\% and the best is 52\%, with error rates of 73\% and 44\% respectively. 
     \item For known stocks the worst predictability is 31\% and the best is 62\%, with error rates of 62\% and 35\% respectively.
@@ -2863,16 +2867,16 @@ Continuing with a more sophisticated approach, we applied an investor-oriented e
     \item Quality has lost its importance, but it is still the second best predictor.
 \end{itemize}
 
-\subsubsection{Performance}
-
-\noindent In this case, the model has higher predictabilities than the expected error rates. But we have to make clear that, even thought this results are very good for our purposes, they are far away to be used as a real investment tool since their log Loss are higher than we should have for a safe estimation.
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\textwidth]{images/code/models/neural_network/encoder results.png}
-    \caption{Multi-class Classifier Performance}
+    \includegraphics[width=1\textwidth]{images/code/models/neural_network/classifier_nn/Big Data future - IF HARD Balanced/performance summary.png}
+    \caption{Encoder Classifier Performance}    
     \label{fig:multi_class_classifier}
 \end{figure}
+
+\noindent In this case, the model has higher predictabilities than the expected error rates. But we have to make clear that, even thought this results are very good for our purposes, they are far away to be used as a real investment tool since their log Loss are higher than we should have for a safe estimation.
+
 
 \subsubsection{\acrshort{shap}-Consistency}
 
@@ -2880,8 +2884,8 @@ Continuing with a more sophisticated approach, we applied an investor-oriented e
     \centering
     \begin{subfigure}{0.48\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{images/code/models/neural_network/binary_classifier_nn/Big Data future - IF HARD Balanced/shap/SHAP analysis.png}
-        \caption{Small Data Future \acrshort{if} (35\%) - \gls{shap} Consistency}
+        \includegraphics[width=\textwidth]{images/code/models/neural_network/binary_classifier_nn/Big Data future - IF HARD Balanced/shap_table_analysis.png}
+        \caption{Small Data Future \acrshort{if} - \gls{shap} Consistency}
         \label{fig:small_binary_shap_consistency}
     \end{subfigure}
     \hfill
@@ -2891,12 +2895,12 @@ Continuing with a more sophisticated approach, we applied an investor-oriented e
         \caption{Big Data Future \acrshort{if} Balanced - \gls{shap} Consistency}
         \label{fig:big_binary_shap_consistency}
     \end{subfigure}
-    \caption{\gls{shap} Consistency for Small and Big Data Future \acrshort{if} (35\%)}
+    \caption{Encoder Classifier - \gls{shap} Consistency Summary}
 \end{figure}
 
 \subsection{Regressor}
 
-\noindent For regresors, we have implemented a simple \acrshort{nn} with one hidden layer of 64 neurons. And we have done this for both, the small and big data future \acrshort{if} (35\%).
+\noindent For regressors, we have implemented a simple \acrshort{nn} with one hidden layer of 64 neurons. And we have done this for both, the small and big data future \acrshort{if} (35\%).
 
 \subsubsection{Performance}
 
@@ -2905,29 +2909,32 @@ Continuing with a more sophisticated approach, we applied an investor-oriented e
 
 \begin{figure}[H]
     \centering
-    \includegraphics[width=1\textwidth]{images/code/models/neural_network/regressor results.png}
+    \includegraphics[width=1\textwidth]{images/code/models/neural_network/regressor_nn/Big Data future - IF HARD Balanced/performance summary.png}
     \caption{Regressor Performance}
     \label{fig:regressor}
 \end{figure}
 
 \subsubsection{\acrshort{shap}-Consistency}
 
+
+% TODO: check all of the plots again
+
 \begin{figure}[H]
     \centering
     \begin{subfigure}{0.48\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{images/code/models/neural_network/binary_classifier_nn/Big Data future - IF HARD Balanced/shap/SHAP analysis.png}
-        \caption{Small Data Future \acrshort{if} (35\%) - \gls{shap} Consistency}
+        \includegraphics[width=\textwidth]{images/code/models/neural_network/regressor_nn/Small Data future - Multi 2/shap_table_analysis.png}
+        \caption{Small Data Future \acrshort{if} - \gls{shap} Consistency}
         \label{fig:small_binary_shap_consistency}
     \end{subfigure}
     \hfill
     \begin{subfigure}{0.48\textwidth}
         \centering
-        \includegraphics[width=\textwidth]{images/code/models/neural_network/binary_classifier_nn/Big Data future - IF HARD Balanced/shap/SHAP analysis.png}
+        \includegraphics[width=\textwidth]{images/code/models/neural_network/regressor_nn/Big Data future - IF HARD Balanced/shap_table_analysis.png}
         \caption{Big Data Future \acrshort{if} Balanced - \gls{shap} Consistency}
         \label{fig:big_binary_shap_consistency}
     \end{subfigure}
-    \caption{\gls{shap} Consistency for Small and Big Data Future \acrshort{if} (35\%)}
+    \caption{Regressor Classifier - \gls{shap} Consistency Summary}
 \end{figure}
 
 % ############################### CONCLUSION #######################
@@ -2944,7 +2951,7 @@ The main goal of this work was to \textbf{evaluate if the Factor Scores represen
 
 \subsection{Clear Statements}
 
-\noindent During the anaylis we have identified a series of common patterns with enough consistency, significance, and coherence to be taken into account.
+\noindent During the analysis we have identified a series of common patterns with enough consistency, significance, and coherence to be taken into account.
 
 \subsubsection{Investment Strategies}
 
@@ -3046,7 +3053,7 @@ The main goal of this work was to \textbf{evaluate if the Factor Scores represen
 
 Finally, to conclude the work, we want to give some recommendations for future development of the platform:
 \begin{itemize}
-    \item \textbf{Historical Scores}. We have seen that most of the scores alone are not enough to get clear insights. But if we combine them with the historical profits, we can get a better understanding of the company and the future profits. So we propose to, first calculate all of the past scores and then include the posibility to either see their time series, or just \textbf{include the 24 months average}.
+    \item \textbf{Historical Scores}. We have seen that most of the scores alone are not enough to get clear insights. But if we combine them with the historical profits, we can get a better understanding of the company and the future profits. So we propose to, first calculate all of the past scores and then include the possibility to either see their time series, or just \textbf{include the 24 months average}.
     \item \textbf{Momentum development}. It is undeniable that \textbf{momentum is a very important factor} to predict future profits, actually the most relevant we have seen so far. So even thought that many fundamental investors do not like it due to lack of knowledge, in most cases, it really is an excellent indicator.
     \item \textbf{User Guide}. The factor score methodology is very interesting and definitely gives Tweenvest a true differentiator in the market, but investors tend to be very skeptical. It could be interesting to have a section for users to dive into the methodology so they can understand it better and trust the scores more. Also, adding a small guide in each section for interpretation could give a lot of Value and increase their use.
 \end{itemize}
