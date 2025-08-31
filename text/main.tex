@@ -293,7 +293,7 @@ These ratios measure a company's ability to meet short-term obligations with its
 
 \subsubsection{Predictability}
 
-\noindent And finally, for the quality score we need to look at the company's predictability. This is achieved by trying to fit values related to the company's success —such as Sales— to an exponential curve, using the ordinary least square method, which is supported by large financial literature \cite{msci2024fundamental}.
+\noindent And finally, for the quality score we need to look at the company's predictability. This is achieved by trying to fit values related to the company's success —such as Sales— to an exponential curve, using the ordinary least square method, which is supported by large financial literature~\cite{msci2024fundamental}.
 
 
 \begin{figure}[H]
@@ -1307,11 +1307,9 @@ To begin, when looking at the data structure we saw that \textbf{about 50\% of g
 \end{table}
 
 
-\noindent   But after digging into the data we saw that it was due to the fact that many companies stopped sending reports or selling but kept existing, so we decided to deleted them from our dataset because they were not behaving as a "normal company", and this could create a bias in the models. Additionally, as noted earlier, we replaced all empty values in the dividend scores with 0, since Tweenvest's algorithm omits a score when a company does not pay dividends. That's why we do not see any missing values in the dividend scores.
+\noindent But after digging into the data we saw that it was due to the fact that many companies stopped sending reports or selling but kept existing, so we decided to deleted them from our dataset because they were not behaving as a ``normal company'', and this could alterate the models results. Additionally, as noted earlier, we replaced all empty values in the dividend scores with 0, since Tweenvest's algorithm omits a score when a company does not pay dividends. That's why we do not see any missing values in the dividend scores.
 
 \subsection{Outlier Detection}
-
-% TODO: Cohesionate this with last chapter.
 
 In this section we will present the performance of the different outlier detection methods. But the main analysis of the final datasets will be done in the results chapter.
 
@@ -1468,7 +1466,7 @@ That's when we realized that if each method was good at detecting some outliers 
         \hline  
         \textbf{Dataset} & \textbf{Cleaned} & \textbf{ \acrshort{if}} & \textbf{{Balanced}} \\
         \hline
-        \textbf{Small Data Future} & 26,214 & 19,851 & -- \\
+        \textbf{Small Data Future} & 26,214 & 22,282 & -- \\
         \hline
         \textbf{Big Data Future} & 14,518,624 & 9,437,105 & 110,203 \\
         \hline
@@ -2572,10 +2570,7 @@ First of all, we started with a family of simple linear regression models with j
 
 \subsection{Balanced Dataset}
 
-We have seen the importance of non-linear relationships from regions, and the amount of outliers in this data. So before continuing with the models, we created a new dataset with less outliers in total and balancing the regions, and confirmed that \textbf{it improved the performances and residues}, see appendix figures~\ref{fig:linear_regression_performance_if_hard_balanced_gaussian} and ~\ref{fig:linear_regression_AF_residues_windowed}, but it worsened the effect of the \textit{momentum}, showing higher \acrshort{acf} values.
-
-
-% TODO: Add the pictures once the code executes
+We have seen the importance of non-linear relationships from regions, and the amount of outliers in this data. So before continuing with the models, we created a new dataset with less outliers in total and balancing the regions, and confirmed that \textbf{it improved the performances and residues}, see appendix figures~\ref{fig:linear_regression_performance_if_hard_balanced_gaussian} and ~\ref{fig:linear_regression_if_hard_balanced_residues}, but it worsened the effect of the \textit{momentum}, showing higher \acrshort{acf} values.
 
 \section{GAM}
 
@@ -2585,7 +2580,7 @@ Observing the consistent improvements in the results suggests that the decisions
 
 \noindent One big limitation of \acrshort{gam}s is \textbf{their tendency to overfitting}, partly due to the nature of the spline functions, which are constructed from polynomial and trigonometric components. To address this, we adopt the following precautions:
 \begin{itemize}
-    \item The extreme ends of the spline curves may lack statistical significance because of the mathematical form of the fitted functions; also known as Runge's phenomenon \cite{runge1901empirische} and Gibbs phenomenon \cite{carslaw1930fourier}, for polynomial and trigonometric functions respectively. For this reason, \textbf{we focus our interpretation on overall trends} rather than on boundary values.
+    \item The endings of the spline curves may lack statistical interpretation because of the mathematical form of the fitted functions; also known as Runge's phenomenon \cite{runge1901empirische} and Gibbs phenomenon \cite{carslaw1930fourier}, for polynomial and trigonometric functions respectively. For this reason, \textbf{we focus our interpretation on overall trends} rather than on boundary values.
     \item To minimize the risk of misinterpretation caused by overfitting -—and to maintain consistency with the findings from the linear models-— we concentrate primarily on variables that have demonstrated significance across multiple datasets.
 \end{itemize}
 
@@ -2622,18 +2617,18 @@ Observing the consistent improvements in the results suggests that the decisions
     \begin{minipage}{0.48\textwidth}
         \centering
         \includegraphics[width=\textwidth]{images/code/models/general_regression/splines/2D/Small Data future - IF/dividend_dividend_avg_24m.png}
-        \caption{Small Data Future - \acrshort{if} 15\% - Dividend 24M Average Splines}
+        \caption{Small Data Future \acrshort{if} - Dividend 24M Average Splines}
         \label{fig:spline_dividend_dividend_avg_24m}
     \end{minipage}\hfill
     \begin{minipage}{0.48\textwidth}
         \centering
         \includegraphics[width=\textwidth]{images/code/models/general_regression/splines/2D/Big Data future - IF HARD Balanced/dividend_dividend_avg_24m.png}
-        \caption{Big Data Future - \acrshort{if} 35\% - Quality 24M Average Splines}
+        \caption{Big Data Future \acrshort{if} Balanced - Quality 24M Average Splines}
         \label{fig:spline_dividend_dividend_avg_24m_balanced}
     \end{minipage}
 \end{figure}
 
-\noindent When it comes to the 2 Growth's splines in figures~\ref{fig:spline_growth_growth_avg_12m} to~\ref{fig:spline_growth_growth_avg_12m_balanced}, we have inconsistent result. For each dataset we have different general tendencies, so we can't be sure that the behavior seen before is actually true. But it is worth noting that \textbf{for the non-balanced dataset we get less variability} in the splines and the expected results.
+\noindent When it comes to both, 12M and 24M Growth's splines in figures~\ref{fig:spline_growth_growth_avg_12m} to~\ref{fig:spline_growth_growth_avg_12m_balanced} and~\ref{fig:spline_growth_growth_avg_24m} to~\ref{fig:spline_growth_growth_avg_24m_balanced}, we have inconsistent resultS. For each dataset we have different general tendencies, so we can't be sure that the behavior seen before is actually true.
 \begin{figure}[H]
     \centering
     \begin{minipage}{0.48\textwidth}
@@ -2645,7 +2640,7 @@ Observing the consistent improvements in the results suggests that the decisions
     \begin{minipage}{0.48\textwidth}
         \centering
         \includegraphics[width=\textwidth]{images/code/models/general_regression/splines/2D/Big Data future - IF HARD Balanced/growth_growth_avg_12m.png}
-        \caption{Big Data Future - \acrshort{if} 35\% - Growth 12M Average Splines}
+        \caption{Big Data Future \acrshort{if} - Growth 12M Average Splines}
         \label{fig:spline_growth_growth_avg_12m_balanced}
     \end{minipage}
 \end{figure}
@@ -2655,14 +2650,14 @@ Observing the consistent improvements in the results suggests that the decisions
     \begin{minipage}{0.48\textwidth}
         \centering
         \includegraphics[width=\textwidth]{images/code/models/general_regression/splines/2D/Small Data future - IF/growth_growth_avg_24m.png}
-        \caption{Small Data Future - \acrshort{if} 15\% - Growth 24M Average Splines}
-        \label{fig:spline_growth_growth_avg_12m}
+        \caption{Small Data Future \acrshort{if} - Growth 24M Average Splines}
+        \label{fig:spline_growth_growth_avg_24m}
     \end{minipage}\hfill
     \begin{minipage}{0.48\textwidth}
         \centering
         \includegraphics[width=\textwidth]{images/code/models/general_regression/splines/2D/Big Data future - IF HARD Balanced/growth_growth_avg_24m.png}
-        \caption{Big Data Future - \acrshort{if} 35\% - Growth 24M Average Splines}
-        \label{fig:spline_growth_growth_avg_12m_balanced}
+        \caption{Big Data Future \acrshort{if} - Growth 24M Average Splines}
+        \label{fig:spline_growth_growth_avg_24m_balanced}
     \end{minipage}
 \end{figure}
 
@@ -2674,13 +2669,13 @@ Observing the consistent improvements in the results suggests that the decisions
     \begin{minipage}{0.48\textwidth}
         \centering
         \includegraphics[width=\textwidth]{images/code/models/general_regression/splines/2D/Small Data future - IF/quality_quality_avg_24m.png}
-        \caption{Small Data Future - \acrshort{if} 15\% - Quality 24M Average Splines}
+        \caption{Small Data Future \acrshort{if} - Quality 24M Average Splines}
         \label{fig:spline_quality_quality_avg_24m}
     \end{minipage}\hfill
     \begin{minipage}{0.48\textwidth}
         \centering
         \includegraphics[width=\textwidth]{images/code/models/general_regression/splines/2D/Big Data future - IF HARD Balanced/quality_quality_avg_24m.png}
-        \caption{Big Data Future - \acrshort{if} 35\% - Quality 24M Average Splines}
+        \caption{Big Data Future \acrshort{if} - Quality 24M Average Splines}
         \label{fig:spline_quality_quality_avg_24m_balanced}
     \end{minipage}
 \end{figure}
@@ -2692,87 +2687,56 @@ Observing the consistent improvements in the results suggests that the decisions
     \begin{minipage}{0.48\textwidth}
         \centering
         \includegraphics[width=\textwidth]{images/code/models/general_regression/splines/2D/Small Data future - IF/value_value.png}
-        \caption{Small Data Future - \acrshort{if} 15\% - Value Splines}
+        \caption{Small Data Future \acrshort{if} - Value Splines}
         \label{fig:spline_value_value}
     \end{minipage}\hfill
     \begin{minipage}{0.48\textwidth}
         \centering
         \includegraphics[width=\textwidth]{images/code/models/general_regression/splines/2D/Big Data future - IF HARD Balanced/value_value.png}
-        \caption{Big Data Future - \acrshort{if} 35\% - Value Splines}
+        \caption{Big Data Future \acrshort{if} - Value Splines}
         \label{fig:spline_value_value_balanced}
     \end{minipage}
 \end{figure}
-
-
-
 
 \begin{figure}[H]
     \centering
     \begin{minipage}{0.48\textwidth}
         \centering
         \includegraphics[width=\textwidth]{images/code/models/general_regression/splines/2D/Small Data future - IF/value_value_avg_24m.png}
-        \caption{Small Data Future - \acrshort{if} 15\% - (\acrshort{gam}) Value 24M Average}
+        \caption{Small Data Future \acrshort{if} - (\acrshort{gam}) Value 24M Average Splines}
         \label{fig:spline_value_value_avg_24m}
     \end{minipage}\hfill
     \begin{minipage}{0.48\textwidth}
         \centering
         \includegraphics[width=\textwidth]{images/code/models/general_regression/splines/2D/Big Data future - IF HARD Balanced/value_value_avg_24m.png}
-        \caption{Big Data Future - \acrshort{if} 35\% - (\acrshort{gam}) Value 24M Average}
+        \caption{Big Data Future \acrshort{if} Balanced - (\acrshort{gam}) Value 24M Average Splines}
         \label{fig:spline_value_value_avg_24m_balanced}
     \end{minipage}
 \end{figure}
 
-
-
 \subsubsection{Tensor Splines}
 
-Except from the \textbf{Value} variable, the splines do not show consistency with the linear models, so we have to check if looking at their tensor splines, we can see a similar pattern as when we were separating by regions. For interpreting the results, we have to share the encoding of the region variable:
-\begin{itemize}
-    \item \textbf{Africa \& Middle East}: 0
-    \item \textbf{Asia \& Oceania}: 1
-    \item \textbf{Europe}: 2
-    \item \textbf{South America}: 3
-    \item \textbf{North America}: 4
-\end{itemize}
-
-
+\noindent Working with splines always comes with the risk of overfitting. So following the criteria to avoid false interpretations, we looked at the tensor splines from the variables before analyzed:region and scores; where we could only see a \textbf{slight indicator of possible consistence with the value score} and just for the balanced dataset in figures~\ref{fig:tensor_region_value} to~\ref{fig:tensor_region_value_avg_24m}.But in general, the lack of interpretable and consistent results reveals its tendency to overfitting.
 
 \begin{figure}[H]
     \centering
-    \begin{minipage}{0.48\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{images/code/models/general_regression/splines/3D/Big Data future - IF HARD Balanced/dividend_dividend_avg_24m×region_code.png}
-        \caption{Big Data Future - \acrshort{if} 35\% - (\acrshort{gam}) Region x Dividend 24M Average}
-        \label{fig:tensor_dividend_dividend_avg_24m}
-    \end{minipage}\hfill
-    \begin{minipage}{0.48\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{images/code/models/general_regression/splines/3D/Big Data future - IF HARD Balanced/quality_quality_avg_24m×region_code.png}
-        \caption{Big Data Future - \acrshort{if} 35\% - (\acrshort{gam}) Region x Quality 24M Average}
-        \label{fig:tensor_quality_quality_avg_24m}
-    \end{minipage}
+    \includegraphics[width=\textwidth]{images/code/models/general_regression/splines/3D/Big Data future - IF HARD Balanced/value_value×region_code.png}
+    \caption{Big Data Future \acrshort{if} Balanced - (\acrshort{gam}) Region x Value Tensors}
+    \label{fig:tensor_region_value}
 \end{figure}
 
 \begin{figure}[H]
     \centering
-    \begin{minipage}{0.48\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{images/code/models/general_regression/splines/3D/Big Data future - IF HARD Balanced/growth_growth_avg_12m×region_code.png}
-        \caption{Big Data Future - \acrshort{if} 35\% - (\acrshort{gam}) Region x Growth 12M Average}
-        \label{fig:tensor_growth_growth_avg_12m}
-    \end{minipage}\hfill
-    \begin{minipage}{0.48\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{images/code/models/general_regression/splines/3D/Big Data future - IF HARD Balanced/growth_growth_avg_24m×region_code.png}
-        \caption{Big Data Future - \acrshort{if} 35\% - (\acrshort{gam}) Region x Growth 24M Average}
-        \label{fig:tensor_growth_growth_avg_24m}
-    \end{minipage}
+    \includegraphics[width=\textwidth]{images/code/models/general_regression/splines/3D/Big Data future - IF HARD Balanced/value_value_avg_24m×region_code.png}
+    \caption{Big Data Future \acrshort{if} Balanced - (\acrshort{gam}) Region x Value 24M Average Tensors}
+    \label{fig:tensor_region_value_avg_24m}
 \end{figure}
 
+Note: The rest of the splines are in appendix figures~\ref{fig:small_tensor_region_dividend_avg_24m} to~\ref{fig:tensor_region_quality_avg_24m}, where you can also find the encoding used for the regions.
 
 \section{Neural Network}
 
-We have checked that both, linear regression models and the \acrshort{gam}, show consistency between them and a significant improvement when introducing non-linear functions. But even though the results have improved, we have to remember that we were only using these models to identify patterns, and not for real testing with non-trained data due to their low accuracy and performance even when knowing the full datasets.
+We have checked that both, linear regression models and the \acrshort{gam}, show consistency between them and a significant improvement when introducing non-linear functions. But even though the results have improved, we have to remember that we were only using these models to identify patterns, and not for real testing with non-trained data due to their low accuracies and performances.
 
 \vspace{0.5cm}
 
@@ -2780,12 +2744,12 @@ We have checked that both, linear regression models and the \acrshort{gam}, show
 
 \subsection{Architecture Optimization}
 
-Before running the simulations for each model, it is always recommended to search for the most optimized group of hyper-parameters to obtain a better performance. In this case, the packages we used from \acrshort{scikitlearn} already had pre-built optimizations, so we only looked for the best hidden layers and number of neurons per each one. But surprisingly, we found in figures~\ref{fig:binary_quality_hidden_layer} to ~\ref{fig:regressor_quality_hidden_layer} that most of the architectures obtained similar results, for the 3 different types of \acrshort{nn}. And because the results were not going to change much, we decided to use the same architecture for all of the models, in this case, a standard (64,64).
+Before running the simulations for each model, it is always recommended to search for the most optimized group of hyper-parameters to obtain a better performance. In this case, the packages we used from \textit{scikit-learn} already had pre-built optimizations, so we only looked for the best hidden layers and number of neurons per each one. But surprisingly, we found in figures~\ref{fig:binary_quality_hidden_layer} to ~\ref{fig:regressor_quality_hidden_layer} that most of the architectures obtained similar results, for the 3 different types of \acrshort{nn}s. And because the results were not going to change much, we decided to use the same architecture for all of the models, in this case, a standard (64,64).
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{images/code/models/neural_network/binary_classifier_nn/class_architecture_analysis_quality.png}
-    \caption{Binary Classifier - (Quality)Hidden Layer Optimization}
+    \caption{Binary Classifier - (Quality) Hidden Layer Optimization}
     \label{fig:binary_quality_hidden_layer}
 \end{figure}
 
@@ -2803,14 +2767,14 @@ Before running the simulations for each model, it is always recommended to searc
     \label{fig:regressor_quality_hidden_layer}
 \end{figure}
 
-\noindent The plots reveal a consistent pattern observed across all models: \textbf{long-term models consistently achieve higher performance}. Furthermore, as this is the first instance in which validation sets have been used, two additional insights emerge. First, knowing past behavior of a stock it achieves higher performance. Second, \textbf{performance decreases for companies that are entirely new to the model}. But this will be discussed individually in the following sections.
+\noindent The plots reveal a consistent pattern observed across all models: \textbf{long-term models consistently achieve higher performance}. Furthermore, as this is the first instance in which validation sets have been used, two additional insights emerge. First, \textbf{knowing past behavior of a stock produces higher performances}. Second, \textbf{performance decreases for companies that are entirely new to the model}. But this will be discussed individually in the following sections.
 
 \subsection{Binary Classifier}
 
-\noindent Starting with the most simple \acrshort{nn} possible, to properly interpret the results, we have clarify that since we have transformed the predictive problem into a binary classification problem, a complete random guess would get a 50\% predictability and a 50\% error rate.
+\noindent We started with the most simple \acrshort{nn} possible, a model that tries to predict wether a company will have positive or negative profits. So, to properly interpret the results, we have to clarify that since we have transformed a regression predictive problem into a binary classification problem, a complete random guess would get a 50\% predictability and a 50\% error rate.
 
 \subsubsection{Performance}
-Knowing this, we can see that the results in figure~\ref{fig:binary_classifier} are quite good, since the model is able to predict more than random. With performances over 60\% and an error rates under 30\%, for both validating datasets: with known and unknown stocks. Also it is interesting that some of the past behavior still occurs:
+Knowing this, we can see that the results in figure~\ref{fig:binary_classifier} are quite good. We see a hughe increase in predictability for the training set, and for the first time in this work \textbf{we were able to predict more than random for validating datasets}, this includes known and unknown companies. Achieving performances over 60\% and an error rates under 40\%, for both validating datasets. Also it is interesting that some of the past behavior still occurs:
 \begin{itemize}
     \item Value scores perform better at short horizons and have the nest performances in most cases.
     \item Quality scores outperform all of the models for known stocks, but in this case on a validation set.
@@ -2819,33 +2783,32 @@ Knowing this, we can see that the results in figure~\ref{fig:binary_classifier} 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{images/code/models/neural_network/binary_classifier_nn/Big Data future - IF HARD Balanced/performance summary.png}
-    \caption{Binary Classifier Performance}
+    \caption{Big Data Future \acrshort{if} Balanced - Binary Classifier Performance}
     \label{fig:binary_classifier}
 \end{figure}
 
 \subsubsection{\acrshort{shap}-Consistency}
 
-\noindent As we have mentioned, \gls{shap} is a numerical technique that allows us to understand the contribution of each variable to the \acrshort{nn}s predictions. Following the same criteria as for the linear regression models and the \acrshort{gam} models, we will only analyze on the past significant variables.
+\noindent As previously discussed, \gls{shap} is a numerical technique that enables us to quantify the contribution of each variable to the predictions made by the \acrshort{nn}s. Applying the same criteria used for the linear regression and \acrshort{gam} models, we restrict our analysis to variables that were previously identified as significant. Interestingly, the results mirror those obtained from both the linear regression and \acrshort{gam} models, displaying the same patterns and involving the same variables—although these relationships are even clearer for the small-data future \acrshort{if}. In summary, \textbf{Dividend, Growth, and Quality 24-month averages, as well as the most recent Value score, show a clear positive impact on profits, whereas Value 24-month averages exhibit a negative impact}.
 
-
-\begin{figure}{0.48\textwidth}
+\begin{figure}[H]
     \centering
-    \includegraphics[width=\textwidth]{images/code/models/neural_network/binary_classifier_nn/Small Test - IF/shap_table_analysis.png}
-    \caption{Small Data Future \acrshort{if} - \gls{shap} Consistency}
+    \includegraphics[width=1\textwidth]{images/code/models/neural_network/binary_classifier_nn/Small Test - IF/shap_table_analysis.png}
+    \caption{Small Data Future \acrshort{if} - Binary \gls{shap} Consistency}
     \label{fig:small_binary_shap_consistency}
 \end{figure}
 
-\begin{figure}{0.48\textwidth}
+\begin{figure}[H]
     \centering
-    \includegraphics[width=\textwidth]{images/code/models/neural_network/binary_classifier_nn/Big Data future - IF HARD Balanced/shap_table_analysis.png}
-    \caption{Big Data Future \acrshort{if} Balanced - \gls{shap} Consistency}
+    \includegraphics[width=1\textwidth]{images/code/models/neural_network/binary_classifier_nn/Big Data future - IF HARD Balanced/shap_table_analysis.png}
+    \caption{Big Data Future \acrshort{if} Balanced - Binary \gls{shap} Consistency}
     \label{fig:big_binary_shap_consistency}
 \end{figure}
 
 
-\subsection{Multi-class Classifier}
+\subsection{Encoder Classifier}
 
-Continuing with a more sophisticated approach, we applied an investor-oriented encoding of the annualized profits using a \acrshort{nn}. Remarkably, Tweenvest’s Scores once again allowed us to achieve predictive performance above random chance. Annualizing the profits was essential to avoid bias, as longer investment horizons naturally exhibit higher variance, while the encoding scale remains fixed. To recall the coding scheme, the profits were classified into six distinct categories:
+Continuing with a more sophisticated approach, we applied an investor-oriented encoding of the profits. To recall the coding scheme, the profits were classified into six distinct categories:
 \begin{itemize}
     \item \textbf{Very Bad}: -infinity to -10\%
     \item \textbf{Bad}: -10\% to -4\%
@@ -2855,14 +2818,14 @@ Continuing with a more sophisticated approach, we applied an investor-oriented e
     \item \textbf{Very Good}: 10\% to infinity, 
 \end{itemize}
 
+\noindent It is important to emphasize the need for a balanced dataset when training a classifier. Annualizing the profits was a crucial step to mitigate bias, since longer investment horizons naturally exhibit more pronounced positive tails, as discussed in the descriptive analysis.
 
 \subsubsection{Performance}
 
-
-\noindent The is means that complete noise should obtain a 16\% of performance and error rate. But the results in figure~\ref{fig:multi_class_classifier} are very good. The model is able to predict a lot more than random, looking at the results deeply we see that:
+\noindent Having six classes means that complete noise should obtain a 16\% of performance and 64\% of error rate. But the results in figure~\ref{fig:multi_class_classifier} are remarkably good, Tweenvest’s Scores once again allowed us to \textbf{achieve predictive performance above random chance}:
 \begin{itemize}
-    \item For unknown stocks the worst predictability is 23\% and the best is 52\%, with error rates of 73\% and 44\% respectively. 
-    \item For known stocks the worst predictability is 31\% and the best is 62\%, with error rates of 62\% and 35\% respectively.
+    \item For unknown stocks the worst predictability is 15\% and the best is 46\%, with error rates of 85\% and 51\% respectively. 
+    \item For known stocks the worst predictability is 38\% and the best is 51\%, with error rates of 62\% and 47\% respectively.
     \item Again value beats the rest of the scores.
     \item Quality has lost its importance, but it is still the second best predictor.
 \end{itemize}
@@ -2871,70 +2834,61 @@ Continuing with a more sophisticated approach, we applied an investor-oriented e
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{images/code/models/neural_network/classifier_nn/Big Data future - IF HARD Balanced/performance summary.png}
-    \caption{Encoder Classifier Performance}    
+    \caption{Big Data Future \acrshort{if} Balanced - Encoder Classifier Performance}    
     \label{fig:multi_class_classifier}
 \end{figure}
 
-\noindent In this case, the model has higher predictabilities than the expected error rates. But we have to make clear that, even thought this results are very good for our purposes, they are far away to be used as a real investment tool since their log Loss are higher than we should have for a safe estimation.
+\noindent In this case, the model has higher predictabilities than the expected error rates for the known stocks. But we have to make clear that, even thought this results are very good for our purposes, \textbf{they are far away to be used as a real investment automation} since their log Loss is higher than we could have for a safe decision.
 
 
 \subsubsection{\acrshort{shap}-Consistency}
 
+If we look at the results of the \gls{shap} plots in figures~\ref{fig:small_encoder_shap_consistency} and~\ref{fig:big_encoder_shap_consistency}, we can see that these results are similar to the binary classifier, with less consistency except for the Value scores. This could be due to ability of the model to overfit the data, losing some of the interpretability; but as we have also seen, the model does perform well for unknown stocks so we cannot say it is due to the overfitting.
+
 \begin{figure}[H]
     \centering
-    \begin{subfigure}{0.48\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{images/code/models/neural_network/binary_classifier_nn/Big Data future - IF HARD Balanced/shap_table_analysis.png}
-        \caption{Small Data Future \acrshort{if} - \gls{shap} Consistency}
-        \label{fig:small_binary_shap_consistency}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}{0.48\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{images/code/models/neural_network/binary_classifier_nn/Big Data future - IF HARD Balanced/shap/SHAP analysis.png}
-        \caption{Big Data Future \acrshort{if} Balanced - \gls{shap} Consistency}
-        \label{fig:big_binary_shap_consistency}
-    \end{subfigure}
-    \caption{Encoder Classifier - \gls{shap} Consistency Summary}
+    \includegraphics[width=0.9\textwidth]{images/code/models/neural_network/binary_classifier_nn/Big Data future - IF HARD Balanced/shap_table_analysis.png}
+    \caption{Small Data Future \acrshort{if} - Encoder \gls{shap} Consistency}
+    \label{fig:small_encoder_shap_consistency}
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/code/models/neural_network/binary_classifier_nn/Big Data future - IF HARD Balanced/shap_table_analysis.png}
+    \caption{Big Data Future \acrshort{if} Balanced - Encoder \gls{shap} Consistency}
+    \label{fig:big_encoder_shap_consistency}
 \end{figure}
 
 \subsection{Regressor}
 
-\noindent For regressors, we have implemented a simple \acrshort{nn} with one hidden layer of 64 neurons. And we have done this for both, the small and big data future \acrshort{if} (35\%).
+\noindent Finally, seeing the good performances of the classifiers we aimed to see if we could improve the performance of the models by using a regressor \acrshort{nn}.
 
 \subsubsection{Performance}
 
-
-\noindent Unfortunately, the results when trying to predict the exact profits are bad. This is very normal, trying to predict a continuous variable as stocks' profits with \textit{''simple models''} such these normal \acrshort{nn} is very difficult. And there is a whole industry dedicated to this problem, called \textit{quantitative finance}, that uses complex models that incorporate differential equations and other advanced techniques to obtain 1\% more profits than the market using algorithmic trading.
+\noindent Unfortunately, the results obtained when attempting to predict exact profit values are poor. This outcome is not unexpected, as forecasting a continuous variable such as stock returns with \textit{simple models}—including standard \acrshort{nn}s—is inherently challenging. Indeed, there is an entire field, known as \textit{quantitative finance}, devoted to this problem, employing sophisticated models that incorporate differential equations and other advanced techniques in algorithmic trading to achieve even a modest 1\% advantage over the market.
 
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{images/code/models/neural_network/regressor_nn/Big Data future - IF HARD Balanced/performance summary.png}
-    \caption{Regressor Performance}
+    \caption{Big Data Future \acrshort{if} Balanced - Regressor Performance}
     \label{fig:regressor}
 \end{figure}
 
 \subsubsection{\acrshort{shap}-Consistency}
 
-
-% TODO: check all of the plots again
+Knowing this, we can see in figures~\ref{fig:regressor_small_binary_shap_consistency} and~\ref{fig:regressor_big_binary_shap_consistency} that also the \acrshort{shap} plots reveal complete noise.
+\begin{figure}[H]
+    \centering
+    \includegraphics[width=0.9\textwidth]{images/code/models/neural_network/regressor_nn/Small Data future - Multi 2/shap_table_analysis.png}
+    \caption{Small Data Future \acrshort{if} - Regreesor \gls{shap} Consistency}
+    \label{fig:regressor_small_binary_shap_consistency}
+\end{figure}
 
 \begin{figure}[H]
     \centering
-    \begin{subfigure}{0.48\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{images/code/models/neural_network/regressor_nn/Small Data future - Multi 2/shap_table_analysis.png}
-        \caption{Small Data Future \acrshort{if} - \gls{shap} Consistency}
-        \label{fig:small_binary_shap_consistency}
-    \end{subfigure}
-    \hfill
-    \begin{subfigure}{0.48\textwidth}
-        \centering
-        \includegraphics[width=\textwidth]{images/code/models/neural_network/regressor_nn/Big Data future - IF HARD Balanced/shap_table_analysis.png}
-        \caption{Big Data Future \acrshort{if} Balanced - \gls{shap} Consistency}
-        \label{fig:big_binary_shap_consistency}
-    \end{subfigure}
-    \caption{Regressor Classifier - \gls{shap} Consistency Summary}
+    \includegraphics[width=0.9\textwidth]{images/code/models/neural_network/regressor_nn/Big Data future - IF HARD Balanced/shap_table_analysis.png}
+    \caption{Big Data Future \acrshort{if} Balanced - Regressor \gls{shap} Consistency}
+    \label{fig:regressor_big_binary_shap_consistency}
 \end{figure}
 
 % ############################### CONCLUSION #######################
@@ -2973,11 +2927,7 @@ The main goal of this work was to \textbf{evaluate if the Factor Scores represen
     \item \textbf{\acrshort{arima} models}. The \acrshort{arima} models demonstrated a remarkable improvement in both predictability and accuracy, which was consistent with the autocorrelation patterns previously observed. However, these models could not be applied in our final analysis.
 \end{itemize}
 
-\noindent Also, we have seen that \textbf{accumulated past profits affects current scores}, causing:
-\begin{itemize}
-    \item \textbf{Decreases in the Value score}. When a company is in a bull market, its multiples will increase, making the Value score to decrease. So when interpreting the Value score, it is interesting to see how the company has been performing; to therefore use this score for interpretation or to ignore it. This can happen for companies with a very strong growth in popularity and brand strength, such as Apple or NVIDIA.
-    \item \textbf{Increases in the Growth score}. If a company rises a lot in the stock market, it could mean that the market has anticipated future financial growth.
-\end{itemize}
+
 
 
 \subsubsection{Scores}
@@ -3000,6 +2950,17 @@ The main goal of this work was to \textbf{evaluate if the Factor Scores represen
     \item \textbf{Increases in the Growth score}. If a company rises a lot in the stock market it could be mean that the market has anticipated future financial growth.
 \end{itemize}
 
+\subsection{Non-Clear Results}
+
+\noindent Handling with real-world data is always a challenge, and more when the nature of it is mostly random. We have tried to apply different modelings, outliers thresholds and techniques, statistical tests and coherent protocols to not fall into the trap of \textit{confirmation bias}. Doing so has allowed us to get some very valuable insights; but there were some cases where we could not get a clear answer to our questions.
+
+\subsubsection{Interpretation Intervals}
+
+\noindent Tweenvest scores are not a numerical methodology to use as a single indicator to invest, each company and market has its own characteristics, and needs to be meticulously analyzed. But for simplifying the process, the platform includes a series of interpretation intervals to guide the users on when to start taking into account the scores. These intervals are reasonable enough to be used as a starting point, but we could not identify a clear pattern between them to assign a specific meaning other than the distributions of the scores that show when the scores start to discriminate more companies.
+
+\subsubsection{White Noise Test}
+
+\noindent When analyzing the models' residues, we have mostly used the visual inspection because it was almost impossible to obtain any insights from the statistical tests. To be clear, the only tests that passed for the best models --\acrshort{gam}s and \acrshort{nn}-Regressors-- were: the mean T-test and the Breusch-Pagan Test, with a 25\% of tolerance.
 \section{Discussion}
 
 \subsection{Limitations of the study}
@@ -5569,7 +5530,7 @@ Here we have all of the not shown images for further analysis, if needed.
 \begin{figure}[H]
     \centering
     \includegraphics[width=1\textwidth]{images/code/models/linear_regression/first_model/Big Data future - IF HARD Balanced - Gaussian performance.png}
-    \caption{Big Data Future \acrshort{if} (35\%) Balanced - Performance}
+    \caption{Big Data Future \acrshort{if} Balanced - (Windowed) Performance}
     \label{fig:linear_regression_performance_if_hard_balanced_gaussian}
 \end{figure}
 
@@ -5589,10 +5550,70 @@ Here we have all of the not shown images for further analysis, if needed.
         \centering
         \includegraphics[width=\textwidth]{images/code/models/linear_regression/first_model/IF HARD Balanced/quality_profit_5y_residuals - Gaussian.png}
     \end{subfigure}
-    \caption{Big Data Future \acrshort{if} (35\%) Balanced - Residues}
-    \label{fig:linear_regression_AF_residues_windowed}
+    \caption{Big Data Future \acrshort{if} Balanced - (Windowd) Residues}
+    \label{fig:linear_regression_if_hard_balanced_residues}
 \end{figure}
 
+\subsection{\acrshort{gam}}
+
+\subsubsection{Tensor Splines}
+
+Encoding of the regions:
+\begin{itemize}
+    \item \textbf{Africa \& Middle East}: 0
+    \item \textbf{Asia \& Oceania}: 1
+    \item \textbf{Europe}: 2
+    \item \textbf{South America}: 3
+    \item \textbf{North America}: 4
+\end{itemize}
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/code/models/general_regression/splines/3D/Small Data future - IF/dividend_dividend_avg_24m×region_code.png}
+        \caption{Small Data Future \acrshort{if} - (\acrshort{gam}) Region x Quality}
+        \label{fig:small_tensor_region_dividend_avg_24m}
+    \end{minipage}
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/code/models/general_regression/splines/3D/Big Data future - IF HARD Balanced/dividend_dividend_avg_24m×region_code.png}
+        \caption{Big Data Future \acrshort{if} Balanced - (\acrshort{gam}) Region x Dividend 24M Average}
+        \label{fig:tensor_region_dividend_avg_24m}
+    \end{minipage}\hfill
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/code/models/general_regression/splines/3D/Small Data future - IF/growth_growth_avg_24m×region_code.png}
+        \caption{Small Data Future \acrshort{if} - (\acrshort{gam}) Region x Quality}
+        \label{fig:small_tensor_region_growth_avg_24m}
+    \end{minipage}
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/code/models/general_regression/splines/3D/Big Data future - IF HARD Balanced/growth_growth_avg_24m×region_code.png}
+        \caption{Big Data Future \acrshort{if} Balanced - (\acrshort{gam}) Region x Growth 24M Average}
+        \label{fig:tensor_region_growth_avg_24m}
+    \end{minipage}\hfill
+\end{figure}
+
+\begin{figure}[H]
+    \centering
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/code/models/general_regression/splines/3D/Small Data future - IF/quality_quality_avg_24m×region_code.png}
+        \caption{Small Data Future \acrshort{if} - (\acrshort{gam}) Region x Quality}
+        \label{fig:small_tensor_region_quality_avg_24m}
+    \end{minipage}
+    \begin{minipage}{0.48\textwidth}
+        \centering
+        \includegraphics[width=\textwidth]{images/code/models/general_regression/splines/3D/Big Data future - IF HARD Balanced/quality_quality_avg_24m×region_code.png}
+        \caption{Big Data Future \acrshort{if} Balanced - (\acrshort{gam}) Region x Quality 24M Average}
+        \label{fig:tensor_region_quality_avg_24m}
+    \end{minipage}\hfill
+\end{figure}
 
 
 \end{document}
