@@ -40,7 +40,7 @@
 \noindent This work is dedicated to my family, specifically: to my mother who has always supported and encouraged me to go one step further and enjoy the journey; to Jorge, the most honorable person I know and that has taught me so much in life about what type of person I want to be; to my grand parents, \textit{``Piro y Tita''}, who have always given me love and time to take care of me; and finally to María, my partner in life, who has had to wait for me during this long journey that has taken us to the present day.
 
 \vspace{0.5cm}
-\noindent None of this would have been possible without the help from my tutors. I can't be more thankful to have had such wonderful and generous people guiding me to this point: Pepe, for always believing and trusting in me with my crazy ideas, that were far more complicated that I could have imagined, because without you this definitely wouldn't have happened; Gabi, for being a constant inspiration and support with that extraordinary sense of humor; Alberto, for taking your time to listen to me with all of that condensation of ideas that I didn't quite understand completely and bringing me light to see the right path, and for being such a wonderful professor that doesn't give up on whats wrong; and finally, to Joaquín, a teacher, a colleague and a friend, that has taught me that curiosity is the key to everything, I really appreciate all you have done for me and all of your effort, support and time that you have spent in this project.
+\noindent None of this would have been possible without the help from my tutors. I can't be more thankful to have had such wonderful and generous people guiding me to this point: Pepe, for always believing and trusting in me with my crazy ideas, that were far more complicated that I could have imagined, because without you this definitely wouldn't have happened; Gabi, for being a constant inspiration and support with that extraordinary sense of humor; Alberto, for taking your time to listen to me with all of that condensation of ideas that I did not quite understand completely and bringing me light to see the right path, and for being such a wonderful professor that doesn't give up on what is wrong; and finally, to Joaquín, a teacher, a colleague and a friend, that has taught me that curiosity is the key to everything, I really appreciate all you have done for me and all of your effort, support and time that you have spent in this project.
 
 \vspace{0.5cm}
 \noindent Finally, I want to encourage everyone who is reading this to always do that extra mile, spend a little more time and effort. It will be worth it. And please, if you are a student and have the opportunity to choose a thesis, don't look at it as a burden or \textit{``just the last work in college''}, because it can literally change your life. It is the moment to really spend as much time as you want learning something you enjoy, and if you do it right, you can even align it with your future professional career.
@@ -288,7 +288,7 @@ These ratios measure a company's ability to meet short-term obligations with its
     
     \item \textbf{\acrshort{cashratio}}: The most conservative liquidity metric, focusing only on cash and equivalents. It shows the immediate solvency of a company in a worst-case scenario.
     
-    \item \textbf{\acrshort{ocfratio}}: Assesses how well the company's operational cash flows can cover its current obligations. This offers a realistic view of liquidity since it's based on actual cash generation rather than accounting figures.
+    \item \textbf{\acrshort{ocfratio}}: Assesses how well the company's operational cash flows can cover its current obligations. This offers a realistic view of liquidity since it is based on actual cash generation rather than accounting figures.
 \end{itemize}
 
 \subsubsection{Predictability}
@@ -1508,7 +1508,7 @@ Before jumping into the model fitting, it is necessary to understand the data th
     \end{minipage}
 \end{figure}
 
-\noindent Comparing the interest rates between 2015--2020 and 2020--2025, we can see that the first period was at a historical low, so there could be more companies with higher debt rates than normal. Some central banks, particularly in Europe, experimented with negative interest rate policies on deposit facilities during this period (figure~\ref{fig:euribor}), \cite{euribor_emmi}. This possibility should be studied in more detail, but knowing that this does not happen for the dataset between 2020--2025 where interest rates are higher, we have a clue that this could be whats causing it (see appendix figure~\ref{fig:past_scores_deep}).
+\noindent Comparing the interest rates between 2015--2020 and 2020--2025, we can see that the first period was at a historical low, so there could be more companies with higher debt rates than normal. Some central banks, particularly in Europe, experimented with negative interest rate policies on deposit facilities during this period (figure~\ref{fig:euribor}), \cite{euribor_emmi}. This possibility should be studied in more detail, but knowing that this does not happen for the dataset between 2020--2025 where interest rates are higher, we have a clue that this could be what is causing it (see appendix figure~\ref{fig:past_scores_deep}).
 
 \begin{figure}[H]
     \centering
@@ -1535,7 +1535,7 @@ Before jumping into the model fitting, it is necessary to understand the data th
 
 \subsubsection{Dummies}
 
-We have already explored the scores, so now we have to see if there distributions of the dummies could create a bias in the models. We started looking at the sectors distributions for the \textit{Big Data Future} to see what is full picture of the market, and then we will look at the \textit{Small Data Future} dataset since it will be the most used one in the analysis.
+We have already explored the scores, so now need to examine whether the distribution of the dummy variables could introduce bias into the models.. We started looking at the sectors distributions for the \textit{Big Data Future} to see what is full picture of the market, and then we will look at the \textit{Small Data Future} dataset since it will be the most used one in the analysis.
 
 \begin{figure}[H]
     \centering
@@ -1553,14 +1553,14 @@ We have already explored the scores, so now we have to see if there distribution
     \end{minipage}
 \end{figure}
 
-\noindent As it was expected, in figure~\ref{fig:small_future_dummies} we see a \textbf{uniform distribution for the sectors} because this condition was forced in the data creation process, but in the full dataset we have a different distribution, which could show some interesting information about how the market behaves. This made us also check the distributions for the past datasets (see appendix figure~\ref{fig:past_dummies}) where we saw a noticeable difference. This \textbf{temporal variation in sector density} presents an interesting opportunity for future research. When it comes to the regions variables, we have a different result, seeing a \textbf{clear predomination of the Asiatic region}, which happens for all of the datasets. 
+\noindent As it was expected, in figure~\ref{fig:small_future_dummies} we see a \textbf{uniform distribution for the sectors} because this condition was forced in the data creation process, but in the full dataset we have a different distribution, which could show some interesting information about how the market behaves. This made us also check the distributions for the past datasets (see appendix figure~\ref{fig:past_dummies}) where we detected a noticeable difference. This \textbf{temporal variation in sector density} presents an interesting opportunity for future research. When it comes to the regions variables, we have a different result, showing a \textbf{clear predomination of the Asiatic region}, which happens for all of the datasets. 
 
 \newpage
 \noindent This could create issues for the model fitting, since it is known that in countries like China have more volatility and lower returns~\cite{chen2024economic}. Also, their auditors often lack true independence, especially when auditing \gls{soe} or firms with strong political ties. The Chinese government tightly controls domestic accounting firms and imposes restrictions on foreign auditors. Even international firms like \textit{PwC-China} operate under local joint ventures, often with limited autonomy, as reviewed in~\cite{LIU2012782}. So we will have to check if the geographical variables are enough to take this effect into account, or if we need a different approach for modeling these effects.
 
 \subsubsection{Profits}
 
-\noindent Finally, when analyzing the profit distributions across different time horizons, we observe that the distributions contain a numerous amount of outliers that do not let us see the distributions clearly (appendix figures~\ref{fig:big_data_future_profits_boxplot} and~\ref{fig:big_data_future_profits}). So for this reason we are seeing the datasets with the \acrshort{iqr} method applied in figures~\ref{fig:big_data_future_iqr_profits_boxplot} and~\ref{fig:big_data_future_iqr_profits_iqr}.
+\noindent Finally, when analyzing the profit distributions across different time horizons, we observe a large number of outliers (appendix figures~\ref{fig:big_data_future_profits_boxplot} and~\ref{fig:big_data_future_profits}), which could obscure underlying patterns. So for this reason we are seeing the datasets with the \acrshort{iqr} method applied in figures~\ref{fig:big_data_future_iqr_profits_boxplot} and~\ref{fig:big_data_future_iqr_profits_iqr}.
 
 \begin{figure}[H]
     \centering
@@ -1578,7 +1578,7 @@ We have already explored the scores, so now we have to see if there distribution
     \end{minipage}
 \end{figure}
 
-\noindent Interestingly, we notice that the \textbf{short-term profit} distributions (1-month to 6-month) are more symmetric and closer to \textbf{normal distributions}, which is consistent with the efficient market hypothesis, suggesting that short-term price movements are largely random. However, as we extend to \textbf{longer time horizons}, the \textbf{distributions become more positively skewed}, which aligns with the general expectation that most companies do not have good returns, except of the market winners that tend to generate extraordinary positive returns due to the mentioned \textit{economic moats}. This is particularly evident in the longer-term profit distributions (2-year and 5-year), where we see a \textbf{longer tail extending toward higher positive returns}. Lastly, in the figure~\ref{fig:big_data_future_iqr_profits_boxplot} we see a tendency to having \textbf{less negative returns} compared to the positive ones \textbf{the longer the time-frame}. Logically, companies with bad returns do not last long.
+\noindent Interestingly, we notice that the \textbf{short-term profit} distributions (1-month to 6-month) are more symmetric and tend to approximate to \textbf{normal distributions}, which is consistent with the efficient market hypothesis, suggesting that short-term price movements are largely random. However, as we extend to \textbf{longer time horizons}, the \textbf{distributions become more positively skewed}, which aligns with the general expectation that most companies do not have good returns, except of the market winners that tend to generate extraordinary positive returns due to the mentioned \textit{economic moats}. This is particularly evident in the longer-term profit distributions (2-year and 5-year), where we see a \textbf{longer tail extending toward higher positive returns}. Lastly, in the figure~\ref{fig:big_data_future_iqr_profits_boxplot} we see a tendency to having \textbf{less negative returns} compared to the positive ones \textbf{the longer the time-frame}. Logically, companies with bad returns do not last long.
 
 \subsection{Correlations}
 
@@ -1674,8 +1674,7 @@ Before ending the descriptive analysis, we are going to try to compare these res
 
 \section{Linear Regression}
 
-Now that we understood the data, and the different datasets created. We are going to explain how was the process of refining the methodologies the results obtained.
-
+Having understood the data and the different datasets created, we now proceed to explain the process of refining the methodologies and the results obtained.
 \subsection{General Models}
 
 First of all, we started with a family of simple linear regression models with just the plain explanatory variables and not excluding the outliers. This, of course, resulted in a very poor model that could not predict anything (see appendix figure~\ref{fig:first_linear_regression_performance}). However, after applying the first outlier removal for the initial series of datasets, we started to see some results:
@@ -1698,11 +1697,11 @@ First of all, we started with a family of simple linear regression models with j
     \label{fig:first_linear_regression_residuals}
 \end{figure}
 
-\noindent Examining the residuals, they all show a similar pattern for all of the scores, so from now on we will show just the quality residuals --as seen in figure~\ref{fig:first_linear_regression_residuals}-- for 1m, 1y and 5y profits. Often we see the same issues:
+\noindent Examining the residuals, they all show a similar pattern for all of the scores, so from now on we will show just the quality residuals --as seen in figure~\ref{fig:first_linear_regression_residuals}-- for 1m, 1y and 5y profits. Often, we detect the same issues:
 \begin{itemize}
-    \item \textbf{Normality}. The \acrshort{qq} and the distribution plot reveals that the residuals are not normally distributed, although there is a section where normality appears to hold.
-    \item \textbf{Heteroskedasticity}. The residuals vs fitted values plot indicates that the variance is not constant across all time horizons.
-    \item \textbf{Autocorrelation}. The \acrshort{acf} and \acrshort{pacf} plots also shows that the residuals are not independent of each other, which reinforces the momentum correlation seen.
+    \item \textbf{Normality}. The \acrshort{qq} and the distribution plot reveal that the residuals are not normally distributed, although there is a section where normality appears to hold.
+    \item \textbf{Heteroskedasticity}. The residuals vs fitted values plot indicate that the variance is not constant across all time horizons.
+    \item \textbf{Autocorrelation}. The \acrshort{acf} and \acrshort{pacf} plots also show that the residuals are not independent of each other, which reinforces the momentum correlation seen.
     \item \textbf{Outliers}. When looking at the residuals against time, we see big spikes that show that there are many outliers in the data.
 \end{itemize}
 
@@ -1756,7 +1755,7 @@ First of all, we started with a family of simple linear regression models with j
 
 \subsubsection{Artificial Normality}
 
-\noindent So before continuing with the autocorrelations issue, we tried to solve the normality and heteroskedasticity issues. And since it is well known that regression models are not very robust to non-normal data, fixing that should also improve the models' performance. We used the mentioned \textit{Yeo-Johnson} transformation and saw some \textbf{improvements with the predictability and the \acrshort{rmse} for long term models (5y)} but showed complete noise for the short term (1m to 6m), which suggest that this transformation helped coping with the tails of the 5y-profits distribution and also helped showing the real noise from the short term models. In general, we see a \textbf{worsening of the accuracy} in most of the models, except in the long term.
+\noindent So before continuing with the autocorrelations issue, we tried to solve the normality and heteroskedasticity issues. And since it is well known that regression models are not very robust to non-normal data, fixing that should also improve the models' performance. We used the mentioned \textit{Yeo-Johnson} transformation and got some \textbf{improvements with the predictability and the \acrshort{rmse} for long term models (5y)} but showed complete noise for the short term (1m to 6m), which suggest that this transformation helped coping with the tails of the 5y-profits distribution and also helped showing the real noise from the short term models. In general, we had a \textbf{worsening of the accuracy} in most of the models, except in the long term.
 
 \begin{figure}[H]
     \centering
@@ -1776,11 +1775,11 @@ First of all, we started with a family of simple linear regression models with j
     \label{fig:first_linear_regression_gaussian_residuals}
 \end{figure}
 
-\noindent Also, after this transformation we still didn't see any consistency and statistical significance (see appendix Table~\ref{tab:first_linear_regression_results_scores_gaussian}). But since it improved both the predictability and the normality \textbf{we applied this transformation for the rest of the models}.
+\noindent Also, after this transformation we still did not get any consistency and statistical significance (see appendix Table~\ref{tab:first_linear_regression_results_scores_gaussian}). But since it improved both the predictability and the normality \textbf{we applied this transformation for the rest of the models}.
 
 \subsubsection{Windowed Models}
 
-\noindent Before seeing if the regions' non-linear effects were causing the some of issues, we wanted to try to improve the autocorrelations by using a different approach. In this case, we used a new family of windowed models using different statistics to \textbf{see if the market has any memory} with past financial performances.
+\noindent Before examining if the regions' non-linear effects were responsible for some of the issues, we sought to improve the autocorrelations through a different approach. Specifically, we employed a new \textbf{family of windowed models} that rely on different statistics to assess whether the market exhibits memory of past financial performance.
 
 \begin{figure}[H]
     \centering
@@ -1800,7 +1799,7 @@ First of all, we started with a family of simple linear regression models with j
     \label{fig:third_linear_regression_residuals}
 \end{figure}
 
-\noindent The residues kept having the same issues as the previous models, but \textbf{we finally see consistency and significance}. In the table~\ref{tab:third_linear_regression_results_scores} we made a summary with relevant results, but for the full data see appendix tables~\ref{tab:dividend_windowed_reformat} to~\ref{tab:value_windowed_reformat}.
+\noindent The residues kept having the same issues as the previous models, but \textbf{we finally get consistency and significance}. In the table~\ref{tab:third_linear_regression_results_scores} we made a summary with relevant results, but for the full data see appendix tables~\ref{tab:dividend_windowed_reformat} to~\ref{tab:value_windowed_reformat}.
 \begin{table}[H]
     \centering
     \caption{Small Data Future (Windowed) - \acrshort{multi} (4\%) Consistency Summary}
@@ -1883,7 +1882,7 @@ First of all, we started with a family of simple linear regression models with j
 \noindent Although all modifications implemented so far have led to improvements, the overall performance remains relatively low. This outcome is common when attempting to fit a linear model to data that exhibits inherently non-linear relationships. To investigate this further, we examined whether these non-linearities could be attributed to regional effects. In contrast, sector-related effects should already be accounted for within Tweenvest’s algorithm. Additionally, we assessed whether the presence of outliers could be linked to specific regions.
 \subsubsection{Simple Models}
 
-\noindent Following the same approach as for the general datasets, we started with the simple model and then we kept iterating with the same steps as before. So for not being redundant we are only showing the significant results in the section, and the full data is in the appendix figures~\ref{fig:region_performance_first_model} to~\ref{fig:linear_regression_AF_residues} and tables~\ref{tab:usa_first_model_consistency} to~\ref{tab:africa_first_model_consistency}. When implementing this first model, we see similar poor results in performances, but we start to see some behavior that will be constant in all of the models:
+\noindent Following the same approach as for the general datasets, we started with the simple model and then we kept iterating with the same steps as before. So for not being redundant we are only showing the significant results in the section, and the full data is in the appendix figures~\ref{fig:region_performance_first_model} to~\ref{fig:linear_regression_AF_residues} and tables~\ref{tab:usa_first_model_consistency} to~\ref{tab:africa_first_model_consistency}. When implementing this first model, we obtained similar poor results in performances, but we started to see some behavior that will be constant in all of the models:
 
 \begin{itemize}
     \item \textbf{North America} has the best predictabilities and accuracies.
@@ -2039,7 +2038,7 @@ First of all, we started with a family of simple linear regression models with j
 \end{figure}
 
 
-\noindent Also, with these more stable residues; we can study in detail the \textbf{coefficients' results}. But before starting going in depth with them, we have to note that they \textbf{behave similarly than before applying the transformation}; which is a good sign of consistency and robustness. Now we will explore all of the regions individually and try to see if the patterns presented could be supported by economical theory.
+\noindent Also, with these more stable residues; we can study in detail the \textbf{coefficients' results}. But before starting going in depth with them, we have to note that they \textbf{behave similarly than before applying the transformation}; which is a good sign of consistency and robustness. Now we will explore all of the regions individually and try to check if the patterns presented could be supported by economic theory.
 
 \vspace{0.5cm}
 \noindent Starting with \textbf{North America} in table~\ref{tab:usa_gaussian_model_consistency}, we highlight the following:
@@ -2081,7 +2080,7 @@ First of all, we started with a family of simple linear regression models with j
 
 \noindent \textbf{Europe} in table~\ref{tab:eu_gaussian_model_consistency}, shows behaviors that are more common to a \textbf{stable market that prioritizes financial health}, which could be related to the EU investment conservative policies:
 \begin{itemize}
-    \item \textbf{Dividend and Quality} show a clear positive impact, with statistical significance. We have already seen this behavior in the previous models and even with simple correlations.
+    \item \textbf{Dividend and Quality} show a clear positive impact, with statistical significance. We have previously observed this behavior in the earlier models and even with simple correlations.
     \item \textbf{Growth} could have a negative impact, but it is not statistically significant so we can't be sure.
     \item \textbf{Value} could have a positive impact, but it is not constant across all time horizons.
 \end{itemize}
@@ -2117,8 +2116,7 @@ First of all, we started with a family of simple linear regression models with j
     \label{tab:eu_gaussian_model_consistency}
 \end{table}
 
-\noindent For the regions of \textbf{Asia \& Oceania} in table~\ref{tab:asia_gaussian_model_consistency}, it seems that \textbf{all factors are positive and significant}. This result could mean that in a growing market, investors makes more rational decisions also because unmeasurable effects --such as brand strength-- are not as relevant as in North America or Europe causing less effects like \acrshort{fomo}. But at the same time, these markets come with a less stability and a lot of volatility --outliers--, so we should be careful.
-
+\noindent For the regions of \textbf{Asia \& Oceania} in table~\ref{tab:asia_gaussian_model_consistency}, it seems that \textbf{all factors are positive and significant}. This result could mean that in a growing market, investors makes more rational decisions also because unmeasurable effects --such as brand strength-- are not as relevant as in North America or Europe causing less effects like \acrshort{fomo}. However, these markets exhibit lower stability and high volatility, necessitating careful consideration.
 \begin{table}[H]
     \centering
     \caption{Asia \& Oceania \textit{Yeo-Johnson} - Model Consistency}
@@ -2188,7 +2186,7 @@ First of all, we started with a family of simple linear regression models with j
     \label{tab:latam_gaussian_model_consistency}
 \end{table}
 
-\noindent Finally, for the regions of \textbf{Africa \& Middle East} in table~\ref{tab:africa_gaussian_model_consistency}, we see the same results. Showing that it is very unpredictable with these models, and we can only highlight that \textbf{Quality is positive and significant for all time horizons} and Dividend seems to have a small negative impact; but since the effects are so small it could be overfitting.
+\noindent Finally, for the regions of \textbf{Africa \& Middle East} in table~\ref{tab:africa_gaussian_model_consistency}, we get the same results. Showing that it is very unpredictable with these models, and we can only highlight that \textbf{Quality is positive and significant for all time horizons} and Dividend seems to have a small negative impact; but since the effects are so small it could be overfitting.
 
 \begin{table}[H]
     \centering
@@ -2226,7 +2224,7 @@ First of all, we started with a family of simple linear regression models with j
 
 \begin{itemize}
     \item \textbf{Predictability}: \textbf{North America} has the best predictabilities and accuracies. On the other side,  \textbf{Asia \& Oceania} and \textbf{Africa \& Middle East} have the worst performances; the first due to their outliers and the second probably because of its financial and political instability.
-    \item \textbf{Relevant Scores}: in all of the regions we see that \textbf{Value and Quality} models are outperforming the rest.
+    \item \textbf{Relevant Scores}: across all regions, we can conclude that the \textbf{Value and Quality} models outperform the others.
 \end{itemize}
 
 \begin{figure}[H]
@@ -2271,7 +2269,7 @@ First of all, we started with a family of simple linear regression models with j
     \label{fig:region_performance_windowed_models}
 \end{figure}
 
-\noindent Before analyzing the coefficients, we have to check on the residuals. Finally, we see that not only is normality good, but we also start to observe some homoscedasticity in figures~\ref{fig:linear_regression_USA_residues_windowed} to~\ref{fig:linear_regression_AF_residues_windowed}. Looking closely, North America and Europe are show similar patterns in terms of outliers and with a slight underestimation on the long term (\acrshort{rmse}).
+\noindent Before analyzing the coefficients, we must check on the residuals. Finally, we observe that not only is normality good, but we also start to observe some homoscedasticity in figures~\ref{fig:linear_regression_USA_residues_windowed} to~\ref{fig:linear_regression_AF_residues_windowed}. Looking closely, North America and Europe are show similar patterns in terms of outliers and with a slight underestimation on the long term (\acrshort{rmse}).
 
 \begin{figure}[H]
     \centering
@@ -2373,7 +2371,7 @@ First of all, we started with a family of simple linear regression models with j
     \label{fig:linear_regression_AF_residues_windowed}
 \end{figure}
 
-\noindent For analyzing the coefficients, we created a summary table per region (full data in appendix figures~\ref{tab:north_america_dividend_consistency} to~\ref{tab:africa_middle_east_value_consistency}). Starting with North America and Europe in figures~\ref{tab:north_america_windowed_consistency_summary} to~\ref{tab:europe_windowed_consistency_summary}, we see a como behavior between them and previous results, where only \textbf{long term Value is negatively correlated to profits}, and stable scores increase overall returns.
+\noindent For analyzing the coefficients, we created a summary table per region (full data in appendix figures~\ref{tab:north_america_dividend_consistency} to~\ref{tab:africa_middle_east_value_consistency}). Starting with North America and Europe in figures~\ref{tab:north_america_windowed_consistency_summary} to~\ref{tab:europe_windowed_consistency_summary}, we see a common behavior between them and previous results, where only \textbf{long term Value is negatively correlated to profits}, and stable scores increase overall returns.
 
 \begin{table}[H]
     \centering
@@ -2571,7 +2569,7 @@ First of all, we started with a family of simple linear regression models with j
 
 \subsection{Balanced Dataset}
 
-We have seen the importance of non-linear relationships from regions, and the amount of outliers in this data. So before continuing with the models, we created a new dataset with less outliers in total and balancing the regions, and confirmed that \textbf{it improved the performances and residues}, see appendix figures~\ref{fig:linear_regression_performance_if_hard_balanced_gaussian} and ~\ref{fig:linear_regression_if_hard_balanced_residues}, but it worsened the effect of the \textit{momentum}, showing higher \acrshort{acf} values.
+Previous analysis indicate the importance of non-linear relationships from regions, and the amount of outliers in this data. So before continuing with the models, we created a new dataset with less outliers in total and balancing the regions, and confirmed that \textbf{it improved the performances and residues}, see appendix figures~\ref{fig:linear_regression_performance_if_hard_balanced_gaussian} and ~\ref{fig:linear_regression_if_hard_balanced_residues}, but it worsened the effect of the \textit{momentum}, showing higher \acrshort{acf} values.
 
 \section{GAM}
 
@@ -2611,7 +2609,7 @@ Observing the consistent improvements in the results suggests that the decisions
 
 \subsubsection{Simple Splines}
 
-\noindent The first thing we are going to do is to look at simple splines, that relate each explanatory variable with a profit time-frame. Starting with Dividend in figures~\ref{fig:spline_dividend_dividend_avg_24m} to~\ref{fig:spline_dividend_dividend_avg_24m_balanced}, we see better and clearer results for the non-balanced data set, but they both seem to have a positive slope tendency for most profits horizons, which aligns with the linear regression results. 
+\noindent We begin by examining the simple splines, which relate each explanatory variable to a profit time-frame. Starting with Dividend in figures~\ref{fig:spline_dividend_dividend_avg_24m} to~\ref{fig:spline_dividend_dividend_avg_24m_balanced}, we observe better and clearer results for the non-balanced dataset, but both display a generally positive slope across most profit horizons, which is consistent with the linear regression results.
 
 \begin{figure}[H]
     \centering
@@ -2662,7 +2660,7 @@ Observing the consistent improvements in the results suggests that the decisions
     \end{minipage}
 \end{figure}
 
-\noindent For \textbf{Quality, we see a very slight positive relationship} in figure~\ref{fig:spline_quality_quality_avg_24m}, but it is harder in the figure~\ref{fig:spline_quality_quality_avg_24m_balanced} since the extreme values are less stable. But it seems that around 50-60, which then rescales to 60-75, we start to see a switch in tendency. Notice that \textbf{the partial dependence with profits is the second highest one} of all. So it does seem that the results accompany earlier findings.
+\noindent For \textbf{Quality, we see a very slight positive relationship} in figure~\ref{fig:spline_quality_quality_avg_24m}, but it is harder in the figure~\ref{fig:spline_quality_quality_avg_24m_balanced} since the extreme values are less stable. But it seems that around 50-60, which then rescales to 60-75, we have a small switch in tendency. Notice that \textbf{the partial dependence with profits is the second highest one} of all. So it does seem that the results accompany earlier findings.
 
 
 \begin{figure}[H]
@@ -2717,7 +2715,7 @@ Observing the consistent improvements in the results suggests that the decisions
 
 \subsubsection{Tensor Splines}
 
-\noindent Working with splines always comes with the risk of overfitting. So following the criteria to avoid false interpretations, we looked at the tensor splines from the variables before analyzed:  region and scores; where we could only see a \textbf{slight indicator of possible consistence with the value score} and just for the balanced dataset in figures~\ref{fig:tensor_region_value} to~\ref{fig:tensor_region_value_avg_24m}. But in general, the lack of interpretable and consistent results reveals its tendency to overfitting.
+\noindent Working with splines always comes with the risk of overfitting. So following the criteria to avoid false interpretations, we looked at the tensor splines from the variables before analyzed:  region and scores; where we could only guess a \textbf{slight indicator of possible consistence with the value score} and just for the balanced dataset in figures~\ref{fig:tensor_region_value} to~\ref{fig:tensor_region_value_avg_24m}. But in general, the lack of interpretable and consistent results reveals its tendency to overfitting.
 
 \begin{figure}[H]
     \centering
@@ -2775,7 +2773,7 @@ Before running the simulations for each model, it is always recommended to searc
 \noindent We started with the most simple \acrshort{nn} possible, a model that tries to predict wether a company will have positive or negative profits. So, to properly interpret the results, we have to clarify that since we have transformed a regression predictive problem into a binary classification problem, a complete random guess would get a 50\% predictability and a 50\% error rate.
 
 \subsubsection{Performance}
-Knowing this, we can see that the results in figure~\ref{fig:binary_classifier} are quite good. We see a hughe increase in predictability for the training set, and for the first time in this work \textbf{we were able to predict more than random for validating datasets}, this includes known and unknown companies. Achieving performances over 60\% and an error rates under 40\%, for both validating datasets. Also it is interesting that some of the past behavior still occurs:
+Knowing this, we can see that the results in figure~\ref{fig:binary_classifier} are quite good. With a hughe increase in predictability for the training set, and for the first time in this work \textbf{we were able to predict more than random for validating datasets}, this includes known and unknown companies. Achieving performances over 60\% and an error rates under 40\%, for both validating datasets. Also it is interesting that some of the past behavior still occurs:
 \begin{itemize}
     \item Value scores perform better at short horizons and have the best performances in most cases.
     \item Quality scores outperform all of the models for known stocks, but in this case on a validation set.
@@ -2856,7 +2854,7 @@ If we look at the results of the \gls{shap} plots in figure~\ref{fig:small_encod
 
 \subsection{Regressor}
 
-\noindent Finally, seeing the good performances of the classifiers we aimed to see if we could improve the results of the models by using a regressor \acrshort{nn}.
+\noindent Finally, after reaching such good performances with the classifiers we aimed to determine if we could improve the results of the models by using a regressor \acrshort{nn}.
 
 \subsubsection{Performance}
 
@@ -2883,10 +2881,10 @@ Knowing this, we can see in figures~\ref{fig:regressor_small_binary_shap_consist
 % ############################### CONCLUSION #######################
 \chapter{Conclusion and Discussion}
 
-Along this project we have been through many different paths. We started by learning how Tweenvest worked internally, and how they calculated the scores. At that point we had to find a way to calculate and store past scores in a production environment. For doing this we learned about \acrshort{job}s, \acrshort{cron}s, \acrshort{api}s, telemetry, data-pipelines, and server deployment. Eventually, we ended up with an excellent work environment to calculate and integrate all the necessary data, which also worked for running all of the model fitting simulations.
+Throughout this project, we have explored many different avenues. We began by gaining an in-depth understanding of Tweenvest’s internal operations and the methodology behind their score calculations. At that stage, it became necessary to design a method for computing and storing historical scores within a production environment. To achieve this, we worked with \acrshort{job}s, \acrshort{cron}s, \acrshort{api}s, telemetry, data pipelines, and server deployment. The result was a robust work environment capable of calculating and integrating all required data, which also served as a platform for running all model-fitting simulations.
 
 \vspace{0.5cm}
-\noindent After that, we began the journey to understand and interpret the data. We identified patterns, and developed a complete outlier detection system. Later, we explored multiple approaches through different models and datasets to try to see if there was any correlation between the explanatory variables and future stocks' profits. And finally, when analyzing the results obtained we started to see a series of common behavior. In this final chapter we will summarize all of the conclussions, discuss the limitations of the study, and give recommendations to Tweenvest and its users.
+\noindent From there, we moved on to understanding and interpreting the data. We identified key patterns and developed a comprehensive outlier detection system. We then explored multiple approaches using various models and datasets to investigate potential correlations between the explanatory variables and future stock profits. Finally, when analyzing the results, we observed a series of recurring behaviors. In this closing chapter, we will summarize our conclusions, discuss the study’s limitations, and provide recommendations for both Tweenvest and its users.
 
 \section{Conclusions}
 
@@ -2929,11 +2927,11 @@ The main goal of this work was to \textbf{evaluate if the Factor Scores represen
 \begin{itemize}
     \item \textbf{Quality's 24-months average} has the \textbf{second highest positive effect} to future profits. This relationship happens \textbf{for most of the datasets, models and timeframes}.
     \item \textbf{Value's 24-months average} is the only score \textbf{with a negative effect} to future profits. This relationship occurs \textbf{in all of the datasets, models and timeframes}.
-    \item \textbf{Value's last score} has the \textbf{highest positive effect} to future profits. This relationship is seen \textbf{in all of the datasets, models and timeframes}.
+    \item \textbf{Value's last score} has the \textbf{highest positive effect} to future profits. This relationship occurs \textbf{in all of the datasets, models and timeframes}.
     \item \textbf{Growth's 24-month average} may have a \textbf{modest positive effect} on future profits. While this effect is neither as strong nor as statistically significant as those observed for other variables, it has appeared consistently across multiple analyses.
 \end{itemize}
 
-\noindent Also, we have seen that \textbf{accumulated past profits affects current scores}, causing:
+\noindent Furthermore, our analysis indicates that \textbf{accumulated past profits influence current scores}, leading to:
 \begin{itemize}
     \item \textbf{Decreases in the Value score}. When a company is in a bull market, its multiples will increase, making the Value score to decrease. So when interpreting the Value score, it is interesting to see how has the company been performing; to therefore use this score for interpreting or to ignore it. This happens for companies with a very strong growth in popularity and brand strength such as Apple, NVIDIA, etc.
     \item \textbf{Increases in the Growth score}. If a company rises a lot in the stock market it could mean that the market has anticipated future financial growth.
@@ -2953,7 +2951,7 @@ The main goal of this work was to \textbf{evaluate if the Factor Scores represen
 \section{Discussion}
 
 \subsection{Limitations of the study}
-\noindent All of the results we have seen have been obtained with a couple of limitations:
+\noindent All of the results presented here have been obtained with a couple of limitations:
 \begin{itemize}
     \item \textbf{Data Availability}. We have only used the data available in the database, which was limited to 2012-2025. Were we only tested 2020-2025 profits based on 2015-2020 financial data.
     \item \textbf{Outliers}. Even taking all the cautions possible, we had to leave out many outliers from the data analysis due to their effect on the results. This could be a problem for the inference, making the results not to be reliable for all of the real companies.
@@ -2997,7 +2995,7 @@ The main goal of this work was to \textbf{evaluate if the Factor Scores represen
 
 \subsubsection{Bayesian Approach}
 
-\noindent Throughout this work we have seen that \textbf{patterns and distributions can change over time}: factor effects drift, and relationships differ by market and period. This weakens the assumptions behind static models, so a Bayesian approach could be especially interesting here because it is designed to \textbf{learn under non-stationarity}.
+\noindent Throughout this work we have observed that \textbf{patterns and distributions can change over time}: factor effects drift, and relationships differ by market and period. This weakens the assumptions behind static models, so a Bayesian approach could be especially interesting here because it is designed to \textbf{learn under non-stationarity}.
 
 \subsection{Recommendations to Tweenvest}
 
